@@ -1,11 +1,14 @@
 from text import textCollection
 from webcam import WebcamFaceDetection
+from microphone import MicPVDetection
 import atexit
 import cv2
 import sys
 
 
-#Initiate webcam face detection.
+# Initiate
+micPVDetection = MicPVDetection()
+# Initiate webcam face detection.
 webcamFaceDetection = WebcamFaceDetection()
 
 def Quit():
@@ -15,11 +18,20 @@ def Quit():
     webcamFaceDetection.Quit()
 
 
-#Register exit handler.
+# Register exit handler.
 atexit.register(Quit)
 
 
 while True:
 
 
-    webcamFaceDetection.FaceDetect()
+    try:
+        micPVDetection.PVDetect()
+        webcamFaceDetection.FaceDetect()
+
+
+    except KeyboardInterrupt:
+
+
+        print(textCollection.quitProgram)
+        break
