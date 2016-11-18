@@ -1,6 +1,8 @@
+from text_collection import textCollection
 import alsaaudio
 import aubio
 import numpy
+import text_collection
 
 
 class MicPVDetection(object):
@@ -69,6 +71,7 @@ class MicPVDetection(object):
 
 
         # Show the result into terminal.
-        pitchText = "Pitch = {:10.4f}".format(pitch)
-        volumeText = "Volume = {:1.4f}".format(volume)
-        print(pitchText + ", " + volumeText)
+        pitchText = textCollection.pitchText.format(pitch)
+        volumeText = textCollection.volumeText.format(volume)
+        textUpdateLocal = pitchText + ", " + volumeText + ", "
+        text_collection.textUpdate += textUpdateLocal

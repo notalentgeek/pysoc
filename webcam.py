@@ -1,5 +1,6 @@
-from text import textCollection
+from text_collection import textCollection
 import cv2
+import text_collection
 
 
 class WebcamFaceDetection(object):
@@ -66,7 +67,8 @@ class WebcamFaceDetection(object):
 
 
         # Print if there is a face detected or into terminal.
-        print(textCollection.faceDetected % self.faceDetected)
+        textUpdateLocal = textCollection.faceDetected % self.faceDetected + " "
+        text_collection.textUpdate += textUpdateLocal
 
 
         # Draw rectangle around the faces.
