@@ -1,4 +1,4 @@
-from text_collection import textCollection
+from text_collection import textCollection, textUpdate
 import alsaaudio
 import aubio
 import numpy
@@ -59,7 +59,7 @@ class MicPVDetection(object):
         # Read data from audio input.
         length, data = self.recorder.read()
         # Convert the data from alsaaudio library into Aubio
-        ## format samples.
+        # format samples.
         samples = numpy.fromstring(
             data,
             dtype = aubio.float_type
