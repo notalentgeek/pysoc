@@ -17,6 +17,9 @@ class WebcamFaceDetection(object):
         # 0 means the default camera attached in the
         # computer.
         self.webcam = cv2.VideoCapture(0)
+        # Initial capture so that the webcam connection initiates
+        # when the badge boots.
+        vidCapRetVal, vidCapFrame = self.webcam.read()
 
 
     def FaceDetect(self):
