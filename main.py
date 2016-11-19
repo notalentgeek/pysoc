@@ -23,12 +23,17 @@ def Quit():
 # Register exit handler.
 atexit.register(Quit)
 
+counter = 0
 
 while True:
 
 
     micPVDetection.PVDetect()
-    webcamFaceDetection.FaceDetect()
+
+    if(counter == 10):
+        webcamFaceDetection.FaceDetect()
+        counter = 0
+    counter += 1
 
 
     #Print the update text.

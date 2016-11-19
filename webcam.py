@@ -12,7 +12,7 @@ class WebcamFaceDetection(object):
         # Whether or not a face is detected.
         self.faceCounter = 0
         self.faceDetected = False
-        self.faceDetectedThreshold = 5
+        self.faceDetectedThreshold = 3
         # Assign to which camera this program should listen
         # 0 means the default camera attached in the
         # computer.
