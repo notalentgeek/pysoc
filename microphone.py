@@ -3,12 +3,19 @@ import alsaaudio
 import aubio
 import numpy
 import text_collection
+import threading
 
 
-class MicPVDetection(object):
+class MicPVDetection(threading.Thread):
 
 
-    def __init__(self):
+    def __init__(self, _threadID, _name, _counter):
+
+
+        threading.Thread.__init__(self)
+        self.threadID = _threadID
+        self.name = _name
+        self.counter = _counter
 
 
         # Constants.
@@ -53,6 +60,16 @@ class MicPVDetection(object):
         self.pitchDetector.set_silence(-40)
 
 
+        # Thread infinite loop.
+        #while True:
+        #    self.PVDetect()
+
+
+    def run(self):
+        while True:
+            self.PVDetect()
+
+
     def PVDetect(self):
 
 
@@ -74,4 +91,5 @@ class MicPVDetection(object):
         pitchText = textCollection.pitchText.format(pitch)
         volumeText = textCollection.volumeText.format(volume)
         textUpdateLocal = pitchText + ", " + volumeText + ", "
-        text_collection.textUpdate += textUpdateLocal
+        print(textUpdateLocal)
+        #text_collection.textUpdate += textUpdateLocal

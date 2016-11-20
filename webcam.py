@@ -1,12 +1,19 @@
 from text_collection import textCollection
 import cv2
 import text_collection
+import threading
 
 
-class WebcamFaceDetection(object):
+class WebcamFaceDetection(threading.Thread):
 
 
-    def __init__(self):
+    def __init__(self, _threadID, _name, _counter):
+
+
+        threading.Thread.__init__(self)
+        self.threadID = _threadID
+        self.name = _name
+        self.counter = _counter
 
 
         # Whether or not a face is detected.
@@ -20,6 +27,16 @@ class WebcamFaceDetection(object):
         # Initial capture so that the webcam connection initiates
         # when the badge boots.
         vidCapRetVal, vidCapFrame = self.webcam.read()
+
+
+        # Infinite loop for thread.
+        #while True:
+        #    self.FaceDetect()
+
+
+    def run(self):
+        while True:
+            self.FaceDetect()
 
 
     def FaceDetect(self):
@@ -71,7 +88,8 @@ class WebcamFaceDetection(object):
 
         # Print if there is a face detected or into terminal.
         textUpdateLocal = textCollection.faceDetected % self.faceDetected + " "
-        text_collection.textUpdate += textUpdateLocal
+        print(textUpdateLocal)
+        #text_collection.textUpdate += textUpdateLocal
 
 
         # Draw rectangle around the faces.
