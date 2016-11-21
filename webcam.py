@@ -7,35 +7,46 @@ import threading
 class WebcamFaceDetection(threading.Thread):
 
 
-    def __init__(self, _threadID, _name, _counter):
+    def __init__(
+        self,
+        _array,
+        _counter,
+        _name,
+        _textUpdate,
+        _threadID
+    ):
 
 
+        # "Super".
         threading.Thread.__init__(self)
-        self.threadID = _threadID
-        self.name = _name
         self.counter = _counter
+        self.name = _name
+        self.textUpdate = _textUpdate
+        self.threadID = _threadID
+
+
+        # Append this into array.
+        _array.append(self)
+
+
+        # A trigger to kill this thread.
+        self.killMe = False
 
 
         # Whether or not a face is detected.
         self.faceCounter = 0
         self.faceDetected = False
-        self.faceDetectedThreshold = 3
+        self.faceDetectedThreshold = 10
         # Assign to which camera this program should listen
         # 0 means the default camera attached in the
         # computer.
         self.webcam = cv2.VideoCapture(0)
-        # Initial capture so that the webcam connection initiates
-        # when the badge boots.
-        vidCapRetVal, vidCapFrame = self.webcam.read()
-
-
-        # Infinite loop for thread.
-        #while True:
-        #    self.FaceDetect()
 
 
     def run(self):
-        while True:
+        if(self.killMe == True):
+            self.Quit()
+        while(self.killMe == False):
             self.FaceDetect()
 
 
@@ -74,22 +85,23 @@ class WebcamFaceDetection(threading.Thread):
         # Sometimes there are faces that is not a human face.
         # This is what I called the noise faces.
         # Below are the codes to remove those noise faces.
-        if(len(faces) == 0):
+        if len(faces) == 0:
             self.faceCounter -= 1
             self.faceDetected = False
-        elif(len(faces) > 0):
+        elif len(faces) > 0:
             self.faceCounter += 1
-        if(self.faceCounter > self.faceDetectedThreshold):
+        if self.faceCounter > self.faceDetectedThreshold:
             self.faceCounter = self.faceDetectedThreshold
             self.faceDetected = True
-        if(self.faceCounter < 0):
+        if self.faceCounter < 0:
             self.faceCounter = 0
 
 
         # Print if there is a face detected or into terminal.
-        textUpdateLocal = textCollection.faceDetected % self.faceDetected + " "
-        print(textUpdateLocal)
-        #text_collection.textUpdate += textUpdateLocal
+        self.textUpdate.UpdateWebcamFaceDetection(
+            len(faces),
+            self.faceDetected
+        )
 
 
         # Draw rectangle around the faces.

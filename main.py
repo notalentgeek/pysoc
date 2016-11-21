@@ -1,46 +1,56 @@
 from microphone import MicPVDetection
-from text_collection import textCollection
+from text_collection import textCollection, TextUpdate
 from webcam import WebcamFaceDetection
-import atexit
-import cv2
+import os
 import sys
-import text_collection
 import thread
 
 
-# Initiate
-#micPVDetection = MicPVDetection()
-# Initiate webcam face detection.
-#webcamFaceDetection = WebcamFaceDetection()
+def main(args):
 
 
-# Create new threads
-thread1 = MicPVDetection(1, "MicPVDetection", 1)
-thread2 = WebcamFaceDetection(2, "WebcamFaceDetection", 2)
 
-# Start new Threads
-thread1.start()
-thread2.start()
-
-
-#def Quit():
-#
-#
-#    print(textCollection.quitProgram)
-#    webcamFaceDetection.Quit()
-#
-#
-## Register exit handler.
-#atexit.register(Quit)
+    # Create an array to hold all threads.
+    threads = []
+    # Create new threads.
+    textUpdate = TextUpdate(threads, 1, "textUpdate", 1)
+    micPVDetection = MicPVDetection(
+        threads, 2, "MicPVDetection", textUpdate, 2
+    )
+    webcamFaceDetection = WebcamFaceDetection(
+        threads, 3, "WebcamFaceDetection", textUpdate, 3
+    )
 
 
-#while True:
-#
-#
-#    micPVDetection.PVDetect()
-#    webcamFaceDetection.FaceDetect()
-#
-#
-#    #Print the update text.
-#    print(text_collection.textUpdate)
-#    text_collection.textUpdate = ""
+    # Start all threads.
+    for thread in threads:
+        thread.start()
+
+
+    while(len(threads) > 0):
+
+
+
+        try:
+
+
+            # Join all threads using a timeout
+            # so it does not block. Filter out
+            # threads which have been joined or
+            # are None.
+            for thread in threads:
+                if thread.isAlive() and thread != None:
+                    thread.join(1)
+
+
+        except KeyboardInterrupt:
+
+
+            print(textCollection.quitProgram)
+            for thread in threads:
+                thread.killMe = True
+                os._exit(1)
+
+
+if __name__ == '__main__':
+    main(sys.argv)
