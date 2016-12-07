@@ -12,18 +12,18 @@ class MicPVDetection(threading.Thread):
         self,
         _array,
         _counter,
-        _name,
         _textUpdate,
-        _threadID
+        _threadID,
+        _threadName
     ):
 
 
         # "Super".
         threading.Thread.__init__(self)
         self.counter = _counter
-        self.name = _name
         self.textUpdate = _textUpdate
         self.threadID = _threadID
+        self.threadName = _threadName
 
 
         # Append this into array.

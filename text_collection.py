@@ -8,6 +8,8 @@ class TextCollection(object):
     closeWindows = "Closing all window(s)."
     quitProgram = "\nQuitting program."
     releaseWebcam = "Releasing webcam."
+    dbConnRefused = "Database connection refused.\nPlease check database configuration"
+    clientWithSameName = "There is a client with same name in the database."
 
 
 class TextUpdate(threading.Thread):
@@ -16,17 +18,19 @@ class TextUpdate(threading.Thread):
     def __init__(
         self,
         _array,
+        _clientName,
         _counter,
-        _name,
-        _threadID
+        _threadID,
+        _threadName
     ):
 
 
         # "Super".
         threading.Thread.__init__(self)
+        self.clientName = _clientName
         self.counter = _counter
-        self.name = _name
         self.threadID = _threadID
+        self.threadName = _threadName
 
 
         # Append this into array.
@@ -52,15 +56,37 @@ class TextUpdate(threading.Thread):
 
         while(self.killMe == False):
 
-
             showText = ""
-            showTextArray = [
-                self.micPVDetection,
-                self.webcamFaceDetection
-            ]
-            for text in showTextArray:
+            for text in self.FixString():
                 showText = showText + text + " "
             print(showText)
+
+
+    def FixString(self):
+
+
+            # Fixing string.
+            # Client name.
+            clientNameMod = "client name = " + self.clientName + ", "
+            # Values from microphone.
+            micPVDetectionMod = self.micPVDetection + ", "
+            # Values from web camera.
+            if(
+                (self.webcamFaceDetection == "") or
+                (self.webcamFaceDetection == None)
+            ):
+                webcamFaceDetection = self.webcamFaceDetection
+            else:
+                webcamFaceDetection = self.webcamFaceDetection + ", "
+
+
+            # Put everything into an array of string.
+            showTextArray = [
+                clientNameMod,
+                micPVDetectionMod,
+                webcamFaceDetection
+            ]
+            return showTextArray
 
 
     def UpdateMicPVDetection(self, _pitch, _volume):
