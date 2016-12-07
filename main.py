@@ -94,7 +94,9 @@ def main(args):
             clientName,
             1,
             1,
-            "textUpdate"
+            "textUpdate",
+            connection,
+            mainTable
         )
         micPVDetection = MicPVDetection(
             threads,                # _array

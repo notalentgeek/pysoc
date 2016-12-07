@@ -1,0 +1,23 @@
+2016-12-07T12:41:18.042384162 0.034785s notice: Recursively removing directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data/tmp
+2016-12-07T12:41:18.051103975 0.043484s notice: Initializing directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data
+2016-12-07T12:41:18.051212685 0.043593s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data' did not already exist or is empty.)
+2016-12-07T12:41:18.051240687 0.043621s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2016-12-07T12:41:18.056250284 0.048635s notice: Running on Linux 4.4.0-53-generic x86_64
+2016-12-07T12:41:18.056354273 0.048735s notice: Loading data from directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data
+2016-12-07T12:41:18.108198426 0.100579s info: Automatically using cache size of 1005 MB
+2016-12-07T12:41:18.108973277 0.101353s notice: Listening for intracluster connections on port 29015
+2016-12-07T12:41:18.111356511 0.103737s notice: Listening for client driver connections on port 28015
+2016-12-07T12:41:18.111645706 0.104026s notice: Listening for administrative HTTP connections on port 8080
+2016-12-07T12:41:18.111650333 0.104030s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-07T12:41:18.111656011 0.104036s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-07T12:41:18.111659280 0.104039s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-07T12:41:18.111666799 0.104047s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2016-12-07T12:41:18.111672199 0.104052s notice: Server ready, "notalentgeek_ThinkPad_X220_iqd" 07b114b6-c0cc-469e-a109-f7f2d8f4dfa6
+2016-12-07T12:41:37.269678139 19.262058s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: Starting a new Raft election for term 1.
+2016-12-07T12:41:37.269977313 19.262357s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: Added replica on this server.
+2016-12-07T12:41:37.276614349 19.268995s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: This server is Raft leader for term 1. Latest log index is 0.
+2016-12-07T12:41:42.989803767 24.982184s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: Starting a new Raft election for term 1.
+2016-12-07T12:41:42.989996940 24.982377s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: Added replica on this server.
+2016-12-07T12:41:42.996345187 24.988725s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: This server is Raft leader for term 1. Latest log index is 0.
+2016-12-07T13:04:53.960389881 1415.952770s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: Configuration is changing.
+2016-12-07T14:15:05.739954530 5627.732335s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: Configuration is changing.

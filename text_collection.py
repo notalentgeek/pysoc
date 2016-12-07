@@ -1,5 +1,6 @@
+from datetime import datetime
+from tzlocal import get_localzone
 import threading
-
 
 class TextCollection(object):
 
@@ -21,7 +22,9 @@ class TextUpdate(threading.Thread):
         _clientName,
         _counter,
         _threadID,
-        _threadName
+        _threadName,
+        _connection,
+        _mainTable
     ):
 
 
@@ -31,6 +34,10 @@ class TextUpdate(threading.Thread):
         self.counter = _counter
         self.threadID = _threadID
         self.threadName = _threadName
+
+
+        self.connection = _connection
+        self.mainTable = _mainTable
 
 
         # Append this into array.
@@ -59,7 +66,7 @@ class TextUpdate(threading.Thread):
             showText = ""
             for text in self.FixString():
                 showText = showText + text + " "
-            print(showText)
+            #print(showText)
 
 
     def FixString(self):
@@ -90,6 +97,48 @@ class TextUpdate(threading.Thread):
 
 
     def UpdateMicPVDetection(self, _pitch, _volume):
+
+
+        pitchStr = "p*" + str(_pitch)
+        volumeStr = "v*" + str(_volume)
+        dtStr = str(datetime.utcnow()).split(".")[0]
+        dateStr = str(dtStr).split(" ")[0]
+        timeStr = str(dtStr).split(" ")[1]
+        yearStr = str(dateStr).split("-")[0]
+        monthStr = str(dateStr).split("-")[1]
+        dayStr = str(dateStr).split("-")[2]
+        hourStr = str(timeStr).split(":")[0]
+        minStr = str(timeStr).split(":")[1]
+        secStr = str(timeStr).split(":")[2]
+        utc = str(get_localzone()).lower()
+        timeFrmt = (
+            yearStr + "*" +
+            monthStr + "*" +
+            dayStr + "*" +
+            hourStr + "*" +
+            minStr + "*" +
+            secStr + "*" +
+            utc
+        )
+        databaseStr = pitchStr + "_" + volumeStr + "_" + timeFrmt
+        #print(databaseStr)
+
+
+        # Before sending the string into database
+        # I need to find out if there is a field
+        # for microphone for this client. If there
+        # is not then make one. But first I need
+        # access to the table then to the document
+        # of this specific client.
+        clientDoc = self.mainTable.get_all(self.clientName, index="clientName")
+        # Check if the document has a "mic" column/field.
+        # If the list length is 0 then there is no "mic"
+        # column/field yet. Hence, we need to create one.
+        hasMicField = True if (len(list(clientDoc.has_fields("mic").run(self.connection))) > 0) else False
+        # If hasMicField returns False then create the field.
+        # And insert the initial value.
+        print(databaseStr)
+        clientDoc.update({"mic": databaseStr}).run(self.connection)
 
 
         self.pitchText = self.pitchTextDefault.format(_pitch)
