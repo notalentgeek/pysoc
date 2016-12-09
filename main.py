@@ -8,13 +8,12 @@ import thread
 
 
 # Client name must be unique.
-clientName = "client-1"
+clientName = "client1"
 
 
 # Variable that hold "object" to database and table.
 connection = None
 database = None
-mainTable = None
 
 
 # Function to connect to database.
@@ -34,12 +33,6 @@ def ConnectDB():
             port=28015
         )
         database = r.db("sociometric_server")
-        mainTable = database.table("main")
-
-
-        # Create document entry for this client.
-        # The name of the client must be unique.
-        CreateDoc()
 
 
         return True
@@ -51,32 +44,6 @@ def ConnectDB():
         print(textCollection.dbConnRefused)
         print(error)
         return False
-
-
-#Create document in the database table.
-def CreateDoc():
-
-
-    # Make sure there is no document with same name in
-    # the database.
-    clientWithSameName = list(
-        r.db("sociometric_server").table("main")
-            .filter({"clientName":clientName}).run(connection)
-    )
-
-
-    #If the length is 0 means there is no document with
-    # a same name in the "clientName" entry
-    clientWithSameNameAmount = len(clientWithSameName)
-    if clientWithSameNameAmount == 0:
-        mainTable.insert({
-
-            "clientName": clientName
-
-        }).run(connection)
-    else:
-        print(textCollection.clientWithSameName)
-
 
 
 def main(args):
@@ -96,7 +63,7 @@ def main(args):
             1,
             "textUpdate",
             connection,
-            mainTable
+            database
         )
         micPVDetection = MicPVDetection(
             threads,                # _array

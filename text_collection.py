@@ -1,6 +1,7 @@
 from datetime import datetime
 from tzlocal import get_localzone
 import threading
+import rethinkdb as r
 
 class TextCollection(object):
 
@@ -24,7 +25,7 @@ class TextUpdate(threading.Thread):
         _threadID,
         _threadName,
         _connection,
-        _mainTable
+        _database
     ):
 
 
@@ -37,7 +38,7 @@ class TextUpdate(threading.Thread):
 
 
         self.connection = _connection
-        self.mainTable = _mainTable
+        self.database = _database
 
 
         # Append this into array.
@@ -56,6 +57,23 @@ class TextUpdate(threading.Thread):
         self.faceDetectedDefault = "face(s) detected = {:>5s}"
         self.pitchTextDefault = "pitch = {:>10.4f}"
         self.volumeTextDefault = "volume = {:>1.4f}"
+
+
+        # Check if table is exist.
+        try:
+
+
+            self.database.table(self.clientName + "_mic").run(self.connection)
+            self.table = self.database.table(self.clientName + "_mic")
+
+
+        except r.ReqlOpFailedError as error:
+
+
+            print("Table for " + self.clientName + " to store microphone data does not exist.")
+            print("Creating " + self.clientName + "_mic table.")
+            self.database.table_create(self.clientName + "_mic").run(self.connection)
+            self.table = self.database.table_create(self.clientName + "_mic")
 
 
     def run(self):
@@ -111,34 +129,24 @@ class TextUpdate(threading.Thread):
         minStr = str(timeStr).split(":")[1]
         secStr = str(timeStr).split(":")[2]
         utc = str(get_localzone()).lower()
-        timeFrmt = (
-            yearStr + "*" +
-            monthStr + "*" +
-            dayStr + "*" +
-            hourStr + "*" +
-            minStr + "*" +
-            secStr + "*" +
-            utc
-        )
-        databaseStr = pitchStr + "_" + volumeStr + "_" + timeFrmt
-        #print(databaseStr)
+
+        volumeEdit = "{:.4f}".format(_volume)
+
+        self.table.insert({
 
 
-        # Before sending the string into database
-        # I need to find out if there is a field
-        # for microphone for this client. If there
-        # is not then make one. But first I need
-        # access to the table then to the document
-        # of this specific client.
-        clientDoc = self.mainTable.get_all(self.clientName, index="clientName")
-        # Check if the document has a "mic" column/field.
-        # If the list length is 0 then there is no "mic"
-        # column/field yet. Hence, we need to create one.
-        hasMicField = True if (len(list(clientDoc.has_fields("mic").run(self.connection))) > 0) else False
-        # If hasMicField returns False then create the field.
-        # And insert the initial value.
-        print(databaseStr)
-        clientDoc.update({"mic": databaseStr}).run(self.connection)
+            "year": yearStr,
+            "month": monthStr,
+            "day": dayStr,
+            "hour": hourStr,
+            "min": minStr,
+            "sec": secStr,
+            "timeZone": utc,
+            "pitch": str(_pitch),
+            "volume": volumeEdit
+
+
+        }).run(self.connection)
 
 
         self.pitchText = self.pitchTextDefault.format(_pitch)

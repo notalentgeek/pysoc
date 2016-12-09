@@ -5,6 +5,11 @@ import text_collection
 import threading
 
 
+
+import time
+import datetime
+count = 1
+
 class MicPVDetection(threading.Thread):
 
 
@@ -79,6 +84,20 @@ class MicPVDetection(threading.Thread):
     def run(self):
         while(self.killMe == False):
             self.PVDetect()
+
+
+            # Testing time detection.
+            # What I want is for this program to send
+            # data to server once for every second.
+            # And also where there is a value from the sensor
+            # (not 0).
+            global count
+            count = count + 1
+            #print(count)
+            tic = time.clock()
+            toc = time.clock()
+            #print("{:.6f}".format(toc - tic))
+            print(datetime.datetime.now().time().strftime("%S"))
 
 
     def PVDetect(self):

@@ -21,3 +21,15 @@
 2016-12-07T12:41:42.996345187 24.988725s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: This server is Raft leader for term 1. Latest log index is 0.
 2016-12-07T13:04:53.960389881 1415.952770s info: Table 158313f5-57c2-46fd-86e6-3d28dc709c8f: Configuration is changing.
 2016-12-07T14:15:05.739954530 5627.732335s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: Configuration is changing.
+2016-12-07T15:24:21.123341592 9783.115722s notice: Removing file /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data/aa8f7df2-6f2e-4149-813e-422c59f5b877
+2016-12-07T15:24:21.123359530 9783.115739s info: Table aa8f7df2-6f2e-4149-813e-422c59f5b877: Deleted the table.
+2016-12-07T15:24:23.685771722 9785.678153s info: Table 6fda0322-01fa-485f-a9c3-64e25464a0e5: Starting a new Raft election for term 1.
+2016-12-07T15:24:23.686165565 9785.678546s info: Table 6fda0322-01fa-485f-a9c3-64e25464a0e5: Added replica on this server.
+2016-12-07T15:24:23.692415896 9785.684796s info: Table 6fda0322-01fa-485f-a9c3-64e25464a0e5: This server is Raft leader for term 1. Latest log index is 0.
+2016-12-07T15:24:42.836558014 9804.828938s info: Table 6fda0322-01fa-485f-a9c3-64e25464a0e5: Configuration is changing.
+2016-12-07T18:23:18.143041615 20520.135422s warn: Some RethinkDB data on this server has been placed into swap memory. This may impact performance.
+2016-12-07T19:40:48.938257419 25170.930638s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2016-12-07T19:40:48.939374186 25170.931755s notice: Shutting down client connections...
+2016-12-07T19:40:48.940021656 25170.932402s notice: All client connections closed.
+2016-12-07T19:40:48.940032202 25170.932412s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2016-12-07T19:40:48.986637643 25170.979018s notice: Storage engine shut down.
