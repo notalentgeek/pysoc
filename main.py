@@ -2,14 +2,12 @@ from cam import CamFaceDetection as cfd
 from mic import MicPVDetect as mpvd
 import os
 import rethinkdb as r
+import shared
 import sys
 
 DEFAULT_DB_ADDRESS = "127.0.1.1"
 DEFAULT_DB_NAME = "sociometric_server"
 DEFAULT_DB_PORT = 28015
-
-# Client name must be unique.
-clientName = "client-1"
 
 # Variable that hold connection to
 # the database.
@@ -30,7 +28,7 @@ def ConnDB():
         # The default port for ReThinkDB is
         # 28015.
         conn = r.connect(
-            host=DEFAULT_DB_ADDRESS
+            host=DEFAULT_DB_ADDRESS,
             port=DEFAULT_DB_PORT
         )
         db = r.db(DEFAULT_DB_NAME)

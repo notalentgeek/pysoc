@@ -1,0 +1,15 @@
+2016-12-10T20:10:02.411256536 0.038200s notice: Recursively removing directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data/tmp
+2016-12-10T20:10:02.422272479 0.049214s notice: Initializing directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data
+2016-12-10T20:10:02.422423803 0.049365s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data' did not already exist or is empty.)
+2016-12-10T20:10:02.422544786 0.049486s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2016-12-10T20:10:02.427636699 0.054582s notice: Running on Linux 4.4.0-53-generic x86_64
+2016-12-10T20:10:02.427737246 0.054679s notice: Loading data from directory /home/notalentgeek/Downloads/pc-ut-bachelor-thesis-2016/deliverable-programming/sociometric-client-python/rethinkdb_data
+2016-12-10T20:10:02.497160296 0.124102s info: Automatically using cache size of 1430 MB
+2016-12-10T20:10:02.499630167 0.126572s notice: Listening for intracluster connections on port 29015
+2016-12-10T20:10:02.506710689 0.133652s notice: Listening for client driver connections on port 28015
+2016-12-10T20:10:02.507056906 0.133998s notice: Listening for administrative HTTP connections on port 8080
+2016-12-10T20:10:02.507062906 0.134004s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-10T20:10:02.507070701 0.134012s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-10T20:10:02.507076968 0.134018s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-12-10T20:10:02.507083402 0.134024s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2016-12-10T20:10:02.507090308 0.134031s notice: Server ready, "notalentgeek_ThinkPad_X220_bgl" 8a2db7c7-7c8a-4825-8b55-f8e5897049d5

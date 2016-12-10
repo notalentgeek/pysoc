@@ -1,3 +1,6 @@
+# This is a super class for Python's threading.Thread.
+# With additional variables for counter, thread ID,
+# thread name, and a termination flag.
 from threading import Thread
 
 class ModThread(Thread):

@@ -1,7 +1,6 @@
 from mod_thread import ModThread as mt
-from shared_thread_function import GetDateTime as gdt
+from shared import GetDateTime as gdt
 from timer_second_change import TimerSecondChange as tms
-from tzlocal import get_localzone
 import alsaaudio as alsa
 import aubio
 import numpy as num
@@ -15,7 +14,7 @@ class MicPVDetect(mt):
     ):
 
         # Append this object into array.
-        _array.append(this)
+        _array.append(self)
 
         mt.__init__(
             self,
@@ -35,17 +34,17 @@ class MicPVDetect(mt):
 
         # Set up audio input. Determine the PCM device
         # (pulse code modulation). The default type is for
-        # playback. Hence set the `type` into `alsaaudio.
+        # playback. Hence set the `type` into `alsa.
         # PCM_CAPTURE` instead to capture voice. The
         # microphone is the one that is set in `alsamixer`
-        # terminal command. Hence, this alsaaudio library is
+        # terminal command. Hence, this alsa library is
         # only for Linux.
-        self.recorder = alsaaudio.PCM(
-            type = alsaaudio.PCM_CAPTURE
+        self.recorder = alsa.PCM(
+            type = alsa.PCM_CAPTURE
         )
         self.recorder.setchannels(1)
         self.recorder.setformat(
-            alsaaudio.PCM_FORMAT_FLOAT_LE
+            alsa.PCM_FORMAT_FLOAT_LE
         )
         self.recorder.setperiodsize(
             self.PERIOD_SIZE_IN_FRAME
@@ -60,7 +59,7 @@ class MicPVDetect(mt):
             self.SAMPLE_RATE
         )
         # Set the output unit, it can be "cent", "midi",
-        # "Hz", ....t.
+        # "Hz", ....
         self.pitchDetector.set_unit("Hz")
         # Ignore frames under this level (dB).
         self.pitchDetector.set_silence(-40)
@@ -68,14 +67,14 @@ class MicPVDetect(mt):
         # Set up timer object. To make sure that
         # the audio calculation only once for
         # every second.
-        tMS = tms()
+        self.tMS = tms()
 
     def run(self):
 
         while self.killMe == False:
 
-            tMS.Update()
-            if tMS.chngSec:
+            self.tMS.Update()
+            if self.tMS.chngSec:
                 self.PVDetect()
 
     def SetupStringForDB(
@@ -94,19 +93,20 @@ class MicPVDetect(mt):
 
         # Read data from audio input.
         length, data = self.recorder.read()
-        # Convert the data from alsaaudio library into Aubio
+        # Convert the data from alsa library into Aubio
         # format samples.
-        samples = numpy.fromstring(
+        samples = num.fromstring(
             data,
             dtype = aubio.float_type
         )
         # Pith of the current frame.
         pitch = self.pitchDetector(samples)[0]
         # Compute the energy (volume) of current frame.
-        volume = numpy.sum(samples**2)/len(samples)
+        volume = num.sum(samples**2)/len(samples)
         volume = "{:.6f}".format(volume)
 
         # Database!
         self.SetupStringForDB(pitch, volume)
 
-        print("pitch = " + str(pitch) + " volume = " + str(volume))
+        print("pitch = " + str(pitch))
+        print("volume = " + str(volume))
