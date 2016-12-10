@@ -1,43 +1,28 @@
-import alsaaudio
+from mod_thread import ModThread as mt
+from shared_thread_function import GetDateTime as gdt
+from timer_second_change import TimerSecondChange as tms
+from tzlocal import get_localzone
+import alsaaudio as alsa
 import aubio
-import numpy
-import text_collection
-import threading
+import numpy as num
 
-
-
-import time
-import datetime
-count = 1
-
-class MicPVDetection(threading.Thread):
-
+class MicPVDetect(mt):
 
     def __init__(
         self,
-        _array,
-        _counter,
-        _textUpdate,
-        _threadID,
-        _threadName
+        _threadName,
+        _array
     ):
 
+        # Append this object into array.
+        _array.append(this)
 
-        # "Super".
-        threading.Thread.__init__(self)
-        self.counter = _counter
-        self.textUpdate = _textUpdate
-        self.threadID = _threadID
-        self.threadName = _threadName
-
-
-        # Append this into array.
-        _array.append(self)
-
-
-        # A trigger to kill this thread.
-        self.killMe = False
-
+        mt.__init__(
+            self,
+            _array.index(self) + 1,
+            _array.index(self) + 1,
+            _threadName
+        )
 
         # Constants.
         self.BUFFER_SIZE = 2048
@@ -45,7 +30,8 @@ class MicPVDetection(threading.Thread):
         self.SAMPLE_RATE = 44100
         self.HOP_SIZE = self.BUFFER_SIZE//2
         self.PERIOD_SIZE_IN_FRAME = self.HOP_SIZE
-
+        # Constant for database.
+        self.MODULE_NAME = "mic"
 
         # Set up audio input. Determine the PCM device
         # (pulse code modulation). The default type is for
@@ -66,7 +52,6 @@ class MicPVDetection(threading.Thread):
         )
         self.recorder.setrate(self.SAMPLE_RATE)
 
-
         # Set up Aubio energy (volume) and pitch detection.
         self.pitchDetector = aubio.pitch(
             self.METHOD,
@@ -80,28 +65,32 @@ class MicPVDetection(threading.Thread):
         # Ignore frames under this level (dB).
         self.pitchDetector.set_silence(-40)
 
+        # Set up timer object. To make sure that
+        # the audio calculation only once for
+        # every second.
+        tMS = tms()
 
     def run(self):
-        while(self.killMe == False):
-            self.PVDetect()
 
+        while self.killMe == False:
 
-            # Testing time detection.
-            # What I want is for this program to send
-            # data to server once for every second.
-            # And also where there is a value from the sensor
-            # (not 0).
-            global count
-            count = count + 1
-            #print(count)
-            tic = time.clock()
-            toc = time.clock()
-            #print("{:.6f}".format(toc - tic))
-            print(datetime.datetime.now().time().strftime("%S"))
+            tMS.Update()
+            if tMS.chngSec:
+                self.PVDetect()
 
+    def SetupStringForDB(
+        self,
+        _pitch,
+        _volume
+    ):
+
+        arrayForDB = [self.MODULE_NAME]
+        arrayForDB.extend(gdt())
+        arrayForDB.extend([_pitch, _volume])
+
+        return arrayForDB
 
     def PVDetect(self):
-
 
         # Read data from audio input.
         length, data = self.recorder.read()
@@ -115,9 +104,9 @@ class MicPVDetection(threading.Thread):
         pitch = self.pitchDetector(samples)[0]
         # Compute the energy (volume) of current frame.
         volume = numpy.sum(samples**2)/len(samples)
+        volume = "{:.6f}".format(volume)
 
+        # Database!
+        self.SetupStringForDB(pitch, volume)
 
-        # Show the result into terminal.
-        self.textUpdate.UpdateMicPVDetection(
-            pitch, volume
-        )
+        print("pitch = " + str(pitch) + " volume = " + str(volume))

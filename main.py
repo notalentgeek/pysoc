@@ -1,116 +1,83 @@
-from microphone import MicPVDetection
-from text_collection import textCollection, TextUpdate
-from webcam import WebcamFaceDetection
+from cam import CamFaceDetection as cfd
+from mic import MicPVDetect as mpvd
 import os
 import rethinkdb as r
 import sys
-import thread
 
+DEFAULT_DB_ADDRESS = "127.0.1.1"
+DEFAULT_DB_NAME = "sociometric_server"
+DEFAULT_DB_PORT = 28015
 
 # Client name must be unique.
-clientName = "client1"
+clientName = "client-1"
 
-
-# Variable that hold "object" to database and table.
-connection = None
-database = None
-
+# Variable that hold connection to
+# the database.
+conn = None
+db = None
 
 # Function to connect to database.
-def ConnectDB():
-
+def ConnDB():
 
     try:
 
+        global conn
+        global db
 
-        global connection
-        global database
-        global mainTable
-
-
-        connection = r.connect(
-            host="127.0.1.1",
-            port=28015
+        # The default port to connect is
+        # 127.0.1.1 or localhost if you
+        # use RethinkDB in local environment.
+        # The default port for ReThinkDB is
+        # 28015.
+        conn = r.connect(
+            host=DEFAULT_DB_ADDRESS
+            port=DEFAULT_DB_PORT
         )
-        database = r.db("sociometric_server")
-
+        db = r.db(DEFAULT_DB_NAME)
 
         return True
 
-
     except r.errors.ReqlDriverError as error:
 
-
-        print(textCollection.dbConnRefused)
         print(error)
         return False
 
-
 def main(args):
 
+    # Only run the program when there is connection
+    # to database.
+    if ConnDB():
 
-    # Only run the program if the database is connected.
-    if ConnectDB():
-
-
-        # Create an array to hold all threads.
+        # Create arrays to hold all threads.
         threads = []
-        # Create new threads.
-        textUpdate = TextUpdate(
-            threads,
-            clientName,
-            1,
-            1,
-            "textUpdate",
-            connection,
-            database
-        )
-        micPVDetection = MicPVDetection(
-            threads,                # _array
-            2,                      # _counter
-            textUpdate,             # _textUpdate
-            2,                      # _threadID
-            "MicPVDetection"        # _threadName
-        )
-        webcamFaceDetection = WebcamFaceDetection(
-            threads,                # _array
-            3,                      # _counter
-            textUpdate,             # _textUpdate
-            3,                      # _threadID
-            "WebcamFaceDetection"   # _threadName
-        )
+        # Initiates some thread objects.
+        cFD = cfd("CFD_1", threads)
+        mPVD = mpvd("MPVD_1", threads)
+        # Run all threads!
+        for t in threads: t.start()
 
-
-        # Start all threads.
-        for thread in threads:
-            thread.start()
-
-
-        # Main loop.
-        while(len(threads) > 0):
-
-
+        # Loop
+        while len(threads) > 0:
 
             try:
 
-
                 # Join all threads using a timeout
                 # so it does not block. Filter out
-                # threads which have been joined or
-                # are None.
-                for thread in threads:
-                    if thread.isAlive() and thread != None:
-                        thread.join(1)
-
+                # thread which have been joined or
+                # is `None`.
+                for t in threads:
+                    if t.isAlive() and t != None: t.join(1)
 
             except KeyboardInterrupt:
 
-
-                print(textCollection.quitProgram)
-                for thread in threads:
-                    thread.killMe = True
+                print("Quitting program")
+                for t in threads:
+                    t.killMe = True
+                    # This is dangerous better find another
+                    # method on exiting the program. Preferably
+                    # when all threads are finished then
+                    # close this program. However, I do not know
+                    # yet how.
                     os._exit(1)
 
-
-if __name__ == '__main__':
-    main(sys.argv)
+if __name__ == "__main__": main(sys.argv)
