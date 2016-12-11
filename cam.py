@@ -8,7 +8,8 @@ class CamFaceDetection(mt):
     def __init__(
         self,
         _threadName,
-        _array
+        _array,
+        _iDB
     ):
 
         # Append this object into array.
@@ -20,6 +21,9 @@ class CamFaceDetection(mt):
             _array.index(self) + 1,
             _threadName
         )
+
+        # Insert database object.
+        self.iDB = _iDB
 
         # Detection threshold to prevent "noise" face.
         # The value means that a face need to be detected
@@ -48,6 +52,9 @@ class CamFaceDetection(mt):
         # I want to detect front facing face(s).
         self.casc = cv2.CascadeClassifier(CASC_PATH)
 
+        # Frame captured from connected cam.
+        self.frame = None
+
         # Set up timer object. To make sure that
         # the audio calculation only once for
         # every second.
@@ -59,18 +66,15 @@ class CamFaceDetection(mt):
         if self.killMe == True: self.Quit()
         while self.killMe == False:
             self.tMS.Update()
+            self.FaceDetectStream()
             if self.tMS.chngSec:
                 self.FaceDetect()
 
     def FaceDetect(self):
 
-        # Capture the video frame by frame from the
-        # self.cam.
-        retVal, frame = self.cam.read()
-
         # Convert the captured frame into greyscale.
         frameGrey = cv2.cvtColor(
-            frame, cv2.COLOR_BGR2GRAY)
+            self.frame, cv2.COLOR_BGR2GRAY)
 
         # Face detection.
         faces = self.casc.detectMultiScale(
@@ -95,8 +99,11 @@ class CamFaceDetection(mt):
             self.faceCnt = self.FACE_DTCT_THRS
             self.faceDtct = True
         if self.faceDtct == True:
-            self.SetupStringForDB(len(faces))
-            print("faces = " + str(len(faces)))
+            self.iDB.mainArray.append(
+                self.SetupStringForDB(str(len(faces)))
+            )
+
+            #print("faces = " + str(len(faces)))
 
         # Draw rectangle around the faces.
         #for(x, y, w, h) in faces:
@@ -114,6 +121,11 @@ class CamFaceDetection(mt):
         # headless.
         #cv2.imshow("CamFaceDetection", frame)
 
+    def FaceDetectStream(self):
+
+        # Capture the video frame by frame from the
+        # self.cam.
+        retVal, self.frame = self.cam.read()
 
     # Function that need to be executed when the program
     # is closing.
@@ -125,6 +137,7 @@ class CamFaceDetection(mt):
         cv2.destroyAllWindows()
         self.cam.release()
 
+    # Function to format string before put in database.
     def SetupStringForDB(
         self,
         _facesLen
@@ -132,6 +145,8 @@ class CamFaceDetection(mt):
 
         arrayForDB = [self.MODULE_NAME]
         arrayForDB.extend(gdt())
-        arrayForDB.append(_facesLen)
+        arrayForDB.extend(["faces", _facesLen])
+
+        #print(arrayForDB)
 
         return arrayForDB

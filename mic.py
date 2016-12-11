@@ -10,7 +10,8 @@ class MicPVDetect(mt):
     def __init__(
         self,
         _threadName,
-        _array
+        _array,
+        _iDB
     ):
 
         # Append this object into array.
@@ -22,6 +23,9 @@ class MicPVDetect(mt):
             _array.index(self) + 1,
             _threadName
         )
+
+        # Insert database object.
+        self.iDB = _iDB
 
         # Constants.
         self.BUFFER_SIZE = 2048
@@ -64,6 +68,9 @@ class MicPVDetect(mt):
         # Ignore frames under this level (dB).
         self.pitchDetector.set_silence(-40)
 
+        # Data received from mic.
+        self.data = None
+
         # Set up timer object. To make sure that
         # the audio calculation only once for
         # every second.
@@ -74,9 +81,11 @@ class MicPVDetect(mt):
         while self.killMe == False:
 
             self.tMS.Update()
+            self.PVDetectStream()
             if self.tMS.chngSec:
                 self.PVDetect()
 
+    # Function to format string before put in database.
     def SetupStringForDB(
         self,
         _pitch,
@@ -85,18 +94,24 @@ class MicPVDetect(mt):
 
         arrayForDB = [self.MODULE_NAME]
         arrayForDB.extend(gdt())
-        arrayForDB.extend([_pitch, _volume])
+        arrayForDB.extend([
+            "pitch",
+            _pitch,
+            "volume",
+            _volume
+        ])
+
+        #print(arrayForDB)
 
         return arrayForDB
 
+    # Function that need to be run every one second.
     def PVDetect(self):
 
-        # Read data from audio input.
-        length, data = self.recorder.read()
         # Convert the data from alsa library into Aubio
         # format samples.
         samples = num.fromstring(
-            data,
+            self.data,
             dtype = aubio.float_type
         )
         # Pith of the current frame.
@@ -106,7 +121,15 @@ class MicPVDetect(mt):
         volume = "{:.6f}".format(volume)
 
         # Database!
-        self.SetupStringForDB(pitch, volume)
+        self.iDB.mainArray.append(
+            self.SetupStringForDB(str(pitch), str(volume))
+        )
 
-        print("pitch = " + str(pitch))
-        print("volume = " + str(volume))
+        #print("pitch = " + str(pitch))
+        #print("volume = " + str(volume))
+
+    # Function that need to be run for every tick
+    def PVDetectStream(self):
+
+        # Read data from audio input.
+        length, self.data = self.recorder.read()

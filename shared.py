@@ -6,7 +6,7 @@ import datetime as dt
 
 # Put the client name here so that every other files
 # that import this file has access to this variable.
-clientName = "client-1"
+clientName = "client1"
 
 def GetDateTime():
 

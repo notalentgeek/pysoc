@@ -12,9 +12,9 @@ class TimerSecondChange(object):
 
     def __init__(self):
 
-        self.currSec = 0        # current second.
-        self.storSec = None     # previously stored second.
-        self.chngSec = False    # if there is change in second.
+        self.currSec = 0        # Current second.
+        self.storSec = None     # Previously stored second.
+        self.chngSec = False    # If there is change in second.
 
     def Update(self):
 

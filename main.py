@@ -1,4 +1,5 @@
 from cam import CamFaceDetection as cfd
+from insert_database import InsertDatabase as idb
 from mic import MicPVDetect as mpvd
 import os
 import rethinkdb as r
@@ -49,8 +50,9 @@ def main(args):
         # Create arrays to hold all threads.
         threads = []
         # Initiates some thread objects.
-        cFD = cfd("CFD_1", threads)
-        mPVD = mpvd("MPVD_1", threads)
+        iDB = idb("IDB_1", threads, db, conn)
+        cFD = cfd("CFD_1", threads, iDB)
+        mPVD = mpvd("MPVD_1", threads, iDB)
         # Run all threads!
         for t in threads: t.start()
 
