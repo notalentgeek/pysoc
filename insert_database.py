@@ -67,6 +67,9 @@ class InsertDatabase(mt):
                 jsonRaw["hour"]     = latestElement[4] # Hour.
                 jsonRaw["minutes"]  = latestElement[5] # Minute.
                 jsonRaw["second"]   = latestElement[6] # Second.
+
+                #print(jsonRaw["second"])
+
                 jsonRaw["utc"]      = latestElement[7] # Timezone.
                 # Next elements are the sensor data itself. So, here
                 # I try to parse the data from the index after 8 in
@@ -104,7 +107,7 @@ class InsertDatabase(mt):
                         shared.clientName +
                         " to store " +
                         sensorSource +
-                        "data does not exist."
+                        " data does not exist."
                     )
                     print("Creating " + tableName + " table.")
                     self.db.table_create(tableName).run(self.conn)

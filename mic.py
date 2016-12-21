@@ -1,135 +1,207 @@
+# Import some necessary libraries.
+# Modified thread class.
 from mod_thread import ModThread as mt
-from shared import GetDateTime as gdt
-from timer_second_change import TimerSecondChange as tms
+
+# This is a class to execute codes per one second.
+# However, these codes are not accurate. In case
+# that the one tick of code execution takes more than
+# one second. At least work for now.
+from timer_second_change import TimerSecondChange as tsc
+
+# To stream from microphone I use AlsaAudio. However,
+# this library are specific to Linux operating system.
+# I wish I could change this into PyAudio so that I can
+# have this program run in MacOS or Windows operating
+# system as well.
 import alsaaudio as alsa
+
+# Aubio has built - in pitch detection object.
 import aubio
+
+# NumPy is used to convert AlsaAudio format into
+# numbers that Aubio can understand.
 import numpy as num
 
+# Class for pitch and volume detection.
+# Make this as a thread class extended
+# from ModThread (modified Thread class).
 class MicPVDetect(mt):
 
-    def __init__(
-        self,
-        _threadName,
-        _array,
-        _iDB
-    ):
+    # Constructor.
+    # _threadName is this object thread name.
+    # _arrau is the main array in the main
+    # thread that manages array.
+    # _iDB is the database insertion object.
+    # _iDB is a specific database object in
+    # separate thread that handles database
+    # insertion. Thus, data from every other
+    # input device are queued beautifully into
+    # the database.
+    def __init__(self, _threadName, _array, _insertDatabase):
 
-        # Append this object into array.
+        # Append this object into the array
+        # that holds all thread (excluding the
+        # main thread) in the main thread.
         _array.append(self)
 
-        mt.__init__(
-            self,
+        # Java's super! The second and the
+        # third parameter is the index and
+        # the count. I honestly do not
+        # know why count and index variable
+        # are necessary in Thread object and
+        # why are those not a built - in
+        # variables.
+        mt.__init__(self,
             _array.index(self) + 1,
             _array.index(self) + 1,
-            _threadName
-        )
+            _threadName)
 
-        # Insert database object.
-        self.iDB = _iDB
+        # Database object.
+        self.insertDatabase = _insertDatabase
 
-        # Constants.
+        # Some constants. I honestly not sure what does
+        # what. I get this number from issue I post in
+        # Aubio GitHub. However, these constant below are
+        # for AlsaAudio recording.
         self.BUFFER_SIZE = 2048
         self.METHOD = "default"
         self.SAMPLE_RATE = 44100
         self.HOP_SIZE = self.BUFFER_SIZE//2
         self.PERIOD_SIZE_IN_FRAME = self.HOP_SIZE
-        # Constant for database.
+
+        # Constant for database table name.
         self.MODULE_NAME = "mic"
 
-        # Set up audio input. Determine the PCM device
-        # (pulse code modulation). The default type is for
-        # playback. Hence set the `type` into `alsa.
-        # PCM_CAPTURE` instead to capture voice. The
-        # microphone is the one that is set in `alsamixer`
-        # terminal command. Hence, this alsa library is
-        # only for Linux.
-        self.recorder = alsa.PCM(
-            type = alsa.PCM_CAPTURE
-        )
+        # Audio input from microphone. Determine the PCM
+        # (pulse code modulation) device. The default type
+        # is for play backing audio file. Hence, for this
+        # case set the mode into alsa
+        # (type=alsa.PCM_CAPTURE) instead of the default
+        # one that for voice capturing. The microphone that
+        # will be used to stream the voice is the microphone
+        # that is set in the alsamixer (Linux default driver
+        # and sound manager). Hence, this AlsaAudio library
+        # is only for Linux operating system.
+        # Here is the main recorder object.
+        self.recorder = alsa.PCM(type=alsa.PCM_CAPTURE)
+        # The other properties that I do not know
+        # what it does :D :D :D :D :D.
         self.recorder.setchannels(1)
         self.recorder.setformat(
-            alsa.PCM_FORMAT_FLOAT_LE
-        )
+            alsa.PCM_FORMAT_FLOAT_LE)
         self.recorder.setperiodsize(
-            self.PERIOD_SIZE_IN_FRAME
-        )
+            self.PERIOD_SIZE_IN_FRAME)
         self.recorder.setrate(self.SAMPLE_RATE)
 
-        # Set up Aubio energy (volume) and pitch detection.
-        self.pitchDetector = aubio.pitch(
-            self.METHOD,
-            self.BUFFER_SIZE,
-            self.HOP_SIZE,
-            self.SAMPLE_RATE
-        )
-        # Set the output unit, it can be "cent", "midi",
-        # "Hz", ....
+        # Finally create the main pitch detection object.
+        # This object is from Aubio library.
+        self.pitchDetector = aubio.pitch(self.METHOD,
+            self.BUFFER_SIZE, self.HOP_SIZE,
+            self.SAMPLE_RATE)
+        # Set the output unit. This can be "cent",
+        # "midi", "Hz".
         self.pitchDetector.set_unit("Hz")
-        # Ignore frames under this level (dB).
+        # Ignore frames under this level.
         self.pitchDetector.set_silence(-40)
 
-        # Data received from mic.
+        # Object wide known variable that hold
+        # data gathered from the microphone.
         self.data = None
 
-        # Set up timer object. To make sure that
-        # the audio calculation only once for
-        # every second.
-        self.tMS = tms()
+        # Set up a timer object. To make sure that the audio
+        # calculation only happen once every second.
+        # However, although the calculation only happen once
+        # every second, the microphone stream need to still
+        # open.
+        self.tSC = tsc()
 
     def run(self):
 
+        #print("Test.")
+
+        # The self.killMe variable is from the ModThread
+        # class that is mt in this class. ModThread is
+        # the super class of this class.
         while self.killMe == False:
 
-            self.tMS.Update()
-            self.PVDetectStream()
-            if self.tMS.chngSec:
-                self.PVDetect()
+            #print("Test.")
 
-    # Function to format string before put in database.
-    def SetupStringForDB(
-        self,
-        _pitch,
-        _volume
-    ):
+            # Update the timer.
+            self.tSC.Update()
+            # Keep the microphone stream open.
+            self.Stream()
 
-        arrayForDB = [self.MODULE_NAME]
-        arrayForDB.extend(gdt())
-        arrayForDB.extend([
-            "pitch",
-            _pitch,
-            "volume",
-            _volume
-        ])
+            # Execute only if a second passed since last
+            # tick. The pitch and volume calculation only
+            # happen once every second. self.tSC.changeSecond
+            # will return True if a second is passed.
+            if self.tSC.changeSecond: self.PVDetect()
 
-        #print(arrayForDB)
+    # String array to be inputted into database.
+    # I can put this into shared function file actually.
+    def SetupStringForDatabase(self, _pitch, _volume):
 
-        return arrayForDB
+        # The first element in the array is this module
+        # name. For this case the module name is "mic"
+        # from microphone.
+        theArrayThatWillBeReturned = [self.MODULE_NAME]
 
-    # Function that need to be run every one second.
+        # Get all the date and time elements from
+        # TimerSecondChange dateTime variable. dateTime
+        # variable will be always updated to current date and time
+        # in sync Thread wide.
+        theArrayThatWillBeReturned.extend(self.tSC.dateTime)
+
+        # Append the pitch and the volume parameter.
+        # There will be two elements per one variable.
+        # The first element would be the document name.
+        # While, the second element would be the value.
+        theArrayThatWillBeReturned.extend([
+            "pitch", str(_pitch),
+            "volume", str(_volume)])
+
+        #print(theArrayThatWillBeReturned)
+
+        return theArrayThatWillBeReturned
+
+    # Function for pitch and volume detection.
     def PVDetect(self):
 
-        # Convert the data from alsa library into Aubio
-        # format samples.
-        samples = num.fromstring(
-            self.data,
-            dtype = aubio.float_type
-        )
-        # Pith of the current frame.
+        # Convert data from the microphone of
+        # AlsaAudio library into Aubio format samples.
+        samples = num.fromstring(self.data,
+            dtype=aubio.float_type)
+
+        # Pitch of the current frame.
         pitch = self.pitchDetector(samples)[0]
-        # Compute the energy (volume) of current frame.
+
+        # Compute the energy (volume) of the
+        # current frame.
         volume = num.sum(samples**2)/len(samples)
+        # Format the volume output so that at most
+        # it has six decimal numbers.
         volume = "{:.6f}".format(volume)
 
-        # Database!
-        self.iDB.mainArray.append(
-            self.SetupStringForDB(str(pitch), str(volume))
-        )
+        # Append the data that I want to put into database.
+        # I need to append the data into insert database
+        # object mainArray. Every elements in the mainArray
+        # in the insert database object will automatically
+        # popped and then put into the database.
+        self.insertDatabase.mainArray.append(
+            self.SetupStringForDatabase(pitch,
+                volume))
 
-        #print("pitch = " + str(pitch))
-        #print("volume = " + str(volume))
+        #print(pitch)
+        #print(volume)
 
-    # Function that need to be run for every tick
-    def PVDetectStream(self):
+    # This is the function that is executed for every
+    # tick. The program should not stop streaming data
+    # from the input device (in this case it is the
+    # microphone). If there is a tick when this program
+    # stopped streaming information from microphone, the
+    # microphone will need to be re - initialized again in
+    # the next tick.
+    def Stream(self):
 
-        # Read data from audio input.
+        # Keep reading data from the audio input.
         length, self.data = self.recorder.read()

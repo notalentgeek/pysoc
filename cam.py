@@ -1,6 +1,5 @@
 from mod_thread import ModThread as mt
-from shared import GetDateTime as gdt
-from timer_second_change import TimerSecondChange as tms
+from timer_second_change import TimerSecondChange as tsc
 import cv2
 
 class CamFaceDetection(mt):
@@ -58,16 +57,21 @@ class CamFaceDetection(mt):
         # Set up timer object. To make sure that
         # the audio calculation only once for
         # every second.
-        self.tMS = tms()
+        self.tSC = tsc()
 
 
     def run(self):
 
+        #print("Test.")
+
         if self.killMe == True: self.Quit()
         while self.killMe == False:
-            self.tMS.Update()
+
+            #print("Test.")
+
+            self.tSC.Update()
             self.FaceDetectStream()
-            if self.tMS.chngSec:
+            if self.tSC.changeSecond:
                 self.FaceDetect()
 
     def FaceDetect(self):
@@ -84,6 +88,9 @@ class CamFaceDetection(mt):
             minSize=(30, 30),
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
+
+        #print(faces)
+        #print(len(faces))
 
         # Sometimes there is a faces that is actually not
         # a face. For example, OpenCV can detect cardboard
@@ -144,7 +151,7 @@ class CamFaceDetection(mt):
     ):
 
         arrayForDB = [self.MODULE_NAME]
-        arrayForDB.extend(gdt())
+        arrayForDB.extend(self.tSC.dateTime)
         arrayForDB.extend(["faces", _facesLen])
 
         #print(arrayForDB)
