@@ -2,7 +2,7 @@ from mod_thread import ModThread as mt
 from timer_second_change import TimerSecondChange as tsc
 import cv2
 
-class CamFaceDetection(mt):
+class CamFaceDetect(mt):
 
     def __init__(
         self,
@@ -51,6 +51,8 @@ class CamFaceDetection(mt):
         # I want to detect front facing face(s).
         self.casc = cv2.CascadeClassifier(CASC_PATH)
 
+        # All the properties of the face(s) detected.
+        self.faces = None
         # Frame captured from connected cam.
         self.frame = None
 
@@ -64,7 +66,9 @@ class CamFaceDetection(mt):
 
         #print("Test.")
 
-        if self.killMe == True: self.Quit()
+        if self.killMe == True:
+            self.Quit()
+
         while self.killMe == False:
 
             #print("Test.")
@@ -81,7 +85,7 @@ class CamFaceDetection(mt):
             self.frame, cv2.COLOR_BGR2GRAY)
 
         # Face detection.
-        faces = self.casc.detectMultiScale(
+        self.faces = self.casc.detectMultiScale(
             frameGrey,
             scaleFactor=1.1,
             minNeighbors=5,
@@ -89,14 +93,14 @@ class CamFaceDetection(mt):
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
 
-        #print(faces)
-        #print(len(faces))
+        #print(self.faces)
+        #print(len(self.faces))
 
         # Sometimes there is a faces that is actually not
         # a face. For example, OpenCV can detect cardboard
         # as a face. Below is a simple code to remove those
         # noise face(s).
-        if len(faces) <= 0:
+        if len(self.faces) <= 0:
             self.faceCnt = self.faceCnt - 1
             if self.faceCnt <= 0:
                 self.faceCnt = 0
@@ -107,15 +111,15 @@ class CamFaceDetection(mt):
             self.faceDtct = True
         if self.faceDtct == True:
             self.iDB.mainArray.append(
-                self.SetupStringForDB(str(len(faces)))
+                self.SetupStringForDB(str(len(self.faces)))
             )
 
-            #print("faces = " + str(len(faces)))
+            #print("self.faces = " + str(len(self.faces)))
 
         # Draw rectangle around the faces.
-        #for(x, y, w, h) in faces:
+        #for(x, y, w, h) in self.faces:
         #    cv2.rectangle(
-        #        frame,
+        #        self.frame,
         #        (x, y),
         #        (x + w, y + h),
         #        (0, 0, 255),
