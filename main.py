@@ -5,6 +5,9 @@ from insert_database import InsertDatabase as idb
 # Import the pitch and volume detection object.
 from mic import MicPVDetect as  mpvd
 
+# Import the OpenCV library just for
+# the user interface.
+import cv2
 import os
 # Python library for RethinkDB.
 import rethinkdb as r

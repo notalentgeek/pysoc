@@ -130,13 +130,30 @@ class CamFaceDetect(mt):
         # Display the resulting frame. Comment this line
         # of codes below if the program is going to be
         # headless.
-        #cv2.imshow("CamFaceDetection", frame)
+        #cv2.imshow("CamFaceDetection", self.frame)
 
     def FaceDetectStream(self):
 
         # Capture the video frame by frame from the
         # self.cam.
         retVal, self.frame = self.cam.read()
+        # Draw rectangle around the faces.
+        if self.faces != None:
+            for(x, y, w, h) in self.faces:
+                cv2.rectangle(
+                    self.frame,
+                    (x, y),
+                    (x + w, y + h),
+                    (0, 0, 255),
+                    2
+                )
+
+        # Display the resulting frame. Comment this line
+        # of codes below if the program is going to be
+        # headless.
+        cv2.startWindowThread()
+        cv2.namedWindow("CamFaceDetection")
+        cv2.imshow("CamFaceDetection", self.frame)
 
     # Function that need to be executed when the program
     # is closing.
