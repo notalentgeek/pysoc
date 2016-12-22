@@ -8,17 +8,16 @@ from mod_thread import ModThread as mt
 # one second. At least work for now.
 from timer_second_change import TimerSecondChange as tsc
 
-# To stream from microphone I use AlsaAudio. However,
-# this library are specific to Linux operating system.
-# I wish I could change this into PyAudio so that I can
-# have this program run in MacOS or Windows operating
-# system as well.
-import alsaaudio as alsa
+# Before using PyAudio I was using AlsaAudio to stream data
+# from microphone. However, now I know how to use PyAudio,
+# a higher level audio framework that works in most desktop
+# operating system (Linux, MacOS, Windows).
+import pyaudio
 
 # Aubio has built - in pitch detection object.
 import aubio
 
-# NumPy is used to convert AlsaAudio format into
+# NumPy is used to convert PyAudio format into
 # numbers that Aubio can understand.
 import numpy as num
 
@@ -62,8 +61,10 @@ class MicPVDetect(mt):
         # Some constants. I honestly not sure what does
         # what. I get this number from issue I post in
         # Aubio GitHub. However, these constant below are
-        # for AlsaAudio recording.
+        # for PyAudio streaming and Aubio pitch processing.
         self.BUFFER_SIZE = 2048
+        self.CHANNELS = 1
+        self.FORMAT = pyaudio.paFloat32
         self.METHOD = "default"
         self.SAMPLE_RATE = 44100
         self.HOP_SIZE = self.BUFFER_SIZE//2
@@ -72,26 +73,11 @@ class MicPVDetect(mt):
         # Constant for database table name.
         self.MODULE_NAME = "mic"
 
-        # Audio input from microphone. Determine the PCM
-        # (pulse code modulation) device. The default type
-        # is for play backing audio file. Hence, for this
-        # case set the mode into alsa
-        # (type=alsa.PCM_CAPTURE) instead of the default
-        # one that for voice capturing. The microphone that
-        # will be used to stream the voice is the microphone
-        # that is set in the alsamixer (Linux default driver
-        # and sound manager). Hence, this AlsaAudio library
-        # is only for Linux operating system.
-        # Here is the main recorder object.
-        self.recorder = alsa.PCM(type=alsa.PCM_CAPTURE)
-        # The other properties that I do not know
-        # what it does :D :D :D :D :D.
-        self.recorder.setchannels(1)
-        self.recorder.setformat(
-            alsa.PCM_FORMAT_FLOAT_LE)
-        self.recorder.setperiodsize(
-            self.PERIOD_SIZE_IN_FRAME)
-        self.recorder.setrate(self.SAMPLE_RATE)
+        # Initiating PyAudio object.
+        pA = pyaudio.PyAudio()
+        # Open the microphone stream.
+        self.mic = pA.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.SAMPLE_RATE, input=True,
+            frames_per_buffer=self.PERIOD_SIZE_IN_FRAME)
 
         # Finally create the main pitch detection object.
         # This object is from Aubio library.
@@ -204,4 +190,4 @@ class MicPVDetect(mt):
     def Stream(self):
 
         # Keep reading data from the audio input.
-        length, self.data = self.recorder.read()
+        self.data = self.mic.read(self.PERIOD_SIZE_IN_FRAME)

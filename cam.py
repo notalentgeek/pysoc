@@ -150,7 +150,9 @@ class CamFaceDetect(mt):
 
         # Display the resulting frame. Comment this line
         # of codes below if the program is going to be
-        # headless.
+        # headless. It is necessary to start the window
+        # in the new thread. Otherwise it will not updated
+        # (static image).
         cv2.startWindowThread()
         cv2.namedWindow("CamFaceDetection")
         cv2.imshow("CamFaceDetection", self.frame)
