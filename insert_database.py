@@ -127,10 +127,36 @@ class InsertDatabase(mt):
                 # Check if the target table is exist in the
                 # database. If the target table is not exist
                 # then create a new table.
+                #
+                # On, 23rd December 2016 there is a problem
+                # that the read request to the database is
+                # getting exponentially higher over times.
+                # After commenting right there and here the
+                # culprit is this try catch statement below.
+                #
+                # The problem here is that I need to check
+                # if a table exist or not by using these codes
+                # self.db.table(tableName).run(self.conn).
+                # However, those codes makes the exponentially
+                # increase read request over time. In the other
+                # hand I need to know if the table is exists or
+                # not without using the connection codes.
+                #
+                # The solution is to do try checking when a
+                # document inserted. And not to do try checking
+                # if a table is exists.
                 try:
 
-                    self.db.table(tableName).run(self.conn)
+                    #self.db.table(tableName).run(self.conn)
                     self.table = self.db.table(tableName)
+                    # Insert the jsonCookedAgain into the database.
+                    # The fix to exponentially higher is to do try
+                    # statement for the insert database instead of
+                    # checking the connection.
+                    dataInserted = self.table.insert(jsonCookedAgain).run(self.conn)
+
+                    print(dataInserted)
+                    #print(self.table)
 
                 except r.ReqlOpFailedError as error:
 
@@ -145,10 +171,7 @@ class InsertDatabase(mt):
                     self.db.table_create(tableName).run(self.conn)
                     self.table = self.db.table(tableName)
 
-                # Finally insert the table.
-                self.table.insert(jsonCookedAgain).run(self.conn)
-
-                print(jsonCooked)
+                #print(jsonCooked)
 
                 # Pop the first element of the array!
                 self.mainArray.pop(0)

@@ -16,4 +16,4 @@
 #
 # Perhaps I could as well put here the database connection
 # setting variable.
-clientName = "client1"
+clientName = "testClient"

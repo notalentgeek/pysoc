@@ -17,7 +17,7 @@ import sys
 
 # Some constants for database connection.
 # I think I can put this into separate configuration file.
-DEFAULT_DB_ADDRESS = "127.0.1.1"
+DEFAULT_DB_ADDRESS = "198.211.123.92"
 DEFAULT_DB_NAME = "sociometric_server"
 DEFAULT_DB_PORT = 28015
 
