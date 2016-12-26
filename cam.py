@@ -80,6 +80,8 @@ class CamFaceDetect(mt):
 
     def FaceDetect(self):
 
+        #print("Test.")
+
         # Convert the captured frame into greyscale.
         frameGrey = cv2.cvtColor(
             self.frame, cv2.COLOR_BGR2GRAY)
@@ -90,8 +92,7 @@ class CamFaceDetect(mt):
             scaleFactor=1.1,
             minNeighbors=5,
             minSize=(30, 30),
-            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
-        )
+            flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
 
         #print(self.faces)
         #print(len(self.faces))
@@ -111,9 +112,7 @@ class CamFaceDetect(mt):
             self.faceDtct = True
         if self.faceDtct == True:
             self.iDB.mainArray.append(
-                self.SetupStringForDB(str(len(self.faces)))
-            )
-
+                self.SetupStringForDB(str(len(self.faces))))
             #print("self.faces = " + str(len(self.faces)))
 
         # Draw rectangle around the faces.
@@ -137,6 +136,9 @@ class CamFaceDetect(mt):
         # Capture the video frame by frame from the
         # self.cam.
         retVal, self.frame = self.cam.read()
+
+        #print(len(self.faces))
+
         # Draw rectangle around the faces.
         if self.faces != None:
             for(x, y, w, h) in self.faces:

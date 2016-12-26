@@ -11,10 +11,6 @@ import json
 # RethinkDB database.
 import rethinkdb as r
 
-# Import the shared Python file to gain access over
-# some global variables (read - only).
-import shared
-
 class InsertDatabase(mt):
 
     # The constructor. The _conn is the current connection
@@ -22,7 +18,7 @@ class InsertDatabase(mt):
     # while the _conn is the variable that hold connection
     # between this program and the database.
     def __init__(self, _threadName, _array,
-        _db, _conn):
+        _db, _conn, _config):
 
         #print(type(_array))
 
@@ -38,6 +34,8 @@ class InsertDatabase(mt):
         # the connected database.
         self.db = _db
         self.conn = _conn
+        # Shared variables.
+        self.config = _config
         # Specifically for table, it will be checked and
         # generated from this class if the destined table
         # is not exists yet.
@@ -75,7 +73,7 @@ class InsertDatabase(mt):
                 # are the cam and microphone.
                 sensorSource = firstElement[0]
                 # The table name of which data should be stored.
-                tableName = shared.clientName + "_" + sensorSource
+                tableName = self.config.cfgClientName + "_" + sensorSource
 
                 # The next elements after the first elements
                 # are for time stamps. I am making it with
@@ -155,14 +153,14 @@ class InsertDatabase(mt):
                     # checking the connection.
                     dataInserted = self.table.insert(jsonCookedAgain).run(self.conn)
 
-                    print(dataInserted)
+                    #print(dataInserted)
                     #print(self.table)
 
                 except r.ReqlOpFailedError as error:
 
                     print(
                         "Table for " +
-                        shared.clientName +
+                        self.config.cfgClientName +
                         " to store " +
                         sensorSource +
                         " data does not exist."
@@ -171,7 +169,7 @@ class InsertDatabase(mt):
                     self.db.table_create(tableName).run(self.conn)
                     self.table = self.db.table(tableName)
 
-                #print(jsonCooked)
+                print(jsonCooked)
 
                 # Pop the first element of the array!
                 self.mainArray.pop(0)

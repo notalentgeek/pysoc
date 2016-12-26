@@ -1,5 +1,7 @@
 # Import the face detection object.
 from cam import CamFaceDetect as cfd
+# Get access to the variables in shared.py.
+from config import Config as conf
 # Import the database inserter.
 from insert_database import InsertDatabase as idb
 # Import the pitch and volume detection object.
@@ -11,15 +13,10 @@ import cv2
 import os
 # Python library for RethinkDB.
 import rethinkdb as r
-# Import shared Python file to get access to global variables.
-import shared
 import sys
 
-# Some constants for database connection.
-# I think I can put this into separate configuration file.
-DEFAULT_DB_ADDRESS = "198.211.123.92"
-DEFAULT_DB_NAME = "sociometric_server"
-DEFAULT_DB_PORT = 28015
+# Shared variables.
+config = conf()
 
 # Variables that hold database information and the database
 # connection object.
@@ -28,6 +25,13 @@ database = None
 
 # Function to connect to the database.
 def ConnDB():
+
+    # Initiating value.
+    config.InitConfigVariables()
+    # This is just for development purposes only.
+    # I do not know yet on how I can add the parameter
+    # into this program.
+    config.cfgDBAddress = "198.211.123.92"
 
     try:
 
@@ -40,10 +44,10 @@ def ConnDB():
         # The default port for ReThinkDB is
         # 28015.
         connection = r.connect(
-            host=DEFAULT_DB_ADDRESS,
-            port=DEFAULT_DB_PORT
+            host=config.cfgDBAddress,
+            port=config.cfgDBPort
         )
-        database = r.db(DEFAULT_DB_NAME)
+        database = r.db(config.cfgDBName)
 
         return True
 
@@ -67,7 +71,7 @@ def main(args):
         #print(type(database))
 
         # Initiates some thread objects.
-        iDB = idb("IDB_1", threads, database, connection)
+        iDB = idb("IDB_1", threads, database, connection, config)
         cFD = cfd("CFD_1", threads, iDB)
         mPVD = mpvd("MPVD_1", threads, iDB)
         # Run all threads!
