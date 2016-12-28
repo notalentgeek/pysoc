@@ -103,14 +103,14 @@ class MicPVDetect(mt):
 
     def run(self):
 
-        #print("Test.")
+        #print("test")
 
         # The self.killMe variable is from the ModThread
         # class that is mt in this class. ModThread is
         # the super class of this class.
         while self.killMe == False:
 
-            #print("Test.")
+            #print("test")
 
             # Update the timer.
             self.tSC.Update()

@@ -10,7 +10,7 @@ Usage:
     main.py start
     main.py start [without-cam] [without-db] [without-ir] [without-mic] [save]
     main.py start all-default [save]
-    main.py start wizard
+    main.py start wizard [save]
 
 Options:
     -a --dba=<dbav>             Database address, [default: 127.0.0.1].
@@ -102,11 +102,57 @@ def ConnDB():
 
 def main(_docArgs):
 
-    print("test")
-    print(_docArgs)
+    #print("test")
+    #print(_docArgs)
 
     # Creates space for initiation function.
     # Get the arguments from Docopt Python library.
+    docArgs = _docArgs
+
+    # I want to know the type of docoptArgs.
+    #print(type(docArgs)) # This is Python's dictionary.
+    #print(docArgs.get("start"))
+
+    # Check if a configuration file exist.
+
+    # If the starting command is "start".
+    if docArgs.get("start"):
+
+        #print("the starting command is start")
+
+        # Now check the other possible sub - commands.
+        if docArgs.get("all-default"):
+
+            print("all-default")
+
+            # Check if it has [save] parameter.
+            if docArgs.get("save"):
+
+                print("save")
+
+        elif docArgs.get("wizard"):
+
+            print("wizard")
+
+            # Check if it has [save] parameter.
+            if docArgs.get("save"):
+
+                print("save")
+
+        elif (docArgs.get("without-cam") or docArgs.get("without-db") or
+            docArgs.get("without-ir") or docArgs.get("without-mic")):
+
+            print("without-input(s)")
+
+            # Check if it has [save] parameter.
+            if docArgs.get("save"):
+
+                print("save")
+
+        else:
+
+            print("start normally")
+
 
     """
     # Only run database when there is connection to
