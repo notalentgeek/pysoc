@@ -1,7 +1,48 @@
+"""sociometric.
+
+Usage:
+    main.py (-h | --help)
+    main.py (-v | --version)
+    main.py check
+    main.py check [cam] [db] [ir] [mic]
+    main.py reset
+    main.py set (-a --dba=<dbav> | -c --clientName=<cname> | -n --dbn=<dbnv> | -p --dbp=<dbpv>)
+    main.py start
+    main.py start [without-cam] [without-db] [without-ir] [without-mic] [save]
+    main.py start all-default [save]
+    main.py start wizard
+
+Options:
+    -a --dba=<dbav>             Database address, [default: 127.0.0.1].
+    -c --clientName=<cname>     Client name for this device. Camel case (for example,
+                                myNameIsAlpha), no space, start with alphabet, and
+                                alpha - numeric, [default: clientTest]
+    -h --help                   Show this screen.
+    -n --dbn=<dbnv>             Database name. Only alpha - numeric and under score,
+                                [default: sociometric_server].
+    -p --dbp=<dbpv>             Database port, [default: 28015].
+    -v --version                Show version.
+    check                       Check the availability of input devices.
+    reset                       Delete all tables in the database.
+    save                        Write setting into configuration file.
+    set                         Set and write the configuration variables.
+    start                       Start this program using previously written configurations.
+                                If first time use then launch wizard.1
+    start all-default           Start this program using default value.
+    start wizard                Start this program guided with configuration wizard.
+    without-cam                 This program will run without cam.
+    without-db                  This program will run without db.
+    without-ir                  This program will run without IR.
+    without-mic                 This program will run without mic.
+
+"""
+
 # Import the face detection object.
 from cam import CamFaceDetect as cfd
 # Get access to the variables in shared.py.
 from config import Config as conf
+# Import docopt.
+from docopt import docopt as doc
 # Import the database inserter.
 from insert_database import InsertDatabase as idb
 # Import the pitch and volume detection object.
@@ -59,8 +100,15 @@ def ConnDB():
         print(error)
         while True: pass
 
-def main(args):
+def main(_docArgs):
 
+    print("test")
+    print(_docArgs)
+
+    # Creates space for initiation function.
+    # Get the arguments from Docopt Python library.
+
+    """
     # Only run database when there is connection to
     # the database.
     if ConnDB():
@@ -100,5 +148,8 @@ def main(args):
                     # close this program. However, I do not know
                     # yet how.
                     os._exit(1)
+    """
 
-if __name__ == "__main__": main(sys.argv)
+if __name__ == "__main__":
+    docArgs = doc(__doc__, version="0.0.1")
+    main(docArgs)
