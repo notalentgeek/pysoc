@@ -3,7 +3,6 @@
 Usage:
     main.py (--help | -h)
     main.py (--version | -v)
-    main.py check (--cam --db --ir --mic)
     main.py reset
     main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--db|--faced|--ird|--log|--pvd)...
     main.py show (--config)
@@ -73,11 +72,15 @@ import  configparser    as cfgp     # Import library to managing config.
 import  io                          # Import io library to deal with opening/writing config file.
 import  os                          # Import os Python library to deal with file management.
 import  rethinkdb       as r        # Python library for RethinkDB.
+import  subprocess
 import  sys
 
 class Main(object):
 
     def __init__(self, _docArgs):
+
+        subprocess.call(["reset"])
+        print("sociometric client")
 
         #print(_docArgs)
 
@@ -233,11 +236,11 @@ class Main(object):
         _config.dbName[2]           = dbName
         _config.dbPort[2]           = dbPort
         _config.firstRun[2]         = firstRun
-        _config.withoutDB[2]        = withoutDB
-        _config.withoutFaceD[2]     = withoutFaceD
-        _config.withoutIRD[2]       = withoutIRD
-        _config.withoutLog[2]       = withoutLog
-        _config.withoutPVD[2]       = withoutPVD
+        _config.withoutDB[2]        = self.StringToBool(withoutDB)
+        _config.withoutFaceD[2]     = self.StringToBool(withoutFaceD)
+        _config.withoutIRD[2]       = self.StringToBool(withoutIRD)
+        _config.withoutLog[2]       = self.StringToBool(withoutLog)
+        _config.withoutPVD[2]       = self.StringToBool(withoutPVD)
 
     # Function to simply print real - time configuration values.
     def ShowConfig(self, _config):
@@ -304,16 +307,29 @@ class Main(object):
     # Function to control Docopt arguments.
     def DocoptControl(self, _docArgs, _config, _configAbsPath):
 
+        # Function to get value from config.ini.
+        def GetValueFromConfig(_configAbsPath,
+            _sectionName, _variableName):
+
+            cfg = cfgp.ConfigParser()
+            cfg.read(_configAbsPath)
+            returnValue = cfg.get(_sectionName, _variableName)
+
+            return returnValue
+
         # This function is used to write value into
         # the configuration file.
-        def SaveValue(_config, _docArgs, _configAbsPath,
+        def SaveValue(_config, _configAbsPath, _docArgs,
             _iniSectionsIndex, _variableNameInConfigFile,
             _value):
 
             # If there is a save parameter then
             # write the setting into configuration
             # .ini file as well.
-            if _docArgs.get("--save"):
+            print(_docArgs.get("set"))
+
+            if _docArgs.get("--save") or (
+                _docArgs.get("set")):
 
                 #print("--save")
 
@@ -324,38 +340,95 @@ class Main(object):
                 # Set the value!
                 cfgRaw.set(_config.iniSections[_iniSectionsIndex],
                     _variableNameInConfigFile, str(_value))
+
+                #print("==========")
+                #print(str(value))
+                #print("==========")
+
                 # Write the value.
                 with open(_configAbsPath, "w") as cfg:
                     cfgRaw.write(cfg)
-
-        if _docArgs.get("check"):
-
-            print("check")
-
-            if _docArgs.get("cam"):
-
-                print("cam")
-
-            if _docArgs.get("db"):
-
-                print("db")
-
-            if _docArgs.get("ir"):
-
-                print("ir")
-
-            if _docArgs.get("mic"):
-
-                print("mic")
 
         if _docArgs.get("reset"):
 
             print("reset")
 
+
+
+
+
         if _docArgs.get("set"):
-
-            print("set")
-
+            #print("set")
+            if _docArgs.get("--cname"):
+                value = _docArgs.get("--cname")[0]
+                SaveValue(_config, _configAbsPath, _docArgs, 0,
+                    _config.clientName[0], value)
+                print("--cname")
+            if _docArgs.get("--dba"):
+                value = _docArgs.get("--dba")[0]
+                SaveValue(_config, _configAbsPath, _docArgs, 0,
+                    _config.dbAddress[0], value)
+                print("--dba")
+            if _docArgs.get("--dbn"):
+                value = _docArgs.get("--dbn")[0]
+                SaveValue(_config, _configAbsPath, _docArgs, 0,
+                    _config.dbName[0], value)
+                print("--dbn")
+            if _docArgs.get("--dbp"):
+                value = _docArgs.get("--dbp")[0]
+                SaveValue(_config, _configAbsPath, _docArgs, 0,
+                    _config.dbPort[0], value)
+                print("--dbp")
+            if _docArgs.get("--db"):
+                # I need to get the value first.
+                currentValueInConfigFile = self.StringToBool(GetValueFromConfig(_configAbsPath,
+                     _config.iniSections[2], _config.withoutDB[0]))
+                # After I get the boolean value then I need
+                # to invert the value.
+                changedValue = not currentValueInConfigFile
+                print(currentValueInConfigFile)
+                print(changedValue)
+                # After I invert the value I need to write the value
+                # back into config.ini file.
+                SaveValue(_config, _configAbsPath, _docArgs, 2,
+                    _config.withoutDB[0], changedValue)
+                print("--db")
+            if _docArgs.get("--faced"):
+                currentValueInConfigFile = self.StringToBool(GetValueFromConfig(_configAbsPath,
+                     _config.iniSections[2], _config.withoutFaceD[0]))
+                changedValue = not currentValueInConfigFile
+                print(currentValueInConfigFile)
+                print(changedValue)
+                SaveValue(_config, _configAbsPath, _docArgs, 2,
+                    _config.withoutFaceD[0], changedValue)
+                print("--faced")
+            if _docArgs.get("--ird"):
+                currentValueInConfigFile = self.StringToBool(GetValueFromConfig(_configAbsPath,
+                     _config.iniSections[2], _config.withoutIRD[0]))
+                changedValue = not currentValueInConfigFile
+                print(currentValueInConfigFile)
+                print(changedValue)
+                SaveValue(_config, _configAbsPath, _docArgs, 2,
+                    _config.withoutIRD[0], changedValue)
+                print("--ird")
+            if _docArgs.get("--log"):
+                currentValueInConfigFile = self.StringToBool(GetValueFromConfig(_configAbsPath,
+                     _config.iniSections[2], _config.withoutLog[0]))
+                changedValue = not currentValueInConfigFile
+                print(currentValueInConfigFile)
+                print(changedValue)
+                SaveValue(_config, _configAbsPath, _docArgs, 2,
+                    _config.withoutLog[0], changedValue)
+                print("--log")
+            if _docArgs.get("--pvd"):
+                currentValueInConfigFile = self.StringToBool(GetValueFromConfig(_configAbsPath,
+                     _config.iniSections[2], _config.withoutPVD[0]))
+                changedValue = not currentValueInConfigFile
+                print(currentValueInConfigFile)
+                print(changedValue)
+                SaveValue(_config, _configAbsPath, _docArgs, 2,
+                    _config.withoutPVD[0], changedValue)
+                print("--pvd")
 
 
 
@@ -416,15 +489,15 @@ class Main(object):
 
                 if _docArgs.get("--save"):
 
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutDB[0], _config.withoutDB[1])
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutFaceD[0], _config.withoutFaceD[1])
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutIRD[0], _config.withoutIRD[1])
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutLog[0], _config.withoutLog[1])
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutPVD[0], _config.withoutPVD[1])
 
 
@@ -447,7 +520,7 @@ class Main(object):
                     _config.withoutDB[2] = True
                     # Save the value if _docArgs.("save")
                     # returns True.
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutDB[0], True)
 
                 # Whether this application is using face
@@ -455,7 +528,7 @@ class Main(object):
                 if _docArgs.get("--faced"):
                     #print("--faced")
                     _config.withoutFaceD[2] = True
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutFaceD[0], True)
 
                 # Whether this application is using IR
@@ -463,7 +536,7 @@ class Main(object):
                 if _docArgs.get("--ird"):
                     #print("--ird")
                     _config.withoutIRD[2] = True
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutIRD[0], True)
 
                 # Whether this application will show
@@ -472,7 +545,7 @@ class Main(object):
                 if _docArgs.get("--log"):
                     #print("--log")
                     _config.withoutLog[2] = True
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutLog[0], True)
 
                 # Whether this application is using pitch
@@ -480,15 +553,307 @@ class Main(object):
                 if _docArgs.get("--pvd"):
                     #print("--pvd")
                     _config.withoutPVD[2] = True
-                    SaveValue(_config, _docArgs, _configAbsPath,
+                    SaveValue(_config, _configAbsPath, _docArgs,
                         2, _config.withoutPVD[0], True)
 
 
 
 
 
+            # If this is first run then every time
+            # this application launches go to here.
             elif _docArgs.get("wizard"):
-                print("start wizard")
+
+                #print("start wizard")
+
+                # Starting the application wizard
+                # here. But first please the
+                # `run_first` parameter in the
+                # config.ini. If it is `True`
+                # then display additional message.
+                firstRun = GetValueFromConfig(_configAbsPath,
+                    _config.iniSections[1],
+                    _config.firstRun[0])
+
+                #print(firstRun)
+
+                # PENDING - 1,  variable naming convention change all into
+                # positive variable name. For example change `_config.withoutDB`
+                # to `_config.withDB` or `_config.useDB`.
+                defaultClientName       = "default                  : do not fill and just press enter to fill the default value of \"clientTest\""
+                defaultDBAddress        = "default                  : do not fill and just press enter to fill the default value of \"127.0.0.1\""
+                defaultDBName           = "default                  : do not fill and just press enter to fill the default value of \"sociometric_server\""
+                defaultDBPort           = "default                  : do not fill and just press enter to fill the default value of \"28015\""
+                defaultWithout          = "default                  : do not fill and just press enter to automatically response \"yes\""
+                exampleClientName       = "example                  : \"richardDawkins\""
+                exampleDBAddress        = "example                  : \"127.0.0.1\""
+                exampleDBName           = "example                  : \"sociometric_badge\""
+                exampleDBPort           = "example                  : \"28015\""
+                exampleWithout          = "example                  : \"no\"/\"n\" for not using this features or \"yes\"/\"y\" for using this features"
+                inputClientName         = "client name              : "
+                inputDBAddress          = "database address         : "
+                inputDBName             = "database name            : "
+                inputDBPort             = "database port            : "
+                inputDB                 = "do you want to use database? "
+                inputFaceD              = "do you want to use face detection? "
+                inputIRD                = "do you want to use infrared detection? "
+                inputLog                = "do you want to use log? "
+                inputPVD                = "do you want to use pitch and volume detection? "
+                inputSave               = "do you want to save this setting? "
+                requirementClientName   = "requirement              : no space, case sensitive, alpha - numeric, camelCase"
+                requirementDBAddress    = "requirement              : no space, not case sensitive, alpha - numeric"
+                requirementDBName       = "requirement              : no space, lower case, alpha - numeric, underscore_case"
+                requirementDBPort       = "requirement              : no space, numeric"
+                requirementWithout      = "requirement              : no space, not case sensitive"
+
+
+
+
+
+                # PENDING - 1, there are definitely a lot to be tweak
+                # here. I was very lazy to think at the time I was
+                # writing this codes.
+                def InputClientName(_requirement, _example,
+                    _defaultString, _input):
+
+                    illegal = True
+
+                    #print("\n")
+
+                    # If the string inputted illegal keep
+                    # asking the user to input it.
+                    description = "\nplease input client name"
+                    while illegal:
+                        print(description)
+                        print(_requirement)
+                        print(_example)
+                        print(_defaultString)
+                        _config.clientName[2] = input(_input)
+
+                        description = "please input client name"
+
+                        # If empty "" give the `_config.clientName[2]`
+                        # a default value and then break this
+                        # loop by `illegal = False`.
+                        if CheckIfStringIsBlank(_config.clientName[2]):
+                            _config.clientName[2] = _config.clientName[1]
+                            illegal = False
+
+                        illegal = CheckIfStringIsAlphaNumeric(
+                            _config.clientName[2])
+                        if illegal: print("\ninput failed\n")
+
+
+
+
+
+                def InputDBAddress(_requirement, _example,
+                    _defaultString, _input):
+
+                    illegal = True
+
+                    description = "\nplease input rethinkdb database address"
+                    while illegal:
+                        print(description)
+                        print(_requirement)
+                        print(_example)
+                        print(_defaultString)
+                        _config.dbAddress[2] = input(_input)
+
+                        description = "please input rethinkdb database address"
+
+                        if CheckIfStringIsBlank(_config.dbAddress[2]):
+                            _config.dbAddress[2] = _config.dbAddress[1]
+                            illegal = False
+
+                        illegal = CheckIfStringIsAlphaNumericDot(
+                            _config.dbAddress[2])
+                        if illegal: print("\ninput failed\n")
+
+
+
+
+
+                def InputDBName(_requirement, _example,
+                    _defaultString, _input):
+
+                    illegal = True
+
+                    description = "\nplease input rethinkdb database name"
+                    while illegal:
+                        print(description)
+                        print(_requirement)
+                        print(_example)
+                        print(_defaultString)
+                        _config.dbName[2] = input(_input).lower()
+
+                        description = "please input rethinkdb database name"
+
+                        if CheckIfStringIsBlank(_config.dbName[2]):
+                            _config.dbName[2] = _config.dbName[1]
+                            illegal = False
+
+                        illegal = CheckIfStringIsAlphaNumericUScore(
+                            _config.dbName[2])
+                        if illegal: print("\ninput failed\n")
+
+
+
+
+
+                def InputDBPort(_requirement, _example,
+                    _defaultString, _input):
+
+                    illegal = True
+
+                    description = "\nplease input rethinkdb database port"
+                    while illegal:
+                        print(description)
+                        print(_requirement)
+                        print(_example)
+                        print(_defaultString)
+                        _config.dbPort[2] = input(_input)
+
+                        description = "please input rethinkdb database port"
+
+                        if CheckIfStringIsBlank(_config.dbPort[2]):
+                            _config.dbPort[2] = _config.dbPort[1]
+                            illegal = False
+
+                        illegal = CheckIfStringIsNumeric(
+                            _config.dbPort[2])
+                        if illegal: print("\ninput failed\n")
+
+
+
+
+
+                def InputSave(_input):
+
+                    noStatement = ["0", "f", "false", "n","no"]
+                    yesStatement = ["", "1", "t", "true", "y", "yes"]
+
+                    illegal = True
+
+                    while illegal:
+
+                        inpectThis = input("\n" + _input)
+
+                        if inpectThis.lower() in noStatement:
+                            _configVariable = True
+                        elif inpectThis.lower() in yesStatement:
+                            _configVariable = False
+                        else: _configVariable = None
+
+                        if _configVariable != None: illegal = False
+                        if CheckIfStringIsBlank(_configVariable):
+                            _configVariable = False
+
+
+
+
+
+                def InputWithoutComponent(_input, _configVariable,
+                    _configDefault):
+
+                    noStatement = ["0", "f", "false", "n","no"]
+                    yesStatement = ["", "1", "t", "true", "y", "yes"]
+
+                    illegal = True
+
+                    while illegal:
+
+                        inpectThis = input(_input)
+
+                        #print(inpectThis.lower())
+                        #print(inpectThis.lower() in noStatement)
+                        #print(inpectThis.lower() in yesStatement)
+
+                        if inpectThis.lower() in noStatement:
+                            _configVariable = True
+                            #print(_configVariable)
+                        elif inpectThis.lower() in yesStatement:
+                            _configVariable = False
+                            #print(_configVariable)
+                        else: _configVariable = None
+
+                        #print(_configVariable)
+
+                        if _configVariable != None: illegal = False
+                        if CheckIfStringIsBlank(_configVariable):
+                            _configVariable = _configDefault
+
+
+
+
+
+                # Function to check if a string is blank
+                # string or not.
+                def CheckIfStringIsBlank(_string):
+                    return not (str(_string) and str(_string).strip())
+                # Function to check if a string is only
+                # alpha numeric or not.
+                def CheckIfStringIsAlphaNumeric(_string):
+                    returnBool = False
+                    for l in _string:
+                        if l.isalnum(): returnBool = False
+                        else:
+                            returnBool = True
+                            break
+                    return returnBool
+                # Function to check if a string is only
+                # alpha numeric and dot "." or not.
+                def CheckIfStringIsAlphaNumericDot(_string):
+                    returnBool = False
+                    for l in _string:
+                        if l == "." or l.isalnum():
+                            returnBool = False
+                        else:
+                            returnBool = True
+                            break
+                    return returnBool
+                # Function to check if a string is only
+                # alpha numeric and under score "_" or not.
+                def CheckIfStringIsAlphaNumericUScore(_string):
+                    returnBool = False
+                    for l in _string:
+                        if l == "_" or l.isalnum():
+                            returnBool = False
+                        else:
+                            returnBool = True
+                            break
+                    return returnBool
+                # Check if a string is only numeric.
+                def CheckIfStringIsNumeric(_string):
+                    returnBool = False
+                    for l in _string:
+                        if l.isnumeric(): returnBool = False
+                        else:
+                            returnBool = True
+                            break
+                    return returnBool
+
+
+
+
+
+
+                if firstRun:
+
+                    InputClientName         (requirementClientName  , exampleClientName , defaultClientName , inputClientName)
+                    InputDBAddress          (requirementDBAddress   , exampleDBAddress  , defaultDBAddress  , inputDBAddress)
+                    InputDBName             (requirementDBName      , exampleDBName     , defaultDBName     , inputDBName)
+                    InputDBPort             (requirementDBPort      , exampleDBPort     , defaultDBPort     , inputDBPort)
+                    print                   ("\nother components")
+                    print                   (requirementWithout)
+                    print                   (exampleWithout)
+                    print                   (defaultWithout)
+                    InputWithoutComponent   (inputDB    , _config.withoutDB     [2], _config.withoutDB      [1])
+                    InputWithoutComponent   (inputFaceD , _config.withoutFaceD  [2], _config.withoutFaceD   [1])
+                    InputWithoutComponent   (inputIRD   , _config.withoutIRD    [2], _config.withoutIRD     [1])
+                    InputWithoutComponent   (inputLog   , _config.withoutLog    [2], _config.withoutLog     [1])
+                    InputWithoutComponent   (inputPVD   , _config.withoutPVD    [2], _config.withoutPVD     [1])
+                    InputSave               (inputSave)
 
 
 
@@ -496,30 +861,32 @@ class Main(object):
 
             # If only `start` then this application
             # will take value directly from the
-            # config.ini file.
-            else:
+            # config.ini file. Actually nothing
+            # need to be done here, because all
+            # values have already assigned in the
+            # `AssignConfig()`.
+            #else:
 
-                print("start")
+                #print("start")
 
                 # No bullshit here, just assign those
                 # values :D
 
-                cfg = cfgp.ConfigParser()
-                cfg.read(_configAbsPath)
+                #cfg = cfgp.ConfigParser()
+                #cfg.read(_configAbsPath)
 
                 # Actually I need to make a function to convert
                 # string into boolean here. `boolean(put_your_string_here)`
-                # will actually do validation on the string.
-                # So, `bool("True")` or `bool("False")` will
-                # return `True`. While, `bool("")` will return
-                # false.
-                _config.withoutDB[2]    = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutDB    [0]))
-                _config.withoutFaceD[2] = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutFaceD [0]))
-                _config.withoutIRD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutIRD   [0]))
-                _config.withoutLog[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutLog   [0]))
-                _config.withoutPVD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutPVD   [0]))
+                # will actually do validation on the string. So,
+                # `bool("True")` or `bool("False")` will return
+                # `True`. While, `bool("")` will return false.
+                #_config.withoutDB[2]    = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutDB    [0]))
+                #_config.withoutFaceD[2] = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutFaceD [0]))
+                #_config.withoutIRD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutIRD   [0]))
+                #_config.withoutLog[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutLog   [0]))
+                #_config.withoutPVD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutPVD   [0]))
 
-                self.ShowConfig(_config)
+                #self.ShowConfig(_config)
 
                 #print("==========")
                 #print(_config.withoutDB[2])
