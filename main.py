@@ -1,47 +1,65 @@
-"""sociometric.
+"""Sociometric Application
 
 Usage:
-    main.py (-h | --help)
-    main.py (-v | --version)
-    main.py check
-    main.py check [cam] [db] [ir] [mic]
+    main.py (--help | -h)
+    main.py (--version | -v)
+    main.py check (--cam --db --ir --mic)
     main.py reset
-    main.py set (-a --dba=<dbav> | -c --cname=<cnamev> | -n --dbn=<dbnv> | -p --dbp=<dbpv>)
-    main.py show config
+    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--db|--faced|--ird|--log|--pvd)...
+    main.py show (--config)
     main.py start
-    main.py start [without-face-detection] [without-db] [without-ir-detection] [without-log] [without-pv-detection] [save]
-    main.py start all-default [save]
+    main.py start all-default [--save]
+    main.py start without (--db|--faced|--ird|--log|--pvd)... [--save]
     main.py start wizard
 
 Options:
-    For example you want to set this client name to "Richard Dawkins". Then you can
-    use these launch commands, `-c "Richard Dawkins"` or `--cname="Richard Dawkins"`.
-    You only need to use quotation marks if there is at least one spaces, otherwise
-    you may not use it. For example `-c Dawkins` or `--cname=Dawkins` also works.
+    --help -h           Refer to help manual.
+    --version -v        Refer to this version of application.
 
-    -a --dba=<dbav>             Database address, [default: 127.0.0.1].
-    -c --cname=<cnamev>         Client name for this device. Camel case (for example,
-                                myNameIsAlpha), no space, start with alphabet, and
-                                alpha - numeric, [default: clientTest]
-    -h --help                   Show this screen.
-    -n --dbn=<dbnv>             Database name. Only alpha - numeric and under score,
-                                [default: sociometric_server].
-    -p --dbp=<dbpv>             Database port, [default: 28015].
-    -v --version                Show version.
-    check                       Check the availability of input devices and/or database.
-    reset                       Delete all tables in the database and config file.
-    save                        Write setting into configuration file.
-    set                         Set and write the configuration variables.
-    show config                 Show current configuration values.
-    start                       Start this program using previously written configurations.
-                                If first time use then it launches wizard.
-    start all-default           Start this program using default value.
-    start wizard                Start this program guided with configuration wizard.
-    without-db                  This program will run without db.
-    without-face-detection      This program will run without OpenCV face detection..
-    without-ir-detection        This program will run without IR detection.
-    without-log                 This program will run without database insertion log.
-    without-pv-detection        This program will run without pitch and volume detection.
+    --cname=<cnamev>    Refer to client/this device name. Value is
+                        a must, [default: clientTest].
+    --dba=<dbav>        Refer to RethinkDB database address. Value
+                        is a must, [default: 127.0.0.1].
+    --dbn=<dbnv>        Refer to RethinkDB database name. Value is
+                        a must, [default: sociometric_server].
+    --dbp=<dbpv>        Refer to RethinkDB database port. Value is
+                        a must, [default: 28015].
+
+    --config            Refer to config.ini in the root of this
+                        application.
+    --db                Refer to RethinkDB database.
+    --log               Refer to log that sends JSON document to
+                        database.
+
+    --cam               Refer to cam/webcam.
+    --ir                Refer to IR.
+    --mic               Refer to microphone.
+
+    --faced             Refer to face detection using `--cam`.
+    --ird               Refer to IR detection using `--ir`.
+    --pvd               Refer to pitch and volume detection using
+                        `--mic`.
+
+    --save              Write all values into configuration .ini
+                        files. Otherwise, value will only for
+                        current runtime.
+
+    check               Check component(s). Additional argument(s)
+                        is necessary.
+    reset               Set configuration values in .ini file to
+                        their default values. This command also
+                        delete all database log and tables.
+    set                 Command to set client name, database
+                        configurations variables and component flags.
+                        The component flags will reverse between
+                        True to False for each `set`.
+    show                To show something :D.
+    start               Start this application with values from
+                        the configuration file.
+    start all-default   Start this application with default values.
+    start without       Start this application without component(s).
+                        Additional argument(s) is necessary.
+    start wizard        Start this application with wizard.
 
 """
 
@@ -61,7 +79,7 @@ class Main(object):
 
     def __init__(self, _docArgs):
 
-        print(_docArgs)
+        #print(_docArgs)
 
         docArgs             = _docArgs                              # Arguments supplied from Docopt.
 
@@ -76,7 +94,7 @@ class Main(object):
 
         # Threads variables. You may ask on why I am not putting this directly
         # into the `threads` variable. The answer is because not every thread
-        # will be put into `threads`. In case `config.withoutPVDetection[2]`
+        # will be put into `threads`. In case `config.withoutPVD[2]`
         # is True then `mPVD` will not be in the `threads`.
         cFD     = None
         iDB     = None
@@ -104,8 +122,7 @@ class Main(object):
         self.AssignConfig(config, configAbsPath)
 
         # Docopt arguments handlers.
-        self.DocoptControl(docArgs, config)
-        self.ShowConfig(config)
+        self.DocoptControl(docArgs, config, configAbsPath)
 
         # Initiates all necessary threads. Check if the
         # config.withoutDatabase[2] is True. If it is True
@@ -113,7 +130,6 @@ class Main(object):
         #
         # iDB variable is used for a buffer for every value
         # that will be inserted into database.
-
         #if not config.withoutDB[3]:
         #    # Connect to database.
         #    self.ConnDB(config, conn, db)
@@ -121,10 +137,10 @@ class Main(object):
         #    iDB = idb("IDB_1", threads, database,
         #        conn, config)
 
-        #if not config.withoutFaceDetection[3]:
+        #if not config.withoutFaceD[3]:
         #    cFD = cfd("CFD_1", threads, iDB)
 
-        #if not config.withoutPVDetection[3]:
+        #if not config.withoutPVD[3]:
         #    mPVD = mpvd("MPVD_1", threads, iDB)
 
         # Then run all available threads.
@@ -181,11 +197,11 @@ class Main(object):
 
         cfgRaw.set(_config.iniSections[1], _config.firstRun             [0], _config.firstRun               [1])
 
-        cfgRaw.set(_config.iniSections[2], _config.withoutFaceDetection [0], _config.withoutFaceDetection   [1])
+        cfgRaw.set(_config.iniSections[2], _config.withoutFaceD [0], _config.withoutFaceD   [1])
         cfgRaw.set(_config.iniSections[2], _config.withoutDB            [0], _config.withoutDB              [1])
-        cfgRaw.set(_config.iniSections[2], _config.withoutIRDetection   [0], _config.withoutIRDetection     [1])
+        cfgRaw.set(_config.iniSections[2], _config.withoutIRD   [0], _config.withoutIRD     [1])
         cfgRaw.set(_config.iniSections[2], _config.withoutLog           [0], _config.withoutLog             [1])
-        cfgRaw.set(_config.iniSections[2], _config.withoutPVDetection   [0], _config.withoutPVDetection     [1])
+        cfgRaw.set(_config.iniSections[2], _config.withoutPVD   [0], _config.withoutPVD     [1])
 
         cfgRaw.write(cfg)
         cfg.close()
@@ -199,31 +215,29 @@ class Main(object):
         cfg.read(_configAbsPath)
 
         # These are variable value taken from the configuration file.
-        clientName              = cfg.get(_config.iniSections[0], _config.clientName[0])
-        dbAddress               = cfg.get(_config.iniSections[0], _config.dbAddress[0])
-        dbName                  = cfg.get(_config.iniSections[0], _config.dbName[0])
-        dbPort                  = cfg.get(_config.iniSections[0], _config.dbPort[0])
-        firstRun                = cfg.get(_config.iniSections[1], _config.firstRun[0])
-        withoutDB               = cfg.get(_config.iniSections[2], _config.withoutDB[0])
-        withoutFaceDetection    = cfg.get(_config.iniSections[2], _config.withoutFaceDetection[0])
-        withoutIRDetection      = cfg.get(_config.iniSections[2], _config.withoutIRDetection[0])
-        withoutLog              = cfg.get(_config.iniSections[2], _config.withoutLog[0])
-        withoutPVDetection      = cfg.get(_config.iniSections[2], _config.withoutPVDetection[0])
+        clientName      = cfg.get(_config.iniSections[0], _config.clientName[0])
+        dbAddress       = cfg.get(_config.iniSections[0], _config.dbAddress[0])
+        dbName          = cfg.get(_config.iniSections[0], _config.dbName[0])
+        dbPort          = cfg.get(_config.iniSections[0], _config.dbPort[0])
+        firstRun        = cfg.get(_config.iniSections[1], _config.firstRun[0])
+        withoutDB       = cfg.get(_config.iniSections[2], _config.withoutDB[0])
+        withoutFaceD    = cfg.get(_config.iniSections[2], _config.withoutFaceD[0])
+        withoutIRD      = cfg.get(_config.iniSections[2], _config.withoutIRD[0])
+        withoutLog      = cfg.get(_config.iniSections[2], _config.withoutLog[0])
+        withoutPVD      = cfg.get(_config.iniSections[2], _config.withoutPVD[0])
 
         # Assign the variables from the configuration file into
         # run - time configuration variables.
-        _config.clientName[2]           = clientName
-        _config.dbAddress[2]            = dbAddress
-        _config.dbName[2]               = dbName
-        _config.dbPort[2]               = dbPort
-        _config.firstRun[2]             = firstRun
-        _config.withoutDB[2]            = withoutDB
-        _config.withoutFaceDetection[2] = withoutFaceDetection
-        _config.withoutIRDetection[2]   = withoutIRDetection
-        _config.withoutLog[2]           = withoutLog
-        _config.withoutPVDetection[2]   = withoutPVDetection
-
-        self.ShowConfig(_config)
+        _config.clientName[2]       = clientName
+        _config.dbAddress[2]        = dbAddress
+        _config.dbName[2]           = dbName
+        _config.dbPort[2]           = dbPort
+        _config.firstRun[2]         = firstRun
+        _config.withoutDB[2]        = withoutDB
+        _config.withoutFaceD[2]     = withoutFaceD
+        _config.withoutIRD[2]       = withoutIRD
+        _config.withoutLog[2]       = withoutLog
+        _config.withoutPVD[2]       = withoutPVD
 
     # Function to simply print real - time configuration values.
     def ShowConfig(self, _config):
@@ -233,11 +247,11 @@ class Main(object):
         print("database name                            : " + str(_config.dbName[2]))
         print("database port                            : " + str(_config.dbPort[2]))
         print("first time run                           : " + str(_config.firstRun[2]))
-        print("start without face detection             : " + str(_config.withoutFaceDetection[2]))
+        print("start without face detection             : " + str(_config.withoutFaceD[2]))
         print("start without database                   : " + str(_config.withoutDB[2]))
-        print("start without ir detection               : " + str(_config.withoutIRDetection[2]))
+        print("start without ir detection               : " + str(_config.withoutIRD[2]))
         print("start without log                        : " + str(_config.withoutLog[2]))
-        print("start without pitch and volume detection : " + str(_config.withoutPVDetection[2]))
+        print("start without pitch and volume detection : " + str(_config.withoutPVD[2]))
 
     # Function to initiating connection to database.
     def ConnDB(self, _config, _conn,
@@ -288,7 +302,31 @@ class Main(object):
             self.ConnDB(_config, _conn, _db)
 
     # Function to control Docopt arguments.
-    def DocoptControl(self, _docArgs, _config):
+    def DocoptControl(self, _docArgs, _config, _configAbsPath):
+
+        # This function is used to write value into
+        # the configuration file.
+        def SaveValue(_config, _docArgs, _configAbsPath,
+            _iniSectionsIndex, _variableNameInConfigFile,
+            _value):
+
+            # If there is a save parameter then
+            # write the setting into configuration
+            # .ini file as well.
+            if _docArgs.get("--save"):
+
+                #print("--save")
+
+                # Create the parser object.
+                cfgRaw = cfgp.ConfigParser()
+                # Read the configuration configuration path.
+                cfgRaw.read(_configAbsPath)
+                # Set the value!
+                cfgRaw.set(_config.iniSections[_iniSectionsIndex],
+                    _variableNameInConfigFile, str(_value))
+                # Write the value.
+                with open(_configAbsPath, "w") as cfg:
+                    cfgRaw.write(cfg)
 
         if _docArgs.get("check"):
 
@@ -318,13 +356,24 @@ class Main(object):
 
             print("set")
 
+
+
+
+
+
+        # The command `show` is to show something.
+        # However, until now there is no other
+        # implementation other than to `show --config`
         if _docArgs.get("show"):
+            #print("show")
+            if _docArgs.get("--config"):
+                #print("--config")
+                self.ShowConfig(_config)
 
-            print("show")
 
-            if _docArgs.get("config"):
 
-                print("config")
+
+
 
         # `start` has four sub command. The first one
         # is start without any additional arguments.
@@ -340,41 +389,160 @@ class Main(object):
         # `start wizard`.
         if _docArgs.get("start"):
 
-            print("start")
 
-            if _docArgs.get("without-db"):
-                print("without-db")
-                _config.withoutDB[2] = True
-            if _docArgs.get("without-face-detection"):
-                print("without-face-detection")
-                _config.withoutFaceDetection[2] = True
-            if _docArgs.get("without-ir-detection"):
-                print("without-ir-detection")
-                _config.withoutIRDetection[2] = True
-            if _docArgs.get("without-log"):
-                print("without-log")
-                _config.withoutLog[2] = True
-            if _docArgs.get("without-pv-detection"):
-                print("without-pv-detection")
-                _config.withoutPVDetection[2] = True
-            if _docArgs.get("save"):
-                print("save")
 
-        if _docArgs.get("start") and _docArgs.get("all-default"):
 
-            print("start all-default")
 
-            if _docArgs.get("save"):
+            # `start all-default` let user to
+            # use default components (all inputs
+            # detections are set to True).
+            #
+            # However, database settings and
+            # this application client name will
+            # be the same.
+            if _docArgs.get("all-default"):
 
-                print("save")
+                #print("start all-default")
 
-        if _docArgs.get("start") and _docArgs.get("wizard"):
+                # The index no `2` is the runtime value.
+                # While the index no `1` is the default
+                # value. The index `0` is the config.ini
+                # sub - section entry name.
+                _config.withoutDB[2]    = _config.withoutDB[1]
+                _config.withoutFaceD[2] = _config.withoutFaceD[1]
+                _config.withoutIRD[2]   = _config.withoutIRD[1]
+                _config.withoutLog[2]   = _config.withoutLog[1]
+                _config.withoutPVD[2]   = _config.withoutPVD[1]
 
-            print("start wizard")
+                if _docArgs.get("--save"):
 
-            if _docArgs.get("save"):
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutDB[0], _config.withoutDB[1])
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutFaceD[0], _config.withoutFaceD[1])
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutIRD[0], _config.withoutIRD[1])
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutLog[0], _config.withoutLog[1])
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutPVD[0], _config.withoutPVD[1])
 
-                print("save")
+
+
+
+            # `start without` command let user specify
+            # which components to use and which ones not
+            # to use. The rest is taken from the config.ini.
+            elif _docArgs.get("without"):
+
+                #print("start without")
+
+                # Whether or not this application run with
+                # RethinkDB database or not.
+                if _docArgs.get("--db"):
+                    #print("--db")
+                    # Change the value in the configuration
+                    # run - time variable so that this
+                    # application does not use database.
+                    _config.withoutDB[2] = True
+                    # Save the value if _docArgs.("save")
+                    # returns True.
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutDB[0], True)
+
+                # Whether this application is using face
+                # detection or not.
+                if _docArgs.get("--faced"):
+                    #print("--faced")
+                    _config.withoutFaceD[2] = True
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutFaceD[0], True)
+
+                # Whether this application is using IR
+                # detection or not.
+                if _docArgs.get("--ird"):
+                    #print("--ird")
+                    _config.withoutIRD[2] = True
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutIRD[0], True)
+
+                # Whether this application will show
+                # JSON log or not. JSON logs are those
+                # who will put into RethinkDB database.
+                if _docArgs.get("--log"):
+                    #print("--log")
+                    _config.withoutLog[2] = True
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutLog[0], True)
+
+                # Whether this application is using pitch
+                # and volume detection or not.
+                if _docArgs.get("--pvd"):
+                    #print("--pvd")
+                    _config.withoutPVD[2] = True
+                    SaveValue(_config, _docArgs, _configAbsPath,
+                        2, _config.withoutPVD[0], True)
+
+
+
+
+
+            elif _docArgs.get("wizard"):
+                print("start wizard")
+
+
+
+
+
+            # If only `start` then this application
+            # will take value directly from the
+            # config.ini file.
+            else:
+
+                print("start")
+
+                # No bullshit here, just assign those
+                # values :D
+
+                cfg = cfgp.ConfigParser()
+                cfg.read(_configAbsPath)
+
+                # Actually I need to make a function to convert
+                # string into boolean here. `boolean(put_your_string_here)`
+                # will actually do validation on the string.
+                # So, `bool("True")` or `bool("False")` will
+                # return `True`. While, `bool("")` will return
+                # false.
+                _config.withoutDB[2]    = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutDB    [0]))
+                _config.withoutFaceD[2] = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutFaceD [0]))
+                _config.withoutIRD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutIRD   [0]))
+                _config.withoutLog[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutLog   [0]))
+                _config.withoutPVD[2]   = self.StringToBool(cfg.get(_config.iniSections[2], _config.withoutPVD   [0]))
+
+                self.ShowConfig(_config)
+
+                #print("==========")
+                #print(_config.withoutDB[2])
+                #print(_config.withoutFaceD[2])
+                #print(_config.withoutIRD[2])
+                #print(_config.withoutLog[2])
+                #print(_config.withoutPVD[2])
+                #print("==========")
+                #print(cfg.get(_config.iniSections[2], _config.withoutDB    [0]))
+                #print(cfg.get(_config.iniSections[2], _config.withoutFaceD [0]))
+                #print(cfg.get(_config.iniSections[2], _config.withoutIRD   [0]))
+                #print(cfg.get(_config.iniSections[2], _config.withoutLog   [0]))
+                #print(cfg.get(_config.iniSections[2], _config.withoutPVD   [0]))
+                #print("==========")
+                #print(bool(cfg.get(_config.iniSections[2], _config.withoutDB    [0])))
+                #print(bool(cfg.get(_config.iniSections[2], _config.withoutFaceD [0])))
+                #print(bool(cfg.get(_config.iniSections[2], _config.withoutIRD   [0])))
+                #print(bool(cfg.get(_config.iniSections[2], _config.withoutLog   [0])))
+                #print(bool(cfg.get(_config.iniSections[2], _config.withoutPVD   [0])))
+                #print("==========")
+
+    def StringToBool(self, _string):
+        return str(_string).lower() in ("1", "t", "true", "yes")
 
 def main(_docArgs): main = Main(_docArgs)
 if __name__ == "__main__":
