@@ -53,6 +53,7 @@ class InsertDatabase(mt):
             # before it pops.
             if len(self.mainArray) > 0:
 
+                log = ""
                 # Initiate empty JSON array.
                 jsonRaw = {}
                 # The cooked JSON array ready to be
@@ -89,6 +90,11 @@ class InsertDatabase(mt):
 
                 jsonRaw["utc"]      = firstElement[7] # Timezone.
 
+                # Ada everything into log.
+                log = log + self.config.clientName[2] + " - "
+                log = log + jsonRaw["year"] + jsonRaw["month"] + jsonRaw["day"] + " - "
+                log = log + jsonRaw["hour"] + jsonRaw["minutes"] + jsonRaw["second"] + " - "
+
                 # Next elements are the sensor data itself. So,
                 # here I try to parse the data from the index
                 # after 8 in firstElement. The first even index
@@ -112,6 +118,8 @@ class InsertDatabase(mt):
                     value = firstElement[index]
                     index = index + 1
                     jsonRaw[fieldName] = value
+
+                    log = log + fieldName + ": " + value + " "
 
                 # Cooked the JSON so that it is ready to be served
                 # to the database.
@@ -170,13 +178,14 @@ class InsertDatabase(mt):
                         self.db.table_create(tableName).run(self.conn)
                         self.table = self.db.table(tableName)
 
-                print(jsonCooked)
+                #print(jsonCooked)
+                if not self.config.withoutLog[2] : print(log)
 
                 # Pop the first element of the array!
                 self.mainArray.pop(0)
 
 # Function to initiating connection to database.
-def ConnDB(_config):
+def ConnDB(_config, _fromMainConnection):
 
     # Try to connecting to RethinkDB server.
     # If without_database flag is False and
@@ -206,7 +215,7 @@ def ConnDB(_config):
         # information stored.
 
         _db = r.db(_config.dbName[2])
-        if not _config.dbName[2] in r.db_list().run(_conn):
+        if not _config.dbName[2] in r.db_list().run(_conn) and _fromMainConnection:
             _db = r.db_create(_config.dbName[2]).run(_conn)
             _db = r.db(_config.dbName[2])
             print("database " + _config.dbName[2] + " does not exist")
@@ -227,3 +236,6 @@ def ConnDB(_config):
         # to database established or the user stopped
         # this application.
         self.ConnDB(_config, _conn, _db)
+
+# Python function to delete database.
+def DeleteDatabase():

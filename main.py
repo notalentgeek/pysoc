@@ -78,7 +78,8 @@ from    collection_function_value_manipulation_and_conversion   import GetValueF
 from    collection_function_value_manipulation_and_conversion   import StringToBool                     as stb                      # Function that convert string into boolean.
 from    config                                                  import Config                           as conf                     # Get access to the variables in shared.py.
 from    config                                                  import CreateConfig                     as cc                       # Function to create `config.ini` file.
-from    config                                                  import ShowConfigFile                   as showc                    # Function to see `config.ini`.
+from    config                                                  import ShowConfigFile                   as showcf                   # Function to see `config.ini`.
+from    config                                                  import ShowConfigRuntime                as showcr                   # Function to see run time variables.
 from    database                                                import ConnDB                           as cdb                      # Import the database inserter.
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
@@ -145,14 +146,17 @@ class Main(object):
 
         # Docopt arguments handlers.
         docoptControl = self.DocoptControl(docArgs, config, configAbsPath)
-        if not docoptControl[0] and not docoptControl[2]: showc(config, configAbsPath)
+        if not docoptControl[0] and not docoptControl[2]: showcf(config, configAbsPath)
 
         # Terminate the program right here if there is no start command
         # issued in CLI.
         if docoptControl[1]:
 
+            # Show run time variables.
+            showcr(config)
+
             # First I need to check if database will be used or not.
-            if config.withoutDB[0]: connDB = cdb(config)
+            if config.withoutDB[0]: connDB = cdb(config, True)
             # `connDB[0]` returns `True` if database connection is successful.
             if connDB != None:
                 if connDB[0]:
@@ -212,7 +216,7 @@ class Main(object):
     def DocoptControl(self, _docArgs, _config, _configAbsPath):
 
         # This variable need to be here so that `show --config`
-        # will not return twice `showc(_config, _configAbsPath)`.
+        # will not return twice `showcf(_config, _configAbsPath)`.
         configFileShown             = False
         # This variable is to indicate if this application will
         # continued into main infinite loop after Docopt CLI.
@@ -224,7 +228,7 @@ class Main(object):
 
             if _docArgs.get("--db"):
                 # Try to connect to database.
-                connDB = cdb(_config)
+                connDB = cdb(_config, False)
                 if connDB != None:
                     if connDB[0]:
 
@@ -251,7 +255,7 @@ class Main(object):
             else: ss(_docArgs, _config, _configAbsPath)
         if _docArgs.get("show") and _docArgs.get("--config"):
             configFileShown = True
-            showc(_config, _configAbsPath)
+            showcf(_config, _configAbsPath)
         if _docArgs.get("start"):
             # `start all-default` let user to
             # use default components (using all
