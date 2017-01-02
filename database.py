@@ -173,3 +173,50 @@ class InsertDatabase(mt):
 
                 # Pop the first element of the array!
                 self.mainArray.pop(0)
+
+# Function to initiating connection to database.
+def ConnDB(_config, _conn, _db):
+
+    # Try to connecting to RethinkDB server.
+    # If without_database flag is False and
+    # the connection from this application to
+    # the database failed then halt this
+    # program.
+    try:
+
+        # The default port to connect is the
+        # localhost "127.0.0.1" (in string).
+        # Whereas the default port for RethinkDB
+        # is 28015.
+        #
+        # In local you can run RethinkDB with
+        # using `rethinkdb` command from terminal.
+        # From hosted environment (like
+        # DigitalOcean) run RethinkDB using
+        # `rethinkdb --bind all` from SSH - ed
+        # terminal.
+        #
+        # Connect into database.
+        _conn = r.connect(
+            host=_config.dbAddress[2],
+            port=_config.dbPort[2])
+
+        # Pick which database to get its
+        # information stored.
+        _db = r.db(config.dbName[2])
+
+        # If connection success return True.
+        return True
+
+    except r.errors.ReqlDriverError as error:
+
+        # Print the error.
+        print("connection to database error with error code of " + error)
+        print("please check database")
+        print("or check database configuration from this application")
+        print("re - trying connection")
+
+        # Run this function again until the connection
+        # to database established or the user stopped
+        # this application.
+        self.ConnDB(_config, _conn, _db)
