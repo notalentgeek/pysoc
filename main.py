@@ -3,7 +3,7 @@
 Usage:
     main.py (--help | -h)
     main.py (--version | -v)
-    main.py reset
+    main.py reset [--db]
     main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--db|--faced|--ird|--log|--pvd)...
     main.py set all-default
     main.py show (--config)
@@ -25,7 +25,7 @@ Options:
     --dbp=<dbpv>        Refer to RethinkDB database port. Value is
                         a must, [default: 28015].
 
-    --config            Refer to config.ini in the root of this
+    --config            Refer to `config.ini` in the root of this
                         application.
     --db                Refer to RethinkDB database.
     --log               Refer to log that sends JSON document to
@@ -48,7 +48,7 @@ Options:
                         is necessary.
     reset               Set configuration values in .ini file to
                         their default values. This command also
-                        delete all database log and tables.
+                        delete database that is named in `config.ini`.
     set                 Command to set client name, database
                         configurations variables and component flags.
                         The component flags will reverse between
@@ -56,7 +56,7 @@ Options:
                         will be automatically `--save` into the
                         configuration file.
     set all-default     Command to write every default values
-                        (except config.firstRun) into the config.ini.
+                        (except config.firstRun) into the `config.ini`.
     show                To show something :D.
     start               Start this application with values from
                         the configuration file.
@@ -72,21 +72,22 @@ from    cli_1                                                   import StartAllD
 from    cli_1                                                   import StartSet                         as ss                       # Function for CLI `start set`.
 from    cli_1                                                   import StartWithout                     as sw                       # Function for CLI `start set`.
 from    cli_2                                                   import StartWizard                      as swi                      # Function for CLI `start wizard`.
-from    collection_function_value_manipulation_and_conversion   import AssignAllRTVConfig               as assignallrtvconfig       # Function that convert string into boolean.
 from    collection_function_value_manipulation_and_conversion   import AssignAllConfigDefault           as assignallconfigdefault   # Function that convert string into boolean.
+from    collection_function_value_manipulation_and_conversion   import AssignAllRTVConfig               as assignallrtvconfig       # Function that convert string into boolean.
+from    collection_function_value_manipulation_and_conversion   import GetValueFromConfig               as gvfc                     # Function to get value from `config.ini`.
 from    collection_function_value_manipulation_and_conversion   import StringToBool                     as stb                      # Function that convert string into boolean.
 from    config                                                  import Config                           as conf                     # Get access to the variables in shared.py.
-from    config                                                  import CreateConfig                     as cc                       # Function to create config.ini file.
-from    config                                                  import ShowConfigFile                   as showc                    # Function to see config.ini.
-from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
+from    config                                                  import CreateConfig                     as cc                       # Function to create `config.ini` file.
+from    config                                                  import ShowConfigFile                   as showc                    # Function to see `config.ini`.
 from    database                                                import ConnDB                           as cdb                      # Import the database inserter.
+from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
 
 import  configparser    as cfgp     # Import library to managing config.
 import  io                          # Import io library to deal with opening/writing config file.
 import  os                          # Import os Python library to deal with file management.
-import  rethinkdb       as r        # Python library for RethinkDB.
+import  rethinkdb       as r
 import  subprocess
 import  sys
 
@@ -99,17 +100,20 @@ class Main(object):
 
         #print(_docArgs)
 
-        docArgs             = _docArgs                              # Arguments supplied from Docopt.
+        docArgs                     = _docArgs                              # Arguments supplied from Docopt.
 
-        CONFIG_FILE_NAME    = "config.ini"                          # File name for the configuration file.
+        CONFIG_FILE_NAME            = "config.ini"                          # File name for the configuration file.
 
-        config              = conf()                                # Configuration variable.
-        configAbsPath       = os.path.join("./", CONFIG_FILE_NAME)  # Absolute path to the configuration file exist or not.
-        configFileShown     = False                                 # Variable to indicates if config.ini file has been shown or not.
-        conn                = None                                  # For holding information about the connection between this application and the database.
-        db                  = None                                  # For holding information about the database.
-        firstRun            = False                                 # Check if this application on its first time run (after reset).
-        threads             = []                                    # An empty array to hold all threading.Thread object.
+        config                      = conf()                                # Configuration variable.
+        configAbsPath               = os.path.join("./", CONFIG_FILE_NAME)  # Absolute path to the configuration file exist or not.
+        configFileShown             = False                                 # Variable to indicates if `config.ini` file has been shown or not.
+        conn                        = None                                  # For holding information about the connection between this application and the database.
+        connDB                      = None                                  # Return value from `cdb()`.
+        db                          = None                                  # For holding information about the database.
+        docoptControl               = None                                  # For holding CLI Docopt control.
+        firstRun                    = False                                 # Check if this application on its first time run (after reset).
+        continueProgramToMainLoop   = False                                 # If this is `True` then the program will go beyond CLI into main loop.
+        threads                     = []                                    # An empty array to hold all threading.Thread object.
 
         # Threads variables. You may ask on why I am not putting this directly
         # into the `threads` variable. The answer is because not every thread
@@ -121,7 +125,7 @@ class Main(object):
 
         # PENDING - 1, if this application `reset` but then the first run
         # is using `set` command then do not forget to set `first_run`
-        # parameter in the `config.ini` to False, because the setting had
+        # parameter in the ``config.ini`` to False, because the setting had
         # been set.
         #
         # I want to know the `type()` of `docArgs`.
@@ -140,34 +144,43 @@ class Main(object):
         assignallrtvconfig(config, configAbsPath)
 
         # Docopt arguments handlers.
-        if not self.DocoptControl(docArgs, config, configAbsPath): showc(config, configAbsPath)
+        docoptControl = self.DocoptControl(docArgs, config, configAbsPath)
+        if not docoptControl[0] and not docoptControl[2]: showc(config, configAbsPath)
 
-        # Initiates all necessary threads. Check if the
-        # config.withoutDatabase[2] is True. If it is True
-        # then do not initiate iDB variable.
-        #
-        # iDB variable is used for a buffer for every value
-        # that will be inserted into database.
-        #if not config.withoutDB[3]:
-        #    # Connect to database.
-        #    cdb(config, conn, db)
-        #    # Add database insertion object.
-        #    iDB = idb("IDB_1", threads, database,
-        #        conn, config)
+        # Terminate the program right here if there is no start command
+        # issued in CLI.
+        if docoptControl[1]:
 
-        #if not config.withoutFaceD[3]:
-        #    cFD = cfd("CFD_1", threads, iDB)
+            # First I need to check if database will be used or not.
+            if config.withoutDB[0]: connDB = cdb(config)
+            # `connDB[0]` returns `True` if database connection is successful.
+            if connDB != None:
+                if connDB[0]:
+                    db      = connDB[1]
+                    conn    = connDB[2]
 
-        #if not config.withoutPVD[3]:
-        #    mPVD = mpvd("MPVD_1", threads, iDB)
+            #print(config.withoutDB         [2])
+            #print(config.withoutFaceD      [2])
+            #print(config.withoutPVD        [2])
+            #print(stb(config.withoutDB     [2]))
+            #print(stb(config.withoutFaceD  [2]))
+            #print(stb(config.withoutPVD    [2]))
+            #
+            # In any case `iDB` will still be instantiated.
+            # Only the database connection will not be used
+            # in case of `config.withoutDB[2]` is `True.`
+            iDB = idb("IDB_1", threads, config, config.withoutDB[2], db, conn)
 
-        # Then run all available threads.
-        #for t in threads: t.start()
+            if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB)
+            if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB)
 
-        #Infinite loop.
-        #while True:
+            # Then run all available threads.
+            for t in threads: t.start()
 
-        #    self.Update(threads)
+            #Infinite loop.
+            while True:
+
+                self.Update(threads)
 
     # Function to loop.
     def Update(self, _threads):
@@ -185,7 +198,7 @@ class Main(object):
 
             print(error)
             print("quitting application")
-            for t in threads:
+            for t in _threads:
 
                 t.killMe = True
                 # This is dangerous better find another
@@ -200,9 +213,39 @@ class Main(object):
 
         # This variable need to be here so that `show --config`
         # will not return twice `showc(_config, _configAbsPath)`.
-        configFileShown = False
+        configFileShown             = False
+        # This variable is to indicate if this application will
+        # continued into main infinite loop after Docopt CLI.
+        continueProgramToMainLoop   = False
+        # If `config.ini` is deleted or not.
+        deletedConfig               = False
 
-        if _docArgs.get("reset"): print("reset")
+        if _docArgs.get("reset"):
+
+            if _docArgs.get("--db"):
+                # Try to connect to database.
+                connDB = cdb(_config)
+                if connDB != None:
+                    if connDB[0]:
+
+                        conn = connDB[2]
+                        # Delete all tables. But first get all table list.
+                        dbNameFromConfig = str(gvfc(_configAbsPath, _config.iniSections[0], _config.dbName[0]))
+                        try:
+                            r.db_drop(dbNameFromConfig).run(conn)
+                            print("database deleted")
+                        except r.errors.ReqlOpFailedError as error: print("database does not exists")
+
+
+            # For reset we need to get connection to database to delete all table
+            # and also to delete the config.ini file in the root of this project
+            # directory.
+            #
+            # Delete config.ini file.
+            os.remove(_configAbsPath)
+            deletedConfig = True
+            print("config.ini deleted")
+
         if _docArgs.get("set"):
             if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
             else: ss(_docArgs, _config, _configAbsPath)
@@ -217,13 +260,16 @@ class Main(object):
             if _docArgs.get("all-default"): sad(_docArgs, _config, _configAbsPath)
             # `start without` command let user specify
             # which components to use and which ones not
-            # to use. The rest is taken from the config.ini.
+            # to use. The rest is taken from the `config.ini`.
             elif _docArgs.get("without"): sw(_docArgs, _config, _configAbsPath)
             # If this is first run then every time
             # this application launches go to here.
             elif _docArgs.get("wizard"): swi(_config, _configAbsPath)
 
-        return configFileShown
+            # If `start` is used this application will go into main loop.
+            continueProgramToMainLoop = True
+
+        return [configFileShown, continueProgramToMainLoop, deletedConfig]
 
 def main(_docArgs): main = Main(_docArgs)
 if __name__ == "__main__":

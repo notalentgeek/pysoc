@@ -36,7 +36,7 @@ class MicPVDetect(mt):
     # insertion. Thus, data from every other
     # input device are queued beautifully into
     # the database.
-    def __init__(self, _threadName, _array, _insertDatabase):
+    def __init__(self, _threadName, _array, _iDB):
 
         # Append this object into the array
         # that holds all thread (excluding the
@@ -56,7 +56,7 @@ class MicPVDetect(mt):
             _threadName)
 
         # Database object.
-        self.insertDatabase = _insertDatabase
+        self.iDB = _iDB
 
         # Some constants. I honestly not sure what does
         # what. I get this number from issue I post in
@@ -109,8 +109,6 @@ class MicPVDetect(mt):
         # class that is mt in this class. ModThread is
         # the super class of this class.
         while self.killMe == False:
-
-            #print("test")
 
             # Update the timer.
             self.tSC.Update()
@@ -173,9 +171,10 @@ class MicPVDetect(mt):
         # object mainArray. Every elements in the mainArray
         # in the insert database object will automatically
         # popped and then put into the database.
-        self.insertDatabase.mainArray.append(
-            self.SetupStringForDatabase(pitch,
-                volume))
+        if self.iDB != None:
+            self.iDB.mainArray.append(
+                self.SetupStringForDatabase(pitch,
+                    volume))
 
         #print(pitch)
         #print(volume)

@@ -1,6 +1,6 @@
-from mod_thread import ModThread as mt
-from timer_second_change import TimerSecondChange as tsc
-import cv2
+from        mod_thread          import ModThread            as mt
+from        timer_second_change import TimerSecondChange    as tsc
+import      cv2
 
 class CamFaceDetect(mt):
 
@@ -52,7 +52,7 @@ class CamFaceDetect(mt):
         self.casc = cv2.CascadeClassifier(CASC_PATH)
 
         # All the properties of the face(s) detected.
-        self.faces = None
+        self.faces = []
         # Frame captured from connected cam.
         self.frame = None
 
@@ -111,9 +111,9 @@ class CamFaceDetect(mt):
             self.faceCnt = self.FACE_DTCT_THRS
             self.faceDtct = True
         if self.faceDtct == True:
-            self.iDB.mainArray.append(
-                self.SetupStringForDB(str(len(self.faces))))
-            #print("self.faces = " + str(len(self.faces)))
+            if self.iDB != None:
+                self.iDB.mainArray.append(self.SetupStringForDB(str(len(self.faces))))
+                #print("self.faces = " + str(len(self.faces)))
 
         # Draw rectangle around the faces.
         #for(x, y, w, h) in self.faces:
@@ -140,7 +140,7 @@ class CamFaceDetect(mt):
         #print(len(self.faces))
 
         # Draw rectangle around the faces.
-        if self.faces != None:
+        if len(self.faces) > 0:
             for(x, y, w, h) in self.faces:
                 cv2.rectangle(
                     self.frame,

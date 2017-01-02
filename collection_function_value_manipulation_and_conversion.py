@@ -4,7 +4,7 @@
 import configparser as cfgp
 
 # Function to assign all default values into
-# config.ini.
+# `config.ini`.
 def AssignAllConfigDefault(_docArgs, _config, _configAbsPath):
 
     def SaveValueMod0(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 0, _configEntryName, _value)
@@ -20,7 +20,7 @@ def AssignAllConfigDefault(_docArgs, _config, _configAbsPath):
     SaveValueMod2(_config.withoutPVD  [0], _config.withoutPVD     [1])
 
 # Function to assign all configuration variables from
-# config.ini into run time variables.
+# `config.ini` into run time variables.
 def AssignAllRTVConfig(_config, _configAbsPath):
 
     # Read the configuration file.
@@ -45,7 +45,7 @@ def AssignAllRTVDefault(_config):
 
     # The index no `2` is the runtime value.
     # While the index no `1` is the default
-    # value. The index `0` is the config.ini
+    # value. The index `0` is the `config.ini`
     # sub - section entry name.
     _config.clientName[2]   = _config.clientName[1]
     _config.dbAddress[2]    = _config.dbAddress[1]
@@ -57,7 +57,7 @@ def AssignAllRTVDefault(_config):
     _config.withoutLog[2]   = _config.withoutLog[1]
     _config.withoutPVD[2]   = _config.withoutPVD[1]
 
-# Function to get value from config.ini.
+# Function to get value from `config.ini`.
 def GetValueFromConfig(_configAbsPath, _sectionName, _variableName):
     cfg = cfgp.ConfigParser()
     cfg.read(_configAbsPath)

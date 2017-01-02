@@ -55,7 +55,7 @@ class Main(object):
 
         docArgs             = _docArgs                              # Arguments supplied from Docopt.
 
-        CONFIG_FILE_NAME    = "config.ini"                          # File name for the configuration file.
+        CONFIG_FILE_NAME    = "`config.ini`"                          # File name for the configuration file.
 
         config              = conf()                                # Configuration variable.
         configAbsPath       = os.path.join("./", CONFIG_FILE_NAME)  # Absolute path to the configuration file exist or not.
@@ -65,7 +65,7 @@ class Main(object):
 
         # PENDING - 1, If this application reset but then the first run
         # is to using `set` command then set do not forget to set `first_run`
-        # parameter in the `config.ini` to False, because the setting had
+        # parameter in the ``config.ini`` to False, because the setting had
         # been set.
         #
         # I want to know the `type()` of `docArgs`.
@@ -93,7 +93,7 @@ class Main(object):
     # Function to assign value to the run - time configuration variables.
     def AssignConfig(self, _config, _configAbsPath):
 
-    # Function to create config.ini at this program root directory.
+    # Function to create `config.ini` at this program root directory.
     def CreateConfig(self):
 
     # Function to initiating connection to database.

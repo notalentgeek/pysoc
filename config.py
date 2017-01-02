@@ -31,7 +31,7 @@ class Config(object):
         self.withoutLog     = ["without_log"                    , "False"               , None]
         self.withoutPVD     = ["without_pitch_volume_detection" , "False"               , None]
 
-# Function to create config.ini at this program root directory.
+# Function to create `config.ini` at this program root directory.
 def CreateConfig(_config, _configAbsPath):
 
     # Create configuration file using FileIO.
@@ -65,7 +65,7 @@ def ShowConfigFile(_config, _configAbsPath):
 
     def GetValueFromConfigMod(_sectionName, _variableName): return gvfc(_configAbsPath, _sectionName, _variableName)
 
-    print("values from config.ini.")
+    print("values from `config.ini`.")
     print("client name                              : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.clientName      [0])))
     print("database address                         : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.dbAddress       [0])))
     print("database name                            : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.dbName          [0])))

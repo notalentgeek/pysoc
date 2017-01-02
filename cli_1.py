@@ -54,7 +54,7 @@ def StartSet(_docArgs, _config, _configAbsPath):
         # to invert the value.
         changedValue = not currentValueInConfigFile
         # After I invert the value I need to write the value
-        # back into config.ini file.
+        # back into `config.ini` file.
         SaveValueMod2(_config.withoutDB[0], changedValue)
         #print(currentValueInConfigFile)
         #print(changedValue)

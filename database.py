@@ -17,10 +17,8 @@ class InsertDatabase(mt):
     # to _db. So, the _db class is the database information,
     # while the _conn is the variable that hold connection
     # between this program and the database.
-    def __init__(self, _threadName, _array,
-        _db, _conn, _config):
-
-        #print(type(_array))
+    def __init__(self, _threadName,
+        _array, _config, _withoutDB, _db, _conn):
 
         # Append this array into database.
         _array.append(self)
@@ -32,10 +30,10 @@ class InsertDatabase(mt):
 
         # Class wide variables that hold reference to
         # the connected database.
-        self.db = _db
-        self.conn = _conn
-        # Shared variables.
-        self.config = _config
+        self.config             = _config
+        self.withoutDB          = _withoutDB
+        self.db                 = _db
+        self.conn               = _conn
         # Specifically for table, it will be checked and
         # generated from this class if the destined table
         # is not exists yet.
@@ -73,7 +71,7 @@ class InsertDatabase(mt):
                 # are the cam and microphone.
                 sensorSource = firstElement[0]
                 # The table name of which data should be stored.
-                tableName = self.config.cfgClientName + "_" + sensorSource
+                tableName = self.config.clientName[2] + "_" + sensorSource
 
                 # The next elements after the first elements
                 # are for time stamps. I am making it with
@@ -122,52 +120,55 @@ class InsertDatabase(mt):
                 # format it again so that it become dictionary.
                 jsonCookedAgain = json.loads(jsonCooked)
 
-                # Check if the target table is exist in the
-                # database. If the target table is not exist
-                # then create a new table.
-                #
-                # On, 23rd December 2016 there is a problem
-                # that the read request to the database is
-                # getting exponentially higher over times.
-                # After commenting right there and here the
-                # culprit is this try catch statement below.
-                #
-                # The problem here is that I need to check
-                # if a table exist or not by using these codes
-                # self.db.table(tableName).run(self.conn).
-                # However, those codes makes the exponentially
-                # increase read request over time. In the other
-                # hand I need to know if the table is exists or
-                # not without using the connection codes.
-                #
-                # The solution is to do try checking when a
-                # document inserted. And not to do try checking
-                # if a table is exists.
-                try:
+                # Only use this `try` and `except` if only
+                # `self.withoutDB` is `False`.
+                if not self.withoutDB:
+                    # Check if the target table is exist in the
+                    # database. If the target table is not exist
+                    # then create a new table.
+                    #
+                    # On, 23rd December 2016 there is a problem
+                    # that the read request to the database is
+                    # getting exponentially higher over times.
+                    # After commenting right there and here the
+                    # culprit is this try catch statement below.
+                    #
+                    # The problem here is that I need to check
+                    # if a table exist or not by using these codes
+                    # self.db.table(tableName).run(self.conn).
+                    # However, those codes makes the exponentially
+                    # increase read request over time. In the other
+                    # hand I need to know if the table is exists or
+                    # not without using the connection codes.
+                    #
+                    # The solution is to do try checking when a
+                    # document inserted. And not to do try checking
+                    # if a table is exists.
+                    try:
 
-                    #self.db.table(tableName).run(self.conn)
-                    self.table = self.db.table(tableName)
-                    # Insert the jsonCookedAgain into the database.
-                    # The fix to exponentially higher is to do try
-                    # statement for the insert database instead of
-                    # checking the connection.
-                    dataInserted = self.table.insert(jsonCookedAgain).run(self.conn)
+                        #self.db.table(tableName).run(self.conn)
+                        self.table = self.db.table(tableName)
+                        # Insert the jsonCookedAgain into the database.
+                        # The fix to exponentially higher is to do try
+                        # statement for the insert database instead of
+                        # checking the connection.
+                        dataInserted = self.table.insert(jsonCookedAgain).run(self.conn)
 
-                    #print(dataInserted)
-                    #print(self.table)
+                        #print(dataInserted)
+                        #print(self.table)
 
-                except r.ReqlOpFailedError as error:
+                    except r.ReqlOpFailedError as error:
 
-                    print(
-                        "Table for " +
-                        self.config.cfgClientName +
-                        " to store " +
-                        sensorSource +
-                        " data does not exist."
-                    )
-                    print("Creating " + tableName + " table.")
-                    self.db.table_create(tableName).run(self.conn)
-                    self.table = self.db.table(tableName)
+                        print(
+                            "table for " +
+                            self.config.clientName[2] +
+                            " to store " +
+                            sensorSource +
+                            " data does not exist."
+                        )
+                        print("Creating " + tableName + " table.")
+                        self.db.table_create(tableName).run(self.conn)
+                        self.table = self.db.table(tableName)
 
                 print(jsonCooked)
 
@@ -175,7 +176,7 @@ class InsertDatabase(mt):
                 self.mainArray.pop(0)
 
 # Function to initiating connection to database.
-def ConnDB(_config, _conn, _db):
+def ConnDB(_config):
 
     # Try to connecting to RethinkDB server.
     # If without_database flag is False and
@@ -203,10 +204,16 @@ def ConnDB(_config, _conn, _db):
 
         # Pick which database to get its
         # information stored.
-        _db = r.db(config.dbName[2])
 
-        # If connection success return True.
-        return True
+        _db = r.db(_config.dbName[2])
+        if not _config.dbName[2] in r.db_list().run(_conn):
+            _db = r.db_create(_config.dbName[2]).run(_conn)
+            _db = r.db(_config.dbName[2])
+            print("database " + _config.dbName[2] + " does not exist")
+            print("creating database " + _config.dbName[2])
+
+        # If connection success return True and the database.
+        return [True, _db, _conn]
 
     except r.errors.ReqlDriverError as error:
 
