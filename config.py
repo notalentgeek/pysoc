@@ -5,6 +5,7 @@ from    collection_function_value_manipulation_and_conversion import GetValueFro
 
 import  configparser as cfgp
 import  io
+import  os
 
 class Config(object):
 
@@ -59,6 +60,17 @@ def CreateConfig(_config, _configAbsPath):
 
     cfgRaw.write(cfg)
     cfg.close()
+
+# Function to delete `config.ini`.
+def DeleteConfig(_configAbsPath):
+
+    # Delete config.ini file.
+    os.remove(_configAbsPath)
+    deletedConfig = True
+    print("config.ini deleted")
+
+    return deletedConfig
+
 
 # Function to simply print real - time configuration values.
 def ShowConfigFile(_config, _configAbsPath):

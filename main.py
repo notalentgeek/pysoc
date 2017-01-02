@@ -78,9 +78,11 @@ from    collection_function_value_manipulation_and_conversion   import GetValueF
 from    collection_function_value_manipulation_and_conversion   import StringToBool                     as stb                      # Function that convert string into boolean.
 from    config                                                  import Config                           as conf                     # Get access to the variables in shared.py.
 from    config                                                  import CreateConfig                     as cc                       # Function to create `config.ini` file.
+from    config                                                  import DeleteConfig                     as dc                       # Function to delete `config.ini`.
 from    config                                                  import ShowConfigFile                   as showcf                   # Function to see `config.ini`.
 from    config                                                  import ShowConfigRuntime                as showcr                   # Function to see run time variables.
 from    database                                                import ConnDB                           as cdb                      # Import the database inserter.
+from    database                                                import DeleteDatabase                   as dd                       # Function to delete database.
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
@@ -225,31 +227,12 @@ class Main(object):
         deletedConfig               = False
 
         if _docArgs.get("reset"):
-
-            if _docArgs.get("--db"):
-                # Try to connect to database.
-                connDB = cdb(_config, False)
-                if connDB != None:
-                    if connDB[0]:
-
-                        conn = connDB[2]
-                        # Delete all tables. But first get all table list.
-                        dbNameFromConfig = str(gvfc(_configAbsPath, _config.iniSections[0], _config.dbName[0]))
-                        try:
-                            r.db_drop(dbNameFromConfig).run(conn)
-                            print("database deleted")
-                        except r.errors.ReqlOpFailedError as error: print("database does not exists")
-
-
             # For reset we need to get connection to database to delete all table
             # and also to delete the config.ini file in the root of this project
             # directory.
-            #
-            # Delete config.ini file.
-            os.remove(_configAbsPath)
-            deletedConfig = True
-            print("config.ini deleted")
-
+            if _docArgs.get("--db"): dd(_config, _configAbsPath)
+            # Delete the `config.ini` and then give `True` into the `deletedConfig`.
+            deletedConfig = dc(_configAbsPath)
         if _docArgs.get("set"):
             if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
             else: ss(_docArgs, _config, _configAbsPath)

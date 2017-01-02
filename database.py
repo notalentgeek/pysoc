@@ -2,7 +2,8 @@
 # ModThread is just a threading.Thread class
 # with some additional variables that necessary
 # specifically for this program.
-from mod_thread import ModThread as mt
+from collection_function_value_manipulation_and_conversion import GetValueFromConfig as gvfc
+from mod_thread                                            import ModThread          as mt
 
 # Import Python json library for JSON manipulation.
 import json
@@ -238,4 +239,17 @@ def ConnDB(_config, _fromMainConnection):
         self.ConnDB(_config, _conn, _db)
 
 # Python function to delete database.
-def DeleteDatabase():
+def DeleteDatabase(_config, _configAbsPath):
+
+    # Try to connect to database.
+    connDB = ConnDB(_config, False)
+    if connDB != None:
+        if connDB[0]:
+
+            conn = connDB[2]
+            # Delete all tables. But first get all table list.
+            dbNameFromConfig = str(gvfc(_configAbsPath, _config.iniSections[0], _config.dbName[0]))
+            try:
+                r.db_drop(dbNameFromConfig).run(conn)
+                print("database deleted")
+            except r.errors.ReqlOpFailedError as error: print("database does not exists")

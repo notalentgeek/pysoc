@@ -18,8 +18,6 @@ def StartAllDefault(_docArgs, _config, _configAbsPath):
     assignallrtvdefault(_config)
     if _docArgs.get("--save"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
 
-# Python function to `main.py reset`.
-
 # A Python function for `main.py set` CLI interface.
 def StartSet(_docArgs, _config, _configAbsPath):
 
