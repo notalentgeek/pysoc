@@ -34,7 +34,7 @@ class CamFaceDetect(mt):
         # Constant for database.
         self.MODULE_NAME = "cam"
         # Path to cascade pattern.
-        CASC_PATH = "./cascade-face-front-default.xml"
+        CASC_PATH = "./cascade_face_front_default.xml"
 
         # Variables for better face detection.
         self.faceCnt = 0

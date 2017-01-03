@@ -2,6 +2,8 @@
 /__pycache__
 /build
 /cv2.so
+/dist/config.ini
+/dist/log
 /log
 /rethinkdb_data
 config.ini

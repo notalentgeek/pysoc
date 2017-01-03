@@ -72,6 +72,7 @@ Options:
 """
 
 from    cam                                                     import CamFaceDetect                    as cfd                      # Import the face detection object.
+from    cascade_front_face_default                              import cascadeFrontFaceDefault          as ccfd                     # Cascade .xml string.
 from    cli_1                                                   import StartAllDefault                  as sad                      # Function for CLI `start all-deafult`
 from    cli_1                                                   import StartSet                         as ss                       # Function for CLI `start set`.
 from    cli_1                                                   import StartWithout                     as sw                       # Function for CLI `start set`.
@@ -110,23 +111,25 @@ class Main(object):
 
         #print(_docArgs)
 
-        docArgs                     = _docArgs                              # Arguments supplied from Docopt.
+        docArgs                     = _docArgs                                          # Arguments supplied from Docopt.
 
-        CONFIG_FILE_NAME            = "config.ini"                          # File name for the configuration file.
+        CASCADE_FRONT_FACE_DEF_NAME = "cascade_face_front_default.xml"                  # Cascade file name.
+        CONFIG_FILE_NAME            = "config.ini"                                      # File name for the configuration file.
         LOG_FOLDER_NAME             = "log"
 
-        config                      = conf()                                # Configuration variable.
-        configAbsPath               = os.path.join("./", CONFIG_FILE_NAME)  # Absolute path to the configuration file exist or not.
-        configFileShown             = False                                 # Variable to indicates if `config.ini` file has been shown or not.
-        conn                        = None                                  # For holding information about the connection between this application and the database.
-        connDB                      = None                                  # Return value from `cdb()`.
-        continueProgramToMainLoop   = False                                 # If this is `True` then the program will go beyond CLI into main loop.
-        db                          = None                                  # For holding information about the database.
-        docoptControl               = None                                  # For holding CLI Docopt control.
-        firstRun                    = False                                 # Check if this application on its first time run (after reset).
-        logAbsPath                  = None                                  # Absolute path into current `log.txt`.
-        logFolderAbsPath            = os.path.join("./", LOG_FOLDER_NAME)   # Absolute path into the `log` folder.
-        threads                     = []                                    # An empty array to hold all threading.Thread object.
+        cascAbsPath                 = os.path.join("./", CASCADE_FRONT_FACE_DEF_NAME)
+        config                      = conf()                                            # Configuration variable.
+        configAbsPath               = os.path.join("./", CONFIG_FILE_NAME)              # Absolute path to the configuration file exist or not.
+        configFileShown             = False                                             # Variable to indicates if `config.ini` file has been shown or not.
+        conn                        = None                                              # For holding information about the connection between this application and the database.
+        connDB                      = None                                              # Return value from `cdb()`.
+        continueProgramToMainLoop   = False                                             # If this is `True` then the program will go beyond CLI into main loop.
+        db                          = None                                              # For holding information about the database.
+        docoptControl               = None                                              # For holding CLI Docopt control.
+        firstRun                    = False                                             # Check if this application on its first time run (after reset).
+        logAbsPath                  = None                                              # Absolute path into current `log.txt`.
+        logFolderAbsPath            = os.path.join("./", LOG_FOLDER_NAME)               # Absolute path into the `log` folder.
+        threads                     = []                                                # An empty array to hold all threading.Thread object.
 
         # Threads variables. You may ask on why I am not putting this directly
         # into the `threads` variable. The answer is because not every thread
@@ -136,11 +139,12 @@ class Main(object):
         iDB     = None
         mPVD    = None
 
-        # PENDING - 1, if this application `reset` but then the first run
-        # is using `set` command then do not forget to set `first_run`
-        # parameter in the ``config.ini`` to False, because the setting had
-        # been set.
-        #
+        # Generate the cascade .xml for front face detection.
+        if not os.path.exists(cascAbsPath):
+            io.FileIO(cascAbsPath, "w")
+            with open(cascAbsPath, "a") as cascXML:
+                cascXML.write(ccfd)
+
         # I want to know the `type()` of `docArgs`.
         #print(type(docArgs))
         # `docArgs` is apparently a native Python dictionary type data.
