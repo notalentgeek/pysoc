@@ -144,6 +144,7 @@ class Main(object):
             io.FileIO(cascAbsPath, "w")
             with open(cascAbsPath, "a") as cascXML:
                 cascXML.write(ccfd)
+            print("cascade file created")
 
         # I want to know the `type()` of `docArgs`.
         #print(type(docArgs))
