@@ -148,3 +148,6 @@ def StartWizard(_config, _configAbsPath):
     InputBoolModLog             ()
     InputBoolModPVD             ()
     InputSave                   ()
+
+    # Set `firstRun` variable into `False`.
+    return False

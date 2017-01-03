@@ -267,6 +267,8 @@ class Main(object):
         continueProgramToMainLoop   = False
         # If `config.ini` is deleted or not.
         deletedConfig               = False
+        # Get `first_run` value from `config.ini`.
+        firstRun                    = stb(gvfc(_configAbsPath, _config.iniSections[1], _config.firstRun[0]))
 
         if _docArgs.get("reset"):
             # For reset we need to get connection to database to delete all table
@@ -276,24 +278,36 @@ class Main(object):
             # Delete the `config.ini` and then give `True` into the `deletedConfig`.
             deletedConfig = dc(_configAbsPath)
         if _docArgs.get("set"):
-            if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
-            else: ss(_docArgs, _config, _configAbsPath)
+            if firstRun:
+                cfgRaw = cfgp.ConfigParser()
+                cfgRaw.read(_configAbsPath)
+                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(swi(_config, _configAbsPath)))
+                with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
+            else:
+                if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
+                else: ss(_docArgs, _config, _configAbsPath)
         if _docArgs.get("show") and _docArgs.get("--config"):
             configFileShown = True
             showcf(_config, _configAbsPath)
         if _docArgs.get("start"):
-            # `start all-default` let user to
-            # use default components (using all
-            # inputs and detections). And as well
-            # as database setting variables.
-            if _docArgs.get("all-default"): sad(_docArgs, _config, _configAbsPath)
-            # `start without` command let user specify
-            # which components to use and which ones not
-            # to use. The rest is taken from the `config.ini`.
-            elif _docArgs.get("without"): sw(_docArgs, _config, _configAbsPath)
-            # If this is first run then every time
-            # this application launches go to here.
-            elif _docArgs.get("wizard"): swi(_config, _configAbsPath)
+            if firstRun:
+                cfgRaw = cfgp.ConfigParser()
+                cfgRaw.read(_configAbsPath)
+                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(swi(_config, _configAbsPath)))
+                with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
+            else:
+                # `start all-default` let user to
+                # use default components (using all
+                # inputs and detections). And as well
+                # as database setting variables.
+                if _docArgs.get("all-default"): sad(_docArgs, _config, _configAbsPath)
+                # `start without` command let user specify
+                # which components to use and which ones not
+                # to use. The rest is taken from the `config.ini`.
+                elif _docArgs.get("without"): sw(_docArgs, _config, _configAbsPath)
+                # If this is first run then every time
+                # this application launches go to here.
+                elif _docArgs.get("wizard"): swi(_config, _configAbsPath)
 
             # If `start` is used this application will go into main loop.
             continueProgramToMainLoop = True

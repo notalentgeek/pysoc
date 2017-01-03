@@ -1,0 +1,5 @@
+clientTest-20170103-032214-(pitch:0.0)(volume:0.000013)
+clientTest-20170103-032215-(pitch:0.0)(volume:0.000006)
+clientTest-20170103-032216-(pitch:0.0)(volume:0.000018)
+clientTest-20170103-032217-(pitch:0.0)(volume:0.000015)
+clientTest-20170103-032218-(pitch:646.992)(volume:0.000148)
