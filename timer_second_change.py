@@ -1,6 +1,6 @@
 # tzlocal is a Python library to get UTC timezone.
-from tzlocal import get_localzone
-import datetime as dt
+from    tzlocal     import  get_localzone
+import  datetime    as      dt
 
 # TLDR, object to help executes codes once every
 # second.
@@ -102,7 +102,7 @@ class TimerSecondChange(object):
         # Always update the current date and time. This variable
         # will be taken into the Thread that is attached by this class
         # for database document entry.
-        self.dateTime = self.GetDateTime()
+        self.dateTime = GetDateTime()
         # Always check and update the current second.
         self.currentSecond = int(self.dateTime[5])
 
@@ -116,3 +116,41 @@ class TimerSecondChange(object):
         # to be equal with the current second.
         if self.changeSecond:
             self.storedSecond = self.currentSecond
+
+# Function to get current date and time in an array.
+# This function returns very useful array to be sent
+# into database. Only the sec part is useful to this class.
+def GetDateTime():
+
+    # Set up those strings.
+    #
+    # Date and time.
+    dateTime    = str(dt.datetime.utcnow()).split(".")[0]
+    date        = str(dateTime).split(" ")[0]
+    time        = str(dateTime).split(" ")[1]
+    year        = str(date).split("-")[0]
+    month       = str(date).split("-")[1]
+    day         = str(date).split("-")[2]
+    hour        = str(time).split(":")[0]
+    minu        = str(time).split(":")[1]
+    sec         = str(time).split(":")[2]
+
+    #print(sec)
+
+    # UTC time zone (without DST). This will return time zone.
+    # Hence, all time mentioned here is without local
+    # timezone (no DST, summer time, ...).
+    utc = str(get_localzone()).lower()
+
+    # Setup array to be returned.
+    returnArray = [
+        year,
+        month,
+        day,
+        hour,
+        minu,
+        sec,
+        utc
+    ]
+
+    return returnArray

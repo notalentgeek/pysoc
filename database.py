@@ -19,7 +19,8 @@ class InsertDatabase(mt):
     # while the _conn is the variable that hold connection
     # between this program and the database.
     def __init__(self, _threadName,
-        _array, _config, _withoutDB, _db, _conn):
+        _array, _config, _withoutDB,
+        _db, _conn, _logAbsPath):
 
         # Append this array into database.
         _array.append(self)
@@ -35,6 +36,7 @@ class InsertDatabase(mt):
         self.withoutDB          = _withoutDB
         self.db                 = _db
         self.conn               = _conn
+        self.logAbsPath         = _logAbsPath
         # Specifically for table, it will be checked and
         # generated from this class if the destined table
         # is not exists yet.
@@ -92,9 +94,9 @@ class InsertDatabase(mt):
                 jsonRaw["utc"]      = firstElement[7] # Timezone.
 
                 # Ada everything into log.
-                log = log + self.config.clientName[2] + " - "
-                log = log + jsonRaw["year"] + jsonRaw["month"] + jsonRaw["day"] + " - "
-                log = log + jsonRaw["hour"] + jsonRaw["minutes"] + jsonRaw["second"] + " - "
+                log = log + self.config.clientName[2] + "-"
+                log = log + jsonRaw["year"] + jsonRaw["month"] + jsonRaw["day"] + "-"
+                log = log + jsonRaw["hour"] + jsonRaw["minutes"] + jsonRaw["second"] + "-"
 
                 # Next elements are the sensor data itself. So,
                 # here I try to parse the data from the index
@@ -120,7 +122,7 @@ class InsertDatabase(mt):
                     index = index + 1
                     jsonRaw[fieldName] = value
 
-                    log = log + fieldName + ": " + value + " "
+                    log = log + "(" + fieldName + ":" + value + ")"
 
                 # Cooked the JSON so that it is ready to be served
                 # to the database.
@@ -181,6 +183,10 @@ class InsertDatabase(mt):
 
                 #print(jsonCooked)
                 if not self.config.withoutLog[2] : print(log)
+
+                # Write the log value into log file.
+                with open(self.logAbsPath, "a") as logTxt:
+                    logTxt.write(log + "\n")
 
                 # Pop the first element of the array!
                 self.mainArray.pop(0)

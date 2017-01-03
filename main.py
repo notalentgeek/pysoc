@@ -28,8 +28,9 @@ Options:
     --config            Refer to `config.ini` in the root of this
                         application.
     --db                Refer to RethinkDB database.
-    --log               Refer to log that sends JSON document to
-                        database.
+    --log               Refer to log that prints JSON document to
+                        database. Log still written in `./log/` at
+                        any case.
 
     --cam               Refer to cam/webcam.
     --ir                Refer to IR.
@@ -86,13 +87,16 @@ from    database                                                import DeleteDat
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
+from    timer_second_change                                     import GetDateTime                      as gdt                      # Function to get date, time, and time zone as well.
 
 import  configparser    as cfgp     # Import library to managing config.
+import  datetime        as dt       # To know operating system current time.
 import  io                          # Import io library to deal with opening/writing config file.
 import  os                          # Import os Python library to deal with file management.
-import  rethinkdb       as r
-import  subprocess
+import  rethinkdb       as r        # RethinkDB controller for Python.
+import  subprocess                  # Getting access to subprocess to run command into command prompt or terminal.
 import  sys
+import  tzlocal                     # For getting information about time zone.
 
 class Main(object):
 
@@ -106,16 +110,19 @@ class Main(object):
         docArgs                     = _docArgs                              # Arguments supplied from Docopt.
 
         CONFIG_FILE_NAME            = "config.ini"                          # File name for the configuration file.
+        LOG_FOLDER_NAME             = "log"
 
         config                      = conf()                                # Configuration variable.
         configAbsPath               = os.path.join("./", CONFIG_FILE_NAME)  # Absolute path to the configuration file exist or not.
         configFileShown             = False                                 # Variable to indicates if `config.ini` file has been shown or not.
         conn                        = None                                  # For holding information about the connection between this application and the database.
         connDB                      = None                                  # Return value from `cdb()`.
+        continueProgramToMainLoop   = False                                 # If this is `True` then the program will go beyond CLI into main loop.
         db                          = None                                  # For holding information about the database.
         docoptControl               = None                                  # For holding CLI Docopt control.
         firstRun                    = False                                 # Check if this application on its first time run (after reset).
-        continueProgramToMainLoop   = False                                 # If this is `True` then the program will go beyond CLI into main loop.
+        logAbsPath                  = None                                  # Absolute path into current `log.txt`.
+        logFolderAbsPath            = os.path.join("./", LOG_FOLDER_NAME)   # Absolute path into the `log` folder.
         threads                     = []                                    # An empty array to hold all threading.Thread object.
 
         # Threads variables. You may ask on why I am not putting this directly
@@ -157,6 +164,41 @@ class Main(object):
             # Show run time variables.
             showcr(config)
 
+            # Create log folder here. Check if there something
+            # in the `logFolderAbsPath`.
+            if os.path.exists(logFolderAbsPath):
+
+                # If there is something exists then check if the
+                # thing is a folder or not. If the thing is not
+                # a folder then create new folder in `logFolderAbsPath`
+                if not os.path.isdir(logFolderAbsPath):
+                    os.makedirs(logFolderAbsPath)
+                    print("log folder created")
+
+            else:
+
+                    os.makedirs(logFolderAbsPath)
+                    print("log folder created")
+
+            # Create log file for this session.
+            gDT = gdt()
+            logName = (
+                config.clientName[2] + "-" +
+                gDT[0] + gDT[1] + gDT[2] + "-" +
+                gDT[3] + gDT[4] + gDT[5] + "-" +
+                gDT[6].replace("/", "-") + ".txt")
+            logAbsPath = os.path.join(logFolderAbsPath, logName)
+            if os.path.exists(logAbsPath):
+
+                if os.path.isdir(logAbsPath):
+                    io.FileIO(logAbsPath, "w")
+                    print(logName + " log created")
+
+            else:
+
+                    io.FileIO(logAbsPath, "w")
+                    print(logName + " log created")
+
             # First I need to check if database will be used or not.
             if config.withoutDB[0]: connDB = cdb(config, True)
             # `connDB[0]` returns `True` if database connection is successful.
@@ -175,7 +217,7 @@ class Main(object):
             # In any case `iDB` will still be instantiated.
             # Only the database connection will not be used
             # in case of `config.withoutDB[2]` is `True.`
-            iDB = idb("IDB_1", threads, config, config.withoutDB[2], db, conn)
+            iDB = idb("IDB_1", threads, config, config.withoutDB[2], db, conn, logAbsPath)
 
             if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB)
             if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB)
