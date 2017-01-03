@@ -8,7 +8,8 @@ class CamFaceDetect(mt):
         self,
         _threadName,
         _array,
-        _iDB
+        _iDB,
+        _config
     ):
 
         # Append this object into array.
@@ -22,7 +23,9 @@ class CamFaceDetect(mt):
         )
 
         # Insert database object.
-        self.iDB = _iDB
+        self.iDB        = _iDB
+        # Configuration object.
+        self.config     = _config
 
         # Detection threshold to prevent "noise" face.
         # The value means that a face need to be detected
@@ -150,14 +153,16 @@ class CamFaceDetect(mt):
                     2
                 )
 
-        # Display the resulting frame. Comment this line
-        # of codes below if the program is going to be
-        # headless. It is necessary to start the window
-        # in the new thread. Otherwise it will not updated
-        # (static image).
-        cv2.startWindowThread()
-        cv2.namedWindow("CamFaceDetection")
-        cv2.imshow("CamFaceDetection", self.frame)
+        if not self.config.withoutOCVGUI[2]:
+
+            # Display the resulting frame. Comment this line
+            # of codes below if the program is going to be
+            # headless. It is necessary to start the window
+            # in the new thread. Otherwise it will not updated
+            # (static image).
+            cv2.startWindowThread()
+            cv2.namedWindow("CamFaceDetection")
+            cv2.imshow("CamFaceDetection", self.frame)
 
     # Function that need to be executed when the program
     # is closing.

@@ -47,6 +47,13 @@ def StartSet(_docArgs, _config, _configAbsPath):
         else: inputFailed = True
         #print("--dbp")
 
+    if _docArgs.get("--cvgui"):
+        currentValueInConfigFile = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutOCVGUI[0]))
+        changedValue = not currentValueInConfigFile
+        SaveValueMod2(_config.withoutOCVGUI[0], changedValue)
+        #print(currentValueInConfigFile)
+        #print(changedValue)
+        #print("--cvgui")
     if _docArgs.get("--db"):
         # I need to get the value first.
         currentValueInConfigFile = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutDB[0]))
@@ -88,18 +95,6 @@ def StartSet(_docArgs, _config, _configAbsPath):
         #print(changedValue)
         #print("--pvd")
 
-    # Just variables to show data into terminal.
-    tempCName           = getvaluefromconfig(_configAbsPath, _config.iniSections[0], _config.clientName [0])
-    tempDBA             = getvaluefromconfig(_configAbsPath, _config.iniSections[0], _config.dbAddress  [0])
-    tempDBN             = getvaluefromconfig(_configAbsPath, _config.iniSections[0], _config.dbName     [0])
-    tempDBP             = getvaluefromconfig(_configAbsPath, _config.iniSections[0], _config.dbPort     [0])
-    tempFirstRun        = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[1], _config.firstRun      [0]))
-    tempWithoutDB       = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutDB     [0]))
-    tempWithoutFaceD    = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutFaceD  [0]))
-    tempWithoutIRD      = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutIRD    [0]))
-    tempWithoutLog      = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutLog    [0]))
-    tempWithoutPVD      = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutPVD    [0]))
-
     if inputFailed: print("\ninput failed\n")
 
 # Docopt function to handle CLI command
@@ -108,6 +103,9 @@ def StartWithout(_docArgs, _config, _configAbsPath):
 
     def SaveValueMod2(_configEntryName, _value): sv(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
 
+    if _docArgs.get("--cvgui"):
+        _config.withoutOCVGUI[2] = True
+        SaveValueMod2(_config.withoutOCVGUI[0], True)
     if _docArgs.get("--db"):
         _config.withoutDB[2] = True
         SaveValueMod2(_config.withoutDB[0], True)

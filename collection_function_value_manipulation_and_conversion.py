@@ -9,15 +9,16 @@ def AssignAllConfigDefault(_docArgs, _config, _configAbsPath):
 
     def SaveValueMod0(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 0, _configEntryName, _value)
     def SaveValueMod2(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
-    SaveValueMod0(_config.clientName  [0], _config.clientName     [1])
-    SaveValueMod0(_config.dbAddress   [0], _config.dbAddress      [1])
-    SaveValueMod0(_config.dbName      [0], _config.dbName         [1])
-    SaveValueMod0(_config.dbPort      [0], _config.dbPort         [1])
-    SaveValueMod2(_config.withoutDB   [0], _config.withoutDB      [1])
-    SaveValueMod2(_config.withoutFaceD[0], _config.withoutFaceD   [1])
-    SaveValueMod2(_config.withoutIRD  [0], _config.withoutIRD     [1])
-    SaveValueMod2(_config.withoutLog  [0], _config.withoutLog     [1])
-    SaveValueMod2(_config.withoutPVD  [0], _config.withoutPVD     [1])
+    SaveValueMod0(_config.clientName    [0], _config.clientName     [1])
+    SaveValueMod0(_config.dbAddress     [0], _config.dbAddress      [1])
+    SaveValueMod0(_config.dbName        [0], _config.dbName         [1])
+    SaveValueMod0(_config.dbPort        [0], _config.dbPort         [1])
+    SaveValueMod2(_config.withoutDB     [0], _config.withoutDB      [1])
+    SaveValueMod2(_config.withoutFaceD  [0], _config.withoutFaceD   [1])
+    SaveValueMod2(_config.withoutIRD    [0], _config.withoutIRD     [1])
+    SaveValueMod2(_config.withoutLog    [0], _config.withoutLog     [1])
+    SaveValueMod2(_config.withoutOCVGUI [0], _config.withoutOCVGUI  [1])
+    SaveValueMod2(_config.withoutPVD    [0], _config.withoutPVD     [1])
 
 # Function to assign all configuration variables from
 # `config.ini` into run time variables.
@@ -37,6 +38,7 @@ def AssignAllRTVConfig(_config, _configAbsPath):
     _config.withoutFaceD    [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutFaceD  [0]))
     _config.withoutIRD      [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutIRD    [0]))
     _config.withoutLog      [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutLog    [0]))
+    _config.withoutOCVGUI   [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutOCVGUI [0]))
     _config.withoutPVD      [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutPVD    [0]))
 
 # Function to assign all default values into the
@@ -47,15 +49,16 @@ def AssignAllRTVDefault(_config):
     # While the index no `1` is the default
     # value. The index `0` is the `config.ini`
     # sub - section entry name.
-    _config.clientName[2]   = _config.clientName[1]
-    _config.dbAddress[2]    = _config.dbAddress[1]
-    _config.dbName[2]       = _config.dbName[1]
-    _config.dbPort[2]       = _config.dbPort[1]
-    _config.withoutDB[2]    = _config.withoutDB[1]
-    _config.withoutFaceD[2] = _config.withoutFaceD[1]
-    _config.withoutIRD[2]   = _config.withoutIRD[1]
-    _config.withoutLog[2]   = _config.withoutLog[1]
-    _config.withoutPVD[2]   = _config.withoutPVD[1]
+    _config.clientName[2]    = _config.clientName[1]
+    _config.dbAddress[2]     = _config.dbAddress[1]
+    _config.dbName[2]        = _config.dbName[1]
+    _config.dbPort[2]        = _config.dbPort[1]
+    _config.withoutDB[2]     = _config.withoutDB[1]
+    _config.withoutFaceD[2]  = _config.withoutFaceD[1]
+    _config.withoutIRD[2]    = _config.withoutIRD[1]
+    _config.withoutLog[2]    = _config.withoutLog[1]
+    _config.withoutOCVGUI[2] = _config.withoutOCVGUI[1]
+    _config.withoutPVD[2]    = _config.withoutPVD[1]
 
 # Function to get value from `config.ini`.
 def GetValueFromConfig(_configAbsPath, _sectionName, _variableName):

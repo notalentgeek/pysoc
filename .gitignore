@@ -1,4 +1,7 @@
 *.pyc
 /__pycache__
-/rethinkdb_data
+/build
 /cv2.so
+/log
+/rethinkdb_data
+config.ini

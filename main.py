@@ -4,12 +4,12 @@ Usage:
     main.py (--help | -h)
     main.py (--version | -v)
     main.py reset [--dbl]
-    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--db|--faced|--ird|--log|--pvd)...
+    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
     main.py set all-default
     main.py show (--config)
     main.py start
     main.py start all-default [--save]
-    main.py start without (--db|--faced|--ird|--log|--pvd)... [--save]
+    main.py start without (--cvgui|--db|--faced|--ird|--log|--pvd)... [--save]
     main.py start wizard
 
 Options:
@@ -32,6 +32,8 @@ Options:
     --log               Refer to log that prints JSON document to
                         database. Log still written in `./log/` at
                         any case.
+
+    --cvgui             Refer to OpenCV face detection GUI.
 
     --cam               Refer to cam/webcam.
     --ir                Refer to IR.
@@ -208,19 +210,12 @@ class Main(object):
                     db      = connDB[1]
                     conn    = connDB[2]
 
-            #print(config.withoutDB         [2])
-            #print(config.withoutFaceD      [2])
-            #print(config.withoutPVD        [2])
-            #print(stb(config.withoutDB     [2]))
-            #print(stb(config.withoutFaceD  [2]))
-            #print(stb(config.withoutPVD    [2]))
-            #
             # In any case `iDB` will still be instantiated.
             # Only the database connection will not be used
             # in case of `config.withoutDB[2]` is `True.`
             iDB = idb("IDB_1", threads, config, config.withoutDB[2], db, conn, logAbsPath)
 
-            if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB)
+            if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB, config)
             if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB)
 
             # Then run all available threads.

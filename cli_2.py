@@ -34,6 +34,7 @@ def StartWizard(_config, _configAbsPath):
     inputFaceD              = "do you want to use face detection? "
     inputIRD                = "do you want to use infrared detection? "
     inputLog                = "do you want to use log? "
+    inputOCVGUI             = "do you want to use opencv gui for face detection? "
     inputPVD                = "do you want to use pitch and volume detection? "
     inputSave               = "do you want to save this setting? "
     requirementClientName   = "requirement              : no space, case sensitive, alpha - numeric, camelCase"
@@ -113,11 +114,12 @@ def StartWizard(_config, _configAbsPath):
             else: _configVariable = None
 
             if _configVariable != None: legal = True
-    def InputBoolModDB      (): InputBool(inputDB    , _config.withoutDB     [2], _config.withoutDB      [1])
-    def InputBoolModFaceD   (): InputBool(inputFaceD , _config.withoutFaceD  [2], _config.withoutFaceD   [1])
-    def InputBoolModIRD     (): InputBool(inputIRD   , _config.withoutIRD    [2], _config.withoutIRD     [1])
-    def InputBoolModLog     (): InputBool(inputLog   , _config.withoutLog    [2], _config.withoutLog     [1])
-    def InputBoolModPVD     (): InputBool(inputPVD   , _config.withoutPVD    [2], _config.withoutPVD     [1])
+    def InputBoolModDB      (): InputBool(inputDB       , _config.withoutDB     [2], _config.withoutDB      [1])
+    def InputBoolModFaceD   (): InputBool(inputFaceD    , _config.withoutFaceD  [2], _config.withoutFaceD   [1])
+    def InputBoolModIRD     (): InputBool(inputIRD      , _config.withoutIRD    [2], _config.withoutIRD     [1])
+    def InputBoolModLog     (): InputBool(inputLog      , _config.withoutLog    [2], _config.withoutLog     [1])
+    def InputBoolModOCVGUI  (): InputBool(inputOCVGUI   , _config.withoutOCVGUI [2], _config.withoutOCVGUI  [1])
+    def InputBoolModPVD     (): InputBool(inputPVD      , _config.withoutPVD    [2], _config.withoutPVD     [1])
 
     def InputSave():
 
@@ -146,6 +148,7 @@ def StartWizard(_config, _configAbsPath):
     InputBoolModFaceD           ()
     InputBoolModIRD             ()
     InputBoolModLog             ()
+    InputBoolModOCVGUI          ()
     InputBoolModPVD             ()
     InputSave                   ()
 
