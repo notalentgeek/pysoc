@@ -3,7 +3,7 @@
 Usage:
     main.py (--help | -h)
     main.py (--version | -v)
-    main.py reset [--db]
+    main.py reset [--dbl]
     main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--db|--faced|--ird|--log|--pvd)...
     main.py set all-default
     main.py show (--config)
@@ -28,6 +28,7 @@ Options:
     --config            Refer to `config.ini` in the root of this
                         application.
     --db                Refer to RethinkDB database.
+    --dbl               Refer to RethinkDB database and log folder.
     --log               Refer to log that prints JSON document to
                         database. Log still written in `./log/` at
                         any case.
@@ -83,7 +84,7 @@ from    config                                                  import DeleteCon
 from    config                                                  import ShowConfigFile                   as showcf                   # Function to see `config.ini`.
 from    config                                                  import ShowConfigRuntime                as showcr                   # Function to see run time variables.
 from    database                                                import ConnDB                           as cdb                      # Import the database inserter.
-from    database                                                import DeleteDatabase                   as dd                       # Function to delete database.
+from    database                                                import DeleteDatabaseAndLog             as ddl                      # Function to delete database and log folder.
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
@@ -154,7 +155,7 @@ class Main(object):
         assignallrtvconfig(config, configAbsPath)
 
         # Docopt arguments handlers.
-        docoptControl = self.DocoptControl(docArgs, config, configAbsPath)
+        docoptControl = self.DocoptControl(docArgs, config, configAbsPath, logFolderAbsPath)
         if not docoptControl[0] and not docoptControl[2]: showcf(config, configAbsPath)
 
         # Terminate the program right here if there is no start command
@@ -257,7 +258,7 @@ class Main(object):
                 os._exit(1)
 
     # Function to control Docopt arguments.
-    def DocoptControl(self, _docArgs, _config, _configAbsPath):
+    def DocoptControl(self, _docArgs, _config, _configAbsPath, _logFolderAbsPath):
 
         # This variable need to be here so that `show --config`
         # will not return twice `showcf(_config, _configAbsPath)`.
@@ -274,7 +275,7 @@ class Main(object):
             # For reset we need to get connection to database to delete all table
             # and also to delete the config.ini file in the root of this project
             # directory.
-            if _docArgs.get("--db"): dd(_config, _configAbsPath)
+            if _docArgs.get("--dbl"): ddl(_config, _configAbsPath, _logFolderAbsPath)
             # Delete the `config.ini` and then give `True` into the `deletedConfig`.
             deletedConfig = dc(_configAbsPath)
         if _docArgs.get("set"):

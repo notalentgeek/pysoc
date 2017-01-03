@@ -7,10 +7,11 @@ from mod_thread                                            import ModThread     
 
 # Import Python json library for JSON manipulation.
 import json
-
+import os
 # Import RethinkDB Python library to manipulate
 # RethinkDB database.
 import rethinkdb as r
+import shutil
 
 class InsertDatabase(mt):
 
@@ -245,7 +246,11 @@ def ConnDB(_config, _fromMainConnection):
         self.ConnDB(_config, _conn, _db)
 
 # Python function to delete database.
-def DeleteDatabase(_config, _configAbsPath):
+def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
+
+    # Delete log folder.
+    if os.path.exists(_logFolderAbsPath): shutil.rmtree(_logFolderAbsPath)
+    print("log folder deleted")
 
     # Try to connect to database.
     connDB = ConnDB(_config, False)
