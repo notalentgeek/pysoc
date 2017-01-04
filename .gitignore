@@ -2,9 +2,7 @@
 /__pycache__
 /build
 /cv2.so
-/dist/cascade_face_front_default.xml
-/dist/config.ini
-/dist/log
+/dist
 /log
 /rethinkdb_data
 config.ini
