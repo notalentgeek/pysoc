@@ -134,7 +134,7 @@ class InsertDatabase(mt):
 
                 # Only use this `try` and `except` if only
                 # `self.withoutDB` is `False`.
-                if not self.withoutDB:
+                if self.withoutDB:
                     # Check if the target table is exist in the
                     # database. If the target table is not exist
                     # then create a new table.
@@ -195,6 +195,9 @@ class InsertDatabase(mt):
 # Function to initiating connection to database.
 def ConnDB(_config, _fromMainConnection):
 
+    conn    = None
+    db      = None
+
     # Try to connecting to RethinkDB server.
     # If without_database flag is False and
     # the connection from this application to
@@ -215,35 +218,29 @@ def ConnDB(_config, _fromMainConnection):
         # terminal.
         #
         # Connect into database.
-        _conn = r.connect(
+        conn = r.connect(
             host=_config.dbAddress[2],
             port=_config.dbPort[2])
 
         # Pick which database to get its
         # information stored.
 
-        _db = r.db(_config.dbName[2])
-        if not _config.dbName[2] in r.db_list().run(_conn) and _fromMainConnection:
-            _db = r.db_create(_config.dbName[2]).run(_conn)
-            _db = r.db(_config.dbName[2])
+        db = r.db(_config.dbName[2])
+        if not _config.dbName[2] in r.db_list().run(conn) and _fromMainConnection:
+            db = r.db_create(_config.dbName[2]).run(conn)
+            db = r.db(_config.dbName[2])
             print("database " + _config.dbName[2] + " does not exist")
             print("creating database " + _config.dbName[2])
 
         # If connection success return True and the database.
-        return [True, _db, _conn]
+        return [True, db, conn]
 
     except r.errors.ReqlDriverError as error:
 
         # Print the error.
-        print("connection to database error with error code of " + error)
+        print("connection to database error with error code of \"" + str(error) + "\"")
         print("please check database")
         print("or check database configuration from this application")
-        print("re - trying connection")
-
-        # Run this function again until the connection
-        # to database established or the user stopped
-        # this application.
-        self.ConnDB(_config, _conn, _db)
 
 # Python function to delete database.
 def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
