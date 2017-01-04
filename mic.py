@@ -76,8 +76,13 @@ class MicPVDetect(mt):
         # Initiating PyAudio object.
         pA = pyaudio.PyAudio()
         # Open the microphone stream.
-        self.mic = pA.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.SAMPLE_RATE, input=True,
-            frames_per_buffer=self.PERIOD_SIZE_IN_FRAME)
+        self.mic = pA.open(
+            format=self.FORMAT,
+            channels=self.CHANNELS,
+            rate=self.SAMPLE_RATE,
+            input=True,
+            frames_per_buffer=self.PERIOD_SIZE_IN_FRAME,
+            input_device_index=2)
 
         # Finally create the main pitch detection object.
         # This object is from Aubio library.
@@ -189,4 +194,4 @@ class MicPVDetect(mt):
     def Stream(self):
 
         # Keep reading data from the audio input.
-        self.data = self.mic.read(self.PERIOD_SIZE_IN_FRAME)
+        self.data = self.mic.read(self.PERIOD_SIZE_IN_FRAME, exception_on_overflow=False)

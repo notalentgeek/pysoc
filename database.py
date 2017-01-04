@@ -134,7 +134,7 @@ class InsertDatabase(mt):
 
                 # Only use this `try` and `except` if only
                 # `self.withoutDB` is `False`.
-                if self.withoutDB:
+                if not self.withoutDB:
                     # Check if the target table is exist in the
                     # database. If the target table is not exist
                     # then create a new table.

@@ -2,6 +2,9 @@ from        mod_thread          import ModThread            as mt
 from        timer_second_change import TimerSecondChange    as tsc
 import      cv2
 
+from picamera import PiCamera
+from picamera.array import PiRGBArray
+
 class CamFaceDetect(mt):
 
     def __init__(
@@ -21,6 +24,11 @@ class CamFaceDetect(mt):
             _array.index(self) + 1,
             _threadName
         )
+
+        self.piCamera = PiCamera()
+        self.piCamera.resolution = (640, 480)
+        self.piCamera.framerate = 32
+        self.rawCapture = PiRGBArray(self.piCamera)
 
         # Insert database object.
         self.iDB        = _iDB
@@ -47,7 +55,7 @@ class CamFaceDetect(mt):
         # listen to the default camera (the first
         # camera detected by the operating system
         # when it boots) attached to the computer.
-        self.cam = cv2.VideoCapture(0)
+        #self.cam = cv2.VideoCapture(0)
 
         # Path to cascade. Cascade is a pattern to
         # detect something using OpenCV. In this scenario
@@ -136,9 +144,12 @@ class CamFaceDetect(mt):
 
     def FaceDetectStream(self):
 
+        self.piCamera.capture(self.rawCapture, format="bgr")
+        self.frame = self.rawCapture.array
+
         # Capture the video frame by frame from the
         # self.cam.
-        retVal, self.frame = self.cam.read()
+        #retVal, self.frame = self.cam.read()
 
         #print(len(self.faces))
 
@@ -163,6 +174,8 @@ class CamFaceDetect(mt):
             cv2.startWindowThread()
             cv2.namedWindow("CamFaceDetection")
             cv2.imshow("CamFaceDetection", self.frame)
+
+        self.rawCapture.truncate(0)
 
     # Function that need to be executed when the program
     # is closing.
