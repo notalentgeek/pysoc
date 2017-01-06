@@ -34,7 +34,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     inputFaceD              = "do you want to use face detection? "
     inputIRD                = "do you want to use infrared detection? "
     inputLog                = "do you want to use log? "
-    inputOCVGUI             = "do you want to use opencv gui for face detection? "
+    inputOCVGUI             = "do you want to turn off opencv gui for face detection? "
     inputPiCam              = "do you use picam (choosing no means you are using USB web cam)? "
     inputPVD                = "do you want to use pitch and volume detection? "
     inputRPI                = "do you use raspberry pi with raspbian jessie? "
@@ -102,25 +102,38 @@ def StartWizard(_docArgs, _config, _configAbsPath):
         _config.dbPort,
         isnum)
 
-    def InputBool(_input, _configVariable):
+    def InputBool(_input, _confVar):
 
         legal = False
         while not legal:
 
             inspectThis = input(_input)
 
-            if   isblank(inspectThis): _configVariable = True
-            elif not stb(inspectThis): _configVariable = False
-            elif     stb(inspectThis): _configVariable = True
-            else: _configVariable = None
+            if   isblank(inspectThis): _confVar[2] = False
+            elif not stb(inspectThis): _confVar[2] = True
+            elif     stb(inspectThis): _confVar[2] = False
+            else: _confVar[2] = None
 
-            if _configVariable != None: legal = True
-    def InputBoolModDB      (): InputBool(inputDB       , _config.withoutDB     [2])
-    def InputBoolModFaceD   (): InputBool(inputFaceD    , _config.withoutFaceD  [2])
-    def InputBoolModIRD     (): InputBool(inputIRD      , _config.withoutIRD    [2])
-    def InputBoolModLog     (): InputBool(inputLog      , _config.withoutLog    [2])
-    def InputBoolModOCVGUI  (): InputBool(inputOCVGUI   , _config.withoutOCVGUI [2])
-    def InputBoolModPVD     (): InputBool(inputPVD      , _config.withoutPVD    [2])
+            if _confVar[2] != None: legal = True
+    def InputBoolReverse(_input, _confVar):
+
+        legal = False
+        while not legal:
+
+            inspectThis = input(_input)
+
+            if   isblank(inspectThis): _confVar[2] = True
+            elif not stb(inspectThis): _confVar[2] = False
+            elif     stb(inspectThis): _confVar[2] = True
+            else: _confVar[2] = None
+
+            if _confVar[2] != None: legal = True
+    def InputBoolModDB      (): InputBool       (inputDB       , _config.withoutDB     )
+    def InputBoolModFaceD   (): InputBool       (inputFaceD    , _config.withoutFaceD  )
+    def InputBoolModIRD     (): InputBool       (inputIRD      , _config.withoutIRD    )
+    def InputBoolModLog     (): InputBool       (inputLog      , _config.withoutLog    )
+    def InputBoolModOCVGUI  (): InputBoolReverse(inputOCVGUI   , _config.withoutOCVGUI )
+    def InputBoolModPVD     (): InputBool       (inputPVD      , _config.withoutPVD    )
 
     def InputSave(_docArgs):
 
