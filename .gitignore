@@ -1,7 +1,6 @@
 *.pyc
 *.spec
 /__pycache__
-/bin/*
 /build
 /cv2.so
 /dist
