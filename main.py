@@ -7,9 +7,9 @@ Usage:
     main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
     main.py set all-default
     main.py show (--config)
-    main.py start
-    main.py start all-default [--save]
-    main.py start without (--cvgui|--db|--faced|--ird|--log|--pvd)... [--save]
+    main.py start [--rpi [--picam]]
+    main.py start all-default [--rpi [--picam]] [--save]
+    main.py start without (--cvgui|--db|--faced|--ird|--log|--pvd)... [--rpi [--picam]] [--save]
     main.py start wizard
 
 Options:
@@ -24,6 +24,15 @@ Options:
                         a must, [default: sociometric_server].
     --dbp=<dbpv>        Refer to RethinkDB database port. Value is
                         a must, [default: 28015].
+
+    --rpi               Start this application in Raspberry PI's
+                        Raspbian instead of normal desktop operating
+                        system.
+    --picam             Refer to ribbon camera of the Raspberry PI.
+                        This ribbon camera is located between the 3.5mm
+                        output jack and HDMI in Raspberry PI 3. If
+                        you want to use USB camera then do not use this
+                        arguments.
 
     --config            Refer to `config.ini` in the root of this
                         application.
@@ -73,9 +82,10 @@ Options:
 
 from    cam                                                     import CamFaceDetect                    as cfd                      # Import the face detection object.
 from    cascade_front_face_default                              import cascadeFrontFaceDefault          as ccfd                     # Cascade .xml string.
+from    cli_1                                                   import Set                              as ss                       # Function for CLI `set`.
 from    cli_1                                                   import StartAllDefault                  as sad                      # Function for CLI `start all-deafult`
-from    cli_1                                                   import StartSet                         as ss                       # Function for CLI `start set`.
-from    cli_1                                                   import StartWithout                     as sw                       # Function for CLI `start set`.
+from    cli_1                                                   import StartRPI                         as srpi                     # Function to let user choose if they are using Raspberry PI.
+from    cli_1                                                   import StartWithout                     as sw                       # Function for CLI `start without`.
 from    cli_2                                                   import StartWizard                      as swi                      # Function for CLI `start wizard`.
 from    collection_function_value_manipulation_and_conversion   import AssignAllConfigDefault           as assignallconfigdefault   # Function that convert string into boolean.
 from    collection_function_value_manipulation_and_conversion   import AssignAllRTVConfig               as assignallrtvconfig       # Function that convert string into boolean.
@@ -120,13 +130,10 @@ class Main(object):
         cascAbsPath                 = os.path.join("./", CASCADE_FRONT_FACE_DEF_NAME)
         config                      = conf()                                            # Configuration variable.
         configAbsPath               = os.path.join("./", CONFIG_FILE_NAME)              # Absolute path to the configuration file exist or not.
-        configFileShown             = False                                             # Variable to indicates if `config.ini` file has been shown or not.
         conn                        = None                                              # For holding information about the connection between this application and the database.
         connDB                      = None                                              # Return value from `cdb()`.
-        continueProgramToMainLoop   = False                                             # If this is `True` then the program will go beyond CLI into main loop.
         db                          = None                                              # For holding information about the database.
         docoptControl               = None                                              # For holding CLI Docopt control.
-        firstRun                    = False                                             # Check if this application on its first time run (after reset).
         logAbsPath                  = None                                              # Absolute path into current `log.txt`.
         logFolderAbsPath            = os.path.join("./", LOG_FOLDER_NAME)               # Absolute path into the `log` folder.
         threads                     = []                                                # An empty array to hold all threading.Thread object.
@@ -220,8 +227,20 @@ class Main(object):
             # in case of `config.withoutDB[2]` is `True.`
             iDB = idb("IDB_1", threads, config, config.withoutDB[2], db, conn, logAbsPath)
 
-            if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB, config)
-            if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB)
+            # `docoptControl[3]` is a variable that states if user choose to run this
+            # application in Raspberry PI's Raspbian Jessie environment.
+            #
+            # The cam face detection only care if the user uses PiCamera or normal USB
+            # web cam. Hence, `docoptControl[3][1]` will return `True` if Docopt argument
+            # `--picam` is used.
+            #
+            # While the pitch and volume detection need to know the operating system it
+            # runs because it need to detect default sound card. Hence, `docoptControl[3][0]`
+            # refer to Docopt argument `--rpi`. User need to choose this if this application
+            # runs in Raspberry PI' Raspbian Jessie. I do not make any programming for other
+            # Raspberry compatible OS but Raspbian Jessie.
+            if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB, docoptControl[3][1], config)   # Camera face detection.
+            if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB, docoptControl[3][0])           # Microphone pitch and volume detection.
 
             # Then run all available threads.
             for t in threads: t.start()
@@ -268,6 +287,9 @@ class Main(object):
         continueProgramToMainLoop   = False
         # If `config.ini` is deleted or not.
         deletedConfig               = False
+        # Check if user choose to start with Raspberry PI Raspbian.
+        raspberryPI                 = [False, False]
+
         # Get `first_run` value from `config.ini`.
         firstRun                    = stb(gvfc(_configAbsPath, _config.iniSections[1], _config.firstRun[0]))
 
@@ -279,14 +301,18 @@ class Main(object):
             # Delete the `config.ini` and then give `True` into the `deletedConfig`.
             deletedConfig = dc(_configAbsPath)
         if _docArgs.get("set"):
-            if firstRun:
-                cfgRaw = cfgp.ConfigParser()
-                cfgRaw.read(_configAbsPath)
-                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(swi(_config, _configAbsPath)))
-                with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
-            else:
-                if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
-                else: ss(_docArgs, _config, _configAbsPath)
+            # Set to all default variables.
+            if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
+            # Set everything manually.
+            else: ss(_docArgs, _config, _configAbsPath)
+
+            # If user ever once set something than prevent
+            # wizard from appearing when `start` command
+            # inputted
+            cfgRaw = cfgp.ConfigParser()
+            cfgRaw.read(_configAbsPath)
+            cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(False))
+            with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
         if _docArgs.get("show") and _docArgs.get("--config"):
             configFileShown = True
             showcf(_config, _configAbsPath)
@@ -294,26 +320,43 @@ class Main(object):
             if firstRun:
                 cfgRaw = cfgp.ConfigParser()
                 cfgRaw.read(_configAbsPath)
-                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(swi(_config, _configAbsPath)))
+                # Change the `first_run` entry in config.ini into `True` or `False`.
+                # `first_run` will be `True` if the `str(swi(_config, _configAbsPath))`
+                # succeed. If `str(swi(_config, _configAbsPath))` process is interrupted
+                # Then this will return `False`.
+                sWI = swi(_docArgs, _config, _configAbsPath)
+                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(sWI[0]))
                 with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
+                raspberryPI = [sWI[1], sWI[2]]
             else:
                 # `start all-default` let user to
                 # use default components (using all
                 # inputs and detections). And as well
                 # as database setting variables.
-                if _docArgs.get("all-default"): sad(_docArgs, _config, _configAbsPath)
+                if _docArgs.get("all-default"): raspberryPI = sad(_docArgs, _config, _configAbsPath)
                 # `start without` command let user specify
                 # which components to use and which ones not
                 # to use. The rest is taken from the `config.ini`.
-                elif _docArgs.get("without"): sw(_docArgs, _config, _configAbsPath)
+                elif _docArgs.get("without"): raspberryPI = sw(_docArgs, _config, _configAbsPath)
                 # If this is first run then every time
                 # this application launches go to here.
-                elif _docArgs.get("wizard"): swi(_config, _configAbsPath)
+                elif _docArgs.get("wizard"):
+                    cfgRaw = cfgp.ConfigParser()
+                    cfgRaw.read(_configAbsPath)
+                    # Change the `first_run` entry in config.ini into `True` or `False`.
+                    # `first_run` will be `True` if the `str(swi(_config, _configAbsPath))`
+                    # succeed. If `str(swi(_config, _configAbsPath))` process is interrupted
+                    # Then this will return `False`.
+                    sWI = swi(_docArgs, _config, _configAbsPath)
+                    cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(sWI[0]))
+                    with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
+                    raspberryPI = [sWI[1], sWI[2]]
+                else: raspberryPI = srpi(_docArgs)
 
             # If `start` is used this application will go into main loop.
             continueProgramToMainLoop = True
 
-        return [configFileShown, continueProgramToMainLoop, deletedConfig]
+        return [configFileShown, continueProgramToMainLoop, deletedConfig, raspberryPI]
 
 def main(_docArgs): main = Main(_docArgs)
 if __name__ == "__main__":

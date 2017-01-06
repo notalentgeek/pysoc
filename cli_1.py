@@ -12,14 +12,59 @@ from    collection_function_value_manipulation_and_conversion   import  AssignAl
 from    collection_function_value_manipulation_and_conversion   import  AssignAllConfigDefault              as assignallconfigdefault
 import  configparser                                            as      cfgp
 
+# A Python function to set
+def StartRPI(_docArgs):
+
+    #print(_docArgs.get("--rpi"))
+    #print(_docArgs.get("--picam"))
+
+    useRPI      = _docArgs.get("--rpi")
+    usePiCam    = _docArgs.get("--picam")
+
+    return [useRPI, usePiCam]
+
 # A Python function for `main.py start all-default`
 def StartAllDefault(_docArgs, _config, _configAbsPath):
 
     assignallrtvdefault(_config)
     if _docArgs.get("--save"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
 
+    # Check if user wants to start this application in Raspberry PI's
+    # Raspbian Jessie.
+    return StartRPI(_docArgs)
+
+# Docopt function to handle CLI command
+# of `start without`.
+def StartWithout(_docArgs, _config, _configAbsPath):
+
+    def SaveValueMod2(_configEntryName, _value): sv(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
+
+    if _docArgs.get("--cvgui"):
+        _config.withoutOCVGUI[2] = True
+        SaveValueMod2(_config.withoutOCVGUI[0], True)
+    if _docArgs.get("--db"):
+        _config.clientName[2] = "luffy"
+        _config.withoutDB[2] = True
+        SaveValueMod2(_config.withoutDB[0], True)
+    if _docArgs.get("--faced"):
+        _config.withoutFaceD[2] = True
+        SaveValueMod2(_config.withoutFaceD[0], True)
+    if _docArgs.get("--ird"):
+        _config.withoutIRD[2] = True
+        SaveValueMod2(_config.withoutIRD[0], True)
+    if _docArgs.get("--log"):
+        _config.withoutLog[2] = True
+        SaveValueMod2(_config.withoutLog[0], True)
+    if _docArgs.get("--pvd"):
+        _config.withoutPVD[2] = True
+        SaveValueMod2(_config.withoutPVD[0], True)
+
+    # Check if user wants to start this application in Raspberry PI's
+    # Raspbian Jessie.
+    return StartRPI(_docArgs)
+
 # A Python function for `main.py set` CLI interface.
-def StartSet(_docArgs, _config, _configAbsPath):
+def Set(_docArgs, _config, _configAbsPath):
 
     def SaveValueMod0(_configEntryName, _value): sv(_config, _configAbsPath, _docArgs, 0, _configEntryName, _value)
     def SaveValueMod2(_configEntryName, _value): sv(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
@@ -96,28 +141,3 @@ def StartSet(_docArgs, _config, _configAbsPath):
         #print("--pvd")
 
     if inputFailed: print("\ninput failed\n")
-
-# Docopt function to handle CLI command
-# of `start without`.
-def StartWithout(_docArgs, _config, _configAbsPath):
-
-    def SaveValueMod2(_configEntryName, _value): sv(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
-
-    if _docArgs.get("--cvgui"):
-        _config.withoutOCVGUI[2] = True
-        SaveValueMod2(_config.withoutOCVGUI[0], True)
-    if _docArgs.get("--db"):
-        _config.withoutDB[2] = True
-        SaveValueMod2(_config.withoutDB[0], True)
-    if _docArgs.get("--faced"):
-        _config.withoutFaceD[2] = True
-        SaveValueMod2(_config.withoutFaceD[0], True)
-    if _docArgs.get("--ird"):
-        _config.withoutIRD[2] = True
-        SaveValueMod2(_config.withoutIRD[0], True)
-    if _docArgs.get("--log"):
-        _config.withoutLog[2] = True
-        SaveValueMod2(_config.withoutLog[0], True)
-    if _docArgs.get("--pvd"):
-        _config.withoutPVD[2] = True
-        SaveValueMod2(_config.withoutPVD[0], True)

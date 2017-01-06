@@ -239,15 +239,10 @@ def ConnDB(_config, _fromMainConnection):
 
         # Print the error.
         print("connection to database error with error code of \"" + str(error) + "\"")
-        print("please check database")
-        print("or check database configuration from this application")
+        print("please check database or check database configuration from this application")
 
 # Python function to delete database.
 def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
-
-    # Delete log folder.
-    if os.path.exists(_logFolderAbsPath): shutil.rmtree(_logFolderAbsPath)
-    print("log folder deleted")
 
     # Try to connect to database.
     connDB = ConnDB(_config, False)
@@ -261,3 +256,7 @@ def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
                 r.db_drop(dbNameFromConfig).run(conn)
                 print("database deleted")
             except r.errors.ReqlOpFailedError as error: print("database does not exists")
+
+    # Delete log folder.
+    if os.path.exists(_logFolderAbsPath): shutil.rmtree(_logFolderAbsPath)
+    print("log folder deleted")

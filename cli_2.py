@@ -5,10 +5,10 @@ from    collection_function_check_string                        import CheckIfSt
 from    collection_function_check_string                        import CheckIfStringIsAlphaNumericUScore   as isanumuscore
 from    collection_function_check_string                        import CheckIfStringIsBlank                as isblank
 from    collection_function_check_string                        import CheckIfStringIsNumeric              as isnum
+from    collection_function_value_manipulation_and_conversion   import AssignAllConfigRTV                  as assignallconfigrtv
 from    collection_function_value_manipulation_and_conversion   import StringToBool                        as stb
-from    collection_function_value_manipulation_and_conversion   import AssignAllRTVConfig                  as assignallrtvconfig
 
-def StartWizard(_config, _configAbsPath):
+def StartWizard(_docArgs, _config, _configAbsPath):
 
     # A ton of fancy strings.
     defaultClientName       = "default                  : do not fill and just press enter to fill the default value of \"clientTest\""
@@ -35,7 +35,9 @@ def StartWizard(_config, _configAbsPath):
     inputIRD                = "do you want to use infrared detection? "
     inputLog                = "do you want to use log? "
     inputOCVGUI             = "do you want to use opencv gui for face detection? "
+    inputPiCam              = "do you use picam (choosing no means you are using USB web cam)? "
     inputPVD                = "do you want to use pitch and volume detection? "
+    inputRPI                = "do you use raspberry pi with raspbian jessie? "
     inputSave               = "do you want to save this setting? "
     requirementClientName   = "requirement              : no space, case sensitive, alpha - numeric, camelCase"
     requirementDBAddress    = "requirement              : no space, not case sensitive, alpha - numeric"
@@ -45,11 +47,10 @@ def StartWizard(_config, _configAbsPath):
 
     # Function to input value.
     def InputWizard(_description, _requirement, _example, _defaultValue,
-        _input, _configVariable , _configDefaultValue, _legalityFunction):
+        _input, _confVar, _legalityFunction):
 
-        legal = False
         description = "\n" + _description
-        while not legal:
+        while True:
             print(description)
             print(_requirement)
             print(_example)
@@ -57,21 +58,26 @@ def StartWizard(_config, _configAbsPath):
 
             description = _description
 
-            _configVariable = input(_input)
-            if isblank(_configVariable):
-                _configVariable = _configDefaultValue
-                legal = True
+            inspectThis = input(_input)
+
+            if isblank(inspectThis):
+                _confVar[2] = _confVar[1]
+                print(str(_confVar[2]) + " " +  str(_confVar[1]))
                 break
-            legal = _legalityFunction(_configVariable)
-            if not legal: print("\ninput failed\n")
+
+            elif _legalityFunction(inspectThis):
+                _confVar[2] = inspectThis
+                print(str(_confVar[2]) + " " +  str(inspectThis))
+                break
+
+            print("\ninput failed\n")
     def InputWizardModClientName(): InputWizard(
         descriptionClientName,
         requirementClientName,
         exampleClientName,
         defaultClientName,
         inputClientName,
-        _config.clientName[2],
-        _config.clientName[1],
+        _config.clientName,
         isanum)
     def InputWizardModDBAddress(): InputWizard(
         descriptionDBAddress,
@@ -79,8 +85,7 @@ def StartWizard(_config, _configAbsPath):
         exampleDBAddress,
         defaultDBAddress,
         inputDBAddress,
-        _config.dbAddress[2],
-        _config.dbAddress[1],
+        _config.dbAddress,
         isanumdot)
     def InputWizardModDBName(): InputWizard(
         descriptionDBName,
@@ -88,8 +93,7 @@ def StartWizard(_config, _configAbsPath):
         exampleDBName,
         defaultDBName,
         inputDBName,
-        _config.dbName[2],
-        _config.dbName[1],
+        _config.dbName,
         isanumuscore)
     def InputWizardModDBPort(): InputWizard(
         descriptionDBPort,
@@ -97,31 +101,30 @@ def StartWizard(_config, _configAbsPath):
         exampleDBPort,
         defaultDBPort,
         inputDBPort,
-        _config.dbPort[2],
-        _config.dbPort[1],
+        _config.dbPort,
         isnum)
 
-    def InputBool(_input, _configVariable, _configDefault):
+    def InputBool(_input, _configVariable):
 
         legal = False
         while not legal:
 
             inspectThis = input(_input)
 
-            if   isblank(inspectThis): _configVariable = _configDefault
+            if   isblank(inspectThis): _configVariable = True
             elif not stb(inspectThis): _configVariable = False
             elif     stb(inspectThis): _configVariable = True
             else: _configVariable = None
 
             if _configVariable != None: legal = True
-    def InputBoolModDB      (): InputBool(inputDB       , _config.withoutDB     [2], _config.withoutDB      [1])
-    def InputBoolModFaceD   (): InputBool(inputFaceD    , _config.withoutFaceD  [2], _config.withoutFaceD   [1])
-    def InputBoolModIRD     (): InputBool(inputIRD      , _config.withoutIRD    [2], _config.withoutIRD     [1])
-    def InputBoolModLog     (): InputBool(inputLog      , _config.withoutLog    [2], _config.withoutLog     [1])
-    def InputBoolModOCVGUI  (): InputBool(inputOCVGUI   , _config.withoutOCVGUI [2], _config.withoutOCVGUI  [1])
-    def InputBoolModPVD     (): InputBool(inputPVD      , _config.withoutPVD    [2], _config.withoutPVD     [1])
+    def InputBoolModDB      (): InputBool(inputDB       , _config.withoutDB     [2])
+    def InputBoolModFaceD   (): InputBool(inputFaceD    , _config.withoutFaceD  [2])
+    def InputBoolModIRD     (): InputBool(inputIRD      , _config.withoutIRD    [2])
+    def InputBoolModLog     (): InputBool(inputLog      , _config.withoutLog    [2])
+    def InputBoolModOCVGUI  (): InputBool(inputOCVGUI   , _config.withoutOCVGUI [2])
+    def InputBoolModPVD     (): InputBool(inputPVD      , _config.withoutPVD    [2])
 
-    def InputSave():
+    def InputSave(_docArgs):
 
         doYouWantToSave = None
         while doYouWantToSave == None:
@@ -133,7 +136,41 @@ def StartWizard(_config, _configAbsPath):
             elif     stb(inspectThis)   : doYouWantToSave = True
             else                        : doYouWantToSave = None
 
-        if doYouWantToSave: assignallrtvconfig(_config, _configAbsPath)
+            print(doYouWantToSave)
+
+        if doYouWantToSave: assignallconfigrtv(_docArgs, _config, _configAbsPath)
+
+    def InputRPI():
+
+        usePiCam = None
+        useRPI   = None
+        while useRPI == None:
+
+            inspectThisRPI = input(inputRPI)
+
+            if   isblank(inspectThisRPI)    : useRPI = True
+            elif not stb(inspectThisRPI)    : useRPI = False
+            elif     stb(inspectThisRPI)    : useRPI = True
+            else                            : useRPI = None
+
+            # If user stated that they will use Raspbery PI
+            # ask them again if they are using PiCamera or
+            # USB camera.
+            if useRPI:
+
+                while usePiCam == None:
+
+                    inspectThisPiCam = input(inputPiCam)
+
+                    if   isblank(inspectThisPiCam)  : usePiCam = True
+                    elif not stb(inspectThisPiCam)  : usePiCam = False
+                    elif     stb(inspectThisPiCam)  : usePiCam = True
+                    else                            : usePiCam = None
+
+            else: usePiCam = False
+
+        return [useRPI, usePiCam]
+
 
     # Run the wizard.
     InputWizardModClientName    ()
@@ -150,7 +187,11 @@ def StartWizard(_config, _configAbsPath):
     InputBoolModLog             ()
     InputBoolModOCVGUI          ()
     InputBoolModPVD             ()
-    InputSave                   ()
+    InputSave                   (_docArgs)
+
+    inputRPI    = InputRPI()
+    useRPI      = inputRPI[0]
+    usePiCam    = inputRPI[1]
 
     # Set `firstRun` variable into `False`.
-    return False
+    return [False, useRPI, usePiCam]

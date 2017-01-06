@@ -36,7 +36,7 @@ class MicPVDetect(mt):
     # insertion. Thus, data from every other
     # input device are queued beautifully into
     # the database.
-    def __init__(self, _threadName, _array, _iDB):
+    def __init__(self, _threadName, _array, _iDB, _useRPI):
 
         # Append this object into the array
         # that holds all thread (excluding the
@@ -57,6 +57,9 @@ class MicPVDetect(mt):
 
         # Database object.
         self.iDB = _iDB
+        # Whether user stated to run this application in
+        # Raspberry PI's Raspbian Jessie or not.
+        self.useRPI = _useRPI
 
         # Some constants. I honestly not sure what does
         # what. I get this number from issue I post in
@@ -75,14 +78,26 @@ class MicPVDetect(mt):
 
         # Initiating PyAudio object.
         pA = pyaudio.PyAudio()
-        # Open the microphone stream.
-        self.mic = pA.open(
-            format=self.FORMAT,
-            channels=self.CHANNELS,
-            rate=self.SAMPLE_RATE,
-            input=True,
-            frames_per_buffer=self.PERIOD_SIZE_IN_FRAME,
-            input_device_index=2)
+
+        # In Raspberry PI's Raspbian I need to determine
+        # the default card manually. Hence, `input_device_index=2`.
+        if self.useRPI:
+            # Open the microphone stream.
+            self.mic = pA.open(
+                channels=self.CHANNELS,
+                format=self.FORMAT,
+                frames_per_buffer=self.PERIOD_SIZE_IN_FRAME,
+                input=True,
+                input_device_index=2,
+                rate=self.SAMPLE_RATE)
+        else:
+            # Open the microphone stream.
+            self.mic = pA.open(
+                channels=self.CHANNELS,
+                format=self.FORMAT,
+                frames_per_buffer=self.PERIOD_SIZE_IN_FRAME,
+                input=True,
+                rate=self.SAMPLE_RATE)
 
         # Finally create the main pitch detection object.
         # This object is from Aubio library.
@@ -194,4 +209,8 @@ class MicPVDetect(mt):
     def Stream(self):
 
         # Keep reading data from the audio input.
-        self.data = self.mic.read(self.PERIOD_SIZE_IN_FRAME, exception_on_overflow=False)
+        # `exception_on_overflow=False` to prevent this
+        # application stuck in Raspberry PI's Raspbian
+        # Jessie.
+        self.data = self.mic.read(self.PERIOD_SIZE_IN_FRAME,
+            exception_on_overflow=False)

@@ -2,9 +2,6 @@ from        mod_thread          import ModThread            as mt
 from        timer_second_change import TimerSecondChange    as tsc
 import      cv2
 
-from picamera import PiCamera
-from picamera.array import PiRGBArray
-
 class CamFaceDetect(mt):
 
     def __init__(
@@ -12,6 +9,7 @@ class CamFaceDetect(mt):
         _threadName,
         _array,
         _iDB,
+        _usePiCamera,
         _config
     ):
 
@@ -25,15 +23,41 @@ class CamFaceDetect(mt):
             _threadName
         )
 
-        self.piCamera = PiCamera()
-        self.piCamera.resolution = (640, 480)
-        self.piCamera.framerate = 32
-        self.rawCapture = PiRGBArray(self.piCamera)
 
         # Insert database object.
-        self.iDB        = _iDB
+        self.iDB            = _iDB
+        # Flag if the user run this in Raspberry PI
+        # Raspbian Jessie.
+        self.usePiCamera    = _usePiCamera
         # Configuration object.
-        self.config     = _config
+        self.config         = _config
+
+        # If the user chooses to run this application in
+        # Raspberry PI's Raspbian Jessie with PiCamera.
+        # Then initiate PiCamera object instead of normal
+        # webcam object.
+        self.cam = None
+        if self.usePiCamera:
+
+            from picamera       import PiCamera
+            from picamera.array import PiRGBArray
+
+            # Assign PiCamera variable.
+            self.cam                = PiCamera()
+            self.cam.framerate      = 32
+            self.cam.resolution     = (640, 480)
+            self.rawCapture         = PiRGBArray(self.cam)
+
+        # If not using PiCam it means that this application
+        # will look into normal USB webcam.
+        else:
+
+            # Assign to which web camera this program should
+            # listens. 0 means that this program will
+            # listen to the default web camera (the first
+            # web camera detected by the operating system
+            # when it boots) attached to the computer.
+            self.cam = cv2.VideoCapture(0)
 
         # Detection threshold to prevent "noise" face.
         # The value means that a face need to be detected
@@ -50,12 +74,7 @@ class CamFaceDetect(mt):
         # is at least one face.
         self.faceDtct = False
 
-        # Assign to which camera this program should
-        # listens. 0 means that this program will
-        # listen to the default camera (the first
-        # camera detected by the operating system
-        # when it boots) attached to the computer.
-        #self.cam = cv2.VideoCapture(0)
+
 
         # Path to cascade. Cascade is a pattern to
         # detect something using OpenCV. In this scenario
@@ -90,8 +109,6 @@ class CamFaceDetect(mt):
                 self.FaceDetect()
 
     def FaceDetect(self):
-
-        #print("Test.")
 
         # Convert the captured frame into greyscale.
         frameGrey = cv2.cvtColor(
@@ -144,12 +161,18 @@ class CamFaceDetect(mt):
 
     def FaceDetectStream(self):
 
-        self.piCamera.capture(self.rawCapture, format="bgr")
-        self.frame = self.rawCapture.array
+        # If using ribbon PiCamera.
+        if self.usePiCamera:
 
-        # Capture the video frame by frame from the
-        # self.cam.
-        #retVal, self.frame = self.cam.read()
+            self.cam.capture(self.rawCapture, format="bgr")
+            self.frame = self.rawCapture.array
+
+        else:
+
+            # Capture the video frame by frame from the
+            # self.cam. This is from normal USB based
+            # web cam.
+            retVal, self.frame = self.cam.read()
 
         #print(len(self.faces))
 
@@ -175,7 +198,10 @@ class CamFaceDetect(mt):
             cv2.namedWindow("CamFaceDetection")
             cv2.imshow("CamFaceDetection", self.frame)
 
-        self.rawCapture.truncate(0)
+        # Do not for get to clear the PiCamera "cache"
+        # so that it can start taking new image. It is
+        # not necessary to do is when using USB web cam.
+        if self.usePiCamera: self.rawCapture.truncate(0)
 
     # Function that need to be executed when the program
     # is closing.
