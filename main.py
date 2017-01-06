@@ -101,6 +101,7 @@ from    database                                                import DeleteDat
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
+from    sys                                                     import platform
 from    timer_second_change                                     import GetDateTime                      as gdt                      # Function to get date, time, and time zone as well.
 
 import  configparser    as cfgp     # Import library to managing config.
@@ -116,7 +117,10 @@ class Main(object):
 
     def __init__(self, _docArgs):
 
-        subprocess.call(["reset"])
+        # Codes to clear the terminal screen before launching this application.
+        if   platform == "darwin" or platform == "linux" or platform == "linux2": subprocess.call(["reset"])
+        elif platform == "cygwin" or platform == "win32"                        : subprocess.call(["reset"])
+
         print("sociometric client\n")
 
         #print(_docArgs)

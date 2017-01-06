@@ -62,12 +62,10 @@ def StartWizard(_docArgs, _config, _configAbsPath):
 
             if isblank(inspectThis):
                 _confVar[2] = _confVar[1]
-                print(str(_confVar[2]) + " " +  str(_confVar[1]))
                 break
 
             elif _legalityFunction(inspectThis):
                 _confVar[2] = inspectThis
-                print(str(_confVar[2]) + " " +  str(inspectThis))
                 break
 
             print("\ninput failed\n")
@@ -135,8 +133,6 @@ def StartWizard(_docArgs, _config, _configAbsPath):
             elif not stb(inspectThis)   : doYouWantToSave = False
             elif     stb(inspectThis)   : doYouWantToSave = True
             else                        : doYouWantToSave = None
-
-            print(doYouWantToSave)
 
         if doYouWantToSave: assignallconfigrtv(_docArgs, _config, _configAbsPath)
 
