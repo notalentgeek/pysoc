@@ -79,6 +79,12 @@ Options:
     start wizard        Start this application with wizard.
 
 """
+import sys
+sys.path.append("./src/cli")
+sys.path.append("./src/collection_function")
+sys.path.append("./src/config_and_database")
+sys.path.append("./src/input")
+sys.path.append("./src/other")
 
 from    cam                                                     import CamFaceDetect                    as cfd                      # Import the face detection object.
 from    cascade_front_face_default                              import cascadeFrontFaceDefault          as ccfd                     # Cascade .xml string.
@@ -110,7 +116,6 @@ import  io                          # Import io library to deal with opening/wri
 import  os                          # Import os Python library to deal with file management.
 import  rethinkdb       as r        # RethinkDB controller for Python.
 import  subprocess                  # Getting access to subprocess to run command into command prompt or terminal.
-import  sys
 import  tzlocal                     # For getting information about time zone.
 
 class Main(object):
@@ -119,7 +124,7 @@ class Main(object):
 
         # Codes to clear the terminal screen before launching this application.
         if   platform == "darwin" or platform == "linux" or platform == "linux2": subprocess.call(["reset"])
-        elif platform == "cygwin" or platform == "win32"                        : subprocess.call(["reset"])
+        elif platform == "cygwin" or platform == "win32"                        : subprocess.call(["cls"])
 
         print("sociometric client\n")
 

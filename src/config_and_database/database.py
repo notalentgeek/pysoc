@@ -2,6 +2,10 @@
 # ModThread is just a threading.Thread class
 # with some additional variables that necessary
 # specifically for this program.
+import sys
+sys.path.append("./src/collection_function")
+sys.path.append("./src/other")
+
 from collection_function_value_manipulation_and_conversion import GetValueFromConfig as gvfc
 from mod_thread                                            import ModThread          as mt
 

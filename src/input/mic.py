@@ -1,3 +1,6 @@
+import sys
+sys.path.append("./src/other")
+
 # Import some necessary libraries.
 # Modified thread class.
 from mod_thread import ModThread as mt
