@@ -43,7 +43,6 @@ def StartWithout(_docArgs, _config, _configAbsPath):
         _config.withoutOCVGUI[2] = True
         SaveValueMod2(_config.withoutOCVGUI[0], True)
     if _docArgs.get("--db"):
-        _config.clientName[2] = "luffy"
         _config.withoutDB[2] = True
         SaveValueMod2(_config.withoutDB[0], True)
     if _docArgs.get("--faced"):
