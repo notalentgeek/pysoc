@@ -6,4 +6,5 @@
 /dist
 /log
 /rethinkdb_data
+cascade_face_front_default.xml
 config.ini
