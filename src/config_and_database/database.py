@@ -74,7 +74,7 @@ class InsertDatabase(mt):
                 # main array.
                 firstElement = self.mainArray[0]
 
-                # The first element of the firstElement is
+                # The first element of the `firstElement` is
                 # from which sensor the data is coming from.
                 # In this example there are two sensors which
                 # are the cam and microphone.
@@ -168,10 +168,7 @@ class InsertDatabase(mt):
                         # The fix to exponentially higher is to do try
                         # statement for the insert database instead of
                         # checking the connection.
-                        dataInserted = self.table.insert(jsonCookedAgain).run(self.conn)
-
-                        #print(dataInserted)
-                        #print(self.table)
+                        self.table.insert(jsonCookedAgain).run(self.conn)
 
                     except r.ReqlOpFailedError as error:
 
@@ -237,12 +234,37 @@ def ConnDB(_config, _requestStart):
             db = r.db(_config.dbName[2])
             print("database " + _config.dbName[2] + " does not exist")
             print("creating database " + _config.dbName[2])
+
+        if _requestStart:
             # Check if there is a table called `client_name`.
             # If not then create one.
-            try: db.table(_config.clientName[0]).run(conn)
+            clientNameTable = None
+            try:
+                db.table(_config.clientName[0]).run(conn)
+                clientNameTable = db.table(_config.clientName[0])
             except r.errors.ReqlOpFailedError as error:
                 print("creating " + _config.clientName[0] + " table")
-                db.table_create(_config.clientName[0]).run(conn)
+                db.table_create(_config.clientName[0], primary_key=_config.clientName[0]).run(conn)
+                clientNameTable = db.table(_config.clientName[0])
+
+            # Check if there is document with client_name equals
+            # to `_config.clientName[2]`. If there is not created new
+            # document with the respective IR code. This means that
+            # this user is new in the system. If there is document
+            # with `_config.clientName[0]` equals `_config.clientName[2]`,
+            # then just update the value of its `ir_code` into
+            # `_config.irCode[2]` (the current real time variable value
+            # of IR code).
+            if clientNameTable.get(_config.clientName[2]).run(conn) == None:
+                print("no client found")
+                jsonRaw = {}
+                jsonRaw[_config.clientName[0]] = _config.clientName[2]
+                jsonRaw[_config.irCode[0]] = _config.irCode[2]
+                jsonCooked = json.dumps(jsonRaw)
+                jsonCookedAgain = json.loads(jsonCooked)
+                clientNameTable.insert(jsonCookedAgain).run(conn)
+            else:
+                clientNameTable.get(_config.clientName[2]).update({ir_code: _config.irCode[2]}).run(conn)
 
         # If connection success return True and the database.
         return [True, db, conn]

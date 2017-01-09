@@ -94,7 +94,8 @@ def Set(_docArgs, _config, _configAbsPath):
         #print("--dbp")
     if _docArgs.get("--irc"):
         value = _docArgs.get("--irc")[0]
-        if isnum(value): SaveValueMod0(_config.irCode[0], str(value).upper())
+        print(value)
+        if isanumuscore(value): SaveValueMod0(_config.irCode[0], str(value).upper())
         else: inputFailed = True
         #print("--irc")
 

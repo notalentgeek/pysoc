@@ -109,6 +109,8 @@ from    database                                                import ConnDB   
 from    database                                                import DeleteDatabaseAndLog             as ddl                      # Function to delete database and log folder.
 from    database                                                import InsertDatabase                   as idb                      # Function to connect to database.
 from    docopt                                                  import docopt                           as doc                      # Import docopt, the "user interface" library for CLI application.
+from    ir_receiver                                             import IRDetection                      as ird
+from    ir_transmit                                             import IRSend                           as irs
 from    mic                                                     import MicPVDetect                      as mpvd                     # Import the pitch and volume detection object.
 from    sys                                                     import platform
 from    timer_second_change                                     import GetDateTime                      as gdt                      # Function to get date, time, and time zone as well.
@@ -118,7 +120,7 @@ import  datetime        as dt       # To know operating system current time.
 import  io                          # Import io library to deal with opening/writing config file.
 import  os                          # Import os Python library to deal with file management.
 import  rethinkdb       as r        # RethinkDB controller for Python.
-import  subprocess                  # Getting access to subprocess to run command into command prompt or terminal.
+import  subprocess      as subp     # Getting access to subp to run command into command prompt or terminal.
 import  tzlocal                     # For getting information about time zone.
 
 class Main(object):
@@ -126,8 +128,8 @@ class Main(object):
     def __init__(self, _docArgs):
 
         # Codes to clear the terminal screen before launching this application.
-        if   platform == "darwin" or platform == "linux" or platform == "linux2": subprocess.call(["reset"])
-        elif platform == "cygwin" or platform == "win32"                        : subprocess.call(["cls"])
+        if   platform == "darwin" or platform == "linux" or platform == "linux2": subp.call(["reset"])
+        elif platform == "cygwin" or platform == "win32"                        : subp.call(["cls"])
 
         print("sociometric client\n")
 
@@ -156,6 +158,8 @@ class Main(object):
         # is True then `mPVD` will not be in the `threads`.
         cFD     = None
         iDB     = None
+        iRD     = None
+        iRS     = None
         mPVD    = None
 
         # Generate the cascade .xml for front face detection.
@@ -262,6 +266,9 @@ class Main(object):
             # Raspberry compatible OS but Raspbian Jessie.
             if not stb(config.withoutFaceD  [2]): cFD     = cfd   ("CFD_1"    , threads, iDB, docoptControl[3][1], config)   # Camera face detection.
             if not stb(config.withoutPVD    [2]): mPVD    = mpvd  ("MPVD_1"   , threads, iDB, docoptControl[3][0])           # Microphone pitch and volume detection.
+            if not stb(config.withoutIRD    [2]):
+                iRD = ird("IRD_1", threads, iDB)
+                iRS = irs("IRS_1", threads, config)
 
             # Then run all available threads.
             for t in threads: t.start()

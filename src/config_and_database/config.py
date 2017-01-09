@@ -27,7 +27,7 @@ class Config(object):
         self.dbAddress      = ["db_address"                     , "127.0.0.1"           , None]
         self.dbName         = ["db_name"                        , "sociometric_server"  , None]
         self.dbPort         = ["db_port"                        , "28015"               , None]
-        self.irCode         = ["ir_codes"                       , "KEY_1"               , None]
+        self.irCode         = ["ir_code"                        , "KEY_1"               , None]
         self.firstRun       = ["first_run"                      , "True"                , None]
         self.withoutDB      = ["without_db"                     , "False"               , None]
         self.withoutFaceD   = ["without_face_detection"         , "False"               , None]

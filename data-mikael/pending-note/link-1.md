@@ -1,9 +1,0 @@
-* [http://alexba.in/blog/2013/01/06/setting-up-lirc-on-the-raspberrypi/](http://alexba.in/blog/2013/01/06/setting-up-lirc-on-the-raspberrypi/), initial LIRC setting with Raspberry PI.
-* [http://alexba.in/blog/2013/03/09/raspberrypi-ir-schematic-for-lirc/](http://alexba.in/blog/2013/03/09/raspberrypi-ir-schematic-for-lirc/), LIRC schematics/wiring into Raspberry PI.
-* [http://ozzmaker.com/how-to-control-the-gpio-on-a-raspberry-pi-with-an-ir-remote/](http://ozzmaker.com/how-to-control-the-gpio-on-a-raspberry-pi-with-an-ir-remote/), controlling IR via Raspberry PI GPIOs with C interface.
-* [http://stackoverflow.com/questions/24036989/how-to-sort-lines-in-geany](http://stackoverflow.com/questions/24036989/how-to-sort-lines-in-geany), how to sort selection in Geany. Although this method is not necessarily sort alphabetically, but more into sort "systematically".
-* [http://www.st.com/content/ccc/resource/technical/document/datasheet/25/1f/cf/0d/03/ad/4e/06/CD00001225.pdf/files/CD00001225.pdf/jcr:content/translations/en.CD00001225.pdf](http://www.st.com/content/ccc/resource/technical/document/datasheet/25/1f/cf/0d/03/ad/4e/06/CD00001225.pdf/files/CD00001225.pdf/jcr:content/translations/en.CD00001225.pdf), BD139 NPN datasheet.
-* [https://github.com/tompreston/python-lirc](https://github.com/tompreston/python-lirc), Python library to interface LIRC in Raspberry PI.
-* [https://pinout.xyz/](https://pinout.xyz/), Raspberry PI pinouts mapping.
-* [https://www.floris.cc/shop/en/sparkfun-breakout-boards/343-ir-receiver-breakout-.html](https://www.floris.cc/shop/en/sparkfun-breakout-boards/343-ir-receiver-breakout-.html), IR receiver breakout store entry in Floris.CC.
-* [https://www.sparkfun.com/products/retired/8554](https://www.sparkfun.com/products/retired/8554), 343 IR receiver breakout SparkFun entry. This product is a retired product actually.
