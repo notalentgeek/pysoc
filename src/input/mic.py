@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./src/other")
+sys.path.append("./src")
 
 # Import some necessary libraries.
 # Modified thread class.

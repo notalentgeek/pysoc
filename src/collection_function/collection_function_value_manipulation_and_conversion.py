@@ -12,6 +12,7 @@ def AssignAllConfigDefault(_docArgs, _config, _configAbsPath):
     SaveValueMod0(_config.dbAddress    )
     SaveValueMod0(_config.dbName       )
     SaveValueMod0(_config.dbPort       )
+    SaveValueMod0(_config.irCode       )
     SaveValueMod2(_config.withoutDB    )
     SaveValueMod2(_config.withoutFaceD )
     SaveValueMod2(_config.withoutIRD   )
@@ -28,6 +29,7 @@ def AssignAllConfigRTV(_docArgs, _config, _configAbsPath):
     SaveValueMod0(_config.dbAddress    )
     SaveValueMod0(_config.dbName       )
     SaveValueMod0(_config.dbPort       )
+    SaveValueMod0(_config.irCode       )
     SaveValueMod2(_config.withoutDB    )
     SaveValueMod2(_config.withoutFaceD )
     SaveValueMod2(_config.withoutIRD   )
@@ -49,6 +51,7 @@ def AssignAllRTVConfig(_config, _configAbsPath):
     _config.dbAddress       [2] =              cfg.get(_config.iniSections[0], _config.dbAddress     [0])
     _config.dbName          [2] =              cfg.get(_config.iniSections[0], _config.dbName        [0])
     _config.dbPort          [2] =              cfg.get(_config.iniSections[0], _config.dbPort        [0])
+    _config.irCode          [2] =              cfg.get(_config.iniSections[0], _config.irCode        [0])
     _config.firstRun        [2] =              cfg.get(_config.iniSections[1], _config.firstRun      [0])
     _config.withoutDB       [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutDB     [0]))
     _config.withoutFaceD    [2] = StringToBool(cfg.get(_config.iniSections[2], _config.withoutFaceD  [0]))
@@ -65,16 +68,17 @@ def AssignAllRTVDefault(_config):
     # While the index no `1` is the default
     # value. The index `0` is the `config.ini`
     # sub - section entry name.
-    _config.clientName[2]    = _config.clientName[1]
-    _config.dbAddress[2]     = _config.dbAddress[1]
-    _config.dbName[2]        = _config.dbName[1]
-    _config.dbPort[2]        = _config.dbPort[1]
-    _config.withoutDB[2]     = _config.withoutDB[1]
-    _config.withoutFaceD[2]  = _config.withoutFaceD[1]
-    _config.withoutIRD[2]    = _config.withoutIRD[1]
-    _config.withoutLog[2]    = _config.withoutLog[1]
+    _config.clientName   [2] = _config.clientName   [1]
+    _config.dbAddress    [2] = _config.dbAddress    [1]
+    _config.dbName       [2] = _config.dbName       [1]
+    _config.dbPort       [2] = _config.dbPort       [1]
+    _config.irCode       [2] = _config.irCode       [1]
+    _config.withoutDB    [2] = _config.withoutDB    [1]
+    _config.withoutFaceD [2] = _config.withoutFaceD [1]
+    _config.withoutIRD   [2] = _config.withoutIRD   [1]
+    _config.withoutLog   [2] = _config.withoutLog   [1]
     _config.withoutOCVGUI[2] = _config.withoutOCVGUI[1]
-    _config.withoutPVD[2]    = _config.withoutPVD[1]
+    _config.withoutPVD   [2] = _config.withoutPVD   [1]
 
 # Function to get value from `config.ini`.
 def GetValueFromConfig(_configAbsPath, _sectionName, _variableName):

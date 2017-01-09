@@ -17,21 +17,25 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     defaultDBAddress        = "default                  : do not fill and just press enter to fill the default value of \"127.0.0.1\""
     defaultDBName           = "default                  : do not fill and just press enter to fill the default value of \"sociometric_server\""
     defaultDBPort           = "default                  : do not fill and just press enter to fill the default value of \"28015\""
+    defaultIRCode           = "default                  : do not fill and just press enter to fill the default value of \"KEY_1\""
     defaultWithout          = "default                  : do not fill and just press enter to automatically response \"yes\""
     descriptionClientName   = "please input client name"
     descriptionDBAddress    = "please input rethinkdb database address"
     descriptionDBName       = "please input rethinkdb database name"
     descriptionDBPort       = "please input rethinkdb database port"
+    descriptionIRCode       = "please input lirc registered ir code (refer to ` irrecord --list-namespace`)"
     descriptionWithout      = "please specify components you want to use"
     exampleClientName       = "example                  : \"richardDawkins\""
     exampleDBAddress        = "example                  : \"127.0.0.1\""
-    exampleDBName           = "example                  : \"sociometric_badge\""
+    exampleDBName           = "example                  : \"sociometric_server\""
     exampleDBPort           = "example                  : \"28015\""
+    exampleIRCode           = "example                  : \"KEY_1\""
     exampleWithout          = "example                  : \"no\"/\"n\" for not using this features or \"yes\"/\"y\" for using this features"
     inputClientName         = "client name              : "
     inputDBAddress          = "database address         : "
     inputDBName             = "database name            : "
     inputDBPort             = "database port            : "
+    inputIRCode             = "ir code                  : "
     inputDB                 = "do you want to use database? "
     inputFaceD              = "do you want to use face detection? "
     inputIRD                = "do you want to use infrared detection? "
@@ -45,6 +49,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     requirementDBAddress    = "requirement              : no space, not case sensitive, alpha - numeric"
     requirementDBName       = "requirement              : no space, lower case, alpha - numeric, underscore_case"
     requirementDBPort       = "requirement              : no space, numeric"
+    requirementIRCode       = "requirement              : no space, upper case, alpha - numeric, underscore_case"
     requirementWithout      = "requirement              : no space, not case sensitive"
 
     # Function to input value.
@@ -103,6 +108,14 @@ def StartWizard(_docArgs, _config, _configAbsPath):
         inputDBPort,
         _config.dbPort,
         isnum)
+    def InputWizardModIRCode(): InputWizard(
+        descriptionIRCode,
+        requirementIRCode,
+        exampleIRCode,
+        defaultIRCode,
+        inputIRCode,
+        _config.irCode,
+        isanumuscore)
 
     def InputBool(_input, _confVar):
 
@@ -188,6 +201,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     InputWizardModDBAddress     ()
     InputWizardModDBName        ()
     InputWizardModDBPort        ()
+    InputWizardModIRCode        ()
     print                       ("\n" + descriptionWithout)
     print                       (requirementWithout)
     print                       (exampleWithout)

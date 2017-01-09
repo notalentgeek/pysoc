@@ -15,7 +15,7 @@ class Config(object):
 
         # Main section for the .ini
         # configuration file.
-        self.iniSections = ["database", "flag", "setting"]
+        self.iniSections = ["info", "flag", "setting"]
 
         # The first index is the entry name
         # (sub - section) in the .ini
@@ -27,6 +27,7 @@ class Config(object):
         self.dbAddress      = ["db_address"                     , "127.0.0.1"           , None]
         self.dbName         = ["db_name"                        , "sociometric_server"  , None]
         self.dbPort         = ["db_port"                        , "28015"               , None]
+        self.irCode         = ["ir_codes"                       , "KEY_1"               , None]
         self.firstRun       = ["first_run"                      , "True"                , None]
         self.withoutDB      = ["without_db"                     , "False"               , None]
         self.withoutFaceD   = ["without_face_detection"         , "False"               , None]
@@ -52,6 +53,7 @@ def CreateConfig(_config, _configAbsPath):
     cfgRaw.set(_config.iniSections[0], _config.dbAddress    [0], _config.dbAddress      [1])
     cfgRaw.set(_config.iniSections[0], _config.dbName       [0], _config.dbName         [1])
     cfgRaw.set(_config.iniSections[0], _config.dbPort       [0], _config.dbPort         [1])
+    cfgRaw.set(_config.iniSections[0], _config.irCode       [0], _config.irCode         [1])
 
     cfgRaw.set(_config.iniSections[1], _config.firstRun     [0], _config.firstRun       [1])
 
@@ -86,6 +88,7 @@ def ShowConfigFile(_config, _configAbsPath):
     print("database address                             : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.dbAddress       [0])))
     print("database name                                : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.dbName          [0])))
     print("database port                                : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.dbPort          [0])))
+    print("ir code                                      : " + str(GetValueFromConfigMod(_config.iniSections[0], _config.irCode          [0])))
     print("first time run                               : " + str(GetValueFromConfigMod(_config.iniSections[1], _config.firstRun        [0])))
     print("start without database                       : " + str(GetValueFromConfigMod(_config.iniSections[2], _config.withoutDB       [0])))
     print("start without face detection                 : " + str(GetValueFromConfigMod(_config.iniSections[2], _config.withoutFaceD    [0])))
@@ -102,6 +105,7 @@ def ShowConfigRuntime(_config):
     print("database address                             : " + str(_config.dbAddress         [2]))
     print("database name                                : " + str(_config.dbName            [2]))
     print("database port                                : " + str(_config.dbPort            [2]))
+    print("ir code                                      : " + str(_config.irCode            [2]))
     print("first time run                               : " + str(_config.firstRun          [2]))
     print("start without database                       : " + str(_config.withoutDB         [2]))
     print("start without face detection                 : " + str(_config.withoutFaceD      [2]))

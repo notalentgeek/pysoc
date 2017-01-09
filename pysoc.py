@@ -4,7 +4,7 @@ Usage:
     main.py (--help | -h)
     main.py (--version | -v)
     main.py reset [--dbl]
-    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
+    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--irc=<ircv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
     main.py set all-default
     main.py show (--config)
     main.py start [--rpi [--picam]]
@@ -24,6 +24,8 @@ Options:
                         a must, [default: sociometric_server].
     --dbp=<dbpv>        Refer to RethinkDB database port. Value is
                         a must, [default: 28015].
+    --irc=<ircv>        Refer to LIRC's IR code. Value is a must,
+                        [default: KEY_1]
 
     --rpi               Start this application in Raspberry PI's
                         Raspbian instead of normal desktop operating
@@ -176,7 +178,16 @@ class Main(object):
         if not os.path.exists(configAbsPath): cc(config, configAbsPath)
 
         # Assign all value into run - time variables.
-        assignallrtvconfig(config, configAbsPath)
+        # Use `try` and except. If there is an error
+        # delete the current config.ini and make a new
+        # one.
+        try: assignallrtvconfig(config, configAbsPath)
+        except cfgp.NoOptionError as error:
+            print("there is missing parameter(s) in current configuration file")
+            print("deleting config.ini")
+            os.remove(configAbsPath)
+            print("creating new config.ini")
+            cc(config, configAbsPath)
 
         # Docopt arguments handlers.
         docoptControl = self.DocoptControl(docArgs, config, configAbsPath, logFolderAbsPath)
@@ -225,7 +236,7 @@ class Main(object):
                     print(logName + " log created")
 
             # First I need to check if database will be used or not.
-            if not config.withoutDB[0]: connDB = cdb(config, True)
+            if not config.withoutDB[2]: connDB = cdb(config, True)
             # `connDB[0]` returns `True` if database connection is successful.
             if connDB != None:
                 if connDB[0]:

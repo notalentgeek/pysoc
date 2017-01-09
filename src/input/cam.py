@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./src/other")
+sys.path.append("./src")
 
 from   mod_thread          import ModThread            as mt
 from   timer_second_change import TimerSecondChange    as tsc

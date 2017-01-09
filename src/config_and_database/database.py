@@ -3,8 +3,8 @@
 # with some additional variables that necessary
 # specifically for this program.
 import sys
+sys.path.append("./src")
 sys.path.append("./src/collection_function")
-sys.path.append("./src/other")
 
 from collection_function_value_manipulation_and_conversion import GetValueFromConfig as gvfc
 from mod_thread                                            import ModThread          as mt
@@ -180,9 +180,9 @@ class InsertDatabase(mt):
                             self.config.clientName[2] +
                             " to store " +
                             sensorSource +
-                            " data does not exist."
+                            " data does not exist"
                         )
-                        print("Creating " + tableName + " table.")
+                        print("creating " + tableName + " table")
                         self.db.table_create(tableName).run(self.conn)
                         self.table = self.db.table(tableName)
 
@@ -197,7 +197,11 @@ class InsertDatabase(mt):
                 self.mainArray.pop(0)
 
 # Function to initiating connection to database.
-def ConnDB(_config, _fromMainConnection):
+# `_requestStart` is used to indicate if this application
+# is requested to `start`. If this application is only
+# requested to check the database then `_requestStart`
+# should be `False`.
+def ConnDB(_config, _requestStart):
 
     conn    = None
     db      = None
@@ -226,15 +230,19 @@ def ConnDB(_config, _fromMainConnection):
             host=_config.dbAddress[2],
             port=_config.dbPort[2])
 
-        # Pick which database to get its
-        # information stored.
-
+        # Pick which database to get its information stored.
         db = r.db(_config.dbName[2])
-        if not _config.dbName[2] in r.db_list().run(conn) and _fromMainConnection:
+        if not _config.dbName[2] in r.db_list().run(conn) and _requestStart:
             db = r.db_create(_config.dbName[2]).run(conn)
             db = r.db(_config.dbName[2])
             print("database " + _config.dbName[2] + " does not exist")
             print("creating database " + _config.dbName[2])
+            # Check if there is a table called `client_name`.
+            # If not then create one.
+            try: db.table(_config.clientName[0]).run(conn)
+            except r.errors.ReqlOpFailedError as error:
+                print("creating " + _config.clientName[0] + " table")
+                db.table_create(_config.clientName[0]).run(conn)
 
         # If connection success return True and the database.
         return [True, db, conn]
