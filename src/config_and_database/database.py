@@ -127,7 +127,7 @@ class InsertDatabase(mt):
                     index = index + 1
                     jsonRaw[fieldName] = value
 
-                    log = log + "(" + fieldName + ":" + value + ")"
+                    log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
                 # Cooked the JSON so that it is ready to be served
                 # to the database.

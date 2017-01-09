@@ -23,7 +23,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     descriptionDBAddress    = "please input rethinkdb database address"
     descriptionDBName       = "please input rethinkdb database name"
     descriptionDBPort       = "please input rethinkdb database port"
-    descriptionIRCode       = "please input lirc registered ir code (refer to ` irrecord --list-namespace`)"
+    descriptionIRCode       = "please input lirc registered ir code (refer to `irrecord --list-namespace`)"
     descriptionWithout      = "please specify components you want to use"
     exampleClientName       = "example                  : \"richardDawkins\""
     exampleDBAddress        = "example                  : \"127.0.0.1\""

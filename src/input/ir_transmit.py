@@ -1,4 +1,5 @@
-from   mod_thread import ModThread as mt
+from mod_thread import ModThread as mt
+import subprocess as subp
 
 class IRSend(mt):
 
@@ -12,7 +13,7 @@ class IRSend(mt):
 
         self.config = _config
 
-        self.TICK_INTERVAL  = 100
+        self.TICK_INTERVAL  = 1000
         self.tickCounter    = 0
 
     def run(self):

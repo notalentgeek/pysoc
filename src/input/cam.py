@@ -116,7 +116,7 @@ class CamFaceDetect(mt):
 
         # If there is no return value then the camera probably is
         # not ready.
-        if self.retVal or self.frame:
+        if self.retVal:
 
             # Convert the captured frame into greyscale.
             frameGrey = cv2.cvtColor(
@@ -173,7 +173,8 @@ class CamFaceDetect(mt):
         if self.usePiCamera:
 
             self.cam.capture(self.rawCapture, format="bgr")
-            self.frame = self.rawCapture.array
+            self.frame  = self.rawCapture.array
+            self.retVal = True
 
         else:
 
