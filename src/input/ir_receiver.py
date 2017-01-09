@@ -64,7 +64,6 @@ class IRDetection(mt):
             # then put there. After a new element appended into
             # the IR received array `sort()` the array alphabetically.
             irS = str(ir).upper()
-            print(irS)
             if irS != "[]" and not irS in self.irReceivedDuringInterval:
                 self.irReceivedDuringInterval.append(irS)
                 self.irReceivedDuringInterval.sort()

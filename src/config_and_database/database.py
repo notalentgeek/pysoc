@@ -127,15 +127,22 @@ class InsertDatabase(mt):
                     index = index + 1
                     jsonRaw[fieldName] = value
 
-                    if not self.withoutDB:
+                    if sensorSource == "ir" and not self.withoutDB:
 
                         valueArray = value.split(",")
+                        valueNew = ""
                         for vE in valueArray:
-                            print(
-                                self.db.table(self.config.clientName[0])        \
-                                    .get_all(vE, index=self.config.irCode[0])   \
-                                    .run(conn)
-                            )
+                            clientNameArray = self.db.table(self.config.clientName[0]).filter(lambda doc:
+                                doc[self.config.irCode[0]].match(vE)).run(self.conn)
+                            clientNameArray = list(clientNameArray)
+                            if len(clientNameArray) > 0:
+                                clientNameE = str(clientNameArray[0])
+                                clientNameE = clientNameE.split("\'client_name\': \'")[1]
+                                clientNameE = clientNameE.split("\'")[0]
+                                valueNew = valueNew + clientNameE + ","
+                        if valueNew != "":
+                            valueNew = valueNew[:-1]
+                            value = valueNew
 
                     log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
@@ -172,7 +179,7 @@ class InsertDatabase(mt):
                     # if a table is exists.
                     try:
 
-                        #self.db.table(tableName).run(self.conn)
+                        self.db.table(tableName).run(self.conn)
                         self.table = self.db.table(tableName)
                         # Insert the jsonCookedAgain into the database.
                         # The fix to exponentially higher is to do try
@@ -192,6 +199,11 @@ class InsertDatabase(mt):
                         print("creating " + tableName + " table")
                         self.db.table_create(tableName).run(self.conn)
                         self.table = self.db.table(tableName)
+                        # Insert the jsonCookedAgain into the database.
+                        # The fix to exponentially higher is to do try
+                        # statement for the insert database instead of
+                        # checking the connection.
+                        self.table.insert(jsonCookedAgain).run(self.conn)
 
                 #print(jsonCooked)
                 if not self.config.withoutLog[2] : print(log)
@@ -274,7 +286,7 @@ def ConnDB(_config, _requestStart):
                 jsonCookedAgain = json.loads(jsonCooked)
                 clientNameTable.insert(jsonCookedAgain).run(conn)
             else:
-                clientNameTable.get(_config.clientName[2]).update({ir_code: _config.irCode[2]}).run(conn)
+                clientNameTable.get(_config.clientName[2]).update({_config.irCode[0]: _config.irCode[2]}).run(conn)
 
         # If connection success return True and the database.
         return [True, db, conn]
