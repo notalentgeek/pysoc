@@ -48,7 +48,7 @@ class IRDetection(mt):
             .replace(" ", "")\
             .replace("[", "")\
             .replace("]", "")\
-            .replace("'", "")\
+            .replace("\'", "")\
             .replace("\"", "")
         theArrayThatWillBeReturned.extend(["ir_code", cleanString])
 

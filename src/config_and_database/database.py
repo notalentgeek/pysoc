@@ -127,6 +127,16 @@ class InsertDatabase(mt):
                     index = index + 1
                     jsonRaw[fieldName] = value
 
+                    if not self.withoutDB:
+
+                        valueArray = value.split(",")
+                        for vE in valueArray:
+                            print(
+                                self.db.table(self.config.clientName[0])        \
+                                    .get_all(vE, index=self.config.irCode[0])   \
+                                    .run(conn)
+                            )
+
                     log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
                 # Cooked the JSON so that it is ready to be served
