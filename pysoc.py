@@ -17,15 +17,14 @@ Options:
     --version -v        Refer to this version of application.
 
     --cname=<cnamev>    Refer to client/this device name. Value is
-                        a must, [default: clientTest].
+                        a must.
     --dba=<dbav>        Refer to RethinkDB database address. Value
-                        is a must, [default: 127.0.0.1].
+                        is a must.
     --dbn=<dbnv>        Refer to RethinkDB database name. Value is
-                        a must, [default: sociometric_server].
+                        a must.
     --dbp=<dbpv>        Refer to RethinkDB database port. Value is
-                        a must, [default: 28015].
-    --irc=<ircv>        Refer to LIRC's IR code. Value is a must,
-                        [default: KEY_1]
+                        a must.
+    --irc=<ircv>        Refer to LIRC's IR code. Value is a must.
 
     --rpi               Start this application in Raspberry PI's
                         Raspbian instead of normal desktop operating

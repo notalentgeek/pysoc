@@ -72,32 +72,33 @@ def Set(_docArgs, _config, _configAbsPath):
 
     inputFailed = False
 
+    print(_docArgs)
+
     if _docArgs.get("--cname"):
         value = _docArgs.get("--cname")[0]
         if isanum(value): SaveValueMod0(_config.clientName[0], value)
         else: inputFailed = True
-        #print("--cname")
+        print("--cname")
     if _docArgs.get("--dba"):
         value = _docArgs.get("--dba")[0]
         if isanumdot(value): SaveValueMod0(_config.dbAddress[0], value)
         else: inputFailed = True
-        #print("--dba")
+        print("--dba")
     if _docArgs.get("--dbn"):
         value = _docArgs.get("--dbn")[0]
         if isanumuscore(value): SaveValueMod0(_config.dbName[0], str(value).lower())
         else: inputFailed = True
-        #print("--dbn")
+        print("--dbn")
     if _docArgs.get("--dbp"):
         value = _docArgs.get("--dbp")[0]
         if isnum(value): SaveValueMod0(_config.dbPort[0], value)
         else: inputFailed = True
-        #print("--dbp")
+        print("--dbp")
     if _docArgs.get("--irc"):
         value = _docArgs.get("--irc")[0]
-        print(value)
         if isanumuscore(value): SaveValueMod0(_config.irCode[0], str(value).upper())
         else: inputFailed = True
-        #print("--irc")
+        print("--irc")
 
     if _docArgs.get("--cvgui"):
         currentValueInConfigFile = stb(getvaluefromconfig(_configAbsPath, _config.iniSections[2], _config.withoutOCVGUI[0]))
