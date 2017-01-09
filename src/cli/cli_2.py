@@ -202,7 +202,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
 
     inputRPI    = InputRPI()
     useRPI      = inputRPI[0]
-    usePiCam    = inputRPI[1]
+    usePICam    = inputRPI[1]
 
     # Set `firstRun` variable into `False`.
-    return [False, useRPI, usePiCam]
+    return [useRPI, usePICam]

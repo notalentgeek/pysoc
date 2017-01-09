@@ -96,6 +96,7 @@ from    cli_2                                                   import StartWiza
 from    collection_function_value_manipulation_and_conversion   import AssignAllConfigDefault           as assignallconfigdefault   # Function that convert string into boolean.
 from    collection_function_value_manipulation_and_conversion   import AssignAllRTVConfig               as assignallrtvconfig       # Function that convert string into boolean.
 from    collection_function_value_manipulation_and_conversion   import GetValueFromConfig               as gvfc                     # Function to get value from `config.ini`.
+from    collection_function_value_manipulation_and_conversion   import SaveValue                        as sv                       # Function that convert string into boolean.
 from    collection_function_value_manipulation_and_conversion   import StringToBool                     as stb                      # Function that convert string into boolean.
 from    config                                                  import Config                           as conf                     # Get access to the variables in shared.py.
 from    config                                                  import CreateConfig                     as cc                       # Function to create `config.ini` file.
@@ -314,29 +315,21 @@ class Main(object):
             if _docArgs.get("all-default"): assignallconfigdefault(_docArgs, _config, _configAbsPath)
             # Set everything manually.
             else: ss(_docArgs, _config, _configAbsPath)
-
             # If user ever once set something than prevent
             # wizard from appearing when `start` command
             # inputted
-            cfgRaw = cfgp.ConfigParser()
-            cfgRaw.read(_configAbsPath)
-            cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(False))
-            with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
+            sv(_config, _configAbsPath, _docArgs, 1, _config.firstRun[0], False)
+            _config.firstRun[2] = False
         if _docArgs.get("show") and _docArgs.get("--config"):
             configFileShown = True
             showcf(_config, _configAbsPath)
         if _docArgs.get("start"):
             if firstRun:
-                cfgRaw = cfgp.ConfigParser()
-                cfgRaw.read(_configAbsPath)
-                # Change the `first_run` entry in config.ini into `True` or `False`.
-                # `first_run` will be `True` if the `str(swi(_config, _configAbsPath))`
-                # succeed. If `str(swi(_config, _configAbsPath))` process is interrupted
-                # Then this will return `False`.
+                # Start the wizard.
                 sWI = swi(_docArgs, _config, _configAbsPath)
-                cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(sWI[0]))
-                with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
-                raspberryPI = [sWI[1], sWI[2]]
+                raspberryPI = [sWI[0], sWI[1]]
+                sv(_config, _configAbsPath, _docArgs, 1, _config.firstRun[0], False)
+                _config.firstRun[2] = False
             else:
                 # `start all-default` let user to
                 # use default components (using all
@@ -350,16 +343,13 @@ class Main(object):
                 # If this is first run then every time
                 # this application launches go to here.
                 elif _docArgs.get("wizard"):
-                    cfgRaw = cfgp.ConfigParser()
-                    cfgRaw.read(_configAbsPath)
-                    # Change the `first_run` entry in config.ini into `True` or `False`.
-                    # `first_run` will be `True` if the `str(swi(_config, _configAbsPath))`
-                    # succeed. If `str(swi(_config, _configAbsPath))` process is interrupted
-                    # Then this will return `False`.
                     sWI = swi(_docArgs, _config, _configAbsPath)
-                    cfgRaw.set(_config.iniSections[1], _config.firstRun[0], str(sWI[0]))
-                    with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
-                    raspberryPI = [sWI[1], sWI[2]]
+                    raspberryPI = [sWI[0], sWI[1]]
+                    sv(_config, _configAbsPath, _docArgs, 1, _config.firstRun[0], False)
+                    _config.firstRun[2] = False
+                # If there is no other parameters support the `start` command
+                # check if user want to start this in Raspberry PI or normal
+                # operating system.
                 else: raspberryPI = srpi(_docArgs)
 
             # If `start` is used this application will go into main loop.

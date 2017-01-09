@@ -6,34 +6,34 @@ import configparser as cfgp
 # Function to assign all default values into `config.ini`.
 def AssignAllConfigDefault(_docArgs, _config, _configAbsPath):
 
-    def SaveValueMod0(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 0, _configEntryName, _value)
-    def SaveValueMod2(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
-    SaveValueMod0(_config.clientName    [0], _config.clientName     [1])
-    SaveValueMod0(_config.dbAddress     [0], _config.dbAddress      [1])
-    SaveValueMod0(_config.dbName        [0], _config.dbName         [1])
-    SaveValueMod0(_config.dbPort        [0], _config.dbPort         [1])
-    SaveValueMod2(_config.withoutDB     [0], _config.withoutDB      [1])
-    SaveValueMod2(_config.withoutFaceD  [0], _config.withoutFaceD   [1])
-    SaveValueMod2(_config.withoutIRD    [0], _config.withoutIRD     [1])
-    SaveValueMod2(_config.withoutLog    [0], _config.withoutLog     [1])
-    SaveValueMod2(_config.withoutOCVGUI [0], _config.withoutOCVGUI  [1])
-    SaveValueMod2(_config.withoutPVD    [0], _config.withoutPVD     [1])
+    def SaveValueMod0(_configVariable): SaveValue(_config, _configAbsPath, _docArgs, 0, _configVariable[0], _configVariable[1])
+    def SaveValueMod2(_configVariable): SaveValue(_config, _configAbsPath, _docArgs, 2, _configVariable[0], _configVariable[1])
+    SaveValueMod0(_config.clientName   )
+    SaveValueMod0(_config.dbAddress    )
+    SaveValueMod0(_config.dbName       )
+    SaveValueMod0(_config.dbPort       )
+    SaveValueMod2(_config.withoutDB    )
+    SaveValueMod2(_config.withoutFaceD )
+    SaveValueMod2(_config.withoutIRD   )
+    SaveValueMod2(_config.withoutLog   )
+    SaveValueMod2(_config.withoutOCVGUI)
+    SaveValueMod2(_config.withoutPVD   )
 
 # Function to save real time values into `config.ini`.
 def AssignAllConfigRTV(_docArgs, _config, _configAbsPath):
 
-    def SaveValueMod0(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 0, _configEntryName, _value)
-    def SaveValueMod2(_configEntryName, _value): SaveValue(_config, _configAbsPath, _docArgs, 2, _configEntryName, _value)
-    SaveValueMod0(_config.clientName    [0], _config.clientName     [2])
-    SaveValueMod0(_config.dbAddress     [0], _config.dbAddress      [2])
-    SaveValueMod0(_config.dbName        [0], _config.dbName         [2])
-    SaveValueMod0(_config.dbPort        [0], _config.dbPort         [2])
-    SaveValueMod2(_config.withoutDB     [0], _config.withoutDB      [2])
-    SaveValueMod2(_config.withoutFaceD  [0], _config.withoutFaceD   [2])
-    SaveValueMod2(_config.withoutIRD    [0], _config.withoutIRD     [2])
-    SaveValueMod2(_config.withoutLog    [0], _config.withoutLog     [2])
-    SaveValueMod2(_config.withoutOCVGUI [0], _config.withoutOCVGUI  [2])
-    SaveValueMod2(_config.withoutPVD    [0], _config.withoutPVD     [2])
+    def SaveValueMod0(_configVariable): SaveValue(_config, _configAbsPath, _docArgs, 0, _configVariable[0], _configVariable[2])
+    def SaveValueMod2(_configVariable): SaveValue(_config, _configAbsPath, _docArgs, 2, _configVariable[0], _configVariable[2])
+    SaveValueMod0(_config.clientName   )
+    SaveValueMod0(_config.dbAddress    )
+    SaveValueMod0(_config.dbName       )
+    SaveValueMod0(_config.dbPort       )
+    SaveValueMod2(_config.withoutDB    )
+    SaveValueMod2(_config.withoutFaceD )
+    SaveValueMod2(_config.withoutIRD   )
+    SaveValueMod2(_config.withoutLog   )
+    SaveValueMod2(_config.withoutOCVGUI)
+    SaveValueMod2(_config.withoutPVD   )
 
 
 # Function to assign all configuration variables from
@@ -91,29 +91,22 @@ def SaveValue(_config, _configAbsPath, _docArgs,
     # If there is a save parameter then
     # write the setting into configuration
     # .ini file as well.
-    #print(_docArgs.get("set"))
-    if _docArgs.get("--save") or (
-        _docArgs.get("set")):
+    if(
+        (_docArgs.get("--save")) or
+        (_docArgs.get("set"   )) or
+        (_docArgs.get("start" ))
+    ):
 
-        #print("--save")
+        cfgRaw = cfgp.ConfigParser()    # Create the parser object.
+        cfgRaw.read(_configAbsPath)     # Read the configuration configuration path.
 
-        # Create the parser object.
-        cfgRaw = cfgp.ConfigParser()
-        # Read the configuration configuration path.
-        cfgRaw.read(_configAbsPath)
         # Set the value!
-        cfgRaw.set(_config.iniSections[_iniSectionsIndex],
-            _variableNameInConfigFile, str(_value))
+        cfgRaw.set(_config.iniSections[_iniSectionsIndex], _variableNameInConfigFile, str(_value))
 
-        #print("==========")
-        #print(str(value))
-        #print("==========")
-
-        # Write the value.
         with open(_configAbsPath, "w") as cfg: cfgRaw.write(cfg)
 
 # Function to convert string into boolean.
 def StringToBool(_string):
-    if   str(_string).lower() in ["1", "t", "true", "y", "yes"]: return True
-    elif str(_string).lower() in ["0", "f", "false", "n", "no"]: return False
-    else                                                       : return None
+    if   str(_string).lower() in ["1", "t", "true" , "y", "yes"]: return True
+    elif str(_string).lower() in ["0", "f", "false", "n", "no" ]: return False
+    else                                                        : return None
