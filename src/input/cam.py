@@ -88,6 +88,7 @@ class CamFaceDetect(mt):
         self.faces = []
         # Frame captured from connected cam.
         self.frame = None
+        self.retVal = None
 
         # Set up timer object. To make sure that
         # the audio calculation only once for
@@ -113,54 +114,58 @@ class CamFaceDetect(mt):
 
     def FaceDetect(self):
 
-        # Convert the captured frame into greyscale.
-        frameGrey = cv2.cvtColor(
-            self.frame, cv2.COLOR_BGR2GRAY)
+        # If there is no return value then the camera probably is
+        # not ready.
+        if self.retVal or self.frame:
 
-        # Face detection.
-        self.faces = self.casc.detectMultiScale(
-            frameGrey,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30),
-            flags=cv2.CASCADE_SCALE_IMAGE)
+            # Convert the captured frame into greyscale.
+            frameGrey = cv2.cvtColor(
+                self.frame, cv2.COLOR_BGR2GRAY)
 
-        #print(self.faces)
-        #print(len(self.faces))
+            # Face detection.
+            self.faces = self.casc.detectMultiScale(
+                frameGrey,
+                scaleFactor=1.1,
+                minNeighbors=5,
+                minSize=(30, 30),
+                flags=cv2.CASCADE_SCALE_IMAGE)
 
-        # Sometimes there is a faces that is actually not
-        # a face. For example, OpenCV can detect cardboard
-        # as a face. Below is a simple code to remove those
-        # noise face(s).
-        if len(self.faces) <= 0:
-            self.faceCnt = self.faceCnt - 1
-            if self.faceCnt <= 0:
-                self.faceCnt = 0
-            self.faceDtct = False
-        else: self.faceCnt = self.faceCnt + 1
-        if self.faceCnt >= self.FACE_DTCT_THRS:
-            self.faceCnt = self.FACE_DTCT_THRS
-            self.faceDtct = True
-        if self.faceDtct == True:
-            if self.iDB != None:
-                self.iDB.mainArray.append(self.SetupStringForDB(str(len(self.faces))))
-                #print("self.faces = " + str(len(self.faces)))
+            #print(self.faces)
+            #print(len(self.faces))
 
-        # Draw rectangle around the faces.
-        #for(x, y, w, h) in self.faces:
-        #    cv2.rectangle(
-        #        self.frame,
-        #        (x, y),
-        #        (x + w, y + h),
-        #        (0, 0, 255),
-        #        2
-        #    )
+            # Sometimes there is a faces that is actually not
+            # a face. For example, OpenCV can detect cardboard
+            # as a face. Below is a simple code to remove those
+            # noise face(s).
+            if len(self.faces) <= 0:
+                self.faceCnt = self.faceCnt - 1
+                if self.faceCnt <= 0:
+                    self.faceCnt = 0
+                self.faceDtct = False
+            else: self.faceCnt = self.faceCnt + 1
+            if self.faceCnt >= self.FACE_DTCT_THRS:
+                self.faceCnt = self.FACE_DTCT_THRS
+                self.faceDtct = True
+            if self.faceDtct == True:
+                if self.iDB != None:
+                    self.iDB.mainArray.append(self.SetupStringForDB(str(len(self.faces))))
+                    #print("self.faces = " + str(len(self.faces)))
+
+            # Draw rectangle around the faces.
+            #for(x, y, w, h) in self.faces:
+            #    cv2.rectangle(
+            #        self.frame,
+            #        (x, y),
+            #        (x + w, y + h),
+            #        (0, 0, 255),
+            #        2
+            #    )
 
 
-        # Display the resulting frame. Comment this line
-        # of codes below if the program is going to be
-        # headless.
-        #cv2.imshow("CamFaceDetection", self.frame)
+            # Display the resulting frame. Comment this line
+            # of codes below if the program is going to be
+            # headless.
+            #cv2.imshow("CamFaceDetection", self.frame)
 
     def FaceDetectStream(self):
 
@@ -175,7 +180,7 @@ class CamFaceDetect(mt):
             # Capture the video frame by frame from the
             # self.cam. This is from normal USB based
             # web cam.
-            retVal, self.frame = self.cam.read()
+            self.retVal, self.frame = self.cam.read()
 
         #print(len(self.faces))
 
