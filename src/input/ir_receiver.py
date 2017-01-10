@@ -45,6 +45,8 @@ class IRDetection(mt):
         theArrayThatWillBeReturned = [self.MODULE_NAME]
         theArrayThatWillBeReturned.extend(self.tSC.dateTime)
 
+        # The `cleanString` will something like,
+        # "KEY_1,KEY_2"
         cleanString = str(_irReceivedDuringInterval)\
             .replace(" ", "")\
             .replace("[", "")\

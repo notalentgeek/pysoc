@@ -125,24 +125,50 @@ class InsertDatabase(mt):
                     # Parse the value.
                     value = firstElement[index]
                     index = index + 1
-                    jsonRaw[fieldName] = value
 
+                    # Specifically for IR detection. The data received is
+                    # the IR code. That IR code need to be matched in
+                    # `client_name` table in the database to search over
+                    # which user has the IR code. The IR code is the IR
+                    # namespaces in LIRC in Raspbian. You can check it
+                    # using this command, `irrecord --list-namespace`.
                     if sensorSource == "ir" and not self.withoutDB:
 
+                        # The value array is the all IR codes received by the
+                        # IR receiver during one second interval. The elements
+                        # in this array/list is unique.
                         valueArray = value.split(",")
+                        # Value new is the "converted" IR codes into client names.
                         valueNew = ""
+                        # Iterate through all received IR codes.
                         for vE in valueArray:
+
+                            # Search for all client names that attached to
+                            # current inspected IR code.
                             clientNameArray = self.db.table(self.config.clientName[0]).filter(lambda doc:
                                 doc[self.config.irCode[0]].match(vE)).run(self.conn)
+                            # Convert the returned data into Python's list.
                             clientNameArray = list(clientNameArray)
+
+                            # Make sure there are at least one client name
+                            # returned. In case `len(clientNameArray) == 0`
+                            # that means that the IR codes received is not
+                            # "attached" into any client names in the
+                            # database's table `client_name`.
                             if len(clientNameArray) > 0:
                                 clientNameE = str(clientNameArray[0])
                                 clientNameE = clientNameE.split("\'client_name\': \'")[1]
                                 clientNameE = clientNameE.split("\'")[0]
                                 valueNew = valueNew + clientNameE + ","
+
+                        # Make sure there are at least a client name returned.
+                        # Remove the last comma.
                         if valueNew != "":
                             valueNew = valueNew[:-1]
                             value = valueNew
+
+                        # Enter the value into `jsonRaw`
+                        jsonRaw[fieldName] = value
 
                     log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
