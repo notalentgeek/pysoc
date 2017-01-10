@@ -82,8 +82,8 @@ Options:
 """
 import sys
 sys.path.append("./src/cli")
-sys.path.append("./src/collection_function")
-sys.path.append("./src/config_and_database")
+sys.path.append("./src/collection-function")
+sys.path.append("./src/config-and-database")
 sys.path.append("./src/input")
 sys.path.append("./src/other")
 

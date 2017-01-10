@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo pyinstaller --paths="./src/cli" --paths="./src/collection_function" --paths="./src/config_and_database" --paths="./src/input" --paths="./src/other" --onefile pysoc.py
+sudo pyinstaller --paths="./src/cli" --paths="./src/collection-function" --paths="./src/config-and-database" --paths="./src/input" --paths="./src/other" --onefile pysoc.py
 $SHELL

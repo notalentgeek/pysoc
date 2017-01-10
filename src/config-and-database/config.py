@@ -1,7 +1,7 @@
 # This is specific Python class that manages
 # configuration variables.
 import sys
-sys.path.append("./src/collection_function")
+sys.path.append("./src/collection-function")
 
 from    collection_function_value_manipulation_and_conversion import GetValueFromConfig as gvfc
 

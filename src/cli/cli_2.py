@@ -1,6 +1,6 @@
 # A Python file for a CLI wizard function.
 import sys
-sys.path.append("./src/collection_function")
+sys.path.append("./src/collection-function")
 
 from    collection_function_check_string                        import CheckIfStringIsAlphaNumeric         as isanum
 from    collection_function_check_string                        import CheckIfStringIsAlphaNumericDot      as isanumdot
