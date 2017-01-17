@@ -26,7 +26,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     descriptionIRCode       = "please input lirc registered ir code (refer to `irrecord --list-namespace`) at this moment please use \"KEY_1\", \"KEY_2\", or \"KEY_3\"."
     descriptionWithout      = "please specify components you want to use"
     exampleClientName       = "example                  : \"richardDawkins\""
-    exampleDBAddress        = "example                  : \"127.0.0.1\""
+    exampleDBAddress        = "example                  : \"127.0.0.1\" or http://\"127.0.0.1\""
     exampleDBName           = "example                  : \"sociometric_server\""
     exampleDBPort           = "example                  : \"28015\""
     exampleIRCode           = "example                  : \"KEY_1\""
@@ -65,7 +65,8 @@ def StartWizard(_docArgs, _config, _configAbsPath):
 
             description = _description
 
-            inspectThis = input(_input)
+            # Replacing "http://".
+            inspectThis = input(_input).replace("http://", "").replace("https://", "").replace("/", "");
 
             if isblank(inspectThis):
                 _confVar[2] = _confVar[1]

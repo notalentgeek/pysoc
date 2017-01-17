@@ -72,8 +72,6 @@ def Set(_docArgs, _config, _configAbsPath):
 
     inputFailed = False
 
-    print(_docArgs)
-
     if _docArgs.get("--cname"):
         value = _docArgs.get("--cname")[0]
         if isanum(value): SaveValueMod0(_config.clientName[0], value)
