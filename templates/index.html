@@ -6,6 +6,25 @@
     <title>pysoc</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}" media="screen" />
 
+    <script src="{{ url_for('static', filename='bower_components/socket.io-client/dist/socket.io.js') }}"></script>
+    <script>
+
+    var socket = io.connect("http://" + document.domain + ":" + location.port);
+
+    //console.log(document.domain);
+    //console.log(location.port);
+    //console.log(socket);
+
+    //socket.emit("hello world", { data: "hello world" });
+
+    socket.on('latestInputSend', function (_received) {
+
+        console.log(_received);
+
+    });
+
+    </script>
+
 </head>
 <body>
 

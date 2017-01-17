@@ -87,25 +87,21 @@ class InsertDatabase(mt):
                 # timezone in case there is a necessity to
                 # test the project with remote office environment.
                 # Put the available data.
-                jsonRaw["year"]     = firstElement[1] # Year.
-                jsonRaw["month"]    = firstElement[2] # Month.
-                jsonRaw["day"]      = firstElement[3] # Day.
-                jsonRaw["hour"]     = firstElement[4] # Hour.
-                jsonRaw["minutes"]  = firstElement[5] # Minute.
-                jsonRaw["second"]   = firstElement[6] # Second.
-
-                #print(jsonRaw["second"])
-
-                jsonRaw["utc"]      = firstElement[7] # Timezone.
+                jsonRaw["dt"] = (
+                    firstElement[1] + # Year.
+                    firstElement[2] + # Month.
+                    firstElement[3] + # Day.
+                    firstElement[4] + # Hour.
+                    firstElement[5] + # Minute.
+                    firstElement[6]   # Second.
+                )
+                jsonRaw["utc"] = firstElement[7] # Timezone.
 
                 # Ada everything into log.
                 log = log + self.config.clientName[2] + "-"
-                log = log + jsonRaw["year"] + jsonRaw["month"] + jsonRaw["day"] + "-"
-                log = log + jsonRaw["hour"] + jsonRaw["minutes"] + jsonRaw["second"] + "-"
+                log = log + jsonRaw["dt"] + "-" + jsonRaw["utc"] + "-"
 
-                latestInput = (jsonRaw["year"] + jsonRaw["month"] +
-                    jsonRaw["day"] + jsonRaw["hour"] + jsonRaw["minutes"] +
-                    jsonRaw["second"])
+                latestInput = jsonRaw["dt"]
 
                 # Next elements are the sensor data itself. So,
                 # here I try to parse the data from the index
@@ -171,8 +167,8 @@ class InsertDatabase(mt):
                             valueNew = valueNew[:-1]
                             value = valueNew
 
-                        # Enter the value into `jsonRaw`
-                        jsonRaw[fieldName] = value
+                    # Enter the value into `jsonRaw`
+                    jsonRaw[fieldName] = value
 
                     log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
@@ -233,13 +229,19 @@ class InsertDatabase(mt):
                             " data does not exist"
                         )
                         print("creating " + tableName + " table")
-                        self.db.table_create(tableName).run(self.conn)
+                        self.db.table_create(tableName, primary_key="dt").run(self.conn)
                         self.table = self.db.table(tableName)
                         # Insert the jsonCookedAgain into the database.
                         # The fix to exponentially higher is to do try
                         # statement for the insert database instead of
                         # checking the connection.
                         self.table.insert(jsonCookedAgain).run(self.conn)
+
+                        # Here I need to update the `latest_input` column
+                        # in `client_name` database.
+                        self.db\
+                            .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                            .update({"latest_input": latestInput}).run(self.conn)
 
                 #print(jsonCooked)
                 if not self.config.withoutLog[2] : print(log)
@@ -253,9 +255,9 @@ class InsertDatabase(mt):
 
 # Function to initiating connection to database.
 # `_requestStart` is used to indicate if this application
-# is requested to `start`. If this application is only
-# requested to check the database then `_requestStart`
-# should be `False`.
+# is requested to `start` after database connection.
+# If this application is only requested to check the
+# database then `_requestStart` should be `False`.
 def ConnDB(_config, _requestStart):
 
     conn    = None

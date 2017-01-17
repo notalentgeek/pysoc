@@ -26,6 +26,8 @@ setInterval(function(){
 
     if(focus()){
 
+        socket.emit("latestInputRequest");
+
         var currentDate = new Date();
 
         for(var i = 0; i < clientList.length; i ++){

@@ -77,8 +77,6 @@ class CamFaceDetect(mt):
         # is at least one face.
         self.faceDtct = False
 
-
-
         # Path to cascade. Cascade is a pattern to
         # detect something using OpenCV. In this scenario
         # I want to detect front facing face(s).
