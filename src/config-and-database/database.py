@@ -103,6 +103,10 @@ class InsertDatabase(mt):
                 log = log + jsonRaw["year"] + jsonRaw["month"] + jsonRaw["day"] + "-"
                 log = log + jsonRaw["hour"] + jsonRaw["minutes"] + jsonRaw["second"] + "-"
 
+                latestInput = (jsonRaw["year"] + jsonRaw["month"] +
+                    jsonRaw["day"] + jsonRaw["hour"] + jsonRaw["minutes"] +
+                    jsonRaw["second"])
+
                 # Next elements are the sensor data itself. So,
                 # here I try to parse the data from the index
                 # after 8 in firstElement. The first even index
@@ -213,6 +217,12 @@ class InsertDatabase(mt):
                         # checking the connection.
                         self.table.insert(jsonCookedAgain).run(self.conn)
 
+                        # Here I need to update the `latest_input` column
+                        # in `client_name` database.
+                        self.db\
+                            .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                            .update({"latest_input": latestInput}).run(self.conn)
+
                     except r.ReqlOpFailedError as error:
 
                         print(
@@ -295,7 +305,7 @@ def ConnDB(_config, _requestStart):
                 db.table_create(_config.clientName[0], primary_key=_config.clientName[0]).run(conn)
                 clientNameTable = db.table(_config.clientName[0])
 
-            # Check if there is document with client_name equals
+            # Check if there is document with `client_name` equals
             # to `_config.clientName[2]`. If there is not created new
             # document with the respective IR code. This means that
             # this user is new in the system. If there is document
@@ -306,8 +316,10 @@ def ConnDB(_config, _requestStart):
             if clientNameTable.get(_config.clientName[2]).run(conn) == None:
                 print("no client found")
                 jsonRaw = {}
+
                 jsonRaw[_config.clientName[0]] = _config.clientName[2]
                 jsonRaw[_config.irCode[0]] = _config.irCode[2]
+
                 jsonCooked = json.dumps(jsonRaw)
                 jsonCookedAgain = json.loads(jsonCooked)
                 clientNameTable.insert(jsonCookedAgain).run(conn)
