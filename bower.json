@@ -1,0 +1,17 @@
+{
+  "name": "pysoc-server",
+  "homepage": "https://github.com/notalentgeek/pysoc-server",
+  "authors": [
+    "notalentgeek <mikael.pratama@yahoo.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

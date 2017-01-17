@@ -1,0 +1,3 @@
+Math.EaseInExpo     = function(_time, _variable, _step, _duration){ return _step * Math.pow( 2, 10 * (_time/_duration - 1) ) + _variable; };
+Math.EaseOutCubic   = function(_time, _variable, _step, _duration){ _time /= _duration; _time--; return _step*(_time*_time*_time + 1) + _variable; };
+Math.EaseOutSine    = function(_time, _variable, _step, _duration){ return _step * Math.sin(_time/_duration * (Math.PI/2)) + _variable; };
