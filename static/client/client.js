@@ -1,10 +1,13 @@
 var clientList = [];
+var simulateClientList = [];
+
 var tableClientName = "client_name";
 var simulateLatestTimeZone = "europe-amsterdam";
 
-function Client(_irCode, _name){
+function Client(_irCode, _name, _simulation){
 
-    clientList.push(this);
+    if(_simulation){ simulateClientList.push(this); }
+    else{ clientList.push(this); }
 
     this.irCode = _irCode;
     this.name = _name;

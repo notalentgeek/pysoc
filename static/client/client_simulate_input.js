@@ -8,16 +8,16 @@ Client.prototype.SimulateAddLatestInput = function(){
 Client.prototype.SimulateAddLatestInputCam = function(){
 
     this.latestAmountFace = 0;
-    for(var i = 0; i < clientList.length; i ++){
+    for(var i = 0; i < simulateClientList.length; i ++){
 
         if(
-            (clientList[i].name != this.name) &&
-            (clientList[i].online)
+            (simulateClientList[i].name != this.name) &&
+            (simulateClientList[i].online)
         ){
 
-            //console.log(clientList[i].name);
+            //console.log(simulateClientList[i].name);
             this.latestAmountFace ++;
-            //console.log(clientList[i].name);
+            //console.log(simulateClientList[i].name);
 
         }
 
@@ -32,33 +32,33 @@ Client.prototype.SimulateAddLatestInputIR = function(){
     this.latestIRCode = [];
     this.latestIRCodeClientCircle = [];
 
-    //this.clientCircle.gLatestIRCodeClientLine = d3SVG.append("g")
+    //this.clientCircle.gLatestIRCodeClientLine = simulateD3SVG.append("g")
     //    .attr("id", "gLatestIRCodeClientLine" + this.client.clientName);
 
-    for(var i = 0; i < clientList.length; i ++){
+    for(var i = 0; i < simulateClientList.length; i ++){
 
         /*
         console.log("=========================");
-        console.log(clientList[i].name + " " + this.name);
-        console.log(clientList[i].name != this.name);
-        console.log(clientList[i].online);
+        console.log(simulateClientList[i].name + " " + this.name);
+        console.log(simulateClientList[i].name != this.name);
+        console.log(simulateClientList[i].online);
         console.log(
-            (clientList[i].name != this.name) &&
-            (clientList[i].online)
+            (simulateClientList[i].name != this.name) &&
+            (simulateClientList[i].online)
         );
         console.log("=========================");
         */
 
         if(
-            (clientList[i].clientCircle !== null && clientList[i].clientCircle !== undefined) &&
-            (clientList[i].name != this.name) &&
-            (clientList[i].online)
+            (simulateClientList[i].clientCircle !== null && simulateClientList[i].clientCircle !== undefined) &&
+            (simulateClientList[i].name != this.name) &&
+            (simulateClientList[i].online)
         ){
 
-            this.latestIRCode.push(clientList[i].name);
-            this.latestIRCodeClientCircle.push(clientList[i].clientCircle);
-            //this.latestIRCode.push(clientList[i].clientIRCode);
-            //console.log(clientList[i].clientCircle);
+            this.latestIRCode.push(simulateClientList[i].name);
+            this.latestIRCodeClientCircle.push(simulateClientList[i].clientCircle);
+            //this.latestIRCode.push(simulateClientList[i].clientIRCode);
+            //console.log(simulateClientList[i].clientCircle);
 
         }
 

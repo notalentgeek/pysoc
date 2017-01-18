@@ -25,21 +25,23 @@
 
     <div>
         <div>
-            <h1 class="text-center">pysoc</h1>
-            <div class="row">
-                <div class="col-md-5 col-md-offset-1"><h4 class="text-center">real - time</h4></div>
-                <div class="col-md-5"><h4 class="text-center">simulation</h4></div>
-            </div>
-            <div class="row">
-                <div class="col-md-5 col-md-offset-1" id="d3real"></div>
-                <div class="col-md-5" id="d3sim"></div>
+            <div>
+                <h1 class="text-center">pysoc</h1>
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-1"><h4 class="text-center">real - time</h4></div>
+                    <div class="col-md-5"><h4 class="text-center">simulation</h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-1" id="d3real"></div>
+                    <div class="col-md-5" id="d3sim"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='main_variable.js') }}"></script>
 

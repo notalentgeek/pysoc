@@ -286,7 +286,7 @@ function ClientCircle(_client, _degree){
     this.willBeDeleted = false;
 
     this.radius = clientCircleRadius;
-    this.circle = d3SVG.append("circle")
+    this.circle = simulateD3SVG.append("circle")
         .attr("cx", this.cX)
         .attr("cy", this.cY)
         .attr("id", this.client.clientName)
