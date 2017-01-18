@@ -1,24 +1,65 @@
-from   flask          import Flask, render_template
+"""pysoc_server
+
+Usage:
+    pysoc_server.py (--help | -h)
+    pysoc_server.py (--version | -v)
+    pysoc_server.py <dba> [--dbn=<dbnv>|--dbp=<dbpv>]...
+    pysoc_server.py
+
+Options:
+    --help -h           Refer to help manual.
+    --version -v        Refer to this version of application.
+
+    dba                 RethinkDB address [default: "127.0.0.1"].
+    --dbn=<dbnv>        RethinkDB database name [default: sociometric_server]
+    --dbp=<dbpv>        RethinkDB port [default: 28015].
+
+"""
+from   docopt         import docopt          as doc
+from   flask          import Flask
+from   flask          import render_template
 from   flask_socketio import emit
-from   flask_socketio import SocketIO               as sio
+from   flask_socketio import SocketIO        as sio
+from   socket         import socket
+
 import rethinkdb      as     r
+
+if __name__ == "__main__":
+
+    docArgs = doc(__doc__, version="0.0.1")
+    print(docArgs)
+    print(docArgs["<dba>"])
 
 def ConnDB():
 
+    print("trying to establish database connection")
+
     conn = r.connect(
         host="198.211.123.92",
-        port="28015")
+        port="28015",
+        timeout=1)
 
     db = r.db("sociometric_server")
 
     return [conn, db]
 
-app = Flask(__name__)
-sIO = sio(app)
+app  = Flask(__name__)
+sIO  = sio(app)
+sIO.run(app)
 
-cDB = ConnDB()
-conn = cDB[0]
-db = cDB[1]
+cDB  = None
+conn = None
+db   = None
+
+try:
+
+    cDB  = ConnDB()
+    conn = cDB[0]
+    db   = cDB[1]
+
+except r.errors.ReqlTimeoutError as error:
+
+    print(error)
 
 @app.route("/")
 def index():
@@ -39,83 +80,82 @@ def APIMic(_clientName):
 @sIO.on("latestInputRequest")
 def LatestInput():
 
-    clientList      = []
-    latestInput     = None
-    latestInputComp = None
+    if cDB == None:
 
-    clientNameArray = None
-    camTable        = None
-    irTable         = None
-    micTable        = None
+        clientList      = []
+        latestInput     = None
+        latestInputComp = None
 
-    userDictArray   = [];
+        clientNameArray = None
+        camTable        = None
+        irTable         = None
+        micTable        = None
 
-    try: clientNameArray = list(db.table("client_name").run(conn))
-    except r.errors.ReqlOpFailedError as error: clientNameArray = None
+        userDictArray   = [];
 
-    if clientNameArray != None:
+        try: clientNameArray = list(db.table("client_name").run(conn))
+        except r.errors.ReqlOpFailedError as error: clientNameArray = None
 
-        for c in clientNameArray:
+        if clientNameArray != None:
 
-            clientList.append(c.get("client_name"))
+            for c in clientNameArray:
 
-            latestInputTemp = c.get("latest_input")
-            latestInputCompTemp = float(latestInputTemp)/1000
+                clientList.append(c.get("client_name"))
 
-            if latestInputComp == None:
+                latestInputTemp = c.get("latest_input")
+                latestInputCompTemp = float(latestInputTemp)/1000
 
-                latestInput = latestInputTemp
-                latestInputComp = latestInputCompTemp
+                if latestInputComp == None:
 
-            if latestInputComp < latestInputCompTemp:
+                    latestInput = latestInputTemp
+                    latestInputComp = latestInputCompTemp
 
-                latestInput = latestInputTemp
-                latestInputComp = latestInputCompTemp
+                if latestInputComp < latestInputCompTemp:
 
-        #print(latestInput)
+                    latestInput = latestInputTemp
+                    latestInputComp = latestInputCompTemp
 
-        for c in clientList:
+            #print(latestInput)
 
-            userDict = {};
-            userDict["client_name"] = c;
+            for c in clientList:
+
+                userDict = {};
+                userDict["client_name"] = c;
 
 
-            try:
-                db.table(c + "_cam").run(conn)
-                camTable = db.table(c + "_cam")
-            except r.errors.ReqlOpFailedError as error: camTable = None
+                try:
+                    db.table(c + "_cam").run(conn)
+                    camTable = db.table(c + "_cam")
+                except r.errors.ReqlOpFailedError as error: camTable = None
 
-            try:
-                db.table(c + "_ir").run(conn)
-                irTable = db.table(c + "_ir")
-            except r.errors.ReqlOpFailedError as error: irTable = None
+                try:
+                    db.table(c + "_ir").run(conn)
+                    irTable = db.table(c + "_ir")
+                except r.errors.ReqlOpFailedError as error: irTable = None
 
-            try:
-                db.table(c + "_mic").run(conn)
-                micTable = db.table(c + "_mic")
-            except r.errors.ReqlOpFailedError as error: micTable = None
+                try:
+                    db.table(c + "_mic").run(conn)
+                    micTable = db.table(c + "_mic")
+                except r.errors.ReqlOpFailedError as error: micTable = None
 
-            if camTable != None:
+                if camTable != None:
 
-                camTableConn = camTable.get(latestInput).run(conn)
-                if camTableConn: userDict["faces"] = camTableConn.get("faces")
+                    camTableConn = camTable.get(latestInput).run(conn)
+                    if camTableConn: userDict["faces"] = camTableConn.get("faces")
 
-            if irTable != None:
+                if irTable != None:
 
-                irTableConn = irTable.get(latestInput).run(conn)
-                if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
+                    irTableConn = irTable.get(latestInput).run(conn)
+                    if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
 
-            if micTable != None:
+                if micTable != None:
 
-                micTableConn = micTable.get(latestInput).run(conn)
+                    micTableConn = micTable.get(latestInput).run(conn)
 
-                if micTableConn:
-                    userDict["pitch"] = micTableConn.get("pitch")
-                    userDict["volume"] = micTableConn.get("volume")
+                    if micTableConn:
+                        userDict["pitch"] = micTableConn.get("pitch")
+                        userDict["volume"] = micTableConn.get("volume")
 
-            userDictArray.append(userDict)
+                userDictArray.append(userDict)
 
-        emit("latestInputSend", userDictArray)
-
-if __name__ == "__main__":
-    sIO.run(app)
+            emit("latestInputSend", userDictArray)

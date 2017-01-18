@@ -1,16 +1,16 @@
-"""Sociometric Application
+"""pysoc
 
 Usage:
-    main.py (--help | -h)
-    main.py (--version | -v)
-    main.py reset [--dbl]
-    main.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--irc=<ircv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
-    main.py set all-default
-    main.py show (--config)
-    main.py start [--rpi [--picam]]
-    main.py start all-default [--rpi [--picam]] [--save]
-    main.py start without (--cvgui|--db|--faced|--ird|--log|--pvd)... [--rpi [--picam]] [--save]
-    main.py start wizard
+    pysoc.py (--help | -h)
+    pysoc.py (--version | -v)
+    pysoc.py reset [--dbl]
+    pysoc.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--irc=<ircv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
+    pysoc.py set all-default
+    pysoc.py show (--config)
+    pysoc.py start [--rpi [--picam]]
+    pysoc.py start all-default [--rpi [--picam]] [--save]
+    pysoc.py start without (--cvgui|--db|--faced|--ird|--log|--pvd)... [--rpi [--picam]] [--save]
+    pysoc.py start wizard
 
 Options:
     --help -h           Refer to help manual.
@@ -375,6 +375,7 @@ class Main(object):
         return [configFileShown, continueProgramToMainLoop, deletedConfig, raspberryPI]
 
 def main(_docArgs): main = Main(_docArgs)
+
 if __name__ == "__main__":
     docArgs = doc(__doc__, version="0.0.1")
     main(docArgs)
