@@ -4,12 +4,13 @@ var simulateClientList = [];
 var tableClientName = "client_name";
 var simulateLatestTimeZone = "europe-amsterdam";
 
-function Client(_name, _simulation){
-
-    if(_simulation){ simulateClientList.push(this); }
-    else{ clientList.push(this); }
+function Client(_name, _simulate){
 
     this.name = _name;
+    this.simulate = _simulate;
+
+    if(this.simulate){ simulateClientList.push(this); }
+    else{ clientList.push(this); }
 
     this.clientCircle;
     this.clientCircleColor = INTRGB(HashCode(this.name));
@@ -22,8 +23,9 @@ function Client(_name, _simulation){
     this.latestAmountFace = 0;
     this.latestAmountPitch = 0;
     this.latestAmountVolume = 0;
-    this.latestIRCodeClientName = [];
     this.latestIRCodeClientCircle = [];
+    this.latestIRCodeClientName = [];
+    this.latestIRCodeClientNameRaw;
 
     this.latestYear;
     this.latestMonth;

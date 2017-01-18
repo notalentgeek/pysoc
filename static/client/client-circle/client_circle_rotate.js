@@ -2,22 +2,26 @@ ClientCircle.prototype.Rotate = function(_degree){
 
     this.degreeTarget = _degree;
     this.time = 0;
-    ClientCircleListRotate();
+
+    if(this.client.simulate){ SimulateClientCircleAnimation(); }
+    else{ ClientCircleAnimation(); }
 
 };
 ClientCircle.prototype.RotateAuto = function(){
 
-    var degreeShortest;
-    for(var i = 0; i < simulateDegreeTargetList.length; i ++){
+    degreeTargetTemp = this.client.simulate ? simulateDegreeTargetList : degreeTargetList;
 
-        if(degreeShortest === undefined){ degreeShortest = simulateDegreeTargetList[i]; }
-        if(Math.abs(this.degreeCurrent - simulateDegreeTargetList[i]) <= degreeShortest){ degreeShortest = simulateDegreeTargetList[i]; }
+    var degreeShortest;
+    for(var i = 0; i < degreeTargetTemp.length; i ++){
+
+        if(degreeShortest === undefined){ degreeShortest = degreeTargetTemp[i]; }
+        if(Math.abs(this.degreeCurrent - degreeTargetTemp[i]) <= degreeShortest){ degreeShortest = degreeTargetTemp[i]; }
 
 
     }
 
-    var index = simulateDegreeTargetList.indexOf(degreeShortest);
-    if(index > -1){ simulateDegreeTargetList.splice(index, 1); }
+    var index = degreeTargetTemp.indexOf(degreeShortest);
+    if(index > -1){ degreeTargetTemp.splice(index, 1); }
     this.Rotate(degreeShortest);
 
 };

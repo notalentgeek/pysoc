@@ -1,4 +1,6 @@
 var clientCircleList = [];
+var simulateClientCircleList = [];
+
 var clientCircleRadius = d3DimensionSmallest/24;
 var clientCircleRadiusBiggest = d3DimensionSmallest/12;
 var linearScalePitch;
@@ -14,10 +16,10 @@ var simulateLinearScalePitchFill = d3.scaleLinear()
     .range([0, 0.9]);
 
 // Global function.
-function ClientCircleListRotate(){
+function ClientCircleAnimation(){
 
-    d3.selectAll(".circle").remove();
-    d3.selectAll(".line").remove();
+    //d3.selectAll(".real-circle").remove();
+    //d3.selectAll(".real-line").remove();
 
     for(var i = 0; i < clientCircleList.length; i ++){
 
@@ -73,7 +75,7 @@ function ClientCircleListRotate(){
                         .attr("cy", clientCircleList[i].cY)
                         .style("opacity", opacityStep)
                         .duration(0.1)
-                        .on("end", ClientCircleListRotate);
+                        .on("end", ClientCircleAnimation);
 
                 }
                 else{
@@ -83,7 +85,7 @@ function ClientCircleListRotate(){
                         .attr("cx", clientCircleList[i].cX)
                         .attr("cy", clientCircleList[i].cY)
                         .duration(0.1)
-                        .on("end", ClientCircleListRotate);
+                        .on("end", ClientCircleAnimation);
 
                 }
 
@@ -130,7 +132,7 @@ function ClientCircleListRotate(){
                         .attr("cy", clientCircleList[i].cY)
                         .style("opacity", opacityStep)
                         .duration(0.1)
-                        .on("end", ClientCircleListRotate);
+                        .on("end", ClientCircleAnimation);
 
                 }
                 else{
@@ -140,7 +142,7 @@ function ClientCircleListRotate(){
                         .attr("cx", clientCircleList[i].cX)
                         .attr("cy", clientCircleList[i].cY)
                         .duration(0.1)
-                        .on("end", ClientCircleListRotate);
+                        .on("end", ClientCircleAnimation);
 
                 }
 
@@ -180,7 +182,7 @@ function ClientCircleListRotate(){
                         .attr("cy", clientCircleList[i].cY)
                         .style("opacity", opacityStep)
                         .duration(0.1)
-                        .on("end", ClientCircleListRotate);
+                        .on("end", ClientCircleAnimation);
 
                 }
                 else{
@@ -218,7 +220,7 @@ function ClientCircleListRotate(){
                     .transition()
                     .style("opacity", opacityStep)
                     .duration(0.1)
-                    .on("end", ClientCircleListRotate);
+                    .on("end", ClientCircleAnimation);
 
             }
             else{
@@ -234,8 +236,239 @@ function ClientCircleListRotate(){
                 clientCircleTemp.client = null;
                 delete clientCircleTemp;
 
-                DetermineDegreeTargetList(clientCircleList.length);
+                SimulateDetermineDegreeTargetList(clientCircleList.length);
                 for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+
+            }
+
+        }
+
+    }
+
+}
+// Global function.
+function SimulateClientCircleAnimation(){
+
+    d3.selectAll(".simulate-circle").remove();
+    d3.selectAll(".simulate-line").remove();
+
+    for(var i = 0; i < simulateClientCircleList.length; i ++){
+
+        // Check if this client circle will be deleted.
+        if(!simulateClientCircleList[i].willBeDeleted && simulateClientCircleList[i] !== null && simulateClientCircleList[i] !== undefined){
+
+            // Move the client circle clock wise.
+            if(
+                (simulateClientCircleList[i].degreeCurrent > simulateClientCircleList[i].degreeTarget) &&
+                (simulateClientCircleList[i].degreeSaved > simulateClientCircleList[i].degreeTarget)
+            ){
+
+                //console.log(simulateClientCircleList[i]);
+                //console.log(simulateClientCircleList[i].cX);
+                //console.log(simulateClientCircleList[i].degreeCurrent);
+                //console.log(simulateClientCircleList[i].degreeSaved);
+                //console.log(simulateClientCircleList[i].degreeTarget);
+
+                var degreeStep = -80;
+                //var degreeStep = -1*(Math.abs(simulateClientCircleList[i].degreeSaved - simulateClientCircleList[i].degreeTarget)/100);
+                //console.log(simulateClientCircleList[i].cX);
+
+                simulateClientCircleList[i].degreeCurrent = Math.EaseInExpo(simulateClientCircleList[i].time, simulateClientCircleList[i].degreeCurrent, degreeStep, 32*simulateClientCircleList.length);
+                simulateClientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].time ++;
+
+                /*
+                d3.selectAll(".circle " + simulateClientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + simulateClientCircleList[i].client.name).remove();
+                for(var j = 0; j < simulateClientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + simulateClientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
+
+                //console.log(simulateClientCircleList[i]);
+                //console.log(simulateClientCircleList[i].cX);
+                //console.log(simulateClientCircleList[i].cY);
+                //console.log(simulateClientCircleList[i].degreeCurrent);
+                //console.log(mainCircleRadius);
+                //console.log(Math.sin(Math.Radian(simulateClientCircleList[i].degreeCurrent)));
+
+                if(simulateClientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(simulateClientCircleList[i].circle.style("opacity")) + 0.05;
+                    opacityStep = (opacityStep > 1) ? 1 : opacityStep;
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", SimulateClientCircleAnimation);
+
+                }
+                else{
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .duration(0.1)
+                        .on("end", SimulateClientCircleAnimation);
+
+                }
+
+            }
+            // Move counter clock wise.
+            else if(
+                (simulateClientCircleList[i].degreeCurrent < simulateClientCircleList[i].degreeTarget) &&
+                (simulateClientCircleList[i].degreeSaved < simulateClientCircleList[i].degreeTarget)
+            ){
+
+                //console.log(simulateClientCircleList[i]);
+                //console.log(simulateClientCircleList[i].cX);
+                //console.log(simulateClientCircleList[i].degreeCurrent);
+                //console.log(simulateClientCircleList[i].degreeSaved);
+                //console.log(simulateClientCircleList[i].degreeTarget);
+
+                var degreeStep = 80;
+                //var degreeStep = Math.abs(simulateClientCircleList[i].degreeSaved - simulateClientCircleList[i].degreeTarget)/100;
+
+                simulateClientCircleList[i].degreeCurrent = Math.EaseInExpo(simulateClientCircleList[i].time, simulateClientCircleList[i].degreeCurrent, degreeStep, 32*simulateClientCircleList.length);
+                simulateClientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].time ++;
+
+                /*
+                d3.selectAll(".circle " + simulateClientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + simulateClientCircleList[i].client.name).remove();
+                for(var j = 0; j < simulateClientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + simulateClientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
+
+                //console.log(simulateClientCircleList[i].cX);
+
+                if(simulateClientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(simulateClientCircleList[i].circle.style("opacity")) + 0.05;
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", SimulateClientCircleAnimation);
+
+                }
+                else{
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .duration(0.1)
+                        .on("end", SimulateClientCircleAnimation);
+
+                }
+
+            }
+            else{
+
+                /*
+                d3.selectAll(".circle " + simulateClientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + simulateClientCircleList[i].client.name).remove();
+                for(var j = 0; j < simulateClientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + simulateClientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
+
+                //console.log(simulateClientCircleList[i]);
+                //console.log(simulateClientCircleList[i].cX);
+
+                simulateClientCircleList[i].degreeCurrent = simulateClientCircleList[i].degreeTarget;
+                simulateClientCircleList[i].degreeSaved = simulateClientCircleList[i].degreeCurrent;
+                simulateClientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(simulateClientCircleList[i].degreeCurrent));
+                simulateClientCircleList[i].time = 0;
+
+                if(simulateClientCircleList[i] === null || simulateClientCircleList[i] === undefined){ console.log(simulateClientCircleList[i].cX); }
+
+                //console.log(simulateClientCircleList[i].cX);
+
+                if(simulateClientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(simulateClientCircleList[i].circle.style("opacity")) + 0.05;
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", SimulateClientCircleAnimation);
+
+                }
+                else{
+
+                    simulateClientCircleList[i].circle
+                        .transition()
+                        .attr("cx", simulateClientCircleList[i].cX)
+                        .attr("cy", simulateClientCircleList[i].cY)
+                        .duration(0.1);
+
+                }
+
+            }
+
+        }
+        else if(simulateClientCircleList[i].willBeDeleted && simulateClientCircleList[i] !== null && simulateClientCircleList[i] !== undefined){
+
+            /*
+            d3.selectAll(".circle " + simulateClientCircleList[i].client.name).remove();
+            d3.selectAll(".line " + simulateClientCircleList[i].client.name).remove();
+            for(var j = 0; j < simulateClientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                d3.selectAll(".circle " + simulateClientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+            }
+            */
+
+            simulateClientCircleList[i].time = 0;
+
+            if(simulateClientCircleList[i].circle.style("opacity") > 0){
+
+                var opacityStep = Number(simulateClientCircleList[i].circle.style("opacity")) - 0.05;
+
+                simulateClientCircleList[i].circle
+                    .transition()
+                    .style("opacity", opacityStep)
+                    .duration(0.1)
+                    .on("end", SimulateClientCircleAnimation);
+
+            }
+            else{
+
+                var clientCircleTemp = simulateClientCircleList[i];
+
+                simulateClientCircleList[i].circle.remove();
+
+                var index = simulateClientCircleList.indexOf(simulateClientCircleList[i]);
+                if(index > -1){ simulateClientCircleList.splice(index, 1); }
+
+                clientCircleTemp.client.clientCircle = null;
+                clientCircleTemp.client = null;
+                delete clientCircleTemp;
+
+                SimulateDetermineDegreeTargetList(simulateClientCircleList.length);
+                for(var j = 0; j < simulateClientCircleList.length; j ++){ simulateClientCircleList[j].RotateAuto(); }
 
             }
 
@@ -248,18 +481,22 @@ function ClientCircleListRotate(){
 function DetermineDegreeTargetList(_length){
 
     // Determine the target list.
+    degreeTargetList = [];
+    for(var i = 0; i < _length; i ++){
+
+        var degreeTargetTemporary = (((i/_length) * 360) + 180)%360;
+        degreeTargetList.push(degreeTargetTemporary);
+
+    }
+
+}
+function SimulateDetermineDegreeTargetList(_length){
+
+    // Determine the target list.
     simulateDegreeTargetList = [];
     for(var i = 0; i < _length; i ++){
 
         var degreeTargetTemporary = (((i/_length) * 360) + 180)%360;
-        simulateDegreeTargetList.push(degreeTargetTemporary);
-
-    }
-
-    degreeTargetList = [];
-    for(var i = 0; i < degreeTargetList.length; i ++){
-
-        var degreeTargetTemporary = (((i/degreeTargetList.length) * 360) + 180)%360;
         simulateDegreeTargetList.push(degreeTargetTemporary);
 
     }
@@ -270,10 +507,12 @@ function ClientCircle(_client, _degree){
 
     //console.log("test");
 
-    clientCircleList.push(this);
-
     this.client = _client;
     this.degreeCurrent = _degree;
+
+    if(this.client.simulate){ simulateClientCircleList.push(this); }
+    else{ clientCircleList.push(this); }
+
 
     this.client.clientCircle = this;
 
@@ -295,8 +534,10 @@ function ClientCircle(_client, _degree){
     this.time = 0;
     this.willBeDeleted = false;
 
+    var mainD3SVG = this.client.simulate ? simulateD3SVG : d3SVG;
+
     this.radius = clientCircleRadius;
-    this.circle = simulateD3SVG.append("circle")
+    this.circle = mainD3SVG.append("circle")
         .attr("cx", this.cX)
         .attr("cy", this.cY)
         .attr("id", this.client.clientName)
