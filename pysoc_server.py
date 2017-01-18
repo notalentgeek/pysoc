@@ -3,16 +3,17 @@
 Usage:
     pysoc_server.py (--help | -h)
     pysoc_server.py (--version | -v)
-    pysoc_server.py <dba> [--dbn=<dbnv>|--dbp=<dbpv>]...
+    pysoc_server.py <dba> [--dbn=<dbnv>|--dbp=<dbpv>|--tout=<toutv>]...
     pysoc_server.py
 
 Options:
     --help -h           Refer to help manual.
     --version -v        Refer to this version of application.
 
-    dba                 RethinkDB address [default: "127.0.0.1"].
+    dba                 RethinkDB address [default: 127.0.0.1].
     --dbn=<dbnv>        RethinkDB database name [default: sociometric_server]
     --dbp=<dbpv>        RethinkDB port [default: 28015].
+    --tout=<toutv>      RethinkDB connection time out [default: 1]
 
 """
 from   docopt         import docopt          as doc
@@ -24,138 +25,160 @@ from   socket         import socket
 
 import rethinkdb      as     r
 
-if __name__ == "__main__":
-
-    docArgs = doc(__doc__, version="0.0.1")
-    print(docArgs)
-    print(docArgs["<dba>"])
-
-def ConnDB():
+def ConnDB(_dba, _dbn,
+    _dbp, _timeout):
 
     print("trying to establish database connection")
 
     conn = r.connect(
-        host="198.211.123.92",
-        port="28015",
-        timeout=1)
+        host=_dba, port=_dbp,
+        timeout=_timeout)
 
-    db = r.db("sociometric_server")
+    db = r.db(_dbn)
 
     return [conn, db]
 
-app  = Flask(__name__)
-sIO  = sio(app)
-sIO.run(app)
+class Main(object):
 
-cDB  = None
-conn = None
-db   = None
+    def __init__(self, _docArgs):
 
-try:
+        #print(_docArgs)
+        #print(_docArgs["<dba>"])
+        #print(_docArgs["--dbn"][0])
+        #print(_docArgs["--dbp"][0])
+        #print(_docArgs["--tout"][0])
 
-    cDB  = ConnDB()
-    conn = cDB[0]
-    db   = cDB[1]
+        self.dbAddress  = _docArgs["<dba>"];
+        self.dbName     = _docArgs["--dbn"][0];
+        self.dbPort     = int(_docArgs["--dbp"][0]);
+        self.timeout    = int(_docArgs["--tout"][0]);
 
-except r.errors.ReqlTimeoutError as error:
+        self.app        = Flask(__name__)
+        self.sIO        = sio(self.app)
 
-    print(error)
+        self.cDB        = None
+        self.conn       = None
+        self.db         = None
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-@app.route("/api/client")
-def APIClient():
-    return str(list(db.table("client_name").run(conn)))
-@app.route("/api/cam/<_clientName>")
-def APICam(_clientName):
-    return str(list(db.table(_clientName + "_cam").run(conn)))
-@app.route("/api/ir/<_clientName>")
-def APIIR(_clientName):
-    return str(list(db.table(_clientName + "_ir").run(conn)))
-@app.route("/api/mic/<_clientName>")
-def APIMic(_clientName):
-    return str(list(db.table(_clientName + "_mic").run(conn)))
+        try:
 
-@sIO.on("latestInputRequest")
-def LatestInput():
+            self.cDB    = ConnDB(
+                self.dbAddress,
+                self.dbName,
+                self.dbPort,
+                self.timeout
+            )
+            self.conn   = self.cDB[0]
+            self.db     = self.cDB[1]
 
-    if cDB == None:
+        except r.errors.ReqlTimeoutError as error: print(error)
 
-        clientList      = []
-        latestInput     = None
-        latestInputComp = None
+        self.AddRoute()
+        self.sIO.run(self.app)
 
-        clientNameArray = None
-        camTable        = None
-        irTable         = None
-        micTable        = None
+    def AddRoute(self):
 
-        userDictArray   = [];
+        @self.app.route("/")
+        def index():
+            return render_template("index.html")
+        @self.app.route("/api/client")
+        def api_client():
+            return str(list(self.db.table("client_name").run(self.conn)))
+        @self.app.route("/api/cam/<_clientName>")
+        def api_cam(_clientName):
+            return str(list(self.db.table(_clientName + "_cam").run(self.conn)))
+        @self.app.route("/api/ir/<_clientName>")
+        def api_ir(_clientName):
+            return str(list(self.db.table(_clientName + "_ir").run(self.conn)))
+        @self.app.route("/api/mic/<_clientName>")
+        def api_mic(_clientName):
+            return str(list(self.db.table(_clientName + "_mic").run(self.conn)))
 
-        try: clientNameArray = list(db.table("client_name").run(conn))
-        except r.errors.ReqlOpFailedError as error: clientNameArray = None
+        @self.sIO.on("latestInputRequest")
+        def LatestInput():
 
-        if clientNameArray != None:
+            if self.cDB == None:
 
-            for c in clientNameArray:
+                clientList      = []
+                latestInput     = None
+                latestInputComp = None
 
-                clientList.append(c.get("client_name"))
+                clientNameArray = None
+                camTable        = None
+                irTable         = None
+                micTable        = None
 
-                latestInputTemp = c.get("latest_input")
-                latestInputCompTemp = float(latestInputTemp)/1000
+                userDictArray   = [];
 
-                if latestInputComp == None:
+                try: clientNameArray = list(self.db.table("client_name").run(self.conn))
+                except r.errors.ReqlOpFailedError as error: clientNameArray = None
 
-                    latestInput = latestInputTemp
-                    latestInputComp = latestInputCompTemp
+                if clientNameArray != None:
 
-                if latestInputComp < latestInputCompTemp:
+                    for c in clientNameArray:
 
-                    latestInput = latestInputTemp
-                    latestInputComp = latestInputCompTemp
+                        clientList.append(c.get("client_name"))
 
-            #print(latestInput)
+                        latestInputTemp = c.get("latest_input")
+                        latestInputCompTemp = float(latestInputTemp)/1000
 
-            for c in clientList:
+                        if latestInputComp == None:
 
-                userDict = {};
-                userDict["client_name"] = c;
+                            latestInput = latestInputTemp
+                            latestInputComp = latestInputCompTemp
 
+                        if latestInputComp < latestInputCompTemp:
 
-                try:
-                    db.table(c + "_cam").run(conn)
-                    camTable = db.table(c + "_cam")
-                except r.errors.ReqlOpFailedError as error: camTable = None
+                            latestInput = latestInputTemp
+                            latestInputComp = latestInputCompTemp
 
-                try:
-                    db.table(c + "_ir").run(conn)
-                    irTable = db.table(c + "_ir")
-                except r.errors.ReqlOpFailedError as error: irTable = None
+                    print(latestInput)
 
-                try:
-                    db.table(c + "_mic").run(conn)
-                    micTable = db.table(c + "_mic")
-                except r.errors.ReqlOpFailedError as error: micTable = None
+                    for c in clientList:
 
-                if camTable != None:
+                        userDict = {};
+                        userDict["client_name"] = c;
 
-                    camTableConn = camTable.get(latestInput).run(conn)
-                    if camTableConn: userDict["faces"] = camTableConn.get("faces")
+                        try:
+                            self.db.table(c + "_cam").run(self.conn)
+                            camTable = self.db.table(c + "_cam")
+                        except r.errors.ReqlOpFailedError as error: camTable = None
 
-                if irTable != None:
+                        try:
+                            self.db.table(c + "_ir").run(self.conn)
+                            irTable = self.db.table(c + "_ir")
+                        except r.errors.ReqlOpFailedError as error: irTable = None
 
-                    irTableConn = irTable.get(latestInput).run(conn)
-                    if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
+                        try:
+                            self.db.table(c + "_mic").run(self.conn)
+                            micTable = self.db.table(c + "_mic")
+                        except r.errors.ReqlOpFailedError as error: micTable = None
 
-                if micTable != None:
+                        if camTable != None:
 
-                    micTableConn = micTable.get(latestInput).run(conn)
+                            camTableConn = camTable.get(latestInput).run(self.conn)
+                            if camTableConn: userDict["faces"] = camTableConn.get("faces")
 
-                    if micTableConn:
-                        userDict["pitch"] = micTableConn.get("pitch")
-                        userDict["volume"] = micTableConn.get("volume")
+                        if irTable != None:
 
-                userDictArray.append(userDict)
+                            irTableConn = irTable.get(latestInput).run(self.conn)
+                            if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
 
-            emit("latestInputSend", userDictArray)
+                        if micTable != None:
+
+                            micTableConn = micTable.get(latestInput).run(self.conn)
+
+                            if micTableConn:
+                                userDict["pitch"] = micTableConn.get("pitch")
+                                userDict["volume"] = micTableConn.get("volume")
+
+                        userDictArray.append(userDict)
+
+                    emit("latestInputSend", userDictArray)
+
+def main(_docArgs): main = Main(_docArgs)
+
+if __name__ == "__main__":
+
+    docArgs = doc(__doc__, version="0.0.1")
+    main(docArgs)

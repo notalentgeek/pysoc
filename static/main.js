@@ -25,6 +25,7 @@ setInterval(function(){
     //console.log(focus());
 
     socket.emit("latestInputRequest");
+    console.log(receivedData)
 
     if(focus()){
 
