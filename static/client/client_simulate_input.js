@@ -73,8 +73,8 @@ Client.prototype.SimulateAddLatestInputIR = function(){
 };
 Client.prototype.SimulateAddLatestInputMic = function(){
 
-    this.latestAmountPitch = (Math.random()*10000.0).toFixed(3);
-    this.latestAmountVolume = (Math.random()*0.01).toFixed(3);
+    this.latestAmountPitch = (Math.random()*7000.0).toFixed(3);
+    this.latestAmountVolume = (Math.random()*0.1).toFixed(3);
 
     //console.log(this.clientCircle !== null && this.clientCircle !== undefined);
     //console.log(this.clientCircle);
@@ -83,11 +83,11 @@ Client.prototype.SimulateAddLatestInputMic = function(){
 
         var fillTem = ShadeRGBColor(
             "rgb(" + HexRGB(this.clientCircleColor).r + ", " + HexRGB(this.clientCircleColor).g + ", " + HexRGB(this.clientCircleColor).b + ")",
-            simulateLinearScalePitchFill(this.latestAmountPitch)
+            simulateLinearScalePitch(this.latestAmountPitch)
         );
         this.clientCircle.radius = simulateLinearScaleVolume(this.latestAmountVolume);
 
-        this.clientCircle.circle.transition().attr("r", this.clientCircle.radius).style("fill", fillTem).duration(100);
+        this.clientCircle.circle.attr("r", this.clientCircle.radius).style("fill", fillTem);
 
     }
 

@@ -9,7 +9,7 @@ Client.prototype.AddLatestInputMic = function(){
 
         var fillTem = ShadeRGBColor(
             "rgb(" + HexRGB(this.clientCircleColor).r + ", " + HexRGB(this.clientCircleColor).g + ", " + HexRGB(this.clientCircleColor).b + ")",
-            simulateLinearScalePitchFill(this.latestAmountPitch)
+            simulateLinearScalePitch(this.latestAmountPitch)
         );
         this.clientCircle.radius = simulateLinearScaleVolume(this.latestAmountVolume);
 
@@ -21,7 +21,7 @@ Client.prototype.AddLatestInputMic = function(){
 
         this.clientCircle.radius = this.clientCircle.radius > clientCircleRadiusBiggest ? clientCircleRadiusBiggest : this.clientCircle.radius;
 
-        this.clientCircle.circle.transition().attr("r", this.clientCircle.radius).style("fill", fillTem).duration(100);
+        this.clientCircle.circle.attr("r", this.clientCircle.radius).style("fill", fillTem);
 
     }
 

@@ -8,12 +8,12 @@ var linearScalePitch;
 var degreeTargetList = [];
 var simulateDegreeTargetList = [];
 
-var simulateLinearScaleVolume = d3.scaleLinear()
-    .domain([0, 0.01])
-    .range([clientCircleRadius, clientCircleRadiusBiggest]);
-var simulateLinearScalePitchFill = d3.scaleLinear()
-    .domain([0, 10000])
+var simulateLinearScalePitch = d3.scaleLinear()
+    .domain([0, 7000])
     .range([0, 0.9]);
+var simulateLinearScaleVolume = d3.scaleLinear()
+    .domain([0, 0.1])
+    .range([clientCircleRadius, clientCircleRadiusBiggest]);
 
 // Global function.
 function ClientCircleAnimation(){

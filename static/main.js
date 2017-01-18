@@ -23,12 +23,12 @@ setInterval(function(){
 
     //console.log("1 second just passed");
     //console.log(focus());
+    //console.log(receivedData);
+    //if(receivedData !== null && receivedData !== undefined){ console.log(receivedData[0]["pitch"] + " " + receivedData[0]["volume"]); }
 
     socket.emit("latestInputRequest");
-    console.log(receivedData)
 
     if(focus()){
-
 
         if(receivedData !== null && receivedData !== undefined){
 
@@ -67,13 +67,10 @@ setInterval(function(){
                     if(!clientList[i].online){
 
                         clientList[i].clientCircle.willBeDeleted = true;
-                        DetermineDegreeTargetList(clientCircleList.length);
-                        for(var k = 0; k < clientCircleList.length; k ++){ clientCircleList[k].RotateAuto(); }
 
                     }
 
                 }
-
                 if(clientTemporary === null || clientTemporary === undefined){
 
                     clientTemporary = new Client(clientName, false);
@@ -81,7 +78,8 @@ setInterval(function(){
                     DetermineDegreeTargetList(clientCircleList.length + 1);
                     for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
                     new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
-                    console.log(clientTemporary);
+
+                    //console.log(clientTemporary);
 
                 }
                 //console.log(clientList);
@@ -109,8 +107,8 @@ setInterval(function(){
 
                 if(clientList[i].latestIRCodeClientNameRaw !== null && clientList[i].latestIRCodeClientNameRaw !== undefined){
 
-                    console.log(clientList[i].latestIRCodeClientNameRaw);
-                    console.log(typeof(clientList[i].latestIRCodeClientNameRaw));
+                    //console.log(clientList[i].latestIRCodeClientNameRaw);
+                    //console.log(typeof(clientList[i].latestIRCodeClientNameRaw));
 
                     var latestIRCodeClientNameRawTemporary = clientList[i].latestIRCodeClientNameRaw.split(",");
                     for(var j = 0; j < latestIRCodeClientNameRawTemporary.length; j ++){
@@ -136,10 +134,13 @@ setInterval(function(){
                 }
 
             }
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+
+            //DetermineDegreeTargetList(clientCircleList.length);
+            //for(var i = 0; i < clientCircleList.length; i ++){ clientCircleList[i].RotateAuto(); }
+
             d3.selectAll(".real-circle").remove();
             d3.selectAll(".real-line").remove();
+
             for(var i = 0; i < clientList.length; i ++){
 
                 for(var j = 0; j < clientList[i].latestIRCodeClientCircle.length; j ++){
@@ -202,8 +203,8 @@ setInterval(function(){
                 }
 
             }
-            //DetermineDegreeTargetList(clientCircleList.length);
-            //for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+            DetermineDegreeTargetList(clientCircleList.length);
+            for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             receivedData = null;
 
