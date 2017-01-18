@@ -24,9 +24,10 @@ setInterval(function(){
     //console.log("1 second just passed");
     //console.log(focus());
 
+    socket.emit("latestInputRequest");
+
     if(focus()){
 
-        socket.emit("latestInputRequest");
 
         if(receivedData !== null && receivedData !== undefined){
 
@@ -49,17 +50,29 @@ setInterval(function(){
                 var clientName = String(receivedData[i]["client_name"]);
                 var clientTemporary;
                 //console.log(clientName);
-                for(var i = 0; i < clientList.length; i ++){
+                for(var j = 0; j < clientList.length; j ++){
 
-                    if(clientList[i].name == clientName){
+                    if(clientList[j].name == clientName){
 
-                        clientTemporary = clientList[i];
+                        clientTemporary = clientList[j];
                         clientTemporary.online = true;
                         break;
 
                     }
 
                 }
+                for(var j = 0; j < clientList.length; j ++){
+
+                    if(!clientList[i].online){
+
+                        clientList[i].clientCircle.willBeDeleted = true;
+                        DetermineDegreeTargetList(clientCircleList.length);
+                        for(var k = 0; k < clientCircleList.length; k ++){ clientCircleList[k].RotateAuto(); }
+
+                    }
+
+                }
+
                 if(clientTemporary === null || clientTemporary === undefined){
 
                     clientTemporary = new Client(clientName, false);
@@ -67,7 +80,6 @@ setInterval(function(){
                     DetermineDegreeTargetList(clientCircleList.length + 1);
                     for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
                     new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
-
                     console.log(clientTemporary);
 
                 }
@@ -92,10 +104,13 @@ setInterval(function(){
             }
             for(var i = 0; i < clientList.length; i ++){
 
+                clientList[i].AddLatest();
+
                 if(clientList[i].latestIRCodeClientNameRaw !== null && clientList[i].latestIRCodeClientNameRaw !== undefined){
 
                     console.log(clientList[i].latestIRCodeClientNameRaw);
                     console.log(typeof(clientList[i].latestIRCodeClientNameRaw));
+
                     var latestIRCodeClientNameRawTemporary = clientList[i].latestIRCodeClientNameRaw.split(",");
                     for(var j = 0; j < latestIRCodeClientNameRawTemporary.length; j ++){
 
@@ -107,6 +122,7 @@ setInterval(function(){
                             if(clientList[k].name == latestIRCodeClientNameRawTemporary[j]){
 
                                 clientTemporary = clientList[k];
+                                break;
 
                             }
 
@@ -119,6 +135,74 @@ setInterval(function(){
                 }
 
             }
+            DetermineDegreeTargetList(clientCircleList.length);
+            for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+            d3.selectAll(".real-circle").remove();
+            d3.selectAll(".real-line").remove();
+            for(var i = 0; i < clientList.length; i ++){
+
+                for(var j = 0; j < clientList[i].latestIRCodeClientCircle.length; j ++){
+
+                    if(clientList[i].clientCircle !== null && clientList[i].clientCircle !== undefined){
+
+                        if(
+                            (clientList[i].clientCircle.degreeCurrent == clientList[i].clientCircle.degreeTarget) &&
+                            (clientList[i].latestIRCodeClientCircle[j].degreeCurrent == clientList[i].latestIRCodeClientCircle[j].degreeTarget)
+                        ){
+
+                            var cX1 = Number(clientList[i].clientCircle.circle.attr("cx"));
+                            var cY1 = Number(clientList[i].clientCircle.circle.attr("cy"));
+                            var cX2 = Number(clientList[i].latestIRCodeClientCircle[j].circle.attr("cx"));
+                            var cY2 = Number(clientList[i].latestIRCodeClientCircle[j].circle.attr("cy"));
+                            var r1 = clientList[i].clientCircle.radius;
+                            var r2 = clientList[i].latestIRCodeClientCircle[j].radius;
+
+                            var radian = Math.atan2(cY2 - cY1, cX2 - cX1);
+
+                            var x1 = cX1 + (r1 * Math.cos(radian));
+                            var y1 = cY1 + (r1 * Math.sin(radian));
+                            var x2 = cX2 - (r2 * Math.cos(radian));
+                            var y2 = cY2 - (r2 * Math.sin(radian));
+
+                            //console.log("test");
+
+                            d3SVG.append("line")
+                                .attr("class", "real-line")
+                                .attr("x1", x1)
+                                .attr("y1", y1)
+                                .attr("x2", x2)
+                                .attr("y2", y2)
+                                .attr(
+                                    "transform",
+                                    "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")"
+                                )
+                                .style("opacity", 0.5)
+                                .style("stroke", clientList[i].clientCircleColor)
+                                .style("stroke-width", 5);
+
+                            d3SVG.append("circle")
+                                .attr("class", "real-circle")
+                                .attr("cx", x2)
+                                .attr("cy", y2)
+                                .attr("r", 5)
+                                .attr(
+                                    "transform",
+                                    "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")"
+                                )
+                                .style("fill", clientList[i].clientCircleColor)
+                                .style("stroke", "no-stroke");
+
+                            //this.latestIRCodeClientLine.push(line);
+
+                        }
+
+                    }
+
+                }
+
+            }
+            //DetermineDegreeTargetList(clientCircleList.length);
+            //for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             receivedData = null;
 
@@ -143,27 +227,9 @@ setInterval(function(){
             }
             else if(simulateClientList[i].online && simulateClientList[i].clientCircle == null){
 
-                if(simulateClientCircleList.length == 0){
-
-                    new ClientCircle(simulateClientList[i], 0);
-                    SimulateDetermineDegreeTargetList(simulateClientCircleList.length);
-                    for(var j = 0; j < simulateClientCircleList.length; j ++){ simulateClientCircleList[j].RotateAuto(); }
-
-                }
-                else if(simulateClientCircleList.length == 1){
-
-                    new ClientCircle(simulateClientList[i], 180);
-                    SimulateDetermineDegreeTargetList(simulateClientCircleList.length);
-                    for(var j = 0; j < simulateClientCircleList.length; j ++){ simulateClientCircleList[j].RotateAuto(); }
-
-                }
-                else{
-
-                    SimulateDetermineDegreeTargetList(simulateClientCircleList.length + 1);
-                    for(var j = 0; j < simulateClientCircleList.length; j ++){ simulateClientCircleList[j].RotateAuto(); }
-                    new ClientCircle(simulateClientList[i], simulateDegreeTargetList[0]).RotateAuto();
-
-                }
+                SimulateDetermineDegreeTargetList(simulateClientCircleList.length + 1);
+                for(var j = 0; j < simulateClientCircleList.length; j ++){ simulateClientCircleList[j].RotateAuto(); }
+                new ClientCircle(simulateClientList[i], simulateDegreeTargetList[0]).RotateAuto();
 
             }
 

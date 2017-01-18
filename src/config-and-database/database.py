@@ -205,7 +205,7 @@ class InsertDatabase(mt):
                     # if a table is exists.
                     try:
 
-                        self.db.table(tableName).run(self.conn)
+                        #self.db.table(tableName).run(self.conn)
                         self.table = self.db.table(tableName)
                         # Insert the jsonCookedAgain into the database.
                         # The fix to exponentially higher is to do try

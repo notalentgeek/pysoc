@@ -73,8 +73,8 @@ Client.prototype.SimulateAddLatestInputIR = function(){
 };
 Client.prototype.SimulateAddLatestInputMic = function(){
 
-    this.latestAmountPitch = ((Math.random()*5000.0) + 200.0).toFixed(3);
-    this.latestAmountVolume = ((Math.random()*0.05) + 0.001).toFixed(3);
+    this.latestAmountPitch = (Math.random()*10000.0).toFixed(3);
+    this.latestAmountVolume = (Math.random()*0.01).toFixed(3);
 
     //console.log(this.clientCircle !== null && this.clientCircle !== undefined);
     //console.log(this.clientCircle);

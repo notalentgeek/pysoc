@@ -9,17 +9,17 @@ var degreeTargetList = [];
 var simulateDegreeTargetList = [];
 
 var simulateLinearScaleVolume = d3.scaleLinear()
-    .domain([0.001, 0.05])
+    .domain([0, 0.01])
     .range([clientCircleRadius, clientCircleRadiusBiggest]);
 var simulateLinearScalePitchFill = d3.scaleLinear()
-    .domain([200, 5000])
+    .domain([0, 10000])
     .range([0, 0.9]);
 
 // Global function.
 function ClientCircleAnimation(){
 
-    //d3.selectAll(".real-circle").remove();
-    //d3.selectAll(".real-line").remove();
+    d3.selectAll(".real-circle").remove();
+    d3.selectAll(".real-line").remove();
 
     for(var i = 0; i < clientCircleList.length; i ++){
 
@@ -547,7 +547,7 @@ function ClientCircle(_client, _degree){
             "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")"
         )
         .style("fill", this.client.clientCircleColor)
-        .style("opacity", 0)
+        .style("opacity", 1)
         .style("stroke", this.client.clientCircleColor)
         .style("stroke-width", 5);
 

@@ -72,6 +72,8 @@ def LatestInput():
                 latestInput = latestInputTemp
                 latestInputComp = latestInputCompTemp
 
+        #print(latestInput)
+
         for c in clientList:
 
             userDict = {};
