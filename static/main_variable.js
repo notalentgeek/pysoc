@@ -11,7 +11,7 @@ var simulateClientNameIRCodeList = [
 
 ];
 
-var d3Dimension = { width: 512, height: 512 };
+var d3Dimension = { width: 480, height: 480 };
 var d3DimensionSmallest = (d3Dimension.width < d3Dimension.height) ? d3Dimension.width : d3Dimension.height;
 var d3DimensionTranslate = { x: (d3Dimension.width/2), y: (d3Dimension.height/2) };
 var d3Padding = d3DimensionSmallest/8;
@@ -21,11 +21,11 @@ var mainCircleRadius = (d3DimensionSmallest/2) - d3Padding;
 var mainCircleStroke = "#008000";
 var mainCircleStrokeWidth = 5;
 
-var d3SVG = d3.select("body").append("svg")
+var d3SVG = d3.select("#d3sim").append("svg")
     .attr("height", d3Dimension.height)
     .attr("id", "d3SVG")
-    .attr("width", d3Dimension.width)
-    .style("border", "2px solid red");
+    .attr("width", d3Dimension.width);
+    //.style("border", "2px solid red");
 
 /*
 var mainCirc = d3SVG.append("circle")
