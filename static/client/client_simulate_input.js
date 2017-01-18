@@ -29,7 +29,7 @@ Client.prototype.SimulateAddLatestInputIR = function(){
 
     //console.log("test");
 
-    this.latestIRCode = [];
+    this.latestIRCodeClientName = [];
     this.latestIRCodeClientCircle = [];
 
     //this.clientCircle.gLatestIRCodeClientLine = simulateD3SVG.append("g")
@@ -55,16 +55,16 @@ Client.prototype.SimulateAddLatestInputIR = function(){
             (simulateClientList[i].online)
         ){
 
-            this.latestIRCode.push(simulateClientList[i].name);
+            this.latestIRCodeClientName.push(simulateClientList[i].name);
             this.latestIRCodeClientCircle.push(simulateClientList[i].clientCircle);
-            //this.latestIRCode.push(simulateClientList[i].clientIRCode);
+            //this.latestIRCodeClientName.push(simulateClientList[i].clientIRCode);
             //console.log(simulateClientList[i].clientCircle);
 
         }
 
     }
 
-    //console.log(this.latestIRCode);
+    //console.log(this.latestIRCodeClientName);
     //console.log(this.latestIRCodeClientCircle);
     //console.log(this.clientCircle.cX + " " + this.latestIRCodeClientCircle[0].cX);
     //console.log(this.clientCircle.cY + " " + this.latestIRCodeClientCircle[0].cY);

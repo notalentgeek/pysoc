@@ -4,12 +4,11 @@ var simulateClientList = [];
 var tableClientName = "client_name";
 var simulateLatestTimeZone = "europe-amsterdam";
 
-function Client(_irCode, _name, _simulation){
+function Client(_name, _simulation){
 
     if(_simulation){ simulateClientList.push(this); }
     else{ clientList.push(this); }
 
-    this.irCode = _irCode;
     this.name = _name;
 
     this.clientCircle;
@@ -23,9 +22,8 @@ function Client(_irCode, _name, _simulation){
     this.latestAmountFace = 0;
     this.latestAmountPitch = 0;
     this.latestAmountVolume = 0;
-    this.latestIRCode = [];
+    this.latestIRCodeClientName = [];
     this.latestIRCodeClientCircle = [];
-    this.latestIRCodeClientLine = [];
 
     this.latestYear;
     this.latestMonth;

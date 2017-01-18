@@ -1,8 +1,7 @@
 for(var i = 0; i < simulateClientNameIRCodeList.length; i ++){
 
     var client = new Client(
-        simulateClientNameIRCodeList[i][0],
-        simulateClientNameIRCodeList[i][1],
+        simulateClientNameIRCodeList[i],
         true
     );
     clientCircle = new ClientCircle(client, 180);
@@ -28,6 +27,54 @@ setInterval(function(){
     if(focus()){
 
         socket.emit("latestInputRequest");
+
+        if(receivedData !== null && receivedData !== undefined){
+
+            // Set all `clientList[x].online` into `false`.
+            for(var i = 0; i < clientList.length; i ++){
+
+                clientList[i].online = false;
+
+            }
+            //console.log(receivedData);
+            for(var i = 0; i < receivedData.length; i ++){
+
+                console.log(receivedData[i]);
+                console.log(typeof(receivedData[i]));
+
+                // Check if there is a client object with this
+                // name in the `clientList` if not then make
+                // a new one.
+                var clientName = String(receivedData[i]["client_name"]);
+                var clientTemporary;
+                console.log(clientName);
+                for(var i = 0; i < clientList.length; i ++){
+
+                    if(clientList[i].clientName == clientName){
+
+                        clientTemporary = clientList[i];
+                        clientTemporary.online = true;
+                        break;
+
+                    }
+
+                }
+                if(clientTemporary !== null && clientTemporary !== undefined){
+
+                    clientTemporary = new Client();
+
+                }
+
+                console.log(receivedData[i]["faces"]);
+                console.log(receivedData[i]["ir_code"]);
+                console.log(receivedData[i]["pitch"]);
+                console.log(receivedData[i]["volume"]);
+
+            }
+
+            receivedData = null;
+
+        }
 
         var currentDate = new Date();
 
@@ -66,7 +113,7 @@ setInterval(function(){
 
                     DetermineDegreeTargetList(clientCircleList.length + 1);
                     for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
-                    new ClientCircle(simulateClientList[i], degreeTargetList[0]);
+                    new ClientCircle(simulateClientList[i], simulateDegreeTargetList[0]);
 
                 }
 

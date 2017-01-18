@@ -1,8 +1,10 @@
 var clientCircleList = [];
 var clientCircleRadius = d3DimensionSmallest/24;
 var clientCircleRadiusBiggest = d3DimensionSmallest/12;
-var degreeTargetList = [];
 var linearScalePitch;
+
+var degreeTargetList = [];
+var simulateDegreeTargetList = [];
 
 var simulateLinearScaleVolume = d3.scaleLinear()
     .domain([0.001, 0.05])
@@ -246,11 +248,19 @@ function ClientCircleListRotate(){
 function DetermineDegreeTargetList(_length){
 
     // Determine the target list.
-    degreeTargetList = [];
+    simulateDegreeTargetList = [];
     for(var i = 0; i < _length; i ++){
 
         var degreeTargetTemporary = (((i/_length) * 360) + 180)%360;
-        degreeTargetList.push(degreeTargetTemporary);
+        simulateDegreeTargetList.push(degreeTargetTemporary);
+
+    }
+
+    degreeTargetList = [];
+    for(var i = 0; i < degreeTargetList.length; i ++){
+
+        var degreeTargetTemporary = (((i/degreeTargetList.length) * 360) + 180)%360;
+        simulateDegreeTargetList.push(degreeTargetTemporary);
 
     }
 

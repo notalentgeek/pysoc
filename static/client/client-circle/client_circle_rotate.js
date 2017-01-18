@@ -8,16 +8,16 @@ ClientCircle.prototype.Rotate = function(_degree){
 ClientCircle.prototype.RotateAuto = function(){
 
     var degreeShortest;
-    for(var i = 0; i < degreeTargetList.length; i ++){
+    for(var i = 0; i < simulateDegreeTargetList.length; i ++){
 
-        if(degreeShortest === undefined){ degreeShortest = degreeTargetList[i]; }
-        if(Math.abs(this.degreeCurrent - degreeTargetList[i]) <= degreeShortest){ degreeShortest = degreeTargetList[i]; }
+        if(degreeShortest === undefined){ degreeShortest = simulateDegreeTargetList[i]; }
+        if(Math.abs(this.degreeCurrent - simulateDegreeTargetList[i]) <= degreeShortest){ degreeShortest = simulateDegreeTargetList[i]; }
 
 
     }
 
-    var index = degreeTargetList.indexOf(degreeShortest);
-    if(index > -1){ degreeTargetList.splice(index, 1); }
+    var index = simulateDegreeTargetList.indexOf(degreeShortest);
+    if(index > -1){ simulateDegreeTargetList.splice(index, 1); }
     this.Rotate(degreeShortest);
 
 };

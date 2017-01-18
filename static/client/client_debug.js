@@ -17,7 +17,7 @@ Client.prototype.DebugShowLatest = function(){
         this.latestAmountFace + "-" +
         this.latestAmountPitch + "-" +
         this.latestAmountVolume + "-" +
-        FixListString(this.latestIRCode)
+        FixListString(this.latestIRCodeClientName)
     )
 
 };
