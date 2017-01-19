@@ -85,7 +85,7 @@ sys.path.append("./src/cli")
 sys.path.append("./src/collection-function")
 sys.path.append("./src/config-and-database")
 sys.path.append("./src/input")
-sys.path.append("./src/other")
+sys.path.append("./src")
 
 from    cam                                                     import CamFaceDetect                    as cfd                      # Import the face detection object.
 from    cascade_front_face_default                              import cascadeFrontFaceDefault          as ccfd                     # Cascade .xml string.
