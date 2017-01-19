@@ -1,11 +1,12 @@
 from   mod_thread          import ModThread         as mt
 from   timer_second_change import TimerSecondChange as tsc
 
+try: import lirc
+except ImportError as error: pass
+
 class IRDetection(mt):
 
     def __init__(self, _threadName, _array, _iDB):
-
-        import lirc
 
         _array.append(self)
         mt.__init__(self,
@@ -33,6 +34,9 @@ class IRDetection(mt):
                 # Check the if there is at least an element
                 # in `self.irReceivedDuringInterval` array.
                 if len(self.irReceivedDuringInterval) > 0:
+
+                    #print(self.irReceivedDuringInterval)
+
                     self.iDB.mainArray.append(
                         self.SetupStringForDatabase(self.irReceivedDuringInterval))
                     del self.irReceivedDuringInterval[:]

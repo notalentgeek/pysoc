@@ -174,7 +174,7 @@ class MicPVDetect(mt):
     # Function for pitch and volume detection.
     def PVDetect(self):
 
-        print("test")
+        #print("test")
 
         # Convert data from the microphone of
         # AlsaAudio library into Aubio format samples.

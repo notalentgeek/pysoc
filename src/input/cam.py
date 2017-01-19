@@ -4,6 +4,9 @@ sys.path.append("./src")
 from   mod_thread          import ModThread            as mt
 from   timer_second_change import TimerSecondChange    as tsc
 
+try: import cv2
+except ImportError as error: pass
+
 class CamFaceDetect(mt):
 
     def __init__(
@@ -14,8 +17,6 @@ class CamFaceDetect(mt):
         _usePiCamera,
         _config
     ):
-
-        import cv2
 
         # Append this object into array.
         _array.append(self)
