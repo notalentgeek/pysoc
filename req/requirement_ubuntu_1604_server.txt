@@ -1,0 +1,5 @@
+docopt == 0.6.2.
+flask == 0.12
+flask-socketio == 2.8.2
+rethinkdb == 2.3.0.post6
+tzlocal == 1.3
