@@ -1,6 +1,8 @@
 #!/bin/bash
 
-printf "\npcm.!default{\n    type hw card 1\n}\nctl.!default{\n    type hw card 1\n}" >> ~/.asoundrc
+sudo rm -r /home/pi/.asoundrc
+sudo rm -r /etc/asound.conf
+sudo /bin/sh -c 'printf "\npcm.!default{\n    type hw card 1\n}\nctl.!default{\n    type hw card 1\n}" >> /home/pi/.asoundrc'
 sudo /bin/sh -c 'printf "\npcm.!default{\n    type hw card 1\n}\nctl.!default{\n    type hw card 1\n}" >> /etc/asound.conf'
 sudo sed -ie "s/defaults.ctl.card 0/defaults.ctl.card 1/g" /usr/share/alsa/alsa.conf
 sudo sed -ie "s/defaults.pcm.card 0/defaults.pcm.card 1/g" /usr/share/alsa/alsa.conf
