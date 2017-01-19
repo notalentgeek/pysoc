@@ -13,6 +13,7 @@ sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_pyaudio.s
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh
 
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_lirc.sh
+sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_prevent_screen_saver.sh
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_pyaudio.sh
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh
 
