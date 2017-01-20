@@ -83,7 +83,7 @@ setInterval(function(){
 
                     console.log(clientList[j].online);
 
-                    if(!clientList[j].online){
+                    if(!clientList[j].online && clientList[j].clientCircle !== null && clientList[j].clientCircle !== undefined){
 
 
                         clientList[j].AddLatest();
