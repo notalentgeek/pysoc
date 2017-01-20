@@ -42,6 +42,38 @@ setInterval(function(){
             //console.log(receivedData);
             for(var i = 0; i < receivedData.length; i ++){
 
+                //console.log(receivedData[i]);
+                //console.log(typeof(receivedData[i]));
+
+                // Check if there is a client object with this
+                // name in the `clientList` if not then make
+                // a new one.
+                var clientName = String(receivedData[i]["client_name"]);
+                var clientTemporary;
+                //console.log(clientName);
+                for(var j = 0; j < clientList.length; j ++){
+
+                    if(clientList[j].name == clientName){
+
+                        clientTemporary = clientList[j];
+                        clientTemporary.online = true;
+                        break;
+
+                    }
+
+                }
+                if(clientTemporary === null || clientTemporary === undefined){
+
+                    clientTemporary = new Client(clientName, false);
+
+                    DetermineDegreeTargetList(clientCircleList.length + 1);
+                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+                    new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
+
+                    //console.log(clientTemporary);
+
+                }
+
                 //console.log(clientList);
 
                 var amountFace = Number(receivedData[i]["faces"]);
@@ -58,29 +90,7 @@ setInterval(function(){
 
                 var amountVolume = Number(receivedData[i]["volume"]);
                 clientTemporary.latestAmountVolume = amountVolume;
-
                 //console.log(amountVolume);
-                //console.log(receivedData[i]);
-                //console.log(typeof(receivedData[i]));
-
-                // Check if there is a client object with this
-                // name in the `clientList` if not then make
-                // a new one.
-                var clientName = String(receivedData[i]["client_name"]);
-                var clientTemporary;
-                //console.log(clientName);
-                for(var j = 0; j < clientList.length; j ++){
-
-                    clientList[j].AddLatest();
-                    if(clientList[j].name == clientName){
-
-                        clientTemporary = clientList[j];
-                        clientTemporary.online = true;
-                        break;
-
-                    }
-
-                }
 
                 console.log(clientList);
 
@@ -94,17 +104,6 @@ setInterval(function(){
                         clientList[j].clientCircle.willBeDeleted = true;
 
                     }
-
-                }
-                if(clientTemporary === null || clientTemporary === undefined){
-
-                    clientTemporary = new Client(clientName, false);
-
-                    DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
-                    new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
-
-                    //console.log(clientTemporary);
 
                 }
 
