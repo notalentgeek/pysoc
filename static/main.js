@@ -39,7 +39,9 @@ setInterval(function(){
                 clientList[i].online = false;
 
             }
-            console.log(receivedData);
+
+            //console.log(receivedData);
+
             for(var i = 0; i < receivedData.length; i ++){
 
                 //console.log(receivedData[i]);
@@ -53,12 +55,19 @@ setInterval(function(){
                 //console.log(clientName);
                 for(var j = 0; j < clientList.length; j ++){
 
-                    console.log("client exist");
-
                     if(clientList[j].name == clientName){
 
                         clientTemporary = clientList[j];
                         clientTemporary.online = true;
+
+                        if(clientTemporary.clientCircle === null || clientTemporary.clientCircle === undefined){
+
+                            DetermineDegreeTargetList(clientCircleList.length + 1);
+                            for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); }
+                            new ClientCircle(clientTemporary, degreeTargetList[0]);
+
+                        }
+
                         break;
 
                     }
@@ -66,22 +75,15 @@ setInterval(function(){
                 }
                 if(clientTemporary === null || clientTemporary === undefined){
 
-
-                    console.log("client does not exist")
-
                     DetermineDegreeTargetList(clientCircleList.length + 1);
                     for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
                     clientTemporary = new Client(clientName, false);
                     clientTemporary.online = true;
                     new ClientCircle(clientTemporary, degreeTargetList[0]);
 
-                    console.log(clientTemporary.clientCircle);
-
                 }
 
                 for(var j = 0; j < clientList.length; j ++){
-
-                    console.log(clientList[j].online);
 
                     if(!clientList[j].online && clientList[j].clientCircle !== null && clientList[j].clientCircle !== undefined){
 
@@ -103,7 +105,7 @@ setInterval(function(){
 
                         var amountPitch = Number(receivedData[i]["pitch"]);
                         clientList[j].latestAmountPitch = amountPitch;
-                        console.log(amountPitch);
+                        //console.log(amountPitch);
 
                         var amountVolume = Number(receivedData[i]["volume"]);
                         clientList[j].latestAmountVolume = amountVolume;
@@ -113,7 +115,7 @@ setInterval(function(){
 
                 }
 
-                console.log(clientList);
+                //console.log(clientList);
 
             }
             for(var i = 0; i < clientList.length; i ++){

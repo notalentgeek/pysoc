@@ -14,13 +14,13 @@ Client.prototype.SimulateCheckOnline = function(){
     if(random < this.onlineChance){
 
         if(!this.online){ this.online = true; this.onlineChance = 1.0; }
-        else{ this.onlineChance -= 0.005; }
+        else{ this.onlineChance -= 0.0005; }
 
     }
     else if(random > this.onlineChance){
 
         if(this.online){ this.online = false; this.onlineChance = 0.0; }
-        else{ this.onlineChance += 0.005; }
+        else{ this.onlineChance += 0.0005; }
 
     }
 
