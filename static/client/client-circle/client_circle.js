@@ -28,8 +28,7 @@ function ClientCircleAnimation(){
 
             // Move the client circle clock wise.
             if(
-                (clientCircleList[i].degreeCurrent > clientCircleList[i].degreeTarget) &&
-                (clientCircleList[i].degreeSaved > clientCircleList[i].degreeTarget)
+                (clientCircleList[i].degreeCurrent > clientCircleList[i].degreeTarget)
             ){
 
                 //console.log(clientCircleList[i]);
@@ -92,8 +91,7 @@ function ClientCircleAnimation(){
             }
             // Move counter clock wise.
             else if(
-                (clientCircleList[i].degreeCurrent < clientCircleList[i].degreeTarget) &&
-                (clientCircleList[i].degreeSaved < clientCircleList[i].degreeTarget)
+                (clientCircleList[i].degreeCurrent < clientCircleList[i].degreeTarget)
             ){
 
                 //console.log(clientCircleList[i]);
@@ -163,7 +161,6 @@ function ClientCircleAnimation(){
                 //console.log(clientCircleList[i].cX);
 
                 clientCircleList[i].degreeCurrent = clientCircleList[i].degreeTarget;
-                clientCircleList[i].degreeSaved = clientCircleList[i].degreeCurrent;
                 clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time = 0;
@@ -259,8 +256,7 @@ function SimulateClientCircleAnimation(){
 
             // Move the client circle clock wise.
             if(
-                (simulateClientCircleList[i].degreeCurrent > simulateClientCircleList[i].degreeTarget) &&
-                (simulateClientCircleList[i].degreeSaved > simulateClientCircleList[i].degreeTarget)
+                (simulateClientCircleList[i].degreeCurrent > simulateClientCircleList[i].degreeTarget)
             ){
 
                 //console.log(simulateClientCircleList[i]);
@@ -323,8 +319,7 @@ function SimulateClientCircleAnimation(){
             }
             // Move counter clock wise.
             else if(
-                (simulateClientCircleList[i].degreeCurrent < simulateClientCircleList[i].degreeTarget) &&
-                (simulateClientCircleList[i].degreeSaved < simulateClientCircleList[i].degreeTarget)
+                (simulateClientCircleList[i].degreeCurrent < simulateClientCircleList[i].degreeTarget)
             ){
 
                 //console.log(simulateClientCircleList[i]);
@@ -394,7 +389,6 @@ function SimulateClientCircleAnimation(){
                 //console.log(simulateClientCircleList[i].cX);
 
                 simulateClientCircleList[i].degreeCurrent = simulateClientCircleList[i].degreeTarget;
-                simulateClientCircleList[i].degreeSaved = simulateClientCircleList[i].degreeCurrent;
                 simulateClientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(simulateClientCircleList[i].degreeCurrent));
                 simulateClientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(simulateClientCircleList[i].degreeCurrent));
                 simulateClientCircleList[i].time = 0;
@@ -532,7 +526,6 @@ function ClientCircle(_client, _degree){
     //console.log(this.cY);
     //console.log(this.degreeCurrent);
 
-    this.degreeSaved = this.degreeCurrent;
     this.degreeTarget = this.degreeCurrent;
 
     this.time = 0;
