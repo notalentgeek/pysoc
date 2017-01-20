@@ -116,7 +116,12 @@ setInterval(function(){
             }
             for(var i = 0; i < clientList.length; i ++){
 
-                clientList[i].AddLatest();
+                if(clientList[i].online && clientList[i].clientCircle !== null && clientList[i].clientCircle !== undefined){
+
+
+                    clientList[i].AddLatest();
+
+                }
 
                 if(clientList[i].latestIRCodeClientNameRaw !== null && clientList[i].latestIRCodeClientNameRaw !== undefined){
 
