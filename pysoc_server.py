@@ -101,7 +101,7 @@ def LatestInput():
 
         try:
 
-            clientNameTable = db.table("client_name").run(conn)
+            clientNameTable = r.db("sociometric_server").table("client_name").run(conn)
             clientNameArray = list(clientNameTable)
             print(clientNameTable)
             print(clientNameArray)
