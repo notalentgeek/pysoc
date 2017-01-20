@@ -62,6 +62,9 @@ setInterval(function(){
                     }
 
                 }
+
+                console.log(clientList);
+
                 for(var j = 0; j < clientList.length; j ++){
 
                     if(!clientList[i].online){
