@@ -21,4 +21,6 @@ sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_pyaudio.sh &&
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 
 yes | sudo pip3 -r /home/pi/pysoc/req/req_raspbian_jessie.sh &&
-sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh
+sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
+
+cd /home/pi
