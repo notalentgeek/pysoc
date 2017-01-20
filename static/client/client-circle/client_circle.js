@@ -219,6 +219,9 @@ function ClientCircleAnimation(){
                     .duration(0.1)
                     .on("end", ClientCircleAnimation);
 
+                SimulateDetermineDegreeTargetList(clientCircleList.length);
+                for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+
             }
             else{
 
@@ -233,8 +236,6 @@ function ClientCircleAnimation(){
                 clientCircleTemp.client = null;
                 delete clientCircleTemp;
 
-                SimulateDetermineDegreeTargetList(clientCircleList.length);
-                for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             }
 
