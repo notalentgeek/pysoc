@@ -69,16 +69,16 @@ def index():
     return render_template("index.html")
 @app.route("/api/client")
 def api_client():
-    return str(list(db.table("client_name").run(conn)))
+    return str(list(db.table("client_name").run(r.connect(host="127.0.0.1", port=28015))))
 @app.route("/api/cam/<_clientName>")
 def api_cam(_clientName):
-    return str(list(db.table(_clientName + "_cam").run(conn)))
+    return str(list(db.table(_clientName + "_cam").run(r.connect(host="127.0.0.1", port=28015))))
 @app.route("/api/ir/<_clientName>")
 def api_ir(_clientName):
-    return str(list(db.table(_clientName + "_ir").run(conn)))
+    return str(list(db.table(_clientName + "_ir").run(r.connect(host="127.0.0.1", port=28015))))
 @app.route("/api/mic/<_clientName>")
 def api_mic(_clientName):
-    return str(list(db.table(_clientName + "_mic").run(conn)))
+    return str(list(db.table(_clientName + "_mic").run(r.connect(host="127.0.0.1", port=28015))))
 
 @sIO.on("latestInputRequest")
 def LatestInput():
@@ -101,9 +101,7 @@ def LatestInput():
 
         try:
 
-            clientNameTable = db.table("client_name").run(r.connect(
-            host="127.0.0.1",
-            port=28015))
+            clientNameTable = db.table("client_name").run(r.connect(host="127.0.0.1", port=28015))
             clientNameArray = list(clientNameTable)
             #print(clientNameTable)
             #print(clientNameArray)
@@ -135,7 +133,7 @@ def LatestInput():
 
                 if c.get("latest_input") == latestInput:
 
-                    tableList = db.table_list().run(conn)
+                    tableList = db.table_list().run(r.connect(host="127.0.0.1", port=28015))
                     userDict = {}
                     userDict["client_name"] = c.get("client_name")
 
@@ -151,17 +149,17 @@ def LatestInput():
 
                     if camTable != None:
 
-                        camTableConn = camTable.get(latestInput).run(conn)
+                        camTableConn = camTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
                         if camTableConn: userDict["faces"] = camTableConn.get("faces")
 
                     if irTable != None:
 
-                        irTableConn = irTable.get(latestInput).run(conn)
+                        irTableConn = irTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
                         if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
 
                     if micTable != None:
 
-                        micTableConn = micTable.get(latestInput).run(conn)
+                        micTableConn = micTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
 
                         if micTableConn:
                             userDict["pitch"] = micTableConn.get("pitch")
