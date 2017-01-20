@@ -1,5 +1,6 @@
 from   mod_thread          import ModThread         as mt
 from   timer_second_change import TimerSecondChange as tsc
+import subprocess          as     subp
 
 try: import lirc
 except ImportError as error: pass
