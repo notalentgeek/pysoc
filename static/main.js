@@ -69,8 +69,8 @@ setInterval(function(){
 
                     console.log("client does not exist")
 
-                    DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+                    //DetermineDegreeTargetList(clientCircleList.length + 1);
+                    //for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
                     clientTemporary = new Client(clientName, false);
                     new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
 
