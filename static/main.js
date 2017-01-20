@@ -86,7 +86,7 @@ setInterval(function(){
 
                 var amountPitch = Number(receivedData[i]["pitch"]);
                 clientTemporary.latestAmountPitch = amountPitch;
-                //console.log(amountPitch);
+                console.log(amountPitch);
 
                 var amountVolume = Number(receivedData[i]["volume"]);
                 clientTemporary.latestAmountVolume = amountVolume;
