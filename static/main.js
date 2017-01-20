@@ -91,25 +91,27 @@ setInterval(function(){
 
                     }
 
+                    if(clientList[j].online){
+
+                        var amountFace = Number(receivedData[i]["faces"]);
+                        clientList[j].latestAmountFace = amountFace;
+                        //console.log(amountFace);
+
+                        var irCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
+                        clientList[j].latestIRCodeClientNameRaw = irCodeClientNameRaw;
+                        //console.log(irCodeClientNameRaw);
+
+                        var amountPitch = Number(receivedData[i]["pitch"]);
+                        clientList[j].latestAmountPitch = amountPitch;
+                        console.log(amountPitch);
+
+                        var amountVolume = Number(receivedData[i]["volume"]);
+                        clientList[j].latestAmountVolume = amountVolume;
+                        //console.log(amountVolume);
+
+                    }
+
                 }
-
-                //console.log(clientList);
-
-                var amountFace = Number(receivedData[i]["faces"]);
-                clientTemporary.latestAmountFace = amountFace;
-                //console.log(amountFace);
-
-                var irCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
-                clientTemporary.latestIRCodeClientNameRaw = irCodeClientNameRaw;
-                //console.log(irCodeClientNameRaw);
-
-                var amountPitch = Number(receivedData[i]["pitch"]);
-                clientTemporary.latestAmountPitch = amountPitch;
-                console.log(amountPitch);
-
-                var amountVolume = Number(receivedData[i]["volume"]);
-                clientTemporary.latestAmountVolume = amountVolume;
-                //console.log(amountVolume);
 
                 console.log(clientList);
 
