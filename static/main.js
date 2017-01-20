@@ -73,7 +73,7 @@ setInterval(function(){
                     for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].online){ clientCircleList[j].RotateAuto(); } }
                     clientTemporary = new Client(clientName, false);
                     clientTemporary.online = true;
-                    new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
+                    new ClientCircle(clientTemporary, degreeTargetList[0]);
 
                     console.log(clientTemporary.clientCircle);
 
