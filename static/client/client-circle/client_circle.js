@@ -516,6 +516,7 @@ function ClientCircle(_client, _degree){
 
     this.client.clientCircle = this;
 
+    console.log(this);
     console.log(this.client.clientCircle);
 
     this.cX = mainCircleRadius * Math.sin(Math.Radian(this.degreeCurrent));
