@@ -127,8 +127,8 @@ class Main(object):
     def __init__(self, _docArgs):
 
         # Codes to clear the terminal screen before launching this application.
-        if   platform == "darwin" or platform == "linux" or platform == "linux2": subp.call(["reset"])
-        elif platform == "cygwin" or platform == "win32"                        : subp.call(["cls"])
+        if   platform == "darwin" or platform == "linux" or platform == "linux2": subp.call(["reset"], shell=True)
+        elif platform == "cygwin" or platform == "win32"                        : subp.call(["cls"], shell=True)
 
         print("sociometric client\n")
 
