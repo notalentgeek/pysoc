@@ -70,7 +70,7 @@ setInterval(function(){
                     console.log("client does not exist")
 
                     DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+                    for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].online){ clientCircleList[j].RotateAuto(); } }
                     clientTemporary = new Client(clientName, false);
                     clientTemporary.online = true;
                     new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
@@ -156,7 +156,7 @@ setInterval(function(){
             }
 
             //DetermineDegreeTargetList(clientCircleList.length);
-            //for(var i = 0; i < clientCircleList.length; i ++){ clientCircleList[i].RotateAuto(); }
+            //for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].online){ clientCircleList[j].RotateAuto(); } }
 
             d3.selectAll(".real-circle").remove();
             d3.selectAll(".real-line").remove();
@@ -223,8 +223,8 @@ setInterval(function(){
                 }
 
             }
-            //DetermineDegreeTargetList(clientCircleList.length);
-            //for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+            DetermineDegreeTargetList(clientCircleList.length);
+            for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             receivedData = null;
 
