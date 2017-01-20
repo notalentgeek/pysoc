@@ -239,7 +239,7 @@ function ClientCircleAnimation(){
                 SimulateDetermineDegreeTargetList(clientCircleList.length);
                 for(var j = 0; j < clientCircleList.length; j ++){
 
-                    clientCircleList[j].degreeSaved = degreeCurrent;
+                    clientCircleList[j].degreeSaved = clientCircleList[j].degreeCurrent;
                     clientCircleList[j].RotateAuto();
 
                 }
@@ -475,7 +475,7 @@ function SimulateClientCircleAnimation(){
                 SimulateDetermineDegreeTargetList(simulateClientCircleList.length);
                 for(var j = 0; j < simulateClientCircleList.length; j ++){
 
-                    simulateClientCircleList[j].degreeSaved = degreeCurrent;
+                    simulateClientCircleList[j].degreeSaved = simulateClientCircleList[j].degreeCurrent;
                     simulateClientCircleList[j].RotateAuto();
 
                 }
