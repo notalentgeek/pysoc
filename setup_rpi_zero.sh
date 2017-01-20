@@ -1,0 +1,1 @@
+./script/script-setup/setup_raspbian_jessie_rpi_zero.sh

@@ -1,0 +1,1 @@
+./script/script-setup/setup_ubuntu_1604_server.sh
