@@ -99,7 +99,13 @@ def LatestInput():
 
         userDictArray   = []
 
-        try: clientNameArray = list(db.table("client_name").run(conn))
+        try:
+
+            clientNameTable = db.table("client_name").run(conn)
+            clientNameArray = list(clientNameTable)
+            print(clientNameTable)
+            print(clientNameArray)
+
         except r.errors.ReqlOpFailedError as error: clientNameArray = None
 
         #print(clientNameArray)
