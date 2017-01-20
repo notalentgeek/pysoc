@@ -80,7 +80,7 @@ setInterval(function(){
 
                 for(var j = 0; j < clientList.length; j ++){
 
-                    console.log(clientList[j]);
+                    console.log(clientList[j].online);
 
                     if(!clientList[j].online){
 
