@@ -3,17 +3,20 @@
 Usage:
     pysoc_server.py (--help | -h)
     pysoc_server.py (--version | -v)
-    pysoc_server.py <dba> [--dbn=<dbnv>|--dbp=<dbpv>|--tout=<toutv>]...
-    pysoc_server.py
+    pysoc_server.py <dba> [-o|--dbn=<dbnv>|--dbp=<dbpv>|--tout=<toutv>]...
+    pysoc_server.py [-o|--dbn=<dbnv>|--dbp=<dbpv>|--nodb|--tout=<toutv>]...
 
 Options:
     --help -h           Refer to help manual.
     --version -v        Refer to this version of application.
 
+    -o                  Online.
+    --nodb              Run without RethinkDB.
+
     dba                 RethinkDB address [default: 127.0.0.1].
-    --dbn=<dbnv>        RethinkDB database name [default: sociometric_server]
+    --dbn=<dbnv>        RethinkDB database name [default: sociometric_server].
     --dbp=<dbpv>        RethinkDB port [default: 28015].
-    --tout=<toutv>      RethinkDB connection time out [default: 1]
+    --tout=<toutv>      RethinkDB connection time out [default: 1].
 
 """
 from   docopt         import docopt          as doc
@@ -37,27 +40,29 @@ def main(_docArgs):
     global conn
     global db
 
-    dbAddress  = _docArgs["<dba>"];
-    dbName     = _docArgs["--dbn"][0];
-    dbPort     = int(_docArgs["--dbp"][0]);
-    timeout    = int(_docArgs["--tout"][0]);
+    dbAddress  = _docArgs["<dba>"]
+    dbName     = _docArgs["--dbn"][0]
+    dbPort     = int(_docArgs["--dbp"][0])
+    noDB       = int(_docArgs["--nodb"])
+    timeout    = int(_docArgs["--tout"][0])
 
-    try:
+    if(noDB != 1):
 
-        cDB    = ConnDB(
-            dbAddress,
-            dbName,
-            dbPort,
-            timeout
-        )
-        conn   = cDB[0]
-        db     = cDB[1]
+        try:
 
-        #print(conn)
-        #print(db)
+            cDB    = ConnDB(
+                dbAddress,
+                dbName,
+                dbPort,
+                timeout
+            )
+            conn   = cDB[0]
+            db     = cDB[1]
 
-    except r.errors.ReqlTimeoutError as error: print(error)
+            #print(conn)
+            #print(db)
 
+        except r.errors.ReqlTimeoutError as error: print(error)
 
 @app.route("/")
 def index():
@@ -78,7 +83,7 @@ def api_mic(_clientName):
 @sIO.on("latestInputRequest")
 def LatestInput():
 
-    #print("test");
+    #print("test")
     #print(conn)
     #print(db)
 
@@ -93,7 +98,7 @@ def LatestInput():
         irTable         = None
         micTable        = None
 
-        userDictArray   = [];
+        userDictArray   = []
 
         try: clientNameArray = list(db.table("client_name").run(conn))
         except r.errors.ReqlOpFailedError as error: clientNameArray = None
@@ -124,8 +129,8 @@ def LatestInput():
             for c in clientList:
 
                 tableList = db.table_list().run(conn)
-                userDict = {};
-                userDict["client_name"] = c;
+                userDict = {}
+                userDict["client_name"] = c
 
 
                 if (c + "_cam") in tableList: camTable = db.table(c + "_cam")
@@ -176,9 +181,13 @@ def ConnDB(_dba, _dbn,
 if __name__ == "__main__":
 
     docArgs = doc(__doc__, version="0.0.1")
+    #print(docArgs)
+    online = int(docArgs["-o"])
+
     main(docArgs)
 
     #print(conn)
     #print(db)
 
-    sIO.run(app)
+    if online == 1: sIO.run(app, host="0.0.0.0")
+    else: sIO.run(app)
