@@ -8,6 +8,9 @@ class IRDetection(mt):
 
     def __init__(self, _threadName, _array, _iDB):
 
+        # Restart LIRC service.
+        subp.call(["sudo /etc/init.d/lirc restart"])
+
         _array.append(self)
         mt.__init__(self,
             _array.index(self) + 1,
