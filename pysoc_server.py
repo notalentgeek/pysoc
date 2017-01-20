@@ -89,7 +89,6 @@ def LatestInput():
 
     if conn != None and db != None:
 
-        clientList      = []
         latestInput     = None
         latestInputComp = None
 
@@ -109,8 +108,6 @@ def LatestInput():
 
             for c in clientNameArray:
 
-                clientList.append(c.get("client_name"))
-
                 latestInputTemp = c.get("latest_input")
                 latestInputCompTemp = float(latestInputTemp)/1000
 
@@ -126,41 +123,43 @@ def LatestInput():
 
             #print(latestInput)
 
-            for c in clientList:
+            for c in clientNameArray:
 
-                tableList = db.table_list().run(conn)
-                userDict = {}
-                userDict["client_name"] = c
+                if c.get("latest_input") == latestInput:
+
+                    tableList = db.table_list().run(conn)
+                    userDict = {}
+                    userDict["client_name"] = c
 
 
-                if (c + "_cam") in tableList: camTable = db.table(c + "_cam")
-                else: camTable = None
+                    if (c.get("client_name") + "_cam") in tableList: camTable = db.table(c.get("client_name") + "_cam")
+                    else: camTable = None
 
-                if (c + "_ir") in tableList: irTable = db.table(c + "_ir")
-                else: irTable = None
+                    if (c.get("client_name") + "_ir") in tableList: irTable = db.table(c.get("client_name") + "_ir")
+                    else: irTable = None
 
-                if (c + "_mic") in tableList: micTable = db.table(c + "_mic")
-                else: micTable = None
+                    if (c.get("client_name") + "_mic") in tableList: micTable = db.table(c.get("client_name") + "_mic")
+                    else: micTable = None
 
-                if camTable != None:
+                    if camTable != None:
 
-                    camTableConn = camTable.get(latestInput).run(conn)
-                    if camTableConn: userDict["faces"] = camTableConn.get("faces")
+                        camTableConn = camTable.get(latestInput).run(conn)
+                        if camTableConn: userDict["faces"] = camTableConn.get("faces")
 
-                if irTable != None:
+                    if irTable != None:
 
-                    irTableConn = irTable.get(latestInput).run(conn)
-                    if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
+                        irTableConn = irTable.get(latestInput).run(conn)
+                        if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
 
-                if micTable != None:
+                    if micTable != None:
 
-                    micTableConn = micTable.get(latestInput).run(conn)
+                        micTableConn = micTable.get(latestInput).run(conn)
 
-                    if micTableConn:
-                        userDict["pitch"] = micTableConn.get("pitch")
-                        userDict["volume"] = micTableConn.get("volume")
+                        if micTableConn:
+                            userDict["pitch"] = micTableConn.get("pitch")
+                            userDict["volume"] = micTableConn.get("volume")
 
-                userDictArray.append(userDict)
+                    userDictArray.append(userDict)
 
             emit("latestInputSend", userDictArray)
             #print("test")
