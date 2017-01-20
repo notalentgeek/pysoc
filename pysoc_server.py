@@ -129,7 +129,7 @@ def LatestInput():
 
                     tableList = db.table_list().run(conn)
                     userDict = {}
-                    userDict["client_name"] = c
+                    userDict["client_name"] = c.get("client_name")
 
 
                     if (c.get("client_name") + "_cam") in tableList: camTable = db.table(c.get("client_name") + "_cam")
