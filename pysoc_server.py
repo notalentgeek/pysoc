@@ -16,7 +16,7 @@ Options:
     dba                 RethinkDB address [default: 127.0.0.1].
     --dbn=<dbnv>        RethinkDB database name [default: sociometric_server].
     --dbp=<dbpv>        RethinkDB port [default: 28015].
-    --tout=<toutv>      RethinkDB connection time out [default: 1].
+    --tout=<toutv>      RethinkDB connection time out [default: 20].
 
 """
 from   docopt         import docopt          as doc
