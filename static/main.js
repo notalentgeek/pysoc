@@ -71,7 +71,7 @@ setInterval(function(){
 
                     if(!clientList[j].online){
 
-                        clientList[i].clientCircle.willBeDeleted = true;
+                        clientList[j].clientCircle.willBeDeleted = true;
 
                     }
 
