@@ -53,6 +53,7 @@ setInterval(function(){
                 //console.log(clientName);
                 for(var j = 0; j < clientList.length; j ++){
 
+                    clientList[j].AddLatest();
                     if(clientList[j].name == clientName){
 
                         clientTemporary = clientList[j];
@@ -69,6 +70,7 @@ setInterval(function(){
 
                     console.log(clientList[j]);
 
+                    clientList[j].AddLatest();
                     if(!clientList[j].online){
 
                         clientList[j].clientCircle.willBeDeleted = true;
