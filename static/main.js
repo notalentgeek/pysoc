@@ -6,7 +6,6 @@ for(var i = 0; i < simulateClientNameIRCodeList.length; i ++){
     );
     new ClientCircle(clientTemporary, 180);
 
-    //console.log(clientTemporary);
     //console.log(clientTemporary.clientName);
     //console.log(clientTemporary.clientIRCode);
     //console.log(clientTemporary.DebugShowLatest());
