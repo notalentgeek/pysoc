@@ -223,8 +223,8 @@ setInterval(function(){
                 }
 
             }
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+            //DetermineDegreeTargetList(clientCircleList.length);
+            //for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             receivedData = null;
 
