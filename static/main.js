@@ -98,9 +98,10 @@ setInterval(function(){
 
                     console.log(clientList[j]);
 
-                    clientList[j].AddLatest();
-                    if(!clientList[j].online){
+                    if(!clientList[j].online && clientList[j].clientCircle !== null && clientList[j].clientCircle !== undefined){
 
+
+                        clientList[j].AddLatest();
                         clientList[j].clientCircle.willBeDeleted = true;
 
                     }
