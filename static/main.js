@@ -74,6 +74,20 @@ setInterval(function(){
 
                 }
 
+                for(var j = 0; j < clientList.length; j ++){
+
+                    console.log(clientList[j]);
+
+                    if(!clientList[j].online){
+
+
+                        clientList[j].AddLatest();
+                        clientList[j].clientCircle.willBeDeleted = true;
+
+                    }
+
+                }
+
                 //console.log(clientList);
 
                 var amountFace = Number(receivedData[i]["faces"]);
@@ -93,20 +107,6 @@ setInterval(function(){
                 //console.log(amountVolume);
 
                 console.log(clientList);
-
-                for(var j = 0; j < clientList.length; j ++){
-
-                    console.log(clientList[j]);
-
-                    if(!clientList[j].online && clientList[j].clientCircle !== null && clientList[j].clientCircle !== undefined){
-
-
-                        clientList[j].AddLatest();
-                        clientList[j].clientCircle.willBeDeleted = true;
-
-                    }
-
-                }
 
             }
             for(var i = 0; i < clientList.length; i ++){
