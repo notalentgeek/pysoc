@@ -63,7 +63,7 @@ setInterval(function(){
                         if(clientTemporary.clientCircle === null || clientTemporary.clientCircle === undefined){
 
                             DetermineDegreeTargetList(clientCircleList.length + 1);
-                            for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); }
+                            for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
                             new ClientCircle(clientTemporary, degreeTargetList[0]);
 
                         }
