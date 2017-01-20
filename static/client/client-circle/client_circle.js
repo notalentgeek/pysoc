@@ -9,7 +9,7 @@ var degreeTargetList = [];
 var simulateDegreeTargetList = [];
 
 var simulateLinearScalePitch = d3.scaleLinear()
-    .domain([0, 7000])
+    .domain([0, 2500])
     .range([0, 0.9]);
 var simulateLinearScaleVolume = d3.scaleLinear()
     .domain([0, 0.1])

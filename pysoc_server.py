@@ -103,8 +103,8 @@ def LatestInput():
 
             clientNameTable = r.db("sociometric_server").table("client_name").run(conn)
             clientNameArray = list(clientNameTable)
-            print(clientNameTable)
-            print(clientNameArray)
+            #print(clientNameTable)
+            #print(clientNameArray)
 
         except r.errors.ReqlOpFailedError as error: clientNameArray = None
 
