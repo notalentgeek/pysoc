@@ -102,7 +102,7 @@ def LatestInput():
         try:
 
             clientNameTable = db.table("client_name").run(r.connect(
-            host=127.0.0.1,
+            host="127.0.0.1",
             port=28015))
             clientNameArray = list(clientNameTable)
             #print(clientNameTable)
