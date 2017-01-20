@@ -87,7 +87,7 @@ setInterval(function(){
 
 
                         clientList[j].AddLatest();
-                        //clientList[j].clientCircle.willBeDeleted = true;
+                        clientList[j].clientCircle.willBeDeleted = true;
 
                     }
 
