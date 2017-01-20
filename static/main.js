@@ -67,7 +67,9 @@ setInterval(function(){
 
                 for(var j = 0; j < clientList.length; j ++){
 
-                    if(!clientList[i].online){
+                    console.log(clientList[j]);
+
+                    if(!clientList[j].online){
 
                         clientList[i].clientCircle.willBeDeleted = true;
 
