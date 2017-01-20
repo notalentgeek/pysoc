@@ -66,7 +66,9 @@ setInterval(function(){
 
                     if(!clientList[i].online){
 
-                        clientList[i].clientCircle.willBeDeleted = true;
+                        if(clientList[i].clientCircle !== null && clientList[i].clientCircle !== undefined){
+                            clientList[i].clientCircle.willBeDeleted = true;
+                        }
 
                     }
 
