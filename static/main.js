@@ -39,7 +39,7 @@ setInterval(function(){
                 clientList[i].online = false;
 
             }
-            //console.log(receivedData);
+            console.log(receivedData);
             for(var i = 0; i < receivedData.length; i ++){
 
                 //console.log(receivedData[i]);
