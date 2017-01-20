@@ -42,6 +42,24 @@ setInterval(function(){
             //console.log(receivedData);
             for(var i = 0; i < receivedData.length; i ++){
 
+                //console.log(clientList);
+
+                var amountFace = Number(receivedData[i]["faces"]);
+                clientTemporary.latestAmountFace = amountFace;
+                //console.log(amountFace);
+
+                var irCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
+                clientTemporary.latestIRCodeClientNameRaw = irCodeClientNameRaw;
+                //console.log(irCodeClientNameRaw);
+
+                var amountPitch = Number(receivedData[i]["pitch"]);
+                clientTemporary.latestAmountPitch = amountPitch;
+                //console.log(amountPitch);
+
+                var amountVolume = Number(receivedData[i]["volume"]);
+                clientTemporary.latestAmountVolume = amountVolume;
+
+                //console.log(amountVolume);
                 //console.log(receivedData[i]);
                 //console.log(typeof(receivedData[i]));
 
@@ -89,23 +107,6 @@ setInterval(function(){
                     //console.log(clientTemporary);
 
                 }
-                //console.log(clientList);
-
-                var amountFace = Number(receivedData[i]["faces"]);
-                clientTemporary.latestAmountFace = amountFace;
-                //console.log(amountFace);
-
-                var irCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
-                clientTemporary.latestIRCodeClientNameRaw = irCodeClientNameRaw;
-                //console.log(irCodeClientNameRaw);
-
-                var amountPitch = Number(receivedData[i]["pitch"]);
-                clientTemporary.latestAmountPitch = amountPitch;
-                //console.log(amountPitch);
-
-                var amountVolume = Number(receivedData[i]["volume"]);
-                clientTemporary.latestAmountVolume = amountVolume;
-                //console.log(amountVolume);
 
             }
             for(var i = 0; i < clientList.length; i ++){
