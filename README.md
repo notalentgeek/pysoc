@@ -6,7 +6,7 @@
 * Make more database class to be more agnostic. At this moment `database.py` is strictly made for RethinkDB. Although RethinkDB is open source, the main company behind it just went close (on October 2016, I think), so I am not sure if there will be update. But, all in all there are still people using RethinkDB.
     1. Possible alternative I can think of.
         * MongoDB seems like the go - to choice for NoSQL database.
-        * SQLite, I like SQLite portability. However, I am not sure if this is ambitious.
+        * SQLite, I like SQLite portability. However, I am not sure if this is necessary or reliable.
     1. Priority when choosing database server.
         1. Easy to learn. This is relative, but some says PostgreSQL is the hardest to learn. 
         1. Intended to be for real - time system.
