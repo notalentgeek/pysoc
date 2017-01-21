@@ -40,8 +40,8 @@ def DatabaseAPI(
 
 ):
 
-    #print("test1")
-    #print(type(_db))
+    print("test1")
+    print(type(_db))
 
     if   _noDB: return "web server is running without connection to database server"
     else      :
@@ -195,8 +195,8 @@ if __name__ == "__main__":
     sIO     = sio(app)
     db      = r.db(dbN)
 
-    print(db)
-    print(type(db))
+    #print(db)
+    #print(type(db))
 
     # Routings.
     @app.route("/")
