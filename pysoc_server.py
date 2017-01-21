@@ -168,6 +168,7 @@ def DatabaseGetLatestInputTableValueToDict(
 
 def GetLatestInput(_clientNameList, _columnLatestInput):
 
+    latestInputFlo = None
     for c in _clientNameList:
 
         latestInputStrTemp = c.get(_columnLatestInput)
