@@ -81,18 +81,25 @@ def DatabaseConnection(
 
     if _tOut == None: _tOut = int(20)
 
+    print(_dbA)
+    print(_dbP)
     print(_tOut)
 
-    try: return r.connect(
+    try:
 
-        host=str(_dBA),
-        port=int(_dbP),
-        timeout=int(_tOut)
+        conn = r.connect(
 
-    )
+            host=str(_dBA),
+            port=int(_dbP),
+            timeout=int(_tOut)
+
+        )
+
     except:
 
         while True: "there is an error when connecting to database"
+
+    return conn
 
 def DatabaseGetAllClientName(_db, _dbA, _dbP, _tN): return list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
 def DatabaseGetAllClientNameMod1(): return DatabaseGetAllClientName(db, dbA, dbP, "client_name")
