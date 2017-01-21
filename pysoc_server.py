@@ -41,9 +41,8 @@ def DatabaseAPI(
 ):
 
     print("test")
-    if _noDB: return "web server is running without connection to database server"
-    print(str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))))
-    #return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
+    if   _noDB: return "web server is running without connection to database server"
+    else      : return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
 def DatabaseAPIMod1(_tN):
 
     #print("test")
