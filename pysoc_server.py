@@ -178,7 +178,7 @@ def DatabaseGetLatestInputTableValueToDict(
             print(c)
 
             DatabaseGetLatestInputColumnValueToDict(
-                c, _dbA, _dbP, _dict, _latestInputStr, _table);
+                c, _dbA, _dbP, _dict, _latestInputStr, table);
 
 def GetLatestInput(_clientNameList, _columnLatestInput):
 
