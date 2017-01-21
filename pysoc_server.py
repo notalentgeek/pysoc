@@ -87,7 +87,7 @@ def DatabaseConnection(
 
     conn = r.connect(
 
-        host=str(_dBA),
+        host=str(_dbA),
         port=int(_dbP),
         timeout=int(_tOut)
 
