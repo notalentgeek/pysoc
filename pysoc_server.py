@@ -179,12 +179,12 @@ def DatabaseGetLatestInputTableValueToDict(
         #print("test2")
         #print(_colName)
         #print(len(_colName))
-        print("="*5)
-        print(_colName)
-        print(list(_colName))
-        print(type(_colName))
-        print(type(list(_colName)))
-        print("="*5)
+        #print("="*5)
+        #print(_colName)
+        #print(list(_colName))
+        #print(type(_colName))
+        #print(type(list(_colName)))
+        #print("="*5)
 
         for c in list(_colName):
 
