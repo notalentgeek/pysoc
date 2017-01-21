@@ -85,6 +85,15 @@ def DatabaseConnection(
     print(_dbP)
     print(_tOut)
 
+    conn = r.connect(
+
+        host=str(_dBA),
+        port=int(_dbP),
+        timeout=int(_tOut)
+
+    )
+
+    """
     try:
 
         conn = r.connect(
@@ -98,6 +107,7 @@ def DatabaseConnection(
     except:
 
         while True: "there is an error when connecting to database"
+    """
 
     return conn
 
