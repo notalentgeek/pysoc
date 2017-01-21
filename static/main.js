@@ -82,7 +82,8 @@ setInterval(function(){
                     console.log(degreeTargetList);
                     console.log(degreeTargetList.length);
 
-                    var newCircle = new ClientCircle(clientTemporary, degreeTargetList[0]).RotateAuto();
+                    var newCircle = new ClientCircle(clientTemporary, degreeTargetList[0]);
+                    newCircle.RotateAuto();
 
                     console.log(clientTemporary.name);
                     console.log(newCircle);
