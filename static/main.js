@@ -41,7 +41,7 @@ setInterval(function(){
 
             }
 
-            //console.log(receivedData);
+            console.log(receivedData);
 
             // Check all received data.
             for(var i = 0; i < receivedData.length; i ++){
