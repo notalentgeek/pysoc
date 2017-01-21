@@ -40,14 +40,14 @@ def DatabaseAPI(
 
 ):
 
-    print("test1")
+    #print("test1")
 
     if   _noDB: return "web server is running without connection to database server"
     else      :
 
-        print("test2")
-        print(_db.table(_tableName))
-        print(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
+        #print("test2")
+        #print(_db.table(_tableName))
+        #print(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
 
         return str(list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP))))
 
@@ -71,9 +71,9 @@ def DatabaseConnection(
 
     if _tOut == None: _tOut = int(20)
 
-    print(_dbA)
-    print(_dbP)
-    print(_tOut)
+    #print(_dbA)
+    #print(_dbP)
+    #print(_tOut)
 
     conn = r.connect(
 
@@ -182,6 +182,9 @@ if __name__ == "__main__":
     app     = Flask(__name__)
     sIO     = sio(app)
     db      = r.db(dbN)
+
+    print(db)
+    print(type(db))
 
     # Routings.
     @app.route("/")
