@@ -5,5 +5,4 @@ pyinstaller --paths="./src" --paths="./src/cli" --paths="./src/collection-functi
 sudo chmod +x ~/pysoc/dist/pysoc &&
 sed -ie "s#\nPATH=\$PATH:~/pysoc/dist##g" ~/.bashrc &&
 printf "\nPATH=\$PATH:~/pysoc/dist" >> ~/.bashrc &&
-export PATH=$PATH:~/pysoc/dist &&
-source ~/.bashrc
+export PATH=$PATH:~/pysoc/dist
