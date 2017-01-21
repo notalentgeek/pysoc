@@ -76,31 +76,13 @@ def DatabaseConnection(
     #print(_dbP)
     #print(_tOut)
 
-    conn = r.connect(
+    return r.connect(
 
         host=str(_dbA),
         port=int(_dbP),
         timeout=int(_tOut)
 
     )
-
-    """
-    try:
-
-        conn = r.connect(
-
-            host=str(_dBA),
-            port=int(_dbP),
-            timeout=int(_tOut)
-
-        )
-
-    except:
-
-        while True: "there is an error when connecting to database"
-    """
-
-    return conn
 
 def DatabaseGetAllClientName(_db, _dbA, _dbP, _tableName):
 
