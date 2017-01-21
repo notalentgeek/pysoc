@@ -3,7 +3,7 @@
     * [http://flask.pocoo.org/docs/0.12/deploying/](http://flask.pocoo.org/docs/0.12/deploying/), official guide of deployment option from the Flask official website.
     * [http://gunicorn.org/](http://gunicorn.org/), Gunicorn website.
     * [http://stackoverflow.com/questions/6337119/how-do-you-daemonize-a-flask-application](http://stackoverflow.com/questions/6337119/how-do-you-daemonize-a-flask-application), some say that the solution might be using Gunicorn.
-* Make more database class to be more agnostic. At this moment `database.py` is strictly made for RethinkDB. Although RethinkDB is open source, the main company behind it just went close (on October 2016, I think), so I am not sure if there will be update. But, all in all there are still people using RethinkDB.
+* Make database class to be more agnostic. At this moment `database.py` is strictly made for RethinkDB. Although RethinkDB is open source, the main company behind it just went close (on October 2016, I think), so I am not sure if there will be update. But, all in all there are still people using RethinkDB.
     1. Possible alternative I can think of.
         * MongoDB seems like the go - to choice for NoSQL database.
         * SQLite, I like SQLite portability. However, I am not sure if this is necessary or reliable.
