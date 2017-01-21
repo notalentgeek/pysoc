@@ -1,4 +1,4 @@
 #!/bin/bash
 
 sudo /etc/init.d/lirc stop
-mode2 -d /dev/lirc0
+timeout 2s mode2 -d /dev/lirc0
