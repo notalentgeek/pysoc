@@ -61,8 +61,8 @@ setInterval(function(){
 
                         if(clientTemporary.clientCircle === null || clientTemporary.clientCircle === undefined){
 
-                            DetermineDegreeTargetList(clientCircleList.length + 1);
-                            for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
+                            //DetermineDegreeTargetList(clientCircleList.length + 1);
+                            //for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
                             new ClientCircle(clientTemporary, degreeTargetList[0]);
 
                         }
@@ -74,8 +74,8 @@ setInterval(function(){
                 }
                 if(clientTemporary === null || clientTemporary === undefined){
 
-                    DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
+                    //DetermineDegreeTargetList(clientCircleList.length + 1);
+                    //for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
                     clientTemporary = new Client(clientName, false);
                     clientTemporary.online = true;
 
