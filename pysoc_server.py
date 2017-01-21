@@ -234,7 +234,7 @@ if __name__ == "__main__":
 
             clientNameDictList = []                                          # All client information that will be sent to client.
             clientNameList     = DatabaseGetAllClientNameMod1(db, dbA, dbP)  # All client name from `client_name` table in database.
-            latestInputStr     = GetLatestInputMod1(_clientNameList)         # Latest input time in string as we received from database.
+            latestInputStr     = GetLatestInputMod1(clientNameList)          # Latest input time in string as we received from database.
             tableCam           = None                                        # Database table to hold camera data.
             tableIR            = None                                        # Database table to hold infrared transceiver data.
             tableMic           = None                                        # Database table to hold microphone data.
