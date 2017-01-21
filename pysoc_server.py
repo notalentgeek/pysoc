@@ -143,6 +143,13 @@ def DatabaseGetLatestInputColumnValueToDict(
 
     # Make sure to have `latest_input` as primary index in RethinkDB.
     tableConn = _table.get(_latestInputStr).run(DatabaseConnection(_dBA, _dbP))
+
+    print(_dBA)
+    print(_dbP)
+    print(_latestInputStr)
+    print(_table)
+    print(tableConn)
+
     _dict[_colName] = tableConn.get(_colName)
 
     print(_dict)
@@ -160,22 +167,22 @@ def DatabaseGetLatestInputTableValueToDict(
 
 ):
 
-    print("test1")
-    print(_tableName)
-    print(_tableNameList)
+    #print("test1")
+    #print(_tableName)
+    #print(_tableNameList)
 
     if   _tableName in _tableNameList: table = db.table(_tableName)
     else                             : table = None
 
     if table != None:
 
-        print("test2")
-        print(_colName)
-        print(len(_colName))
+        #print("test2")
+        #print(_colName)
+        #print(len(_colName))
 
         for c in _colName:
 
-            print(c)
+            #print(c)
 
             DatabaseGetLatestInputColumnValueToDict(
                 c, _dbA, _dbP, _dict, _latestInputStr, table);
