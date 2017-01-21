@@ -104,18 +104,30 @@ def DatabaseConnection(
 
 def DatabaseGetAllClientName(_db, _dbA, _dbP, _tableName):
 
-    db = _db.coerce_to("binary")
-    return list(db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
+    #_db = _db.coerce_to("binary")
+
+    print(_db)
+    print(type(_db))
+
+    return list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
 
 def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP):
 
-    db = _db.coerce_to("binary")
-    return DatabaseGetAllClientName(db, _dbA, _dbP, "client_name")
+    #_db = _db.coerce_to("binary")
+
+    print(_db)
+    print(type(_db))
+
+    return DatabaseGetAllClientName(_db, _dbA, _dbP, "client_name")
 
 def DatabaseGetAllTableName(_db, _dbA, _dbP):
 
-    db = _db.coerce_to("binary")
-    return db.table_list().run(DatabaseConnection(_dbA, _dbP))
+    #_db = _db.coerce_to("binary")
+
+    print(_db)
+    print(type(_db))
+
+    return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
 
 # Function to assign column with latest input to dictionary.
 def DatabaseGetLatestInputColumnValueToDict(
