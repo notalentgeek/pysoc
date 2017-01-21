@@ -224,8 +224,8 @@ setInterval(function(){
                 }
 
             }
-            //DetermineDegreeTargetList(clientCircleList.length);
-            //for(var j = 0; j < clientCircleList.length; j ++){ if(clientCircleList[j].client.online){ clientCircleList[j].RotateAuto(); } }
+            DetermineDegreeTargetList(clientCircleList.length);
+            for(var j = 0; j < clientList.length; j ++){ if(clientList[j].online){ clientList[j].clientCircle.RotateAuto(); } }
 
             receivedData = null;
 
