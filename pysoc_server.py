@@ -150,7 +150,7 @@ def DatabaseGetLatestInputColumnValueToDict(
     print(_table)
     print(tableConn)
 
-    _dict[_colName] = tableConn.get(_colName)
+    if tableConn: _dict[_colName] = tableConn.get(_colName)
 
     print(_dict)
 
