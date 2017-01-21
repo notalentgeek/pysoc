@@ -44,7 +44,12 @@ def DatabaseAPI(
     return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
 def DatabaseAPIMod1(_tN):
 
-    print("databaseapimod1")
+    print("test")
+    print(_tN)
+    print(db)
+    print(dbA)
+    print(dbP)
+    print(noDB)
     return DatabaseAPI(db, dbA, dbP, noDB, _tN)
 
 # Make a function to connect to database and to set up connection.
