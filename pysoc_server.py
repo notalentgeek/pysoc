@@ -161,6 +161,8 @@ def DatabaseGetLatestInputTableValueToDict(
 ):
 
     print("test1")
+    print(_tableName)
+    print(_tableNameList)
 
     if   _tableName in _tableNameList: table = db.table(_tableName)
     else                             : table = None
