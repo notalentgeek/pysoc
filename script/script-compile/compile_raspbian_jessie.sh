@@ -6,4 +6,4 @@ sudo pyinstaller --paths="/home/pi/pysoc/src" --paths="/home/pi/pysoc/src/cli" -
 sudo chmod +x /home/pi/pysoc/dist/pysoc &&
 sudo sed -ie "s#PATH=$PATH:/home/pi/pysoc/dist##g" /home/pi/.bashrc &&
 sudo /bin/sh -c 'printf "\nPATH=\$PATH:/home/pi/pysoc/dist" >> /home/pi/.bashrc' &&
-export PATH=$PATH:~/pysoc/dist
+export PATH=$PATH:home/pi/pysoc/dist
