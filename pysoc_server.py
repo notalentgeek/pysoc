@@ -106,8 +106,8 @@ def DatabaseGetAllClientName(_db, _dbA, _dbP, _tableName):
 
     #_db = _db.coerce_to("binary")
 
-    print(_db)
-    print(type(_db))
+    #print(_db)
+    #print(type(_db))
 
     return list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
 
@@ -115,8 +115,8 @@ def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP):
 
     #_db = _db.coerce_to("binary")
 
-    print(_db)
-    print(type(_db))
+    #print(_db)
+    #print(type(_db))
 
     return DatabaseGetAllClientName(_db, _dbA, _dbP, "client_name")
 
@@ -124,8 +124,8 @@ def DatabaseGetAllTableName(_db, _dbA, _dbP):
 
     #_db = _db.coerce_to("binary")
 
-    print(_db)
-    print(type(_db))
+    #print(_db)
+    #print(type(_db))
 
     return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
 
@@ -258,8 +258,10 @@ if __name__ == "__main__":
 
                     clientNameDictList.append(clientNameDict)
 
+            print(clientNameDictList)
+            print(type(clientNameDictList))
+
             emit("latestInputSend", clientNameDictList)
-            #print("test")
 
     if   online: sIO.run(app, host="0.0.0.0")
     else       : sIO.run(app)
