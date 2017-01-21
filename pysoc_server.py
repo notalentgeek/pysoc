@@ -46,7 +46,8 @@ def DatabaseAPI(
     else      :
 
         print("test2")
-
+        print(_db.table(_tN))
+        print(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
         return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
 def DatabaseAPIMod1(_tN):
 
