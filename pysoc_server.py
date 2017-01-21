@@ -42,7 +42,10 @@ def DatabaseAPI(
 
     if _noDB: return "web server is running without connection to database server"
     return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
-def DatabaseAPIMod1(_tN): return DatabaseAPI(db, dbA, dbP, noDB, _tN)
+def DatabaseAPIMod1(_tN):
+
+    print("databaseapimod1")
+    return DatabaseAPI(db, dbA, dbP, noDB, _tN)
 
 # Make a function to connect to database and to set up connection.
 # So 1 function to return database information. The INFORMATION
