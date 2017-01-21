@@ -48,6 +48,7 @@ def DatabaseAPI(
         print("test2")
         print(_db.table(_tN))
         print(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
+
         return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
 def DatabaseAPIMod1(_tN):
 
@@ -79,6 +80,8 @@ def DatabaseConnection(
 ):
 
     if _tOut == None: _tOut = int(20)
+
+    print(_tOut)
 
     try: return r.connect(
 
