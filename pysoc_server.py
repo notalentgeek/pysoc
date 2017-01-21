@@ -1,22 +1,24 @@
 """pysoc_server
 
 Usage:
-    pysoc_server.py (--help | -h)
-    pysoc_server.py (--version | -v)
-    pysoc_server.py <dba> [-o|--dbn=<dbnv>|--dbp=<dbpv>|--tout=<toutv>]...
-    pysoc_server.py [-o|--dbn=<dbnv>|--dbp=<dbpv>|--nodb|--tout=<toutv>]...
+    pysoc_server.py (--help|-h)
+    pysoc_server.py (--version|-v)
+    pysoc_server.py (--nodb|-o|--dba=<dbav>|--dbp=<dbpv>|--dbn=<dbnv>|--tout=<toutv>)...
 
 Options:
     --help -h           Refer to help manual.
     --version -v        Refer to this version of application.
 
-    -o                  Online.
-    --nodb              Run without RethinkDB.
+    --nodb              Run this web server without database.
+                        Useful for debugging the simulation.
+    -o                  Make this web server to be online.
 
-    dba                 RethinkDB address [default: 127.0.0.1].
-    --dbn=<dbnv>        RethinkDB database name [default: sociometric_server].
-    --dbp=<dbpv>        RethinkDB port [default: 28015].
-    --tout=<toutv>      RethinkDB connection time out [default: 20].
+    --dba=<dbav>        Database address [default: 127.0.0.1].
+    --dbp=<dbpv>        Database port [default: 28015].
+    --dbn=<dbnv>        Database name [default: pysoc_server].
+    --tout=<toutv>      Connection timeout. Amount of this
+                        application needs to wait for database
+                        connection [default: 20].
 
 """
 from   docopt         import docopt          as doc
@@ -25,174 +27,186 @@ from   flask          import render_template
 from   flask_socketio import emit
 from   flask_socketio import SocketIO        as sio
 from   socket         import socket
-
 import rethinkdb      as     r
 
-app        = Flask(__name__)
-sIO        = sio(app)
+# Function to get database API.
+def DatabaseAPI(
 
-cDB        = None
-conn       = None
-db         = None
+    _db,   # Database reference without the connection.
+    _dbA,  # Database address.
+    _dbP,  # Database port.
+    _noDB, # Running with or without database connection.
+    _tN    # Table name.
 
-def main(_docArgs):
+):
 
-    global conn
-    global db
+    if _noDB: return "web server is running without connection to database server"
+    return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
+def DatabaseAPIMod1(_tN): return DatabaseAPI(db, dbA, dbP, noDB, _tN)
 
-    dbAddress  = _docArgs["<dba>"]
-    dbName     = _docArgs["--dbn"][0]
-    dbPort     = int(_docArgs["--dbp"][0])
-    noDB       = int(_docArgs["--nodb"])
-    timeout    = int(_docArgs["--tout"][0])
+# Make a function to connect to database and to set up connection.
+# So 1 function to return database information. The INFORMATION
+# without database connection!!!! And then another function to
+# constantly create connection. I need to re - create new
+# connection object every time I need to connect to database
+# to make sure there will be still a connection in case the
+# database is turned off and then turned on again.
+#
+# Function to create connection object. Make sure this function
+# return connection object.
+def DatabaseConnection(
 
-    if(noDB != 1):
+    _dbA,      # Database address. The default is "127.0.0.1" if the database server and the
+    _dbP,      # Database port. Make sure it goes by default at port 28015.
+    _tOut=None # Connection time out. Make sure it has at least the default 20 seconds.
 
-        try:
+):
 
-            cDB    = ConnDB(
-                dbAddress,
-                dbName,
-                dbPort,
-                timeout
-            )
-            conn   = cDB[0]
-            db     = cDB[1]
+    if _tOut == None: _tOut = int(20)
 
-            #print(conn)
-            #print(db)
+    try: return r.connect(
 
-        except r.errors.ReqlTimeoutError as error: print(error)
+        host=str(_dBA),
+        port=int(_dbP),
+        timeout=int(_tOut)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-@app.route("/api/client")
-def api_client():
-    return str(list(db.table("client_name").run(r.connect(host="127.0.0.1", port=28015))))
-@app.route("/api/cam/<_clientName>")
-def api_cam(_clientName):
-    return str(list(db.table(_clientName + "_cam").run(r.connect(host="127.0.0.1", port=28015))))
-@app.route("/api/ir/<_clientName>")
-def api_ir(_clientName):
-    return str(list(db.table(_clientName + "_ir").run(r.connect(host="127.0.0.1", port=28015))))
-@app.route("/api/mic/<_clientName>")
-def api_mic(_clientName):
-    return str(list(db.table(_clientName + "_mic").run(r.connect(host="127.0.0.1", port=28015))))
+    )
+    except:
 
-@sIO.on("latestInputRequest")
-def LatestInput():
+        while True: "there is an error when connecting to database"
 
-    #print("test")
-    #print(conn)
-    #print(db)
+def DatabaseGetAllClientName(_db, _dbA, _dbP, _tN): return list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
+def DatabaseGetAllClientNameMod1(): return DatabaseGetAllClientName(db, dbA, dbP, "client_name")
 
-    if conn != None and db != None:
+def DatabaseGetAllTableName(_db, _dbA, _dbP): return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
+def DatabaseGetAllTableNameMod1(): return DatabaseGetAllTableName(db, dbA, dbP)
 
-        latestInput     = None
-        latestInputComp = None
+# Function to assign column with latest input to dictionary.
+def DatabaseGetLatestInputColumnValueToDict(
 
-        clientNameArray = None
-        camTable        = None
-        irTable         = None
-        micTable        = None
+    _colName,
+    _dBA,
+    _dbP,
+    _dict,
+    _latestInputStr,
+    _table
 
-        userDictArray   = []
+):
 
-        try:
+    # Make sure to have `latest_input` as primary index in RethinkDB.
+    tableConn = _table.get(_latestInputStr).run(DatabaseConnection(_dBA, _dbP))
+    if tableConn: _dict[_colName] = tableConn.get(_colName)
 
-            clientNameTable = db.table("client_name").run(r.connect(host="127.0.0.1", port=28015))
-            clientNameArray = list(clientNameTable)
-            #print(clientNameTable)
-            #print(clientNameArray)
+# Function to assign table with latest input to dictionary.
+def DatabaseGetLatestInputTableValueToDict(
 
-        except r.errors.ReqlOpFailedError as error: clientNameArray = None
+    _dbA,            # Database address.
+    _dbP,            # Database port.
+    _dict,           # Dictionary we want to fill.
+    _latestInputStr, # Latest input in string so that we can query faster with database.
+    _tableName,      # Table name we are looking for column.
+    _tableNameList,  # All table name in the database.
+    *_colName        # Table column name we are looking for.
 
-        #print(clientNameArray)
+):
 
-        if clientNameArray != None:
+    if   _tableName in _tableNameList: table = db.table(_tableName)
+    else                             : table = None
 
-            for c in clientNameArray:
+    if table != None:
 
-                latestInputTemp = c.get("latest_input")
-                latestInputCompTemp = float(latestInputTemp)/1000
+        for c in _colName: DatabaseGetLatestInputColumnValueToDict(
+            c, _dbA, _dbP, _dict, _latestInputStr, _table);
+def DatabaseGetLatestInputTableValueToDictMod1(_tableName, *_colName):
+    DatabaseGetLatestInputTableValueToDict(dbA, dbP, clientNameDict, latestInputStr,
+        _tableName, tableNameList, _colName)
 
-                if latestInputComp == None:
+def GetLatestInput(_clientNameList, _columnLatestInput):
 
-                    latestInput = latestInputTemp
-                    latestInputComp = latestInputCompTemp
+    for c in _clientNameList:
 
-                if latestInputComp < latestInputCompTemp:
+        latestInputStrTemp = c.get(_columnLatestInput)
+        latestInputFloTemp = float(latestInputStrTemp)/1000
 
-                    latestInput = latestInputTemp
-                    latestInputComp = latestInputCompTemp
+        if latestInputFlo == None:
 
-            #print(latestInput)
+            latestInputStr = latestInputStrTemp
+            latestInputFlo = latestInputFloTemp
 
-            for c in clientNameArray:
+        if latestInputFlo < latestInputFloTemp:
 
-                if c.get("latest_input") == latestInput:
+            latestInputStr = latestInputStrTemp
+            latestInputFlo = latestInputFloTemp
 
-                    tableList = db.table_list().run(r.connect(host="127.0.0.1", port=28015))
-                    userDict = {}
-                    userDict["client_name"] = c.get("client_name")
-
-
-                    if (c.get("client_name") + "_cam") in tableList: camTable = db.table(c.get("client_name") + "_cam")
-                    else: camTable = None
-
-                    if (c.get("client_name") + "_ir") in tableList: irTable = db.table(c.get("client_name") + "_ir")
-                    else: irTable = None
-
-                    if (c.get("client_name") + "_mic") in tableList: micTable = db.table(c.get("client_name") + "_mic")
-                    else: micTable = None
-
-                    if camTable != None:
-
-                        camTableConn = camTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
-                        if camTableConn: userDict["faces"] = camTableConn.get("faces")
-
-                    if irTable != None:
-
-                        irTableConn = irTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
-                        if irTableConn: userDict["ir_code"] = irTableConn.get("ir_code")
-
-                    if micTable != None:
-
-                        micTableConn = micTable.get(latestInput).run(r.connect(host="127.0.0.1", port=28015))
-
-                        if micTableConn:
-                            userDict["pitch"] = micTableConn.get("pitch")
-                            userDict["volume"] = micTableConn.get("volume")
-
-                    userDictArray.append(userDict)
-
-            emit("latestInputSend", userDictArray)
-            #print("test")
-
-def ConnDB(_dba, _dbn,
-    _dbp, _timeout):
-
-    print("trying to establish database connection")
-
-    conn = r.connect(
-        host=_dba, port=_dbp,
-        timeout=_timeout)
-
-    db = r.db(_dbn)
-
-    return [conn, db]
+    return latestInputStr
+def GetLatestInputMod1(): return GetLatestInput(clientNameList, "latest_input")
 
 if __name__ == "__main__":
 
+    # Returned Docopt arguments.
     docArgs = doc(__doc__, version="0.0.1")
+
+    # Values from Docopt.
+    noDB    = True if (int(docArgs["--nodb"]) == 1) else (False if (int(docArgs["--nodb"]) == 0) else None)
+    online  = True if (int(docArgs["-o"    ]) == 1) else (False if (int(docArgs["-o"    ]) == 0) else None)
+
     #print(docArgs)
-    online = int(docArgs["-o"])
 
-    main(docArgs)
+    dbA     = str(docArgs["--dba"][0])
+    dbN     = str(docArgs["--dbn"][0])
+    dbP     = int(docArgs["--dbp"][0])
+    tOut    = int(docArgs["--tout"][0])
 
-    #print(conn)
-    #print(db)
+    app     = Flask(__name__)
+    sIO     = sio(app)
+    db      = r.db(dbN)
 
-    if online == 1: sIO.run(app, host="0.0.0.0")
-    else: sIO.run(app)
+    # Routings.
+    @app.route("/")
+    def index(): return render_template("index.html")
+
+    @app.route("/api/client")
+    def api_client(): return DatabaseAPIMod1("client_name")
+
+    @app.route("/api/cam/<_clientName>")
+    def api_cam(_clientName): return DatabaseAPIMod1(_clientName + "_cam")
+
+    @app.route("/api/ir/<_clientName>")
+    def api_ir(_clientName): return DatabaseAPIMod1(_clientName + "_ir")
+
+    @app.route("/api/mic/<_clientName>")
+    def api_mic(_clientName):  return DatabaseAPIMod1(_clientName + "_mic")
+
+    # Web socket routing.
+    @sIO.on("latestInputRequest")
+    def LatestInputRequest():
+
+        if not noDB:
+
+            clientNameDictList = []                             # All client information that will be sent to client.
+            clientNameList     = DatabaseGetAllClientNameMod1() # All client name from `client_name` table in database.
+            latestInputStr     = GetLatestInputMod1()           # Latest input time in string as we received from database.
+            tableCam           = None                           # Database table to hold camera data.
+            tableIR            = None                           # Database table to hold infrared transceiver data.
+            tableMic           = None                           # Database table to hold microphone data.
+            tableNameList      = DatabaseGetAllTableNameMod1()  # All tables in database.
+
+            for c in clientNameList:
+
+                if c.get("latest_input") == latestInputStr:
+
+                    clientName = c.get("client_name")
+                    clientNameDict = {}
+                    clientNameDict["client_name"] = clientName
+
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_cam", "faces")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_ir" , "ir_code")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_mic", "pitch", "volume")
+
+                    clientNameDictList.append(clientNameDict)
+
+            emit("latestInputSend", clientNameDictList)
+            #print("test")
+
+    if   online: sIO.run(app, host="0.0.0.0")
+    else       : sIO.run(app)

@@ -25,7 +25,7 @@ class Config(object):
         # be changed and modified.
         self.clientName     = ["client_name"                    , "clientTest"          , None]
         self.dbAddress      = ["db_address"                     , "127.0.0.1"           , None]
-        self.dbName         = ["db_name"                        , "sociometric_server"  , None]
+        self.dbName         = ["db_name"                        , "pysoc_server"        , None]
         self.dbPort         = ["db_port"                        , "28015"               , None]
         self.irCode         = ["ir_code"                        , "KEY_1"               , None]
         self.firstRun       = ["first_run"                      , "True"                , None]

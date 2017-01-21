@@ -1,8 +1,8 @@
 """pysoc
 
 Usage:
-    pysoc.py (--help | -h)
-    pysoc.py (--version | -v)
+    pysoc.py (--help|-h)
+    pysoc.py (--version|-v)
     pysoc.py reset [--dbl]
     pysoc.py set (--cname=<cnamev>|--dba=<dbav>|--dbn=<dbnv>|--dbp=<dbpv>|--irc=<ircv>|--cvgui|--db|--faced|--ird|--log|--pvd)...
     pysoc.py set all-default

@@ -17,7 +17,7 @@
         1. Intended to be for real - time system.
         1. Platform agnostic, I saw there are some database build for specific platform (Amazon AWS, Microsoft Azure , ...). I prefer not to use these.
         1. Popular among developer (StackOverflow discussion, ...). Check here as well, [http://db-engines.com/en/ranking](http://db-engines.com/en/ranking), a website like DistroWatch but for database.
-        1. Easy to learn. This is relative, but some says PostgreSQL is the hardest to learn. 
+        1. Easy to learn. This is relative, but some says PostgreSQL is the hardest to learn.
         1. Nice server interface included. For example, default server interface for RethinkDB is set at port 8080.
         1. Preferably NoSQL type database (CouchDB, MongoDB). This because I never use relational database like SQL, I could/want to learn though. [http://db-engines.com/en/ranking/document+store](http://db-engines.com/en/ranking/document+store), check here!
         1. Portable as SQLite.
@@ -28,6 +28,8 @@
 ### Raspberry PI.
 * __[20170121][x][x]__ Make shell script to automatically expand storage and enable camera in Raspberry PI (both RPI 3 and RPI Zero).
     * [http://elinux.org/RPiconfig#Camera](http://elinux.org/RPiconfig#Camera), check this link for reference.
+* __[20170121][x][x]__ Make default Internet connection.
+* __[20170121][x][x]__ Make the program runs every time Raspberry PI boot.
 
 ### QOC (quality of code).
 * __[20170121][x][x]__ Make the codes tidier, especially gives comments on the JavaScript codes!
