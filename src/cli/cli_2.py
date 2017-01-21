@@ -15,7 +15,7 @@ def StartWizard(_docArgs, _config, _configAbsPath):
     # A ton of fancy strings.
     defaultClientName       = "default                  : do not fill and just press enter to fill the default value of \"clientTest\""
     defaultDBAddress        = "default                  : do not fill and just press enter to fill the default value of \"127.0.0.1\""
-    defaultDBName           = "default                  : do not fill and just press enter to fill the default value of \"sociometric_server\""
+    defaultDBName           = "default                  : do not fill and just press enter to fill the default value of \"pysoc_server\""
     defaultDBPort           = "default                  : do not fill and just press enter to fill the default value of \"28015\""
     defaultIRCode           = "default                  : do not fill and just press enter to fill the default value of \"KEY_1\""
     defaultWithout          = "default                  : do not fill and just press enter to automatically response \"yes\""

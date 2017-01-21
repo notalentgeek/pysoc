@@ -3,7 +3,7 @@
 Usage:
     pysoc_server.py (--help|-h)
     pysoc_server.py (--version|-v)
-    pysoc_server.py (--nodb|-o|--dba=<dbav>|--dbp=<dbpv>|--dbn=<dbnv>|--tout=<toutv>)...
+    pysoc_server.py [--nodb|-o|--dba=<dbav>|--dbp=<dbpv>|--dbn=<dbnv>|--tout=<toutv>]...
 
 Options:
     --help -h           Refer to help manual.
