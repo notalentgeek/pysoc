@@ -32,11 +32,11 @@ import rethinkdb      as     r
 # Function to get database API.
 def DatabaseAPI(
 
-    _db,   # Database reference without the connection.
-    _dbA,  # Database address.
-    _dbP,  # Database port.
-    _noDB, # Running with or without database connection.
-    _tN    # Table name.
+    _db,       # Database reference without the connection.
+    _dbA,      # Database address.
+    _dbP,      # Database port.
+    _noDB,     # Running with or without database connection.
+    _tableName # Table name.
 
 ):
 
@@ -46,20 +46,10 @@ def DatabaseAPI(
     else      :
 
         print("test2")
-        print(_db.table(_tN))
-        print(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
+        print(_db.table(_tableName))
+        print(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
 
-        return str(list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP))))
-def DatabaseAPIMod1(_tN):
-
-    #print("test")
-    #print(_tN)
-    #print(db)
-    #print(dbA)
-    #print(dbP)
-    #print(noDB)
-
-    return DatabaseAPI(db, dbA, dbP, noDB, _tN)
+        return str(list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP))))
 
 # Make a function to connect to database and to set up connection.
 # So 1 function to return database information. The INFORMATION
@@ -111,11 +101,9 @@ def DatabaseConnection(
 
     return conn
 
-def DatabaseGetAllClientName(_db, _dbA, _dbP, _tN): return list(_db.table(_tN).run(DatabaseConnection(_dbA, _dbP)))
-def DatabaseGetAllClientNameMod1(): return DatabaseGetAllClientName(db, dbA, dbP, "client_name")
-
-def DatabaseGetAllTableName(_db, _dbA, _dbP): return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
-def DatabaseGetAllTableNameMod1(): return DatabaseGetAllTableName(db, dbA, dbP)
+def DatabaseGetAllClientName    (_db, _dbA, _dbP, _tableName): return list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
+def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP)            : return DatabaseGetAllClientName(_db, _dbA, _dbP, "client_name")
+def DatabaseGetAllTableName     (_db, _dbA, _dbP)            : return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
 
 # Function to assign column with latest input to dictionary.
 def DatabaseGetLatestInputColumnValueToDict(
@@ -153,9 +141,6 @@ def DatabaseGetLatestInputTableValueToDict(
 
         for c in _colName: DatabaseGetLatestInputColumnValueToDict(
             c, _dbA, _dbP, _dict, _latestInputStr, _table);
-def DatabaseGetLatestInputTableValueToDictMod1(_tableName, *_colName):
-    DatabaseGetLatestInputTableValueToDict(dbA, dbP, clientNameDict, latestInputStr,
-        _tableName, tableNameList, _colName)
 
 def GetLatestInput(_clientNameList, _columnLatestInput):
 
@@ -175,7 +160,8 @@ def GetLatestInput(_clientNameList, _columnLatestInput):
             latestInputFlo = latestInputFloTemp
 
     return latestInputStr
-def GetLatestInputMod1(): return GetLatestInput(clientNameList, "latest_input")
+
+def GetLatestInputMod1(_clientNameList): return GetLatestInput(_clientNameList, "latest_input")
 
 if __name__ == "__main__":
 
@@ -202,16 +188,16 @@ if __name__ == "__main__":
     def index(): return render_template("index.html")
 
     @app.route("/api/client")
-    def api_client(): return DatabaseAPIMod1("client_name")
+    def api_client(): return DatabaseAPI(db, dbA, dbP, noDB, "client_name")
 
     @app.route("/api/cam/<_clientName>")
-    def api_cam(_clientName): return DatabaseAPIMod1(_clientName + "_cam")
+    def api_cam(_clientName): return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_cam")
 
     @app.route("/api/ir/<_clientName>")
-    def api_ir(_clientName): return DatabaseAPIMod1(_clientName + "_ir")
+    def api_ir(_clientName): return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_ir")
 
     @app.route("/api/mic/<_clientName>")
-    def api_mic(_clientName):  return DatabaseAPIMod1(_clientName + "_mic")
+    def api_mic(_clientName):  return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_mic")
 
     # Web socket routing.
     @sIO.on("latestInputRequest")
@@ -219,13 +205,13 @@ if __name__ == "__main__":
 
         if not noDB:
 
-            clientNameDictList = []                             # All client information that will be sent to client.
-            clientNameList     = DatabaseGetAllClientNameMod1() # All client name from `client_name` table in database.
-            latestInputStr     = GetLatestInputMod1()           # Latest input time in string as we received from database.
-            tableCam           = None                           # Database table to hold camera data.
-            tableIR            = None                           # Database table to hold infrared transceiver data.
-            tableMic           = None                           # Database table to hold microphone data.
-            tableNameList      = DatabaseGetAllTableNameMod1()  # All tables in database.
+            clientNameDictList = []                                          # All client information that will be sent to client.
+            clientNameList     = DatabaseGetAllClientNameMod1(dbA, dbP, dbN) # All client name from `client_name` table in database.
+            latestInputStr     = GetLatestInputMod1(_clientNameList)         # Latest input time in string as we received from database.
+            tableCam           = None                                        # Database table to hold camera data.
+            tableIR            = None                                        # Database table to hold infrared transceiver data.
+            tableMic           = None                                        # Database table to hold microphone data.
+            tableNameList      = DatabaseGetAllTableName(db, dbA, dbP)       # All tables in database.
 
             for c in clientNameList:
 
@@ -235,6 +221,9 @@ if __name__ == "__main__":
                     clientNameDict = {}
                     clientNameDict["client_name"] = clientName
 
+                    def DatabaseGetLatestInputTableValueToDictMod1(_tableName, *_colName):
+                        DatabaseGetLatestInputTableValueToDict(dbA, dbP, clientNameDict,
+                            latestInputStr, _tableName, _colName)
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_cam", "faces")
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_ir" , "ir_code")
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_mic", "pitch", "volume")
