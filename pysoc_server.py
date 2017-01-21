@@ -40,8 +40,8 @@ def DatabaseAPI(
 
 ):
 
-    print("test1")
-    print(type(_db))
+    #print("test1")
+    #print(type(_db))
 
     if   _noDB: return "web server is running without connection to database server"
     else      :
