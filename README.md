@@ -11,7 +11,7 @@
         1. Easy to learn. This is relative, but some says PostgreSQL is the hardest to learn. 
         1. Intended to be for real - time system.
         1. Nice server interface included. For example, default server interface for RethinkDB is set at port 8080.
-        1. OpenSource!
+        1. Open source!
         1. Platform agnostic, I saw there are some database build for specific platform (Amazon AWS, Microsoft Azure , ...). I prefer not to use these.
         1. Popular among developer (StackOverflow discussion, ...). Check here as well, [http://db-engines.com/en/ranking](http://db-engines.com/en/ranking), a website like DistroWatch but for database.
         1. Portable as SQLite.
