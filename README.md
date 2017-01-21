@@ -23,7 +23,7 @@
         1. Portable as SQLite.
     1. Possible alternative I can think of.
         * MongoDB seems like the go - to choice for NoSQL database.
-        * SQLite, I like SQLite portability. However, I am not sure if this is ambitious.
+        * SQLite, I like SQLite portability. However, I am not sure if this is make everything better or worse since this programm will deal with constant stream of data.
 
 ### Raspberry PI.
 * __[20170121][x][x]__ Make shell script to automatically expand storage and enable camera in Raspberry PI (both RPI 3 and RPI Zero).
