@@ -41,6 +41,7 @@ def DatabaseAPI(
 ):
 
     #print("test1")
+    #print(type(_db))
 
     if   _noDB: return "web server is running without connection to database server"
     else      :
@@ -101,9 +102,20 @@ def DatabaseConnection(
 
     return conn
 
-def DatabaseGetAllClientName    (_db, _dbA, _dbP, _tableName): return list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
-def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP)            : return DatabaseGetAllClientName(_db, _dbA, _dbP, "client_name")
-def DatabaseGetAllTableName     (_db, _dbA, _dbP)            : return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
+def DatabaseGetAllClientName(_db, _dbA, _dbP, _tableName):
+
+    db = _db.coerce_to("binary")
+    return list(db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
+
+def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP):
+
+    db = _db.coerce_to("binary")
+    return DatabaseGetAllClientName(db, _dbA, _dbP, "client_name")
+
+def DatabaseGetAllTableName(_db, _dbA, _dbP):
+
+    db = _db.coerce_to("binary")
+    return db.table_list().run(DatabaseConnection(_dbA, _dbP))
 
 # Function to assign column with latest input to dictionary.
 def DatabaseGetLatestInputColumnValueToDict(
