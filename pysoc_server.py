@@ -184,6 +184,7 @@ def DatabaseGetLatestInputTableValueToDict(
 
             print("="*5)
             print(c)
+            print(_colName)
             print("="*5)
 
             DatabaseGetLatestInputColumnValueToDict(
