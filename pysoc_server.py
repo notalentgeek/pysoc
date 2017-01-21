@@ -160,13 +160,23 @@ def DatabaseGetLatestInputTableValueToDict(
 
 ):
 
+    print("test1")
+
     if   _tableName in _tableNameList: table = db.table(_tableName)
     else                             : table = None
 
     if table != None:
 
-        for c in _colName: DatabaseGetLatestInputColumnValueToDict(
-            c, _dbA, _dbP, _dict, _latestInputStr, _table);
+        print("test2")
+        print(_colName)
+        print(len(_colName))
+
+        for c in _colName:
+
+            print(c)
+
+            DatabaseGetLatestInputColumnValueToDict(
+                c, _dbA, _dbP, _dict, _latestInputStr, _table);
 
 def GetLatestInput(_clientNameList, _columnLatestInput):
 
