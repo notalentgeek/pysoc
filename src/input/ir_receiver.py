@@ -12,6 +12,7 @@ class IRDetection(mt):
         # Restart LIRC service.
         # This is very important.
         subp.call(["sudo /etc/init.d/lirc stop && timeout 2s  mode2 -d /dev/lirc0 & wait && sudo /etc/init.d/lirc restart"], shell=True)
+        subp.wait()
 
         _array.append(self)
         mt.__init__(self,
