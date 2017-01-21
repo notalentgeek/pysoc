@@ -182,7 +182,9 @@ def DatabaseGetLatestInputTableValueToDict(
 
         for c in _colName:
 
-            #print(c)
+            print("="*5)
+            print(c)
+            print("="*5)
 
             DatabaseGetLatestInputColumnValueToDict(
                 c, _dbA, _dbP, _dict, _latestInputStr, table);
