@@ -27,7 +27,4 @@ sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
 curl -sS https://get.pimoroni.com/iotphat | bash &&
 
-sudo /etc/init.d/lirc stop &&
-timeout 2s mode2 -d /dev/lirc0 &&
-
 reboot

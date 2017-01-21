@@ -25,7 +25,4 @@ sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 yes | sudo pip3 install -r /home/pi/pysoc/req/req_raspbian_jessie.txt &&
 sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
-sudo /etc/init.d/lirc stop &&
-timeout 2s mode2 -d /dev/lirc0 &&
-
 reboot
