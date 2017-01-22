@@ -190,11 +190,11 @@ setInterval(function(){
                 for(var j = 0; j < clientList.length; j ++){
 
                     if(
-
                         !clientList[j].online &&
-                        clientList[j].clientCircle !== null &&
-                        clientList[j].clientCircle !== undefined
-
+                        (
+                            clientList[j].clientCircle !== null ||
+                            clientList[j].clientCircle !== undefined
+                        )
                     ){
 
                         clientList[j].clientCircle.willBeDeleted = true;
