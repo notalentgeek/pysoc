@@ -26,6 +26,10 @@ ClientCircle.prototype.RotateAuto = function(){
     console.log(degreeTargetTemp);
     console.log(degreeShortest);
 
-    this.Rotate(degreeShortest);
+    if(!isNaN(degreeShortest)){
+
+        this.Rotate(degreeShortest);
+
+    }
 
 };
