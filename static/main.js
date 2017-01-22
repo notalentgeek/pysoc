@@ -75,7 +75,7 @@ setInterval(function(){
                         clientReceived.latestAmountFace          = clientReceivedAmountFace
                         clientReceived.latestAmountPitch         = clientReceivedAmountPitch
                         clientReceived.latestAmountVolume        = clientReceivedAmountVolume
-                        clientreceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
+                        clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                         clientReceived.online                    = true;
 
                         // After that check if the current
@@ -130,7 +130,7 @@ setInterval(function(){
                     clientReceived.latestAmountFace          = clientReceivedAmountFace
                     clientReceived.latestAmountPitch         = clientReceivedAmountPitch
                     clientReceived.latestAmountVolume        = clientReceivedAmountVolume
-                    clientreceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
+                    clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                     clientReceived.online                    = true;
                     new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
 
