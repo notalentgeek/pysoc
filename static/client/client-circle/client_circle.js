@@ -42,7 +42,9 @@ function ClientCircleAnimation(){
                 //var degreeStep = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
                 //console.log(clientCircleList[i].cX);
 
-                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
+                var degreeNext = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
+                if(degreeNext < degreeTarget){ clientCircleList[i].degreeCurrent = clientCircleList[i].degreeTarget; }
+                else{ clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length); }
                 clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
@@ -105,7 +107,9 @@ function ClientCircleAnimation(){
                 var degreeStep = 50;
                 //var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
 
-                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
+                var degreeNext = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
+                if(degreeNext > degreeTarget){ clientCircleList[i].degreeCurrent = clientCircleList[i].degreeTarget; }
+                else{ clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
@@ -240,7 +244,6 @@ function ClientCircleAnimation(){
                 for(var j = 0; j < clientCircleList.length; j ++){
 
                     clientCircleList[j].degreeSaved = clientCircleList[j].degreeCurrent;
-                    clientCircleList[j].time = 0;
                     clientCircleList[j].RotateAuto();
 
                 }
