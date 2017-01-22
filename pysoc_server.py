@@ -198,7 +198,7 @@ def GetLatestInput(_clientNameList, _columnLatestInput):
             latestInputStr = latestInputStrTemp
             latestInputFlo = latestInputFloTemp
 
-    return latestInputStr
+    return [latestInputFlo, latestInputStr]
 
 def GetLatestInputMod1(_clientNameList): return GetLatestInput(_clientNameList, "latest_input")
 
@@ -249,7 +249,8 @@ if __name__ == "__main__":
 
             clientNameDictList = []                                          # All client information that will be sent to client.
             clientNameList     = DatabaseGetAllClientNameMod1(db, dbA, dbP)  # All client name from `client_name` table in database.
-            latestInputStr     = GetLatestInputMod1(clientNameList)          # Latest input time in string as we received from database.
+            latestInputFlo     = GetLatestInputMod1(clientNameList)[0]       # Latest input time in string as we received from database.
+            latestInputStr     = GetLatestInputMod1(clientNameList)[1]       # Latest input time in string as we received from database.
             tableCam           = None                                        # Database table to hold camera data.
             tableIR            = None                                        # Database table to hold infrared transceiver data.
             tableMic           = None                                        # Database table to hold microphone data.
@@ -257,7 +258,7 @@ if __name__ == "__main__":
 
             for c in clientNameList:
 
-                if c.get("latest_input") == latestInputStr:
+                if (latestInputFlo + 1.0) <= float(c.get("latest_input")) <= (latestInputFlo - 1.0):
 
                     clientName = c.get("client_name")
                     clientNameDict = {}
