@@ -55,7 +55,11 @@ setInterval(function(){
 
                 // Check if there is a client list with the same
                 // name in the `receivedData[i]`.
-                var clientReceivedName = String(receivedData[i]["client_name"]);
+                var clientReceivedName                = String(receivedData[i]["client_name"]);
+                var clientReceivedAmountFace          = Number(receivedData[i]["faces"]);
+                var clientReceivedAmountPitch         = Number(receivedData[i]["pitch"]);
+                var clientReceivedAmountVolume        = Number(receivedData[i]["volume"]);
+                var clientReceivedIrCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
                 for(var j = 0; j < clientList.length; j ++){
 
                     // In this case there is already a client listed
@@ -67,8 +71,12 @@ setInterval(function(){
                         // Assign the found client into
                         // `clientReceived`. And mark its
                         // `online` status into `true`.
-                        clientReceived = clientList[j];
-                        clientReceived.online = true;
+                        clientReceived                           = clientList[j];
+                        clientReceived.latestAmountFace          = clientReceivedAmountFace
+                        clientReceived.latestAmountPitch         = clientReceivedAmountPitch
+                        clientReceived.latestAmountVolume        = clientReceivedAmountVolume
+                        clientreceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
+                        clientReceived.online                    = true;
 
                         // After that check if the current
                         // inspected client has its `clientCircle`.
@@ -118,7 +126,12 @@ setInterval(function(){
 
                     }
 
-                    clientReceived = new Client(clientReceivedName, false);
+                    clientReceived                           = new Client(clientReceivedName, false);
+                    clientReceived.latestAmountFace          = clientReceivedAmountFace
+                    clientReceived.latestAmountPitch         = clientReceivedAmountPitch
+                    clientReceived.latestAmountVolume        = clientReceivedAmountVolume
+                    clientreceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
+                    clientReceived.online                    = true;
                     new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
 
                     //console.log("test");
