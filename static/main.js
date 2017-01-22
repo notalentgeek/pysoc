@@ -86,21 +86,21 @@ setInterval(function(){
                 }
 
                 console.log(clientReceived);
-                console.log(clientTemporary === undefined);
-                console.log(clientTemporary === null || clientTemporary === undefined);
+                console.log(clientReceived === undefined);
+                console.log(clientReceived === null || clientReceived === undefined);
 
                 // This will happen if the client is completely new in
                 // this local session.
                 if(
-                    clientTemporary === null ||
-                    clientTemporary === undefined
+                    clientReceived === null ||
+                    clientReceived === undefined
                 ){
 
-                    clientTemporary = new Client(clientReceivedName, false);
-                    new ClientCircle(clientTemporary, 0);
+                    clientReceived = new Client(clientReceivedName, false);
+                    new ClientCircle(clientReceived, 0);
 
                     console.log("test");
-                    console.log(clientTemporary);
+                    console.log(clientReceived);
 
                 }
 
