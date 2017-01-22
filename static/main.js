@@ -197,7 +197,8 @@ setInterval(function(){
                         )
                     ){
 
-                        clientList[j].clientCircle.willBeDeleted = true;
+                        console.log(clientList[j].name)
+                        //clientList[j].clientCircle.willBeDeleted = true;
 
                     }
 
