@@ -233,6 +233,7 @@ setInterval(function(){
                     ){
 
                         clientList[j].clientCircle.willBeDeleted = true;
+                        clientList[j].clientCircle.AutoRotate();
 
                     }
 
@@ -298,16 +299,6 @@ setInterval(function(){
                         }
 
                     }
-
-                }
-
-            }
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var j = 0; j < clientCircleList.length; j ++){
-
-                if(clientCircleList[j].client.online){
-
-                    clientCircleList[j].RotateAuto();
 
                 }
 
