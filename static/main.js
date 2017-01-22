@@ -48,7 +48,7 @@ setInterval(function(){
 
                 // Temporary variable for current received
                 // client.
-                var clientReceived;
+                var clientReceived = null;
 
                 //console.log(receivedData[i])
                 //console.log(typeof(receivedData[i]))
