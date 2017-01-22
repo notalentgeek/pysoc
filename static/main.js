@@ -22,7 +22,7 @@ setInterval(function(){
 
     //console.log("1 second just passed");
     //console.log(focus());
-    console.log(receivedData);
+    //console.log(receivedData);
     //if(receivedData !== null && receivedData !== undefined){ console.log(receivedData[0]["pitch"] + " " + receivedData[0]["volume"]); }
 
     socket.emit("latestInputRequest");
@@ -41,7 +41,7 @@ setInterval(function(){
 
             }
 
-            console.log(receivedData);
+            //console.log(receivedData);
 
             // Check all received data.
             for(var i = 0; i < receivedData.length; i ++){
@@ -94,6 +94,9 @@ setInterval(function(){
 
                     clientTemporary = new Client(clientReceivedName, false);
                     new ClientCircle(clientTemporary, 0);
+
+                    console.log("test");
+                    console.log(clientTemporary);
 
                 }
 
