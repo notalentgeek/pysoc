@@ -233,7 +233,7 @@ setInterval(function(){
                     ){
 
                         clientList[j].clientCircle.willBeDeleted = true;
-                        clientList[j].clientCircle.AutoRotate();
+                        clientList[j].clientCircle.RotateAuto();
 
                     }
 
