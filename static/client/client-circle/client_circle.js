@@ -38,7 +38,7 @@ function ClientCircleAnimation(){
                 //console.log(clientCircleList[i].degreeSaved);
                 //console.log(clientCircleList[i].degreeTarget);
 
-                var degreeStep = -80;
+                var degreeStep = -50;
                 //var degreeStep = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
                 //console.log(clientCircleList[i].cX);
 
@@ -102,7 +102,7 @@ function ClientCircleAnimation(){
                 //console.log(clientCircleList[i].degreeSaved);
                 //console.log(clientCircleList[i].degreeTarget);
 
-                var degreeStep = 80;
+                var degreeStep = 50;
                 //var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
 
                 clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
