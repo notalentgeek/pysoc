@@ -108,7 +108,7 @@ setInterval(function(){
 
                             }
 
-                            new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto;
+                            new ClientCircle(clientReceived, 0).RotateAuto;
 
                         }
 
@@ -183,7 +183,7 @@ setInterval(function(){
                     clientReceived.online                    = true;
                     clientReceived.AddLatest();
 
-                    new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
+                    new ClientCircle(clientReceived, 0).RotateAuto();
                     if(
                         clientReceived.latestIRCodeClientNameRaw !== null &&
                         clientReceived.latestIRCodeClientNameRaw !== undefined
