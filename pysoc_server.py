@@ -258,7 +258,7 @@ if __name__ == "__main__":
 
             for c in clientNameList:
 
-                print(clientNameList)
+                #print(clientNameList)
                 #print((latestInputFlo - 1.0) <= float(c.get("latest_input"))/1000.0 <= (latestInputFlo + 1.0))
                 #print(str(latestInputFlo - 1.0) + " " + str(float(c.get("latest_input"))/1000.0) + " " + str(latestInputFlo + 1.0))
 
@@ -277,7 +277,7 @@ if __name__ == "__main__":
 
                     clientNameDictList.append(clientNameDict)
 
-            #print(clientNameDictList)
+            print(clientNameDictList)
             #print(type(clientNameDictList))
 
             emit("latestInputSend", clientNameDictList)
