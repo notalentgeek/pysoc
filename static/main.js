@@ -206,6 +206,7 @@ setInterval(function(){
 
                     console.log(clientList[i].name)
                     clientList[i].clientCircle.willBeDeleted = true;
+                    clientList[i].clientCircle.RotateAuto();
 
                 }
 
