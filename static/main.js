@@ -202,17 +202,6 @@ setInterval(function(){
 
                     }
 
-                    DetermineDegreeTargetList(clientCircleList.length);
-                    for(var k = 0; k < clientCircleList.length; k ++){
-
-                        if(clientCircleList[k].client.online){
-
-                            clientCircleList[k].RotateAuto();
-
-                        }
-
-                    }
-
                     // After that check if the current
                     // inspected client has its `clientCircle`.
                     if(
@@ -234,7 +223,18 @@ setInterval(function(){
 
                         }
 
-                        new ClientCircle(clientList[j], degreeTargetList[0]).RotateAuto;
+                        new ClientCircle(clientList[j], degreeTargetList[0]).RotateAuto();
+
+                    }
+
+                }
+
+                DetermineDegreeTargetList(clientCircleList.length);
+                for(var j = 0; j < clientCircleList.length; j ++){
+
+                    if(clientCircleList[j].client.online){
+
+                        clientCircleList[j].RotateAuto();
 
                     }
 
