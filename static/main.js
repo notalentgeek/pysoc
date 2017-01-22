@@ -85,6 +85,8 @@ setInterval(function(){
 
                 }
 
+                console.log(clientReceived);
+
                 // This will happen if the client is completely new in
                 // this local session.
                 if(
