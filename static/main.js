@@ -22,7 +22,7 @@ setInterval(function(){
 
     //console.log("1 second just passed");
     //console.log(focus());
-    console.log(receivedData);
+    //console.log(receivedData);
     //if(receivedData !== null && receivedData !== undefined){ console.log(receivedData[0]["pitch"] + " " + receivedData[0]["volume"]); }
 
     socket.emit("latestInputRequest");
@@ -104,9 +104,9 @@ setInterval(function(){
 
                 }
 
-                //console.log(clientReceived);
-                //console.log(clientReceived === undefined);
-                //console.log(clientReceived === null || clientReceived === undefined);
+                console.log(clientReceived);
+                console.log(clientReceived === undefined);
+                console.log(clientReceived === null || clientReceived === undefined);
 
                 // This will happen if the client is completely new in
                 // this local session.
