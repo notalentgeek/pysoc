@@ -22,8 +22,8 @@ setInterval(function(){
 
     //console.log("1 second just passed");
     //console.log(focus());
-    console.log(clientCircleList);
-    //console.log(receivedData);
+    //console.log(clientCircleList);
+    console.log(receivedData);
     //if(receivedData !== null && receivedData !== undefined){ console.log(receivedData[0]["pitch"] + " " + receivedData[0]["volume"]); }
 
     socket.emit("latestInputRequest");
