@@ -232,8 +232,8 @@ setInterval(function(){
 
                     ){
 
-                        clientList[j].clientCircle.willBeDeleted = true;
-                        clientList[j].clientCircle.RotateAuto();
+                        //clientList[j].clientCircle.willBeDeleted = true;
+                        //clientList[j].clientCircle.RotateAuto();
 
                     }
 
