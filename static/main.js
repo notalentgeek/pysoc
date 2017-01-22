@@ -68,6 +68,7 @@ setInterval(function(){
                     // local session.
 
                     console.log(clientList[j].name + " " + clientReceivedName);
+                    console.log(clientList[j].name == clientReceivedName);
 
                     if(clientList[j].name == clientReceivedName){
 
