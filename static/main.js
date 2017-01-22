@@ -77,7 +77,18 @@ setInterval(function(){
                             clientReceived.clientCircle === undefined
                         ){
 
-                            new ClientCircle(clientReceived, 0);
+                            DetermineDegreeTargetList(clientCircleList.length + 1);
+                            for(var k = 0; k < clientCircleList.length; k ++){
+
+                                if(clientCircleList[k].client.online){
+
+                                    clientCircleList[k].RotateAuto();
+
+                                }
+
+                            }
+
+                            new ClientCircle(clientReceived, degreeTargetList[0]);
 
                         }
 
@@ -85,9 +96,9 @@ setInterval(function(){
 
                 }
 
-                console.log(clientReceived);
-                console.log(clientReceived === undefined);
-                console.log(clientReceived === null || clientReceived === undefined);
+                //console.log(clientReceived);
+                //console.log(clientReceived === undefined);
+                //console.log(clientReceived === null || clientReceived === undefined);
 
                 // This will happen if the client is completely new in
                 // this local session.
@@ -96,11 +107,21 @@ setInterval(function(){
                     clientReceived === undefined
                 ){
 
-                    clientReceived = new Client(clientReceivedName, false);
-                    new ClientCircle(clientReceived, 0);
+                    DetermineDegreeTargetList(clientCircleList.length + 1);
+                    for(var j = 0; j < clientCircleList.length; j ++){
 
-                    console.log("test");
-                    console.log(clientReceived);
+                        if(clientCircleList[j].client.online){
+
+                            clientCircleList[j].RotateAuto();
+
+                        }
+
+                    }
+                    clientReceived = new Client(clientReceivedName, false);
+                    new ClientCircle(clientReceived, degreeTargetList[0]);
+
+                    //console.log("test");
+                    //console.log(clientReceived);
 
                 }
 
