@@ -88,7 +88,7 @@ setInterval(function(){
 
                             }
 
-                            new ClientCircle(clientReceived, degreeTargetList[0]);
+                            new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto;
 
                         }
 
@@ -117,8 +117,9 @@ setInterval(function(){
                         }
 
                     }
+
                     clientReceived = new Client(clientReceivedName, false);
-                    new ClientCircle(clientReceived, degreeTargetList[0]);
+                    new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
 
                     //console.log("test");
                     //console.log(clientReceived);
