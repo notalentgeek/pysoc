@@ -205,6 +205,7 @@ setInterval(function(){
                 ){
 
                     clientList[i].clientCircle.willBeDeleted = true;
+                    clientList[i].clientCircle.RotateAuto();
 
                 }
 
@@ -219,18 +220,17 @@ setInterval(function(){
                 ){
 
                     DetermineDegreeTargetList(clientCircleList.length + 1);
-                    new ClientCircle(clientList[i], degreeTargetList[degreeTargetList.length - 1]).RotateAuto();
+                    for(var j = 0; j < clientCircleList.length; j ++){
 
-                }
+                        if(clientCircleList[j].client.online){
 
-            }
+                            clientCircleList[j].RotateAuto();
 
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var i = 0; i < clientCircleList.length; j ++){
+                        }
 
-                if(clientCircleList[i].client.online){
+                    }
 
-                    clientCircleList[i].RotateAuto();
+                    new ClientCircle(clientList[i], degreeTargetList[0]).RotateAuto();
 
                 }
 
