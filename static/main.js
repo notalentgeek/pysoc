@@ -97,7 +97,7 @@ setInterval(function(){
                 ){
 
                     clientReceived = new Client(clientReceivedName, false);
-                    new ClientCircle(clientReceived, 0);
+                    new ClientCircle(clientReceivedName, 0);
 
                     console.log("test");
                     console.log(clientReceived);
