@@ -86,6 +86,7 @@ setInterval(function(){
                 }
 
                 console.log(clientReceived);
+                console.log(clientTemporary === undefined);
                 console.log(clientTemporary === null || clientTemporary === undefined);
 
                 // This will happen if the client is completely new in
