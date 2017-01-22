@@ -61,7 +61,7 @@ setInterval(function(){
                 var clientReceivedAmountVolume        = Number(receivedData[i]["volume"]);
                 var clientReceivedIrCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
 
-                console.log(clientReceived + " " + clientReceivedName)
+                //console.log(clientReceived + " " + clientReceivedName)
 
                 for(var j = 0; j < clientList.length; j ++){
 
@@ -70,8 +70,8 @@ setInterval(function(){
                     // received client used to be online in this
                     // local session.
 
-                    console.log(clientList[j].name + " " + clientReceivedName);
-                    console.log(clientList[j].name == clientReceivedName);
+                    //console.log(clientList[j].name + " " + clientReceivedName);
+                    //console.log(clientList[j].name == clientReceivedName);
 
                     if(clientList[j].name == clientReceivedName){
 
@@ -84,6 +84,7 @@ setInterval(function(){
                         clientReceived.latestAmountVolume        = clientReceivedAmountVolume
                         clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                         clientReceived.online                    = true;
+                        clientReceived.AddLatest();
 
                         // After that check if the current
                         // inspected client has its `clientCircle`.
@@ -111,10 +112,10 @@ setInterval(function(){
 
                 }
 
-                console.log(i);
-                console.log(clientReceived);
-                console.log(clientReceived === undefined);
-                console.log(clientReceived === null || clientReceived === undefined);
+                //console.log(i);
+                //console.log(clientReceived);
+                //console.log(clientReceived === undefined);
+                //console.log(clientReceived === null || clientReceived === undefined);
 
                 // This will happen if the client is completely new in
                 // this local session.
@@ -134,7 +135,7 @@ setInterval(function(){
 
                     }
 
-                    console.log("new client")
+                    //console.log("new client")
 
                     clientReceived                           = new Client(clientReceivedName, false);
                     clientReceived.latestAmountFace          = clientReceivedAmountFace
@@ -143,6 +144,7 @@ setInterval(function(){
                     clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                     clientReceived.online                    = true;
                     new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
+                    clientReceived.AddLatest();
 
                     //console.log("test");
                     //console.log(clientReceived);
