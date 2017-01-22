@@ -89,29 +89,6 @@ setInterval(function(){
                         clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                         clientReceived.online                    = true;
                         clientReceived.AddLatest();
-
-                        // After that check if the current
-                        // inspected client has its `clientCircle`.
-                        if(
-                            clientReceived.clientCircle === null ||
-                            clientReceived.clientCircle === undefined
-                        ){
-
-                            DetermineDegreeTargetList(clientCircleList.length + 1);
-                            for(var k = 0; k < clientCircleList.length; k ++){
-
-                                if(clientCircleList[k].client.online){
-
-                                    clientCircleList[k].RotateAuto();
-
-                                }
-
-                            }
-
-                            new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto;
-
-                        }
-
                         if(
                             clientReceived.latestIRCodeClientNameRaw !== null &&
                             clientReceived.latestIRCodeClientNameRaw !== undefined
@@ -139,6 +116,7 @@ setInterval(function(){
                                 ){
 
                                     clientReceived.latestIRCodeClientCircle.push(clientTemporary.clientCircle);
+                                    clientReceived.latestIRCodeClientName.push(clientReceived.latestIRCodeClientNameRaw[k]);
 
                                 }
 
@@ -162,17 +140,6 @@ setInterval(function(){
                     clientReceived === undefined
                 ){
 
-                    DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){
-
-                        if(clientCircleList[j].client.online){
-
-                            clientCircleList[j].RotateAuto();
-
-                        }
-
-                    }
-
                     //console.log("new client")
 
                     clientReceived                           = new Client(clientReceivedName, false);
@@ -182,8 +149,6 @@ setInterval(function(){
                     clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                     clientReceived.online                    = true;
                     clientReceived.AddLatest();
-
-                    new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
                     if(
                         clientReceived.latestIRCodeClientNameRaw !== null &&
                         clientReceived.latestIRCodeClientNameRaw !== undefined
@@ -234,6 +199,42 @@ setInterval(function(){
 
                         clientList[j].clientCircle.willBeDeleted = true;
                         clientList[j].clientCircle.RotateAuto();
+
+                    }
+
+                    DetermineDegreeTargetList(clientCircleList.length);
+                    for(var k = 0; k < clientCircleList.length; k ++){
+
+                        if(clientCircleList[k].client.online){
+
+                            clientCircleList[k].RotateAuto();
+
+                        }
+
+                    }
+
+                    // After that check if the current
+                    // inspected client has its `clientCircle`.
+                    if(
+                        clientList[j].online &&
+                        (
+                            clientList[j].clientCircle === null ||
+                            clientList[j].clientCircle === undefined
+                        )
+                    ){
+
+                        DetermineDegreeTargetList(clientCircleList.length + 1);
+                        for(var k = 0; k < clientCircleList.length; k ++){
+
+                            if(clientCircleList[k].client.online){
+
+                                clientCircleList[k].RotateAuto();
+
+                            }
+
+                        }
+
+                        new ClientCircle(clientList[j], degreeTargetList[0]).RotateAuto;
 
                     }
 
