@@ -109,7 +109,7 @@ function ClientCircleAnimation(){
 
                 var degreeNext = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 if(degreeNext > degreeTarget){ clientCircleList[i].degreeCurrent = clientCircleList[i].degreeTarget; }
-                else{ clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
+                else{ clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length); }
                 clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
