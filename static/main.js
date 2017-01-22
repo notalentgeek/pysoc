@@ -23,7 +23,7 @@ setInterval(function(){
     //console.log("1 second just passed");
     //console.log(focus());
     //console.log(clientCircleList);
-    //console.log(receivedData);
+    console.log(receivedData);
     //if(receivedData !== null && receivedData !== undefined){ console.log(receivedData[0]["pitch"] + " " + receivedData[0]["volume"]); }
 
     socket.emit("latestInputRequest");
@@ -83,7 +83,7 @@ setInterval(function(){
                         // `clientReceived`. And mark its
                         // `online` status into `true`.
 
-                        //console.log(clientReceivedName);
+                        console.log(clientReceivedName);
 
                         clientReceived                           = clientList[j];
                         clientReceived.latestAmountFace          = clientReceivedAmountFace
@@ -189,48 +189,6 @@ setInterval(function(){
 
                     //console.log("test");
                     //console.log(clientReceived);
-
-                }
-
-            }
-
-            for(var i = 0; i < clientList.length; i ++){
-
-                if(
-                    !clientList[i].online &&
-                    (
-                        clientList[i].clientCircle !== null ||
-                        clientList[i].clientCircle !== undefined
-                    )
-                ){
-
-                    clientList[i].clientCircle.willBeDeleted = true;
-                    clientList[i].clientCircle.RotateAuto();
-
-                }
-
-                // After that check if the current
-                // inspected client has its `clientCircle`.
-                if(
-                    clientList[i].online &&
-                    (
-                        clientList[i].clientCircle === null ||
-                        clientList[i].clientCircle === undefined
-                    )
-                ){
-
-                    DetermineDegreeTargetList(clientCircleList.length + 1);
-                    for(var j = 0; j < clientCircleList.length; j ++){
-
-                        if(clientCircleList[j].client.online){
-
-                            clientCircleList[j].RotateAuto();
-
-                        }
-
-                    }
-
-                    new ClientCircle(clientList[i], degreeTargetList[0]).RotateAuto();
 
                 }
 
