@@ -266,7 +266,7 @@ if __name__ == "__main__":
 
                     def DatabaseGetLatestInputTableValueToDictMod1(_tableName, *_colName):
                         DatabaseGetLatestInputTableValueToDict(dbA, dbP, clientNameDict,
-                            latestInputStr, _tableName, tableNameList, *_colName)
+                            float(c.get("latest_input")), _tableName, tableNameList, *_colName)
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_cam", "faces")
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_ir" , "ir_code")
                     DatabaseGetLatestInputTableValueToDictMod1(clientName + "_mic", "pitch", "volume")
