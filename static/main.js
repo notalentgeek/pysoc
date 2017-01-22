@@ -50,7 +50,7 @@ setInterval(function(){
                 // client.
                 var clientReceived;
 
-                console.log(receivedData[i])
+                //console.log(receivedData[i])
                 //console.log(typeof(receivedData[i]))
 
                 // Check if there is a client list with the same
