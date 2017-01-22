@@ -82,6 +82,9 @@ setInterval(function(){
                         // Assign the found client into
                         // `clientReceived`. And mark its
                         // `online` status into `true`.
+
+                        console.log(clientReceivedName);
+
                         clientReceived                           = clientList[j];
                         clientReceived.latestAmountFace          = clientReceivedAmountFace
                         clientReceived.latestAmountPitch         = clientReceivedAmountPitch
@@ -123,6 +126,8 @@ setInterval(function(){
                             }
 
                         }
+
+                        break;
 
                     }
 
