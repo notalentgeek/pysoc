@@ -192,56 +192,56 @@ setInterval(function(){
 
                 }
 
-                for(var j = 0; j < clientList.length; j ++){
+            }
 
-                    if(
-                        !clientList[j].online &&
-                        (
-                            clientList[j].clientCircle !== null ||
-                            clientList[j].clientCircle !== undefined
-                        )
-                    ){
+            for(var i = 0; i < clientList.length; i ++){
 
-                        console.log(clientList[j].name)
-                        //clientList[j].clientCircle.willBeDeleted = true;
+                if(
+                    !clientList[i].online &&
+                    (
+                        clientList[i].clientCircle !== null ||
+                        clientList[i].clientCircle !== undefined
+                    )
+                ){
 
-                    }
-
-                    // After that check if the current
-                    // inspected client has its `clientCircle`.
-                    if(
-                        clientList[j].online &&
-                        (
-                            clientList[j].clientCircle === null ||
-                            clientList[j].clientCircle === undefined
-                        )
-                    ){
-
-                        DetermineDegreeTargetList(clientCircleList.length + 1);
-                        for(var k = 0; k < clientCircleList.length; k ++){
-
-                            if(clientCircleList[k].client.online){
-
-                                clientCircleList[k].RotateAuto();
-
-                            }
-
-                        }
-
-                        new ClientCircle(clientList[j], degreeTargetList[0]).RotateAuto();
-
-                    }
+                    console.log(clientList[i].name)
+                    clientList[i].clientCircle.willBeDeleted = true;
 
                 }
 
-                DetermineDegreeTargetList(clientCircleList.length);
-                for(var j = 0; j < clientCircleList.length; j ++){
+                // After that check if the current
+                // inspected client has its `clientCircle`.
+                if(
+                    clientList[i].online &&
+                    (
+                        clientList[i].clientCircle === null ||
+                        clientList[i].clientCircle === undefined
+                    )
+                ){
 
-                    if(clientCircleList[j].client.online){
+                    DetermineDegreeTargetList(clientCircleList.length + 1);
+                    for(var j = 0; j < clientCircleList.length; j ++){
 
-                        clientCircleList[j].RotateAuto();
+                        if(clientCircleList[j].client.online){
+
+                            clientCircleList[j].RotateAuto();
+
+                        }
 
                     }
+
+                    new ClientCircle(clientList[i], degreeTargetList[0]).RotateAuto();
+
+                }
+
+            }
+
+            DetermineDegreeTargetList(clientCircleList.length);
+            for(var i = 0; i < clientCircleList.length; j ++){
+
+                if(clientCircleList[i].client.online){
+
+                    clientCircleList[i].RotateAuto();
 
                 }
 
