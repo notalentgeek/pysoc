@@ -112,7 +112,6 @@ setInterval(function(){
 
                         }
 
-                        clientReceived.AddLatest();
                         if(
                             clientReceived.latestIRCodeClientNameRaw !== null &&
                             clientReceived.latestIRCodeClientNameRaw !== undefined
@@ -182,9 +181,9 @@ setInterval(function(){
                     clientReceived.latestAmountVolume        = clientReceivedAmountVolume
                     clientReceived.latestIRCodeClientNameRaw = clientReceivedIrCodeClientNameRaw
                     clientReceived.online                    = true;
+                    clientReceived.AddLatest();
 
                     new ClientCircle(clientReceived, degreeTargetList[0]).RotateAuto();
-                    clientReceived.AddLatest();
                     if(
                         clientReceived.latestIRCodeClientNameRaw !== null &&
                         clientReceived.latestIRCodeClientNameRaw !== undefined
