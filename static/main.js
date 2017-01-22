@@ -206,7 +206,7 @@ setInterval(function(){
 
                     console.log(clientList[i].name)
                     clientList[i].clientCircle.willBeDeleted = true;
-                    CircleClientAnimation();
+                    ClientCircleAnimation();
 
                 }
 
