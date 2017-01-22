@@ -236,17 +236,6 @@ setInterval(function(){
 
             }
 
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var i = 0; i < clientCircleList.length; i ++){
-
-                if(clientCircleList[i].client.online){
-
-                    clientCircleList[i].RotateAuto();
-
-                }
-
-            }
-
             for(var i = 0; i < clientList.length; i ++){
 
                 for(var j = 0; j < clientList[i].latestIRCodeClientCircle.length; j ++){
