@@ -55,7 +55,7 @@ setInterval(function(){
 
                 // Check if there is a client list with the same
                 // name in the `receivedData[i]`.
-                var clientReceivedName = String();
+                var clientReceivedName = String(receivedData[i]["client_name"]);
                 for(var j = 0; j < clientList.length; j ++){
 
                     // In this case there is already a client listed
