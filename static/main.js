@@ -66,6 +66,9 @@ setInterval(function(){
                     // in the clientList array. This means that this
                     // received client used to be online in this
                     // local session.
+
+                    console.log(clientList[j].name + " " + clientReceivedName);
+
                     if(clientList[j].name == clientReceivedName){
 
                         // Assign the found client into
