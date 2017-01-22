@@ -126,6 +126,8 @@ setInterval(function(){
 
                     }
 
+                    console.log("new client")
+
                     clientReceived                           = new Client(clientReceivedName, false);
                     clientReceived.latestAmountFace          = clientReceivedAmountFace
                     clientReceived.latestAmountPitch         = clientReceivedAmountPitch
