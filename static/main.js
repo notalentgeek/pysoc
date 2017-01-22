@@ -60,6 +60,9 @@ setInterval(function(){
                 var clientReceivedAmountPitch         = Number(receivedData[i]["pitch"]);
                 var clientReceivedAmountVolume        = Number(receivedData[i]["volume"]);
                 var clientReceivedIrCodeClientNameRaw = (String(receivedData[i]["ir_code"]) == "undefined") ? null : String(receivedData[i]["ir_code"]);
+
+                console.log(clientReceived + " " + clientReceivedName)
+
                 for(var j = 0; j < clientList.length; j ++){
 
                     // In this case there is already a client listed
