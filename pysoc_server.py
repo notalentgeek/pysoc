@@ -258,6 +258,9 @@ if __name__ == "__main__":
 
             for c in clientNameList:
 
+                print((latestInputFlo + 1.0) + " " + float(c.get("latest_input")) + " " + (latestInputFlo - 1.0))
+                print((latestInputFlo + 1.0) <= float(c.get("latest_input")) <= (latestInputFlo - 1.0))
+
                 if (latestInputFlo + 1.0) <= float(c.get("latest_input")) <= (latestInputFlo - 1.0):
 
                     clientName = c.get("client_name")
