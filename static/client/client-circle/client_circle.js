@@ -240,6 +240,7 @@ function ClientCircleAnimation(){
                 for(var j = 0; j < clientCircleList.length; j ++){
 
                     clientCircleList[j].degreeSaved = clientCircleList[j].degreeCurrent;
+                    clientCircleList[j].time = 0;
                     clientCircleList[j].RotateAuto();
 
                 }
