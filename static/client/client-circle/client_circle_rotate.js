@@ -22,6 +22,9 @@ ClientCircle.prototype.RotateAuto = function(){
 
     var index = degreeTargetTemp.indexOf(degreeShortest);
     if(index > -1){ degreeTargetTemp.splice(index, 1); }
+
+    console.log(degreeShortest);
+
     this.Rotate(degreeShortest);
 
 };
