@@ -206,16 +206,7 @@ setInterval(function(){
 
                     console.log(clientList[i].name)
                     clientList[i].clientCircle.willBeDeleted = true;
-                    DetermineDegreeTargetList(clientCircleList.length);
-                    for(var j = 0; j < clientCircleList.length; j ++){
-
-                        if(clientCircleList[j].client.online){
-
-                            clientCircleList[j].RotateAuto();
-
-                        }
-
-                    }
+                    CircleClientAnimation();
 
                 }
 

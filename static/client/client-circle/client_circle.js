@@ -236,6 +236,14 @@ function ClientCircleAnimation(){
                 clientCircleTemp.client = null;
                 delete clientCircleTemp;
 
+                DetermineDegreeTargetList(clientCircleList.length);
+                for(var j = 0; j < clientCircleList.length; j ++){
+
+                    clientCircleList[j].degreeSaved = clientCircleList[j].degreeCurrent;
+                    clientCircleList[j].RotateAuto();
+
+                }
+
             }
 
         }
