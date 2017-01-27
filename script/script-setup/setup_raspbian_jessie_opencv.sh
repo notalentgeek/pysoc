@@ -18,3 +18,4 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 make &&
 sudo make install &&
 sudo ldconfig
+ln -s /usr/local/lib/python3.4/dist-packages/cv2.cpython-34m.so /home/pi/pysoc/cv2.so
