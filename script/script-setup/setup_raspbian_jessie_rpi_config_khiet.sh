@@ -27,7 +27,7 @@ sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 yes | sudo pip3 install -r /home/pi/pysoc/req/req_raspbian_jessie.txt &&
 sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
-sudo /bin/sh -c 'printf "\nsetterm -blank 0 -powerdown 0"  >> /home/pi/.bashrc' &&
+sudo /bin/sh -c 'DISPLAY=:0 lxterminal --command "pysoc start"" >> /home/pi/.bashrc' &&
 
 cp /home/pi/pysoc/premade-config/config_khiet.ini /home/pi/pysoc/config.ini
 
