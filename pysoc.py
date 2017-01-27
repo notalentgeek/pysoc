@@ -243,7 +243,7 @@ class Main(object):
             # `connDB[0]` returns `True` if database connection is successful.
             if connDB != None:
 
-                print(connDB)
+                #print(connDB)
 
                 if connDB[0]:
                     db      = connDB[1]
