@@ -15,4 +15,4 @@ printf "\nif netstat -an | grep -w \"29015\"; then\n    PORT_USED_DB=1\nelse\n  
 cd ~/ &&
 
 sudo /etc/init.d/rethinkdb restart &&
-python3 -B ~/pysoc/pysoc_server.py "$(curl ipinfo.io/ip)" -o
+python3 -B ~/pysoc/pysoc_server.py -o
