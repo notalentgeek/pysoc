@@ -239,9 +239,12 @@ class Main(object):
                     print(logName + " log created")
 
             # First I need to check if database will be used or not.
-            if not config.withoutDB[2]: connDB = cdb(config, True)
+            if not config.withoutDB[2]: connDB = cdb(config, False, True)
             # `connDB[0]` returns `True` if database connection is successful.
             if connDB != None:
+
+                print(connDB)
+
                 if connDB[0]:
                     db      = connDB[1]
                     conn    = connDB[2]
