@@ -16,7 +16,7 @@ sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 yes | sudo pip3 install -r /home/pi/pysoc/req/req_raspbian_jessie.txt &&
 sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
-sudo /bin/sh -c 'printf "\nDISPLAY=:0 x-terminal-emulator --command \"sudo pysoc start\"" >> /home/pi/.bashrc' &&
+sudo /bin/sh -c 'printf "\nDISPLAY=:0 x-terminal-emulator --command \"pysoc start --rpi --picam\"" >> /home/pi/.bashrc' &&
 
 cp /home/pi/pysoc/premade-config/config_mikael.ini /home/pi/config.ini &&
 cp /home/pi/pysoc/premade-config/config_mikael.ini /home/pi/pysoc/config.ini &&
