@@ -1,0 +1,1 @@
+/home/notalentgeek/pysoc/script/script-setup/setup_raspbian_jessie_rpi.sh

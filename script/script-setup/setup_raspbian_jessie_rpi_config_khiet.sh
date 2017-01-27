@@ -9,8 +9,10 @@ sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_lirc.sh &
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_picamera.sh &&
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_prevent_screen_saver.sh &&
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_pyaudio.sh &&
-sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi_3.sh &&
-sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi_zero.sh &&
+sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi.sh &&
+sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi_config_elze.sh &&
+sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi_config_khiet.sh &&
+sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_rpi_config_mikael.sh &&
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_ubuntu_1604.sh &&
 sudo chmod +x /home/pi/pysoc/script/script-setup/setup_ubuntu_1604_opencv.sh &&
@@ -25,6 +27,8 @@ sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_usb_audio.sh &&
 yes | sudo pip3 install -r /home/pi/pysoc/req/req_raspbian_jessie.txt &&
 sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
-curl -sS https://get.pimoroni.com/iotphat | bash &&
+sudo /bin/sh -c 'printf "\nsetterm -blank 0 -powerdown 0"  >> /home/pi/.bashrc' &&
+
+cp /home/pi/pysoc/premade-config/config_khiet.ini /home/pi/pysoc/config.ini
 
 reboot
