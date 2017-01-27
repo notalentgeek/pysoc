@@ -18,9 +18,9 @@ sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
 sudo /bin/sh -c 'printf "\nDISPLAY=:0 x-terminal-emulator --command \"sudo pysoc start\"" >> /home/pi/.bashrc' &&
 
-cp /home/pi/pysoc/premade-config/config_elze.ini /bin/config.ini &&
 cp /home/pi/pysoc/premade-config/config_elze.ini /home/pi/config.ini &&
 cp /home/pi/pysoc/premade-config/config_elze.ini /home/pi/pysoc/config.ini &&
 cp /home/pi/pysoc/premade-config/config_elze.ini /home/pi/pysoc/dist/config.ini &&
+sudo cp /home/pi/pysoc/premade-config/config_elze.ini /bin/config.ini &&
 
 reboot
