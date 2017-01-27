@@ -18,6 +18,7 @@ sudo /home/pi/pysoc/script/script-compile/compile_raspbian_jessie.sh &&
 
 sudo /bin/sh -c 'printf "\nDISPLAY=:0 x-terminal-emulator --command \"pysoc start\"" >> /home/pi/.bashrc' &&
 
+cp /home/pi/pysoc/premade-config/config_khiet.ini /home/pi/config.ini &&
 cp /home/pi/pysoc/premade-config/config_khiet.ini /home/pi/pysoc/config.ini &&
 cp /home/pi/pysoc/premade-config/config_khiet.ini /home/pi/pysoc/dist/config.ini &&
 
