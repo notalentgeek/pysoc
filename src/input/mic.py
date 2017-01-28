@@ -196,10 +196,16 @@ class MicPVDetect(mt):
         # object mainArray. Every elements in the mainArray
         # in the insert database object will automatically
         # popped and then put into the database.
+        #
+        # Volume need to have value larger than 0.0002 whereas
+        # pitch need to have value larger than 100.0 in order for
+        # this application to record the current sound features
+        # into the database.
         if self.iDB != None:
-            self.iDB.mainArray.append(
-                self.SetupStringForDatabase(pitch,
-                    volume))
+            if float(pitch) > 100.0 and float(volume) > 0.0002:
+                self.iDB.mainArray.append(
+                    self.SetupStringForDatabase(pitch,
+                        volume))
 
         #print(pitch)
         #print(volume)

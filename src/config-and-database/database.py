@@ -214,9 +214,9 @@ class InsertDatabase(mt):
 
                         # Here I need to update the `latest_input` column
                         # in `client_name` database.
-                        self.db\
-                            .table(self.config.clientName[0]).get(self.config.clientName[2])\
-                            .update({"latest_input": latestInput}).run(ConnDB(self.config, True, False))
+                        #self.db\
+                        #    .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                        #    .update({"latest_input": latestInput}).run(ConnDB(self.config, True, False))
 
                     except r.ReqlOpFailedError as error:
 
