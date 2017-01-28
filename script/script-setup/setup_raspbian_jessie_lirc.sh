@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install LIRC packages for Raspbian Jessie.
-yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq-get install lirc liblircclient-dev &&
+yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install lirc liblircclient-dev &&
 # Add pinouts mapping into `/etc/modules`.
 sudo /bin/sh -c 'printf "\n\nlirc_dev\nlirc_rpi gpio_in_pin=23 gpio_out_pin=22" >> /etc/modules' &&
 # Deleting `hardware.conf` and then re - create it back.

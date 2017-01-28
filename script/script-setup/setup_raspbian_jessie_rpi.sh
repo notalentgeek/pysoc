@@ -2,8 +2,8 @@
 
 cd /home/pi/pysoc &&
 
-yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq-get update &&
-yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq-get upgrade &&
+yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update &&
+yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade &&
 
 sudo chmod +x /home/pi/pysoc/script/script-compile/*
 sudo chmod +x /home/pi/pysoc/script/script-setup/*
