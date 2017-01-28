@@ -5,8 +5,8 @@ cd /home/pi/pysoc &&
 yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update &&
 yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade &&
 
-sudo chmod +x /home/pi/pysoc/script/script-compile/*
-sudo chmod +x /home/pi/pysoc/script/script-setup/*
+sudo chmod +x /home/pi/pysoc/script/script-compile/* &&
+sudo chmod +x /home/pi/pysoc/script/script-setup/* &&
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_prevent_screen_saver.sh &&
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_lirc.sh &&
 sudo /home/pi/pysoc/script/script-setup/setup_raspbian_jessie_picamera.sh &&
