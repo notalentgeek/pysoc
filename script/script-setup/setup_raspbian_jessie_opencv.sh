@@ -1,7 +1,7 @@
 #!/bin/bash
 
-yes | sudo apt-get purge wolfram-engine &&
-yes | sudo apt-get install build-essential cmake gfortran libatlas-base-dev libavcodec-dev libavformat-dev libgtk2.0-dev libjasper-dev libjpeg-dev libpng12-dev libswscale-dev libtiff5-dev libv4l-dev libx264-dev libxvidcore-dev pkg-config python2.7-dev python3-dev &&
+yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq-get purge wolfram-engine &&
+yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yq-get install build-essential cmake gfortran libatlas-base-dev libavcodec-dev libavformat-dev libgtk2.0-dev libjasper-dev libjpeg-dev libpng12-dev libswscale-dev libtiff5-dev libv4l-dev libx264-dev libxvidcore-dev pkg-config python2.7-dev python3-dev &&
 cd /home/pi &&
 wget -O opencv.zip https://github.com/Itseez/opencv/archive/3.1.0.zip &&
 unzip opencv.zip &&
