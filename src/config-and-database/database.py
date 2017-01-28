@@ -270,6 +270,22 @@ def ConnDB(_config, _persistent, _requestStart):
     conn    = None
     db      = None
 
+    if not _persistent and not _requestStart:
+
+        try:
+
+            conn = r.connect(
+                host=_config.dbAddress[2],
+                port=_config.dbPort[2])
+
+            return conn
+
+        except r.errors.ReqlDriverError as error:
+
+            # Print the error.
+            print("connection to database error with error code of \"" + str(error) + "\"")
+            print("please check database or check database configuration from this application")
+
     while True:
 
         # Try to connecting to RethinkDB server.
@@ -356,17 +372,15 @@ def ConnDB(_config, _persistent, _requestStart):
 def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
 
     # Try to connect to database.
-    connDB = ConnDB(_config, False)
+    connDB = ConnDB(_config, False, False)
     if connDB != None:
-        if connDB[0]:
 
-            conn = connDB[2]
-            # Delete all tables. But first get all table list.
-            dbNameFromConfig = str(gvfc(_configAbsPath, _config.iniSections[0], _config.dbName[0]))
-            try:
-                r.db_drop(dbNameFromConfig).run(conn)
-                print("database deleted")
-            except r.errors.ReqlOpFailedError as error: print("database does not exists")
+        # Delete all tables. But first get all table list.
+        dbNameFromConfig = str(gvfc(_configAbsPath, _config.iniSections[0], _config.dbName[0]))
+        try:
+            r.db_drop(dbNameFromConfig).run(connDB)
+            print("database deleted")
+        except r.errors.ReqlOpFailedError as error: print("database does not exists")
 
     # Delete log folder.
     if os.path.exists(_logFolderAbsPath): shutil.rmtree(_logFolderAbsPath)

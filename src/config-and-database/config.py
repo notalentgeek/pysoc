@@ -73,7 +73,7 @@ def DeleteConfig(_configAbsPath):
     # Delete config.ini file.
     os.remove(_configAbsPath)
     deletedConfig = True
-    print("config.ini deleted")
+    print("config.ini deleted at " + str(_configAbsPath))
 
     return deletedConfig
 
