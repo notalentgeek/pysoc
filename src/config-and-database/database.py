@@ -286,87 +286,89 @@ def ConnDB(_config, _persistent, _requestStart):
             print("connection to database error with error code of \"" + str(error) + "\"")
             print("please check database or check database configuration from this application")
 
-    while True:
+    else:
 
-        # Try to connecting to RethinkDB server.
-        # If without_database flag is False and
-        # the connection from this application to
-        # the database failed then halt this
-        # program.
-        try:
+        while True:
 
-            # The default port to connect is the
-            # localhost "127.0.0.1" (in string).
-            # Whereas the default port for RethinkDB
-            # is 28015.
-            #
-            # In local you can run RethinkDB with
-            # using `rethinkdb` command from terminal.
-            # From hosted environment (like
-            # DigitalOcean) run RethinkDB using
-            # `rethinkdb --bind all` from SSH - ed
-            # terminal.
-            #
-            # Connect into database.
-            conn = r.connect(
-                host=_config.dbAddress[2],
-                port=_config.dbPort[2])
+            # Try to connecting to RethinkDB server.
+            # If without_database flag is False and
+            # the connection from this application to
+            # the database failed then halt this
+            # program.
+            try:
 
-            if _persistent: return conn
-            # Initiating trial and error for database.
-            # Trying to make persistent connection into
-            # database.
-            else:
+                # The default port to connect is the
+                # localhost "127.0.0.1" (in string).
+                # Whereas the default port for RethinkDB
+                # is 28015.
+                #
+                # In local you can run RethinkDB with
+                # using `rethinkdb` command from terminal.
+                # From hosted environment (like
+                # DigitalOcean) run RethinkDB using
+                # `rethinkdb --bind all` from SSH - ed
+                # terminal.
+                #
+                # Connect into database.
+                conn = r.connect(
+                    host=_config.dbAddress[2],
+                    port=_config.dbPort[2])
 
-                # Pick which database to get its information stored.
-                db = r.db(_config.dbName[2])
-                if not _config.dbName[2] in r.db_list().run(conn) and _requestStart:
-                    db = r.db_create(_config.dbName[2]).run(conn)
+                if _persistent: return conn
+                # Initiating trial and error for database.
+                # Trying to make persistent connection into
+                # database.
+                else:
+
+                    # Pick which database to get its information stored.
                     db = r.db(_config.dbName[2])
-                    print("database " + _config.dbName[2] + " does not exist")
-                    print("creating database " + _config.dbName[2])
+                    if not _config.dbName[2] in r.db_list().run(conn) and _requestStart:
+                        db = r.db_create(_config.dbName[2]).run(conn)
+                        db = r.db(_config.dbName[2])
+                        print("database " + _config.dbName[2] + " does not exist")
+                        print("creating database " + _config.dbName[2])
 
-                if _requestStart:
-                    # Check if there is a table called `client_name`.
-                    # If not then create one.
-                    clientNameTable = None
-                    try:
-                        db.table(_config.clientName[0]).run(conn)
-                        clientNameTable = db.table(_config.clientName[0])
-                    except r.errors.ReqlOpFailedError as error:
-                        print("creating " + _config.clientName[0] + " table")
-                        db.table_create(_config.clientName[0], primary_key=_config.clientName[0]).run(conn)
-                        clientNameTable = db.table(_config.clientName[0])
+                    if _requestStart:
+                        # Check if there is a table called `client_name`.
+                        # If not then create one.
+                        clientNameTable = None
+                        try:
+                            db.table(_config.clientName[0]).run(conn)
+                            clientNameTable = db.table(_config.clientName[0])
+                        except r.errors.ReqlOpFailedError as error:
+                            print("creating " + _config.clientName[0] + " table")
+                            db.table_create(_config.clientName[0], primary_key=_config.clientName[0]).run(conn)
+                            clientNameTable = db.table(_config.clientName[0])
 
-                    # Check if there is document with `client_name` equals
-                    # to `_config.clientName[2]`. If there is not created new
-                    # document with the respective IR code. This means that
-                    # this user is new in the system. If there is document
-                    # with `_config.clientName[0]` equals `_config.clientName[2]`,
-                    # then just update the value of its `ir_code` into
-                    # `_config.irCode[2]` (the current real time variable value
-                    # of IR code).
-                    if clientNameTable.get(_config.clientName[2]).run(conn) == None:
-                        print("no client found")
-                        jsonRaw = {}
+                        # Check if there is document with `client_name` equals
+                        # to `_config.clientName[2]`. If there is not created new
+                        # document with the respective IR code. This means that
+                        # this user is new in the system. If there is document
+                        # with `_config.clientName[0]` equals `_config.clientName[2]`,
+                        # then just update the value of its `ir_code` into
+                        # `_config.irCode[2]` (the current real time variable value
+                        # of IR code).
+                        if clientNameTable.get(_config.clientName[2]).run(conn) == None:
+                            print("no client found")
+                            jsonRaw = {}
 
-                        jsonRaw[_config.clientName[0]] = _config.clientName[2]
-                        jsonRaw[_config.irCode[0]] = _config.irCode[2]
+                            jsonRaw[_config.clientName[0]] = _config.clientName[2]
+                            jsonRaw[_config.irCode[0]] = _config.irCode[2]
 
-                        jsonCooked = json.dumps(jsonRaw)
-                        jsonCookedAgain = json.loads(jsonCooked)
-                        clientNameTable.insert(jsonCookedAgain).run(conn)
-                    else:
-                        clientNameTable.get(_config.clientName[2]).update({_config.irCode[0]: _config.irCode[2]}).run(conn)
+                            jsonCooked = json.dumps(jsonRaw)
+                            jsonCookedAgain = json.loads(jsonCooked)
+                            clientNameTable.insert(jsonCookedAgain).run(conn)
+                        else:
+                            clientNameTable.get(_config.clientName[2]).update({_config.irCode[0]: _config.irCode[2]}).run(conn)
 
-                # If connection success return True and the database.
-                return [True, db, conn]
+                    # If connection success return True and the database.
+                    return [True, db, conn]
 
-        except r.errors.ReqlDriverError as error:
+            except r.errors.ReqlDriverError as error:
 
-            # Print the error.
-            print("connection to database error with error code of \"" + str(error) + "\"")
-            print("please check database or check database configuration from this application")
+                # Print the error.
+                print("connection to database error with error code of \"" + str(error) + "\"")
+                print("please check database or check database configuration from this application")
 
 # Python function to delete database.
 def DeleteDatabaseAndLog(_config, _configAbsPath, _logFolderAbsPath):
