@@ -210,13 +210,21 @@ class InsertDatabase(mt):
                         # The fix to exponentially higher is to do try
                         # statement for the insert database instead of
                         # checking the connection.
-                        self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False))
+                        r.expr(
 
-                        # Here I need to update the `latest_input` column
-                        # in `client_name` database.
-                        #self.db\
-                        #    .table(self.config.clientName[0]).get(self.config.clientName[2])\
-                        #    .update({"latest_input": latestInput}).run(ConnDB(self.config, True, False))
+                            [
+
+                                self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False)),
+
+                                # Here I need to update the `latest_input` column
+                                # in `client_name` database.
+                                self.db\
+                                    .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                                    .update({"latest_input": latestInput})
+
+                            ]
+
+                        ).run(ConnDB(self.config, True, False))
 
                     except r.ReqlOpFailedError as error:
 
