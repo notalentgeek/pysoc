@@ -136,6 +136,8 @@ class InsertDatabase(mt):
                     # using this command, `irrecord --list-namespace`.
                     if sensorSource == "ir" and not self.withoutDB:
 
+                        clientNameArray = None
+
                         # The value array is the all IR codes received by the
                         # IR receiver during one second interval. The elements
                         # in this array/list is unique.
@@ -151,6 +153,8 @@ class InsertDatabase(mt):
                                 doc[self.config.irCode[0]].match(vE)).run(ConnDB(self.config, True, False))
                             # Convert the returned data into Python's list.
                             clientNameArray = list(clientNameArray)
+
+                            print(clientNameArray)
 
                             # Make sure there are at least one client name
                             # returned. In case `len(clientNameArray) == 0`
