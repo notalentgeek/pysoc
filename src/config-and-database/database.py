@@ -154,7 +154,7 @@ class InsertDatabase(mt):
                             # Convert the returned data into Python's list.
                             clientNameArray = list(clientNameArray)
 
-                            print(clientNameArray)
+                            #print(clientNameArray)
 
                             # Make sure there are at least one client name
                             # returned. In case `len(clientNameArray) == 0`
@@ -173,6 +173,7 @@ class InsertDatabase(mt):
                             valueNew = valueNew[:-1]
 
                             if valueNew != self.config.clientName[2]: value = valueNew
+                            elif len(clientNameArray) == 0: value = 0
                             else: value = None
 
                     # Enter the value into `jsonRaw`
