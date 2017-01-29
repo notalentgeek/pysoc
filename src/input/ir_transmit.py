@@ -12,9 +12,4 @@ class IRSend(mt):
             _threadName)
 
         self.config = _config
-
-    def run(self):
-
-        while self.killMe == False:
-
-            subp.call(["irsend SEND_START pysoc " + self.config.irCode[2]], shell=True)
+        subp.call(["irsend SEND_START pysoc " + self.config.irCode[2]], shell=True)
