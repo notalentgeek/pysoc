@@ -20,4 +20,11 @@ class IRSend(mt):
 
         while self.killMe == False:
 
-            subp.call(["irsend SEND_START pysoc " + self.config.irCode[2]], shell=True)
+            # Do not transmit IR code so fast.
+            # Do it per once per self.TICK_INTERVAL
+            # ticks.
+            self.tickCounter = self.tickCounter + 1
+
+            if self.tickCounter >= self.TICK_INTERVAL:
+                subp.call(["irsend SEND_ONCE pysoc " + self.config.irCode[2]], shell=True)
+                self.tickCounter = 0
