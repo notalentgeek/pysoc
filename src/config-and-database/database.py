@@ -164,10 +164,12 @@ class InsertDatabase(mt):
                         # Remove the last comma.
                         if valueNew != "":
                             valueNew = valueNew[:-1]
-                            value = valueNew
+
+                            if valueNew != self.config.clientName[2]:  value = valueNew
+                            else: value = None
 
                     # Enter the value into `jsonRaw`
-                    jsonRaw[fieldName] = value
+                    if value != None: jsonRaw[fieldName] = value
 
                     log = log + "(" + str(fieldName) + ":" + str(value) + ")"
 
