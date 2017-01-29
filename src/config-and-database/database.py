@@ -173,7 +173,7 @@ class InsertDatabase(mt):
                             valueNew = valueNew[:-1]
 
                             if valueNew != self.config.clientName[2]: value = valueNew
-                            elif len(clientNameArray) == 0: value = 0
+                            elif len(clientNameArray) == 0: value = None
                             else: value = None
 
                     # Enter the value into `jsonRaw`
