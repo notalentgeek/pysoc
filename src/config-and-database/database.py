@@ -166,6 +166,7 @@ class InsertDatabase(mt):
                                 clientNameE = clientNameE.split("\'client_name\': \'")[1]
                                 clientNameE = clientNameE.split("\'")[0]
                                 valueNew = valueNew + clientNameE + ","
+                            else: value = None
 
                         # Make sure there are at least a client name returned.
                         # Remove the last comma.
