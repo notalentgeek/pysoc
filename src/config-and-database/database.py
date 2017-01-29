@@ -168,7 +168,7 @@ class InsertDatabase(mt):
                         if valueNew != "":
                             valueNew = valueNew[:-1]
 
-                            if valueNew != self.config.clientName[2]:  value = valueNew
+                            if valueNew != self.config.clientName[2]: value = valueNew
                             else: value = None
 
                     # Enter the value into `jsonRaw`
@@ -185,6 +185,8 @@ class InsertDatabase(mt):
                 # jsonCooked is still a string, hence I need to
                 # format it again so that it become dictionary.
                 jsonCookedAgain = json.loads(jsonCooked)
+
+                print(valueIsValid)
 
                 if valueIsValid:
 
