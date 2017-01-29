@@ -115,6 +115,9 @@ class InsertDatabase(mt):
                 # the pitch.
                 # Index 9 is force. Then index 10 is the value of
                 # the force.
+
+                valueIsValid = True
+
                 index = 8
                 while index < len(firstElement):
 
@@ -169,9 +172,12 @@ class InsertDatabase(mt):
                             else: value = None
 
                     # Enter the value into `jsonRaw`
-                    if value != None: jsonRaw[fieldName] = value
+                    if value != None:
 
-                    log = log + "(" + str(fieldName) + ":" + str(value) + ")"
+                        jsonRaw[fieldName] = value
+                        log = log + "(" + str(fieldName) + ":" + str(value) + ")"
+
+                    else: valueIsValid = False
 
                 # Cooked the JSON so that it is ready to be served
                 # to the database.
@@ -180,87 +186,89 @@ class InsertDatabase(mt):
                 # format it again so that it become dictionary.
                 jsonCookedAgain = json.loads(jsonCooked)
 
-                # Only use this `try` and `except` if only
-                # `self.withoutDB` is `False`.
-                if not self.withoutDB:
-                    # Check if the target table is exist in the
-                    # database. If the target table is not exist
-                    # then create a new table.
-                    #
-                    # On, 23rd December 2016 there is a problem
-                    # that the read request to the database is
-                    # getting exponentially higher over times.
-                    # After commenting right there and here the
-                    # culprit is this try catch statement below.
-                    #
-                    # The problem here is that I need to check
-                    # if a table exist or not by using these codes
-                    # self.db.table(tableName).run(ConnDB(self.config, True, False)).
-                    # However, those codes makes the exponentially
-                    # increase read request over time. In the other
-                    # hand I need to know if the table is exists or
-                    # not without using the connection codes.
-                    #
-                    # The solution is to do try checking when a
-                    # document inserted. And not to do try checking
-                    # if a table is exists.
-                    try:
+                if valueIsValid:
 
-                        #self.db.table(tableName).run(ConnDB(self.config, True, False))
-                        self.table = self.db.table(tableName)
-                        # Insert the jsonCookedAgain into the database.
-                        # The fix to exponentially higher is to do try
-                        # statement for the insert database instead of
-                        # checking the connection.
-                        r.expr(
+                    # Only use this `try` and `except` if only
+                    # `self.withoutDB` is `False`.
+                    if not self.withoutDB:
+                        # Check if the target table is exist in the
+                        # database. If the target table is not exist
+                        # then create a new table.
+                        #
+                        # On, 23rd December 2016 there is a problem
+                        # that the read request to the database is
+                        # getting exponentially higher over times.
+                        # After commenting right there and here the
+                        # culprit is this try catch statement below.
+                        #
+                        # The problem here is that I need to check
+                        # if a table exist or not by using these codes
+                        # self.db.table(tableName).run(ConnDB(self.config, True, False)).
+                        # However, those codes makes the exponentially
+                        # increase read request over time. In the other
+                        # hand I need to know if the table is exists or
+                        # not without using the connection codes.
+                        #
+                        # The solution is to do try checking when a
+                        # document inserted. And not to do try checking
+                        # if a table is exists.
+                        try:
 
-                            [
+                            #self.db.table(tableName).run(ConnDB(self.config, True, False))
+                            self.table = self.db.table(tableName)
+                            # Insert the jsonCookedAgain into the database.
+                            # The fix to exponentially higher is to do try
+                            # statement for the insert database instead of
+                            # checking the connection.
+                            r.expr(
 
-                                self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False)),
+                                [
 
-                                # Here I need to update the `latest_input` column
-                                # in `client_name` database.
-                                self.db\
-                                    .table(self.config.clientName[0]).get(self.config.clientName[2])\
-                                    .update({"latest_input": latestInput})
+                                    self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False)),
 
-                            ]
+                                    # Here I need to update the `latest_input` column
+                                    # in `client_name` database.
+                                    self.db\
+                                        .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                                        .update({"latest_input": latestInput})
 
-                        ).run(ConnDB(self.config, True, False))
+                                ]
 
-                    except r.ReqlOpFailedError as error:
+                            ).run(ConnDB(self.config, True, False))
 
-                        print(
-                            "table for " +
-                            self.config.clientName[2] +
-                            " to store " +
-                            sensorSource +
-                            " data does not exist"
-                        )
-                        print("creating " + tableName + " table")
-                        self.db.table_create(tableName, primary_key="dt").run(ConnDB(self.config, True, False))
-                        self.table = self.db.table(tableName)
-                        # Insert the jsonCookedAgain into the database.
-                        # The fix to exponentially higher is to do try
-                        # statement for the insert database instead of
-                        # checking the connection.
-                        self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False))
+                        except r.ReqlOpFailedError as error:
 
-                        # Here I need to update the `latest_input` column
-                        # in `client_name` database.
-                        self.db\
-                            .table(self.config.clientName[0]).get(self.config.clientName[2])\
-                            .update({"latest_input": latestInput}).run(ConnDB(self.config, True, False))
+                            print(
+                                "table for " +
+                                self.config.clientName[2] +
+                                " to store " +
+                                sensorSource +
+                                " data does not exist"
+                            )
+                            print("creating " + tableName + " table")
+                            self.db.table_create(tableName, primary_key="dt").run(ConnDB(self.config, True, False))
+                            self.table = self.db.table(tableName)
+                            # Insert the jsonCookedAgain into the database.
+                            # The fix to exponentially higher is to do try
+                            # statement for the insert database instead of
+                            # checking the connection.
+                            self.table.insert(jsonCookedAgain).run(ConnDB(self.config, True, False))
 
-                #print(jsonCooked)
-                if not self.config.withoutLog[2] : print(log)
+                            # Here I need to update the `latest_input` column
+                            # in `client_name` database.
+                            self.db\
+                                .table(self.config.clientName[0]).get(self.config.clientName[2])\
+                                .update({"latest_input": latestInput}).run(ConnDB(self.config, True, False))
 
-                # Write the log value into log file.
-                with open(self.logAbsPath, "a") as logTxt:
-                    logTxt.write(log + "\n")
+                    #print(jsonCooked)
+                    if not self.config.withoutLog[2] : print(log)
 
-                # Pop the first element of the array!
-                self.mainArray.pop(0)
+                    # Write the log value into log file.
+                    with open(self.logAbsPath, "a") as logTxt:
+                        logTxt.write(log + "\n")
+
+                    # Pop the first element of the array!
+                    self.mainArray.pop(0)
 
 # Function to initiating connection to database.
 # `_requestStart` is used to indicate if this application
