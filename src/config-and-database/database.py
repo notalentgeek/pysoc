@@ -186,8 +186,6 @@ class InsertDatabase(mt):
                 # format it again so that it become dictionary.
                 jsonCookedAgain = json.loads(jsonCooked)
 
-                print(valueIsValid)
-
                 if valueIsValid:
 
                     # Only use this `try` and `except` if only
@@ -269,8 +267,8 @@ class InsertDatabase(mt):
                     with open(self.logAbsPath, "a") as logTxt:
                         logTxt.write(log + "\n")
 
-                    # Pop the first element of the array!
-                    self.mainArray.pop(0)
+                # Pop the first element of the array!
+                self.mainArray.pop(0)
 
 # Function to initiating connection to database.
 # `_requestStart` is used to indicate if this application
