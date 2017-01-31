@@ -260,10 +260,10 @@ if __name__ == "__main__":
 
             for c in clientNameList:
 
-                print(c)
-                print(clientNameList)
-                print((latestInputFlo - 1.0) <= float(c.get("latest_input"))/1000.0 <= (latestInputFlo + 1.0))
-                print(str(latestInputFlo - 1.0) + " " + str(float(c.get("latest_input"))/1000.0) + " " + str(latestInputFlo + 1.0))
+                #print(c)
+                #print(clientNameList)
+                #print((latestInputFlo - 1.0) <= float(c.get("latest_input"))/1000.0 <= (latestInputFlo + 1.0))
+                #print(str(latestInputFlo - 1.0) + " " + str(float(c.get("latest_input"))/1000.0) + " " + str(latestInputFlo + 1.0))
 
                 if c.get("latest_input") == latestInputStr:
 
