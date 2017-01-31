@@ -186,6 +186,7 @@ def GetLatestInput(_clientNameList, _columnLatestInput):
     for c in _clientNameList:
 
         latestInputStrTemp = c.get(_columnLatestInput)
+        print(latestInputStrTemp)
         latestInputFloTemp = float(latestInputStrTemp)/1000
 
         if latestInputFlo == None:
