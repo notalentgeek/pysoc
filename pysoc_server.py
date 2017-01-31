@@ -280,7 +280,7 @@ if __name__ == "__main__":
 
                     clientNameDictList.append(clientNameDict)
 
-            print(clientNameDictList)
+            #print(clientNameDictList)
             #print(type(clientNameDictList))
 
             emit("latestInputSend", clientNameDictList)
