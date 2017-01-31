@@ -45,7 +45,7 @@ setInterval(function(){
 
             }
 
-            console.log(receivedData);
+            //console.log(receivedData);
 
             // Check all received data.
             for(var i = 0; i < receivedData.length; i ++){
@@ -83,7 +83,7 @@ setInterval(function(){
                         // `clientReceived`. And mark its
                         // `online` status into `true`.
 
-                        console.log(clientReceivedName);
+                        //console.log(clientReceivedName);
 
                         clientReceived                           = clientList[j];
                         clientReceived.latestAmountFace          = clientReceivedAmountFace
