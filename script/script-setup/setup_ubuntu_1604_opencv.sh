@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 yes | sudo apt-get install build-essential cmake gfortran libatlas-base-dev libavcodec-dev libavformat-dev libgtk-3-dev libjasper-dev libjpeg8-dev libpng12-dev libswscale-dev libtiff5-dev libv4l-dev libx264-dev libxvidcore-dev pkg-config python2.7-dev python3.5-dev &&
 cd ~ &&
