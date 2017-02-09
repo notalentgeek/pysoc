@@ -3,12 +3,15 @@ from check_string import check_db_host     as cdh
 from check_string import check_db_name     as cdn
 from check_string import check_table_name  as ctn
 from database     import check_db          as cd
+from database     import check_doc         as cdc
 from database     import check_table       as ct
 from database     import conn              as c
 from database     import create_db         as crd
+from database     import create_doc        as crdc
 from database     import create_table      as crt
 from database     import del_db            as dd
 from database     import del_table         as dt
+from database     import get_first_doc     as gfd
 from docopt       import docopt            as doc
 import rethinkdb as r
 import sys
@@ -68,7 +71,6 @@ class test(ut.TestCase):
         with self.assertRaises(r.errors.ReqlOpFailedError):
             ct("table_that_does_not_exist", "database_that_does_not_exists")
 
-        dt(table_name, db_name)
         dd(db_name)
 
     def test_create_table(self):
@@ -92,6 +94,42 @@ class test(ut.TestCase):
 
         self.assertIsNotNone(dt(table_name, db_name))
         self.assertIsNone(dt(table_name, db_name))
+
+        dd(db_name)
+
+    def test_check_doc(self):
+        db_name = "{}{}".format(sys._getframe().f_code.co_name, "_db")
+        table_name ="{}{}".format(sys._getframe().f_code.co_name, "_table")
+        document_1 = { "name":"name_1", "job":"manager" }
+
+        crd(db_name)
+        crt(table_name, db_name)
+        crdc(document_1, "name", table_name, db_name)
+
+        self.assertFalse(cdc("name_1", "column_that_does_not_exists", table_name, db_name))
+        #self.assertFalse(cdc("name_that_does_exists", "column_that_does_not_exists", table_name, db_name))
+        #self.assertFalse(cdc("name_that_does_not_exists", "name", table_name, db_name))
+        #self.assertTrue(cdc("manager", "job", table_name, db_name))
+        #self.assertTrue(cdc("name_1", "name", table_name, db_name))
+
+        dd(db_name)
+
+    def test_get_first_doc(self):
+        db_name = "{}{}".format(sys._getframe().f_code.co_name, "_db")
+        table_name ="{}{}".format(sys._getframe().f_code.co_name, "_table")
+        document_1 = { "name":"name_1", "job":"manager" }
+        document_2 = { "name":"name_2", "job":"developer" }
+        document_3 = { "name":"name_3", "job":"developer" }
+
+        crd(db_name)
+        crt(table_name, db_name)
+        crdc(document_1, "name", table_name, db_name)
+        crdc(document_2, "name", table_name, db_name)
+        crdc(document_3, "name", table_name, db_name)
+
+        self.assertEqual(gfd("developer", "job", "name", table_name, db_name), "name_2")
+        self.assertEqual(gfd("manager", "job", "name", table_name, db_name), "name_1")
+        self.assertIsNone(gfd("job_that_does_not_exist", "job", "name", table_name, db_name))
 
         dd(db_name)
 
