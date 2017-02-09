@@ -161,11 +161,9 @@ def get_first_doc(_value:str, _column_value:str, _column_target:str,
     """If this function returns a list (instead of just single document)
     value returned is alphabetically sorted (for example, this returns
     `"Alpha"`, when there are `["Alpha", "Beta"]`).
+    
+    PENDING: Surpress resource warning for unit testing.
     """
-    if not check_db(_db_name): return None
-    elif not check_table(_table_name, _db_name): return None
-
-    """PENDING: Surpress resource warning for unit testing."""
     with warn.catch_warnings():
         warn.simplefilter("ignore", category=ResourceWarning)
 
