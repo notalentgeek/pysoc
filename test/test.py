@@ -104,9 +104,9 @@ class test(ut.TestCase):
 
         crd(db_name)
         crt(table_name, db_name)
-        crdc(document_1, "name", table_name, db_name)
+        crdc(document_1, table_name, db_name, ["name"])
 
-        self.assertFalse(cdc("name_1", "column_that_does_not_exists", table_name, db_name))
+        #self.assertFalse(cdc("name_1", "column_that_does_not_exists", table_name, db_name))
         #self.assertFalse(cdc("name_that_does_exists", "column_that_does_not_exists", table_name, db_name))
         #self.assertFalse(cdc("name_that_does_not_exists", "name", table_name, db_name))
         #self.assertTrue(cdc("manager", "job", table_name, db_name))
@@ -123,9 +123,9 @@ class test(ut.TestCase):
 
         crd(db_name)
         crt(table_name, db_name)
-        crdc(document_1, "name", table_name, db_name)
-        crdc(document_2, "name", table_name, db_name)
-        crdc(document_3, "name", table_name, db_name)
+        crdc(document_1, table_name, db_name, ["name"])
+        crdc(document_2, table_name, db_name, ["name"])
+        crdc(document_3, table_name, db_name, ["name"])
 
         self.assertEqual(gfd("developer", "job", "name", table_name, db_name), "name_2")
         self.assertEqual(gfd("manager", "job", "name", table_name, db_name), "name_1")
