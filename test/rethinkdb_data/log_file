@@ -1008,3 +1008,8 @@
 2017-02-09T02:05:57.368529208 3915.501148s info: Table bb99a8d6-2c74-4861-9c21-552703dfaf30: This server is Raft leader for term 1. Latest log index is 0.
 2017-02-09T02:05:57.725667732 3915.858287s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/bb99a8d6-2c74-4861-9c21-552703dfaf30
 2017-02-09T02:05:57.725677440 3915.858296s info: Table bb99a8d6-2c74-4861-9c21-552703dfaf30: Deleted the table.
+2017-02-09T03:10:42.815089063 7800.947709s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-02-09T03:10:42.815321214 7800.947941s notice: Shutting down client connections...
+2017-02-09T03:10:42.815580659 7800.948200s notice: All client connections closed.
+2017-02-09T03:10:42.815586402 7800.948206s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-02-09T03:10:42.816838875 7800.949458s notice: Storage engine shut down.
