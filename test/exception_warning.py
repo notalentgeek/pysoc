@@ -7,7 +7,7 @@ def c_warning(
     _file_where_convention_defined:str
 ):
     warn.warn(
-        "{} {} is not accroding to the naming convention in {} in {}".format(
+        "{} {} is not according to the naming convention in {} in {}".format(
             _object_type,
             _object_name,
             _function_where_convention_defined,
@@ -44,7 +44,4 @@ class ConventionWarning(Warning):
     pass
 
 class CreationDeletionWarning(Warning):
-    pass
-
-class TestWarning(Warning):
     pass

@@ -31,190 +31,6 @@ import warnings  as warn
 class test(ut.TestCase):
     """From `database.py`."""
 
-    def test_cw_database_mod(self):
-        """This is a test function to test `cwdm()` of `cw_database_mod()`
-        function in `database.py`.
-
-        Test 1: Assert true if `CW` of `ConventionWarning` happens.
-        """
-        db_name = "{}_{}".format(sys._getframe().f_code.co_name, "db")
-        db_name_any = "{}_{}".format(db_name, "any")
-
-        test_CW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CW)
-            try:
-                cwdm(db_name_any)
-            except CW as w:
-                test_CW = True
-        """Test 1."""
-        self.assertTrue(test_CW)
-
-
-
-    def test_cw_table_mod(self):
-        """This is a test function to test `cwtm()` of `cw_table_mod()`
-        function in `database.py`.
-
-        Test 1: Assert true if `CW` of `ConventionWarning` happens.
-        """
-        table_name = "{}_{}".format(sys._getframe().f_code.co_name, "table")
-        table_name_any = "{}_{}".format(table_name, "any")
-
-        test_CW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CW)
-            try:
-                cwtm(table_name_any)
-            except CW as w:
-                test_CW = True
-        """Test 1."""
-        self.assertTrue(test_CW)
-
-
-
-    def test_cdw_database_creation_mod(self):
-        """This is a test function to test `cdw_dcm()` of
-        `cdw_database_creation_mod()` function in `database.py`.
-
-        Test 1: Assert true if `CDW` of CreationDeletionWarning` happens.
-        """
-        db_name = "{}_{}".format(sys._getframe().f_code.co_name, "db")
-        db_name_any = "{}_{}".format(db_name, "any")
-
-        test_CDW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                cdw_dcm(db_name_any)
-            except CDW as w:
-                test_CDW = True
-        """Test 1."""
-        self.assertTrue(test_CDW)
-
-
-
-    def test_cdw_database_deletion_mod(self):
-        """This is a test function to test `cdw_ddm()` of
-        `cdw_database_deletion_mod()` function in `database.py`.
-
-        Test 1: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        """
-        db_name = "{}_{}".format(sys._getframe().f_code.co_name, "db")
-        db_name_any = "{}_{}".format(db_name, "any")
-
-        test_CDW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                cdw_ddm(db_name_any)
-            except CDW as w:
-                test_CDW = True
-        """Test 1."""
-        self.assertTrue(test_CDW)
-
-
-
-    def test_cdw_table_creation_mod(self):
-        """This is a test function to test `cdw_tcm()` of
-        `cdw_table_creation_mod()` function in `database.py`.
-
-        Test 1: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        """
-        table_name = "{}_{}".format(sys._getframe().f_code.co_name, "table")
-        table_name_any = "{}_{}".format(table_name, "any")
-
-        test_CDW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                cdw_tcm(table_name_any)
-            except CDW as w:
-                test_CDW = True
-        """Test 1."""
-        self.assertTrue(test_CDW)
-
-
-
-    def test_cdw_table_deletion_mod(self):
-        """This is a test function to test `cdw_tdm()` of
-        `cdw_table_deletion_mod()` function in `database.py`.
-
-        Test 1: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        """
-        table_name = "{}_{}".format(sys._getframe().f_code.co_name, "table")
-        table_name_any = "{}_{}".format(table_name, "any")
-
-        test_CDW = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                cdw_tdm(table_name_any)
-            except CDW as w:
-                test_CDW = True
-        """Test 1."""
-        self.assertTrue(test_CDW)
-
-
-
-    def test_cdw_prevent_creation_or_deletion_if_string_check_fail(self):
-        """This is a test function to test `prevent_creation_deletion()` of
-        `cdw_prevent_creation_or_deletion_if_string_check_fail()` in
-        `database.py`
-
-        Test 1: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        Test 2: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        Test 3: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        Test 4: Assert true if `CDW` of `CreationDeletionWarning` happens.
-        """
-        table_name = "{}_{}".format(sys._getframe().f_code.co_name, "table")
-        table_name_any_1 = "{}_{}_{}".format(table_name, "any", "1")
-        table_name_any_2 = "{}_{}_{}".format(table_name, "any", "2")
-        table_name_any_3 = "{}_{}_{}".format(table_name, "any", "3")
-        table_name_any_4 = "{}_{}_{}".format(table_name, "any", "4")
-
-        test_CDW_1 = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                prevent_creation_deletion(table_name_any_1, True, True)
-            except CDW as w:
-                test_CDW_1 = True
-        """Test 1."""
-        self.assertTrue(test_CDW_1)
-
-        test_CDW_2 = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                prevent_creation_deletion(table_name_any_2, True, False)
-            except CDW as w:
-                test_CDW_2 = True
-        """Test 2."""
-        self.assertTrue(test_CDW_2)
-
-        test_CDW_3 = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                prevent_creation_deletion(table_name_any_3, False, True)
-            except CDW as w:
-                test_CDW_3 = True
-        """Test 3."""
-        self.assertTrue(test_CDW_3)
-
-        test_CDW_4 = False
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
-            try:
-                prevent_creation_deletion(table_name_any_4, False, False)
-            except CDW as w:
-                test_CDW_4 = True
-        """Test 4."""
-        self.assertTrue(test_CDW_4)
-
-
-
     def test_conn(self):
         """This is a test function to test `c()` of `conn()` in `database.py`.
 
@@ -233,7 +49,7 @@ class test(ut.TestCase):
             warn.simplefilter("error", category=CW)
             try:
                 """Test 2."""
-                self.assertNone(c(db_host_invalid))
+                self.assertIsNone(c(db_host_invalid))
             except CW as w:
                 test_CW = True
         """Test 3."""
@@ -248,11 +64,11 @@ class test(ut.TestCase):
         Test 1: Assert true if database is exist.
         Test 2: Assert true if database is not exist. 
         Test 3: Assert true if database is exist.
-        Test 4: Assert true if `CW` of `ConventionWarning` happens. 
+        Test 4: Assert true if `CW` of `ConventionWarning` happens.
         """
         db_name = "{}_{}".format(sys._getframe().f_code.co_name, "db")
-        db_name_any = "{}_{}".format(db_name, "any")
         db_name_invalid = "{}_{}".format(db_name, "INVALID")
+        db_name_not_exists = "{}_{}".format(db_name, "not_exists")
 
         """Test 1."""
         crd(db_name)
@@ -260,7 +76,7 @@ class test(ut.TestCase):
         dd(db_name)
 
         """Test 2."""
-        self.assertFalse(cd(db_name_any))
+        self.assertFalse(cd(db_name_not_exists))
 
         test_CW = False
         with warn.catch_warnings(record=False):
@@ -298,10 +114,10 @@ class test(ut.TestCase):
 
         """Test 1."""
         self.assertIsNotNone(crd(db_name))
-        dd(db_name)
 
         """Test 2."""
         self.assertIsNone(crd(db_name))
+        dd(db_name)
 
         test_CDW = False
         with warn.catch_warnings(record=False):
@@ -351,46 +167,61 @@ class test(ut.TestCase):
 
     def test_check_table(self):
         db_name = "{}_{}".format(sys._getframe().f_code.co_name, "db")
-        db_name_any = "{}_{}".format(db_name, "any")
+        db_name_not_exists = "{}_{}".format(db_name, "not_exists")
         db_name_invalid = "{}_{}".format(db_name, "INVALID")
 
         table_name = "{}_{}".format(sys._getframe().f_code.co_name, "table")
-        table_name_any = "{}_{}".format(db_name, "any")
-        table_name_invalid = "{}_{}".format(db_name, "!NVALID")
-
-        test_CW = False
+        table_name_not_exists = "{}_{}".format(db_name, "not_exists")
+        table_name_invalid = "{}_{}".format(db_name, "INVALID")
 
         crd(db_name)
         crt(table_name, db_name)
+        """Test 1."""
         self.assertTrue(ct(table_name, db_name))
-        self.assertFalse(ct(table_name, db_name_any))
-        self.assertFalse(ct(table_name_any, db_name))
-        self.assertFalse(ct(table_name_any, db_name_any))
+        """Test 2."""
+        self.assertFalse(ct(table_name_not_exists, db_name))
         dd(db_name)
 
+        """Test 3."""
+        self.assertFalse(ct(table_name, db_name_not_exists))
+
+        """Test 4."""
+        self.assertFalse(ct(table_name_not_exists, db_name_not_exists))
+
+        test_CW_1 = False
+        test_CW_2 = False
         with warn.catch_warnings(record=False):
             warn.simplefilter("error", category=CW)
-
             try:
                 if not cd(db_name_invalid):
                     r.db_create(db_name_invalid).run(c())
-                    if not ct(table_name_invalid, db_name_invalid):
-                        r.db(db_name_invalid)\
-                            .table_create(table_name_invalid).run(c())
-                cd(db_name_invalid)
-                ct(table_name_invalid, db_name_invalid)
+                    if not ct(table_name_not_exists, db_name_invalid):
+                        r.db(db_name_invalid).table_create(table_name_not_exists).run(c())
+                """Test 5."""
+                self.assertTrue(cd(db_name_invalid))
+                """Test 6."""
+                self.assertTrue(ct(table_name_not_exists, db_name_invalid))
+                r.db_drop(db_name_invalid).run(c())
             except CW as w:
-                test_CW = True                
-
-        self.assertTrue(test_CW)
-
-        with warn.catch_warnings(record=False):
-            warn.simplefilter("error", category=CDW)
+                test_CW_1 = True
 
             try:
-                r.db_drop(db_name_invalid).run(c())
-            except r.errors.ReqlOpFailedError as e:
-                pass
+                if not ct(table_name_invalid, db_name_invalid):
+                    r.db(db_name_invalid).table_create(table_name_invalid).run(c())
+                """Test 7."""
+                self.assertTrue(cd(db_name_invalid))
+                """Test 8."""
+                self.assertTrue(ct(table_name_invalid, db_name_invalid))
+            except CW as w:
+                test_CW_2 = True
+
+        r.db_drop(db_name_invalid).run(c())
+
+        """Test 9."""
+        self.assertTrue(test_CW_1)
+
+        """Test 10."""
+        self.assertTrue(test_CW_2)
 
 
 
@@ -402,8 +233,8 @@ class test(ut.TestCase):
         table_name_invalid = "{}_{}".format(db_name, "!NVALID")
 
         crd(db_name)
-        self.assertIsNotNone(crt(db_name))
-        self.assertIsNone(crt(db_name))
+        self.assertIsNotNone(crt(table_name, db_name))
+        self.assertIsNone(crt(table_name, db_name))
         dd(db_name)
 
         with warn.catch_warnings(record=False):

@@ -43,16 +43,16 @@ rtm_cfg_db_name = "test"      # Run time configuration for db name.
 `cw_`  is for ConventionWarning.
 `cdw_` is for CreationDeletionWarning.
 """
-def cw_database_mod(_db_name:str):
+def cw_db_mod(_db_name:str):
     cw("database", _db_name, "check_db_name", "check_string")
 
 def cw_table_mod(_table_name:str):
     cw("table", _table_name, "check_table_name", "check_string")
 
-def cdw_database_creation_mod(_db_name:str):
+def cdw_db_creation_mod(_db_name:str):
     cdw("database", _db_name, True, "check_db_name", "check_string")
 
-def cdw_database_deletion_mod(_db_name:str):
+def cdw_db_deletion_mod(_db_name:str):
     cdw("database", _db_name, False, "check_db_name", "check_string")
 
 def cdw_table_creation_mod(_table_name:str):
@@ -67,9 +67,9 @@ def cdw_prevent_creation_or_deletion_if_string_check_fail(
     _creation_or_deletion:bool
 ):
     if _db_or_table and _creation_or_deletion:
-        cdw_database_creation_mod(_db_or_table_name)
+        cdw_db_creation_mod(_db_or_table_name)
     elif _db_or_table and not _creation_or_deletion:
-        cdw_database_deletion_mod(_db_or_table_name)
+        cdw_db_deletion_mod(_db_or_table_name)
     elif not _db_or_table and _creation_or_deletion:
         cdw_table_creation_mod(_db_or_table_name)
     elif not _db_or_table and not _creation_or_deletion:
@@ -109,49 +109,45 @@ def conn(_db_host:str=rtm_cfg_db_host):
 
 
 def check_db(_db_name:str=rtm_cfg_db_name):
-    """`ret` will return boolean."""
-    ret = r.db_list().contains(_db_name).run(conn())
-    if ret and not cdn(_db_name):
-        cw_database_mod(_db_name)
+    if r.db_list().contains(_db_name).run(conn()):
+        if not cdn(_db_name):
+            cw_db_mod(_db_name)
+        return True
+    return False
 
-    return ret
+
+
+def check_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
+    if check_db(_db_name):
+        if r.db(_db_name).table_list().contains(_table_name).run(conn()):
+            if not ctn(_table_name):
+                cw_table_mod(_table_name)
+            return True
+    return False
 
 
 
 def create_db(_db_name:str=rtm_cfg_db_name):
     if not cdn(_db_name):
-        cdw_database_creation_mod(_db_name)
+        cdw_db_creation_mod(_db_name)
         return None
 
     if not check_db(_db_name):
         return r.db_create(_db_name).run(conn())
-    
+
     return None
 
 
 
 def del_db(_db_name:str=rtm_cfg_db_name):
     if not cdn(_db_name):
-        cdw_database_creation_mod(_db_name)
+        cdw_db_deletion_mod(_db_name)
         return None
 
     if check_db(_db_name):
         return r.db_drop(_db_name).run(conn())
-    
+
     return None
-
-
-
-def check_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
-    if not check_db(_db_name):
-        return False
-
-    """ret will return boolean."""
-    ret = r.db(_db_name).table_list().contains(_table_name).run(conn())
-    if ret and not cdn(_db_name)   : cw_database_mod(_dn_name)
-    if ret and not ctn(_table_name): cw_table_mod(_table_name)
-    
-    return ret
 
 
 
@@ -159,12 +155,12 @@ def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
     """If name is not valid prevent the creation of database."""
     if not cdn(_db_name):
         """Throw warning."""
-        w_prevent_creation_or_deletion_if_string_check_fail(
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name, True, True)
         return None
     if not ctn(_table_name):
         """Throw warning."""
-        w_prevent_creation_or_deletion_if_string_check_fail(
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
             _table_name, False, True)
         return None
 
