@@ -25,6 +25,7 @@ def check_client_name(_client_name:str):
         This function will return `True` if all conditions `True`.
         This function will return `False` if one conditions `False`.
     """
+
     if not _client_name[:1].islower(): return False
     for i in _client_name:
         if not i.isalnum(): return False
@@ -61,6 +62,7 @@ def check_db_host(_db_host:str, _fix:bool=True):
         This function will return `True` if all conditions `True`.
         This function will return `False` if one conditions `False`.
     """
+
     if _fix and _db_host[-1:] == "/": _db_host = _db_host[:-1]
 
     if   _db_host == "http://localhost" : return True
@@ -89,6 +91,7 @@ def check_db_name(_db_name:str):
         This function will return `True` if all conditions `True`.
         This function will return `False` if one conditions `False`.
     """
+
     if not _db_name[:1].islower(): return False
     for i in _db_name:
         #print("{} {}".format(i, i.isupper()))
@@ -105,9 +108,11 @@ def check_db_name(_db_name:str):
         `i == " "`.
         """
         if i == "_": pass
+        elif i.islower(): pass
         elif i.isdigit() and _db_name.index(i) - 1 >= 0:
             if not _db_name[_db_name.index(i) - 1] == "_": return False
         elif not i.islower(): return False
+        else: return False
     return True
 
 def check_table_name(_table_name:str):
@@ -115,9 +120,13 @@ def check_table_name(_table_name:str):
 
     Args:
         _table_name: The table name.
+                     The table name can have number(s) but followed with
+                     underscore ("_") if it is not the last character.
                      The table name can have number(s) but right after
                      underscore ("_").
                      The table name can have underscore ("_").
+                     The table name can have upper case(s) but not right
+                     after number.
                      The table name can have upper case(s) but not right
                      after underscore ("_").
                      The table name should start with lower case.
@@ -127,6 +136,8 @@ def check_table_name(_table_name:str):
                      Right example "tableTest".
                      Right example "tableTest_1".
                      Wrong example "table1".
+                     Wrong example "table_1TEST".
+                     Wrong example "table_1test".
                      Wrong example "table_Test".
                      Wrong example "TABLEtest1".
 
@@ -134,11 +145,32 @@ def check_table_name(_table_name:str):
         This function will return `True` if all conditions `True`.
         This function will return `False` if one conditions `False`.
     """
-    if not _table_name[:1].islower(): return False
+
+    if _table_name[:1].isupper():
+        return False
+
     for i in _table_name:
-        if i == "_": pass
-        elif i.isdigit() and _table_name.index(i) - 1 >= 0:
-            if not _table_name[_table_name.index(i) - 1] == "_": return False
-        elif i.isupper() and _table_name.index(i) - 1 >= 0:
-            if _table_name[_table_name.index(i) - 1] == "_": return False
+        if i == "_":
+            pass
+        elif i.islower():
+            pass
+        elif i.isdigit():
+            if _table_name.index(i) - 1 >= 0:
+                if not _table_name[_table_name.index(i) - 1].isdigit()\
+                    and _table_name[_table_name.index(i) - 1] != "_":
+                    print("1")
+                    return False
+            if _table_name.index(i) + 1 <= len(_table_name) - 1:
+                if not _table_name[_table_name.index(i) + 1].isdigit()\
+                    and _table_name[_table_name.index(i) + 1] != "_":
+                    print("2")
+                    return False
+        elif i.isupper():
+            if _table_name.index(i) - 1 >= 0:
+                if _table_name[_table_name.index(i) - 1] == "_":
+                    print("3")
+                    return False
+        else:
+            return False
+
     return True

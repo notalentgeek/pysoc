@@ -1,7 +1,6 @@
 """Database connection and content.
 
 PENDING: Please check why `ResourceWarning` happens.
-         Search for `warn.simplefilter("ignore", category=ResourceWarning)`.
          Here are sample output.
 
          /usr/local/lib/python3.5/dist-packages/rethinkdb/ast.py:1804:
@@ -83,23 +82,19 @@ def conn(_db_host:str=rtm_cfg_db_host):
         cw("db host", _db_host, "check_db_host", "check_string")
         return None
 
-    """PENDING: Surpress resource warning for unit testing."""
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", category=ResourceWarning)
-
-        """Keep re - trying for Internet connection."""
-        p = False
-        while True:
-            try:
-                return r.connect(host=_db_host, timeout=5)
-            except r.errors.ReqlDriverError as e:
-                if not p:
-                    print("\n{}{}\n{}".format(
-                        "there is no database connection and/or there is no ",
-                        "internet connection",
-                        "re - trying database connection"
-                    ))
-                    p = True
+    """Keep re - trying for Internet connection."""
+    p = False
+    while True:
+        try:
+            return r.connect(host=_db_host, timeout=5)
+        except r.errors.ReqlDriverError as e:
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+                p = True
 
 
 
@@ -129,7 +124,7 @@ def check_doc(_value:str, _column:str, _table_name:str,
     if check_db(_db_name):
         if check_table(_table_name, _db_name):
             return bool(
-                get_first_doc(
+                get_first_doc_value(
                     _value,
                     _column,
                     _column,
@@ -151,7 +146,7 @@ def create_db(_db_name:str=rtm_cfg_db_name):
         )
         return None
 
-    if not check_db(_db_name):
+    if check_db(_db_name):
         return None
 
     return r.db_create(_db_name).run(conn())

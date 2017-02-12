@@ -18,7 +18,10 @@ def take_a_dict_from_dict_list(_list:list, _column_target:str,
     _ascending:bool=True):
     """PENDING: This function is not yet unit tested!"""
 
-    return sort_dict_list(_list, _column_target, _ascending)[0]
+    try:
+        return sort_dict_list(_list, _column_target, _ascending)[0]
+    except IndexError:
+        return []
 
 
 
@@ -37,5 +40,8 @@ def take_a_value_from_dict_list(_list:list, _column_target:str,
     PENDING: This function is not yet unit tested!
     """
 
-    return sort_dict_list(_list, _column_target, _ascending)[0]\
-        [_column_target]
+    try:
+        return sort_dict_list(_list, _column_target, _ascending)[0]\
+            [_column_target]
+    except IndexError:
+        return []
