@@ -2,7 +2,27 @@
 value returned from RethinkDB query
 """
 
-def take_a_value_from_dict_list(_list:list, _row_target:str,
+def sort_dict_list(_list:list, _column_target:str, _ascending:bool=True):
+    """PENDING: This function is not yet unit tested!"""
+
+    if _ascending:
+        l = sorted(_list, key=lambda k : k[_column_target])
+    else:
+        l = sorted(_list, key=lambda k : k[_column_target], reverse=True)
+
+    return l
+
+
+
+def take_a_dict_from_dict_list(_list:list, _column_target:str,
+    _ascending:bool=True):
+    """PENDING: This function is not yet unit tested!"""
+
+    return sort_dict_list(_list, _column_target, _ascending)[0]
+
+
+
+def take_a_value_from_dict_list(_list:list, _column_target:str,
     _ascending:bool=True):
     """Function to take a value from dictionaries in a list. The value can
     be the first or the least in alphabetical order.
@@ -16,13 +36,6 @@ def take_a_value_from_dict_list(_list:list, _row_target:str,
 
     PENDING: This function is not yet unit tested!
     """
-    result = None
 
-    for i in _list:
-        if i[_row_target] != None:
-            if _ascending: result = min(result, i[_row_target])\
-                if not result == None else i[_row_target]
-            else: result = max(result, i[_row_target])\
-                if not result == None else i[_row_target]
-
-    return result
+    return sort_dict_list(_list, _column_target, _ascending)[0]\
+        [_column_target]

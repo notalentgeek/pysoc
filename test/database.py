@@ -23,6 +23,7 @@ PENDING: Please check why `ResourceWarning` happens.
 from check_string      import check_db_host               as cdh
 from check_string      import check_db_name               as cdn
 from check_string      import check_table_name            as ctn
+from dict_manip        import take_a_dict_from_dict_list  as t1d
 from dict_manip        import take_a_value_from_dict_list as t1v
 from exception_warning import c_warning                   as cw
 from exception_warning import cd_warning                  as cdw
@@ -77,12 +78,6 @@ def cdw_prevent_creation_or_deletion_if_string_check_fail(
 
 
 
-"""PENDING: No unit test for this function just yet!"""
-def format_dict(_dict:dict):
-    return json.loads(json.dumps(_dict))
-
-
-
 def conn(_db_host:str=rtm_cfg_db_host):
     if not cdh(_db_host):
         cw("db host", _db_host, "check_db_host", "check_string")
@@ -113,6 +108,7 @@ def check_db(_db_name:str=rtm_cfg_db_name):
         if not cdn(_db_name):
             cw_db_mod(_db_name)
         return True
+
     return False
 
 
@@ -123,119 +119,158 @@ def check_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
             if not ctn(_table_name):
                 cw_table_mod(_table_name)
             return True
+
+    return False
+
+
+
+def check_doc(_value:str, _column:str, _table_name:str,
+    _db_name:str=rtm_cfg_db_name):
+    if check_db(_db_name):
+        if check_table(_table_name, _db_name):
+            return bool(
+                get_first_doc(
+                    _value,
+                    _column,
+                    _column,
+                    _table_name,
+                    _db_name
+                )
+            )
+
     return False
 
 
 
 def create_db(_db_name:str=rtm_cfg_db_name):
     if not cdn(_db_name):
-        cdw_db_creation_mod(_db_name)
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _db_name,
+            True,
+            True
+        )
         return None
 
     if not check_db(_db_name):
-        return r.db_create(_db_name).run(conn())
-
-    return None
-
-
-
-def del_db(_db_name:str=rtm_cfg_db_name):
-    if not cdn(_db_name):
-        cdw_db_deletion_mod(_db_name)
         return None
 
-    if check_db(_db_name):
-        return r.db_drop(_db_name).run(conn())
-
-    return None
+    return r.db_create(_db_name).run(conn())
 
 
 
 def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
-    """If name is not valid prevent the creation of database."""
     if not cdn(_db_name):
-        """Throw warning."""
         cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name, True, True)
+            _db_name,
+            True,
+            True
+        )
         return None
     if not ctn(_table_name):
-        """Throw warning."""
         cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name, False, True)
+            _table_name,
+            False,
+            True
+        )
         return None
 
-    if not check_table(_table_name, _db_name):
-        return r.db(_db_name).table_create(_table_name).run(conn())
-    else: return None
-
-
-
-def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
-    """If name is not valid prevent the deletion of database."""
-    if not cdn(_db_name):
-        """Throw warning."""
-        w_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name, True, False)
-        return None
-    if not ctn(_table_name):
-        """Throw warning."""
-        w_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name, False, False)
+    if check_db(_db_name) and check_table(_table_name, _db_name):
         return None
 
-    if check_table(_table_name, _db_name):
-        return r.db(_db_name).table_drop(_table_name).run(conn())
-    else: return None
-
-
-
-def check_doc(_value:str, _column:str, _table_name:str,
-    _db_name:str=rtm_cfg_db_name):
-    """This function returns `True` if there is at least an element that
-    equal to `_value` from `_column`.
-    """
-    if not check_table(_table_name, _db_name): return None
-
-    """PENDING: Surpress resource warning for unit testing."""
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", category=ResourceWarning)
-        return bool(get_first_doc(_value, _column, _column, _table_name,
-            _db_name))
+    return r.db(_db_name).table_create(_table_name).run(conn())
 
 
 
 def create_doc(_dict:dict, _table_name:str,
     _db_name:str=rtm_cfg_db_name, _unique_column:list=[]):
-    """Function to insert value into database.
-    
-    DONE: Add function to check if the `_unique_column` value is really one
-          of its kind, if not `return None`. Make this as separate function.
-    DONE: Add unit test if database does not exist.
-    DONE: Add unit test if table does not exist.
-    DONE: Add unit test if there is same document with uniques name exists.
-          In the case of `client` table the column `client_name` should be
-          unique.
-    
-    Make sure there is no document in column name in `_unique_column`
-    are the same.
-    """
-    for i in _unique_column:
-        """PENDING: Surpress resource warning for unit testing."""
-        with warn.catch_warnings():
-            warn.simplefilter("ignore", category=ResourceWarning)
-            #print("_dict[i]: {}, i: {}, _table_name: {}, _db_name: {}"\
-            #    .format(_dict[i], i, _table_name, _db_name))
-            if check_doc(_dict[i], i, _table_name, _db_name): return None
+    if not cdn(_db_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _db_name,
+            True,
+            True
+        )
+        return None
+    if not ctn(_table_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _table_name,
+            False,
+            True
+        )
+        return None
+
+    """Make sure the document's value is unique based on `_unique_column`."""
+    if check_db(_db_name) and check_table(_table_name, _db_name):
+        for i in _unique_column:
+            if check_doc(_dict[i], i, _table_name, _db_name):
+                return None
 
     return r.db(_db_name).table(_table_name).insert(_dict).run(conn())
 
 
 
-"""PENDING."""
+def del_db(_db_name:str=rtm_cfg_db_name):
+    if not cdn(_db_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _db_name,
+            True,
+            False
+        )
+        return None
+
+    if not check_db(_db_name):
+        return None
+
+    return r.db_drop(_db_name).run(conn())
+
+
+
+def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
+    if not cdn(_db_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _db_name,
+            True,
+            False
+        )
+        return None
+    if not ctn(_table_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _table_name,
+            False,
+            False
+        )
+        return None
+
+    if not check_table(_table_name, _db_name):
+        return None
+
+    return r.db(_db_name).table_drop(_table_name).run(conn())
+
+
+
 def del_doc(_value:str, _column_value:str, _table_name:str,
     _db_name:str=rtm_cfg_db_name):
-    if not check_db(_db_name): return None
-    elif not check_table(_table_name, _db_name): return None
+    """ Delete document based on column and its value. If there are more then
+    one document has the same value on its column then multiple documents will
+    be deleted.
+    """
+
+    if not cdn(_db_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _db_name,
+            True,
+            False
+        )
+        return None
+    if not ctn(_table_name):
+        cdw_prevent_creation_or_deletion_if_string_check_fail(
+            _table_name,
+            False,
+            False
+        )
+        return None
+
+    if not check_doc(_value, _column_value, _table_name, _db_name):
+        return None
 
     return r.db(_db_name).table(_table_name).filter({ _column_value:_value })\
         .delete().run(conn())
@@ -244,17 +279,21 @@ def del_doc(_value:str, _column_value:str, _table_name:str,
 
 def get_first_doc(_value:str, _column_value:str, _column_target:str,
     _table_name:str, _db_name:str=rtm_cfg_db_name):
+    l = r.db(_db_name).table(_table_name).filter(
+            { _column_value: _value }).run(conn())
+
+    return t1d(l, _column_target)
+
+
+
+def get_first_doc_value(_value:str, _column_value:str, _column_target:str,
+    _table_name:str, _db_name:str=rtm_cfg_db_name):
     """If this function returns a list (instead of just single document)
     value returned is alphabetically sorted (for example, this returns
     `"Alpha"`, when there are `["Alpha", "Beta"]`).
-    
-    PENDING: Surpress resource warning for unit testing.
     """
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", category=ResourceWarning)
 
-        """This will return a list."""
-        l = r.db(_db_name).table(_table_name).filter(
+    l = r.db(_db_name).table(_table_name).filter(
             { _column_value: _value }).run(conn())
 
     return t1v(l, _column_target)
