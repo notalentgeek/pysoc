@@ -232,6 +232,6 @@ class CamFaceDetect(mt):
         arrayForDB.extend(self.tSC.dateTime)
         arrayForDB.extend(["faces", _facesLen])
 
-        #print(arrayForDB)
+        print(arrayForDB)
 
         return arrayForDB

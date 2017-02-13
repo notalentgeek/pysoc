@@ -167,7 +167,7 @@ class MicPVDetect(mt):
             "pitch", str(_pitch),
             "volume", str(_volume)])
 
-        #print(theArrayThatWillBeReturned)
+        print(theArrayThatWillBeReturned)
 
         return theArrayThatWillBeReturned
 

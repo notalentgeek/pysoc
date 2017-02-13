@@ -64,6 +64,8 @@ class IRDetection(mt):
             .replace("\"", "")
         theArrayThatWillBeReturned.extend(["ir_code", cleanString])
 
+        print(theArrayThatWillBeReturned)
+
         return theArrayThatWillBeReturned
 
     def Update(self):
