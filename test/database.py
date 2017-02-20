@@ -1,5 +1,6 @@
 """Database connection and content.
 
+PENDING: _expr has not yet unit tested.
 PENDING: Please check why `ResourceWarning` happens.
          Here are sample output.
 
@@ -248,6 +249,9 @@ def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name, _expr:bool=False):
         )
         return None
 
+    if not check_db(_db_name):
+        return None
+
     if not check_table(_table_name, _db_name):
         return None
 
@@ -278,6 +282,12 @@ def del_doc(_value:str, _column_value:str, _table_name:str,
             False,
             False
         )
+        return None
+
+    if not check_db(_db_name):
+        return None
+
+    if not check_table(_table_name, _db_name):
         return None
 
     if not check_doc(_value, _column_value, _table_name, _db_name):

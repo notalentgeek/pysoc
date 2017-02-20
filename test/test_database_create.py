@@ -101,125 +101,133 @@ class test(ut.TestCase):
         )
 
         test_list_1 = [
-            table_name,
             db_name,
+            table_name,
             None,
             None
         ]
         test_list_2 = [
-            table_name_illegal_by_rdb,
             db_name,
+            table_name_illegal_by_rdb,
             None
         ]
         test_list_3 = [
-            table_name_illegal_by_this_program,
             db_name,
+            table_name_illegal_by_this_program,
             None
         ]
         test_list_4 = [
-            table_name,
             db_name_illegal_by_rdb,
+            table_name,
             None
         ]
         test_list_5 = [
-            table_name_illegal_by_rdb,
             db_name_illegal_by_rdb,
+            table_name_illegal_by_rdb,
             None
         ]
         test_list_6 = [
-            table_name_illegal_by_this_program,
             db_name_illegal_by_rdb,
+            table_name_illegal_by_this_program,
             None
         ]
         test_list_7 = [
-            table_name,
             db_name_illegal_by_this_program,
+            table_name,
             None
         ]
         test_list_8 = [
-            table_name_illegal_by_rdb,
             db_name_illegal_by_this_program,
+            table_name_illegal_by_rdb,
             None
         ]
         test_list_9 = [
-            table_name_illegal_by_this_program,
             db_name_illegal_by_this_program,
+            table_name_illegal_by_this_program,
             None
         ]
 
-        crd(db_name)
-        test_list_1[len(test_list_1) - 1] = crt(test_list_1[0], test_list_1[1])
-        test_list_1[len(test_list_1) - 2] = crt(test_list_1[0], test_list_1[1])
+        crd(test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = crt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 2] = crt(test_list_1[1], test_list_1[0])
+        dd(test_list_1[0])
 
+        crd(test_list_2[0])
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_2[len(test_list_2) - 1] = crt(
-                test_list_2[0],
-                test_list_2[1]
+                test_list_2[1],
+                test_list_2[0]
             )
+        dd(test_list_2[0])
 
+        crd(test_list_3[0])
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_3[len(test_list_3) - 1] = crt(
-                test_list_3[0],
-                test_list_3[1]
+                test_list_3[1],
+                test_list_3[0]
             )
-        dd(db_name)
+        dd(test_list_3[0])
 
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_4[len(test_list_4) - 1] = crt(
-                test_list_4[0],
-                test_list_4[1]
+                test_list_4[1],
+                test_list_4[0]
             )
 
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = crt(
-                test_list_5[0],
-                test_list_5[1]
+                test_list_5[1],
+                test_list_5[0]
             )
 
         """Test 5."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = crt(
-                test_list_6[0],
-                test_list_6[1]
+                test_list_6[1],
+                test_list_6[0]
             )
 
-        r.db_create(table_name_illegal_by_this_program).run(c())
+        r.db_create(test_list_7[0]).run(c())
         """Test 6."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = crt(
-                test_list_7[0],
-                test_list_7[1]
+                test_list_7[1],
+                test_list_7[0]
             )
+        r.db_drop(test_list_7[0]).run(c())
 
+        r.db_create(test_list_8[0]).run(c())
         """Test 7."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = crt(
-                test_list_8[0],
-                test_list_8[1]
+                test_list_8[1],
+                test_list_8[0]
             )
+        r.db_drop(test_list_8[0]).run(c())
 
+        r.db_create(test_list_9[0]).run(c())
         """Test 8."""
         with self.assertWarns(CDW):
             test_list_9[len(test_list_9) - 1] = crt(
-                test_list_9[0],
-                test_list_9[1]
+                test_list_9[1],
+                test_list_9[0]
             )
-        r.db_drop(table_name_illegal_by_this_program).run(c())
+        r.db_drop(test_list_9[0]).run(c())
 
         self.assertIsNotNone(test_list_1[len(test_list_1) - 1]) # Test 9.
-        self.assertIsNone(test_list_1[len(test_list_1) - 2]) # Test 10.
-        self.assertIsNone(test_list_2[len(test_list_2) - 1]) # Test 11.
-        self.assertIsNone(test_list_3[len(test_list_3) - 1]) # Test 12.
-        self.assertIsNone(test_list_4[len(test_list_4) - 1]) # Test 13.
-        self.assertIsNone(test_list_5[len(test_list_5) - 1]) # Test 14.
-        self.assertIsNone(test_list_6[len(test_list_6) - 1]) # Test 15.
-        self.assertIsNone(test_list_7[len(test_list_7) - 1]) # Test 16.
-        self.assertIsNone(test_list_8[len(test_list_8) - 1]) # Test 17.
-        self.assertIsNone(test_list_9[len(test_list_9) - 1]) # Test 18.
+        self.assertIsNone(test_list_1[len(test_list_1) - 2])    # Test 10.
+        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 11.
+        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 12.
+        self.assertIsNone(test_list_4[len(test_list_4) - 1])    # Test 13.
+        self.assertIsNone(test_list_5[len(test_list_5) - 1])    # Test 14.
+        self.assertIsNone(test_list_6[len(test_list_6) - 1])    # Test 15.
+        self.assertIsNone(test_list_7[len(test_list_7) - 1])    # Test 16.
+        self.assertIsNone(test_list_8[len(test_list_8) - 1])    # Test 17.
+        self.assertIsNone(test_list_9[len(test_list_9) - 1])    # Test 18.
 
 
 
@@ -258,103 +266,130 @@ class test(ut.TestCase):
         doc_3 = {"name": "charlie", "no":"1"}
         doc_4 = {"name": "charlie", "no":"3"}
 
-        test_list_1 = [doc_1, table_name, db_name, ["no"], None, None]
-        test_list_2 = [doc_2, table_name, db_name, ["no"], None]
-        test_list_3 = [doc_3, table_name, db_name, ["no"], None]
-        test_list_4 = [doc_4, table_name, db_name, ["name", "no"], None]
-        test_list_5 = [
+        test_list_1 = [
+            db_name,
+            table_name,
             doc_1,
-            table_name_illegal_by_rdb,
+            ["no"],
+            None,
+            None
+        ]
+        test_list_2 = [
+            test_list_1[0],
+            test_list_1[1],
+            doc_2,
+            ["no"],
+            None
+        ]
+        test_list_3 = [
+            test_list_1[0],
+            test_list_1[1],
+            doc_3,
+            ["no"],
+            None
+        ]
+        test_list_4 = [
+            test_list_1[0],
+            test_list_1[1],
+            doc_4,
+            ["name", "no"],
+            None
+        ]
+        test_list_5 = [
             db_name_illegal_by_rdb,
+            table_name_illegal_by_rdb,
+            doc_1,
             None
         ]
         test_list_6 = [
+            db_name_illegal_by_rdb,
+            table_name_illegal_by_this_program,
             doc_1,
-            table_name_illegal_by_rdb,
-            db_name_illegal_by_this_program,
             None
         ]
         test_list_7 = [
+            db_name_illegal_by_this_program,
+            table_name_illegal_by_rdb,
             doc_1,
-            table_name_illegal_by_this_program,
-            db_name_illegal_by_rdb,
             None
         ]
         test_list_8 = [
-            doc_1,
-            table_name_illegal_by_this_program,
             db_name_illegal_by_this_program,
+            table_name_illegal_by_this_program,
+            doc_1,
             None
         ]
 
-        crd(db_name)
-        crt(table_name, db_name)
+        crd(test_list_1[0])
+        crt(test_list_1[1], test_list_1[0])
         test_list_1[len(test_list_2) - 1] = crdoc(
-            test_list_1[0],
+            test_list_1[2],
             test_list_1[1],
-            test_list_1[2]
+            test_list_1[0]
         )
         test_list_1[len(test_list_2) - 2] = crdoc(
-            test_list_1[0],
-            test_list_1[1],
             test_list_1[2],
+            test_list_1[1],
+            test_list_1[0],
             test_list_1[3]
         )
         test_list_2[len(test_list_2) - 1] = crdoc(
-            test_list_2[0],
-            test_list_2[1],
             test_list_2[2],
+            test_list_2[1],
+            test_list_2[0],
             test_list_2[3]
         )
+        crt(test_list_3[1], test_list_3[0])
         test_list_3[len(test_list_3) - 1] = crdoc(
-            test_list_3[0],
-            test_list_3[1],
             test_list_3[2],
+            test_list_3[1],
+            test_list_3[0],
             test_list_3[3]
         )
         test_list_4[len(test_list_4) - 1] = crdoc(
-            test_list_4[0],
-            test_list_4[1],
             test_list_4[2],
+            test_list_4[1],
+            test_list_4[0],
             test_list_4[3]
         )
-        dd(db_name)
+        dd(test_list_1[0])
 
-        r.db_create(db_name_illegal_by_this_program).run(c())
-        r.db(db_name_illegal_by_this_program)\
-            .table_create(table_name_illegal_by_this_program).run(c())
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = crdoc(
-                test_list_5[0],
+                test_list_5[2],
                 test_list_5[1],
-                test_list_5[2]
+                test_list_5[0]
             )
 
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = crdoc(
-                test_list_6[0],
+                test_list_6[2],
                 test_list_6[1],
-                test_list_6[2]
+                test_list_6[0]
             )
 
+        r.db_create(test_list_7[0]).run(c())
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = crdoc(
-                test_list_7[0],
+                test_list_7[2],
                 test_list_7[1],
-                test_list_7[2]
+                test_list_7[0]
             )
+        r.db_drop(test_list_7[0]).run(c())
 
+        r.db_create(test_list_8[0]).run(c())
+        r.db(test_list_8[0]).table_create(test_list_8[0]).run(c())
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = crdoc(
-                test_list_8[0],
+                test_list_8[2],
                 test_list_8[1],
-                test_list_8[2]
+                test_list_8[0]
             )
-        r.db_drop(db_name_illegal_by_this_program).run(c())
+        r.db_drop(test_list_8[0]).run(c())
 
         self.assertIsNotNone(test_list_1[len(test_list_2) - 1]) # Test 5.
         self.assertIsNone(test_list_1[len(test_list_2) - 2])    # Test 6.
