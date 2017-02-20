@@ -30,6 +30,8 @@ class test(ut.TestCase):
         for i in false:
             self.assertFalse(ccn(i))
 
+
+
     def test_check_db_host(self):
         true = [
             "0.0.0.0", "127.0.0.1", "255.255.255.255", "http://localhost",
@@ -51,6 +53,8 @@ class test(ut.TestCase):
         self.assertFalse(cdh("http://localhost/", False))
         self.assertFalse(cdh("https://localhost/", False))
 
+
+
     def test_check_db_name(self):
         true = [
             "db", "db_1", "db_alpha", "db_alpha_1", "dbalpha", "dbalpha_1"
@@ -69,6 +73,8 @@ class test(ut.TestCase):
 
         for i in false:
             self.assertFalse(cdn(i))
+
+
 
     def test_check_table_name(self):
         true = [

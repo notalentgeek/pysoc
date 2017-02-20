@@ -137,7 +137,7 @@ def check_doc(_value:str, _column:str, _table_name:str,
 
 
 
-def create_db(_db_name:str=rtm_cfg_db_name):
+def create_db(_db_name:str=rtm_cfg_db_name, _expr:bool=False):
     if not cdn(_db_name):
         cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name,
@@ -149,11 +149,15 @@ def create_db(_db_name:str=rtm_cfg_db_name):
     if check_db(_db_name):
         return None
 
-    return r.db_create(_db_name).run(conn())
+    if _expr:
+        return r.db_create(_db_name)
+    else:
+        return r.db_create(_db_name).run(conn())
 
 
 
-def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
+def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name,
+    _expr:bool=False):
     if not cdn(_db_name):
         cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name,
@@ -172,12 +176,15 @@ def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
     if check_db(_db_name) and check_table(_table_name, _db_name):
         return None
 
-    return r.db(_db_name).table_create(_table_name).run(conn())
+    if _expr:
+        return r.db(_db_name).table_create(_table_name)
+    else:
+        return r.db(_db_name).table_create(_table_name).run(conn())
 
 
 
 def create_doc(_dict:dict, _table_name:str,
-    _db_name:str=rtm_cfg_db_name, _unique_column:list=[]):
+    _db_name:str=rtm_cfg_db_name, _unique_column:list=[], _expr:bool=False):
     if not cdn(_db_name):
         cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name,
@@ -199,11 +206,14 @@ def create_doc(_dict:dict, _table_name:str,
             if check_doc(_dict[i], i, _table_name, _db_name):
                 return None
 
-    return r.db(_db_name).table(_table_name).insert(_dict).run(conn())
+    if _expr:
+        return r.db(_db_name).table(_table_name).insert(_dict)
+    else:
+        return r.db(_db_name).table(_table_name).insert(_dict).run(conn())
 
 
 
-def del_db(_db_name:str=rtm_cfg_db_name):
+def del_db(_db_name:str=rtm_cfg_db_name, _expr:bool=False):
     if not cdn(_db_name):
         cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name,
@@ -215,11 +225,14 @@ def del_db(_db_name:str=rtm_cfg_db_name):
     if not check_db(_db_name):
         return None
 
-    return r.db_drop(_db_name).run(conn())
+    if _expr:
+        return r.db_drop(_db_name)
+    else:
+        return r.db_drop(_db_name).run(conn())
 
 
 
-def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
+def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name, _expr:bool=False):
     if not cdn(_db_name):
         cdw_prevent_creation_or_deletion_if_string_check_fail(
             _db_name,
@@ -238,12 +251,15 @@ def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
     if not check_table(_table_name, _db_name):
         return None
 
-    return r.db(_db_name).table_drop(_table_name).run(conn())
+    if _expr:
+        return r.db(_db_name).table_drop(_table_name)
+    else:
+        return r.db(_db_name).table_drop(_table_name).run(conn())
 
 
 
 def del_doc(_value:str, _column_value:str, _table_name:str,
-    _db_name:str=rtm_cfg_db_name):
+    _db_name:str=rtm_cfg_db_name, _expr:bool=False):
     """ Delete document based on column and its value. If there are more then
     one document has the same value on its column then multiple documents will
     be deleted.
@@ -267,8 +283,12 @@ def del_doc(_value:str, _column_value:str, _table_name:str,
     if not check_doc(_value, _column_value, _table_name, _db_name):
         return None
 
-    return r.db(_db_name).table(_table_name).filter({ _column_value:_value })\
-        .delete().run(conn())
+    if _expr:
+        return r.db(_db_name).table(_table_name)\
+            .filter({ _column_value:_value }).delete()
+    else:
+        return r.db(_db_name).table(_table_name)\
+            .filter({ _column_value:_value }).delete().run(conn())
 
 
 
