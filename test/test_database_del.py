@@ -21,10 +21,14 @@ class test(ut.TestCase):
 
         Test 1: Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 2: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 3: Assert not none for valid `dd()` object.
-        Test 4: Assert none for counterfeit `dd()` object.
+        Test 3: Assert true for test_list_1[len(test_list_1) - 1] is
+                `r.ast.DbDrop`.
+        Test 4: Assert not none for valid `dd()` object.
         Test 5: Assert none for counterfeit `dd()` object.
-        Test 6: Assert none for counterfeit `dd()` object.
+        Test 6: Assert false for test_list_1[len(test_list_1) - 1] is not
+                `r.ast.DbDrop`.
+        Test 7: Assert none for counterfeit `dd()` object.
+        Test 8: Assert none for counterfeit `dd()` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_name = "{}_{}".format(function_name, "db")
@@ -37,13 +41,15 @@ class test(ut.TestCase):
             self.ILLEGAL_BY_THIS_PROGRAM
         )
 
-        test_list_1 = [db_name, None, None]
+        test_list_1 = [db_name, False, None, None, False]
         test_list_2 = [db_name_illegal_by_rdb, None]
         test_list_3 = [db_name_illegal_by_this_program, None]
 
         crd(test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = dd(test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = isinstance(dd(test_list_1[0], True), r.ast.DbDrop)
         test_list_1[len(test_list_1) - 2] = dd(test_list_1[0])
+        test_list_1[len(test_list_1) - 3] = dd(test_list_1[0])
+        test_list_1[len(test_list_1) - 4] = isinstance(dd(test_list_1[0], True), r.ast.DbDrop)
 
         """Test 1."""
         with self.assertWarns(CDW):
@@ -53,34 +59,40 @@ class test(ut.TestCase):
         with self.assertWarns(CDW):
             test_list_3[len(test_list_3) - 1] = dd(test_list_3[0])
 
-        self.assertIsNotNone(test_list_1[len(test_list_1) - 1]) # Test 3.
-        self.assertIsNone(test_list_1[len(test_list_1) - 2])    # Test 4.
-        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 5.
-        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 6.
+        self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 3.
+        self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 4.
+        self.assertIsNone(test_list_1[len(test_list_1) - 3])    # Test 5.
+        self.assertFalse(test_list_1[len(test_list_1) - 4])      # Test 6.
+        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 7.
+        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 8.
 
 
 
     def test_del_table(self):
         """Test `dt()` of `delete_table()` in `database.py`.
 
-        Test 1: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 2: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 3: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 4: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 5: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 6: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 7: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 8: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 9: Assert not none for valid `dd()` object.
-        Test 10: Assert none for counterfeit `dd()` object.
+        Test 1 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 2 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 3 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 4 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 5 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 6 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 7 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 8 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 9 : Assert true for test_list_1[len(test_list_1) - 1] is
+                `r.ast.TableDrop`.
+        Test 10: Assert not none for valid `dd()` object.
         Test 11: Assert none for counterfeit `dd()` object.
-        Test 12: Assert none for counterfeit `dd()` object.
+        Test 12: Assert false for test_list_1[len(test_list_1) - 1] is not
+                `r.ast.TableDrop`.
         Test 13: Assert none for counterfeit `dd()` object.
         Test 14: Assert none for counterfeit `dd()` object.
         Test 15: Assert none for counterfeit `dd()` object.
         Test 16: Assert none for counterfeit `dd()` object.
         Test 17: Assert none for counterfeit `dd()` object.
         Test 18: Assert none for counterfeit `dd()` object.
+        Test 19: Assert none for counterfeit `dd()` object.
+        Test 20: Assert none for counterfeit `dd()` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_name = "{}_{}".format(function_name, "db")
@@ -105,8 +117,10 @@ class test(ut.TestCase):
         test_list_1 = [
             db_name,
             table_name,
+            False,
             None,
-            None
+            None,
+            False
         ]
         test_list_2 = [
             db_name,
@@ -151,8 +165,24 @@ class test(ut.TestCase):
 
         crd(test_list_1[0])
         crt(test_list_1[1], test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = dt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = isinstance(
+            dt(
+                test_list_1[1],
+                test_list_1[0],
+                True
+            ),
+            r.ast.TableDrop
+        )
         test_list_1[len(test_list_1) - 2] = dt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 3] = dt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 4] = isinstance(
+            dt(
+                test_list_1[1],
+                test_list_1[0],
+                True
+            ),
+            r.ast.TableDrop
+        )
         dd(test_list_1[0])
 
         r.db_create(test_list_2[0]).run(c())
@@ -224,40 +254,46 @@ class test(ut.TestCase):
             )
         r.db_drop(test_list_9[0]).run(c())
 
-        self.assertIsNotNone(test_list_1[len(test_list_1) - 1]) # Test 9.
-        self.assertIsNone(test_list_1[len(test_list_1) - 2])    # Test 10.
-        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 11.
-        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 12.
-        self.assertIsNone(test_list_4[len(test_list_4) - 1])    # Test 13.
-        self.assertIsNone(test_list_5[len(test_list_5) - 1])    # Test 14.
-        self.assertIsNone(test_list_6[len(test_list_6) - 1])    # Test 15.
-        self.assertIsNone(test_list_7[len(test_list_7) - 1])    # Test 16.
-        self.assertIsNone(test_list_8[len(test_list_8) - 1])    # Test 17.
-        self.assertIsNone(test_list_9[len(test_list_9) - 1])    # Test 18.
+        self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 9.
+        self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 10.
+        self.assertIsNone(test_list_1[len(test_list_1) - 3])    # Test 11.
+        self.assertFalse(test_list_1[len(test_list_1) - 4])     # Test 12.
+        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 13.
+        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 14.
+        self.assertIsNone(test_list_4[len(test_list_4) - 1])    # Test 15.
+        self.assertIsNone(test_list_5[len(test_list_5) - 1])    # Test 16.
+        self.assertIsNone(test_list_6[len(test_list_6) - 1])    # Test 17.
+        self.assertIsNone(test_list_7[len(test_list_7) - 1])    # Test 18.
+        self.assertIsNone(test_list_8[len(test_list_8) - 1])    # Test 19.
+        self.assertIsNone(test_list_9[len(test_list_9) - 1])    # Test 20.
 
 
 
     def test_del_doc(self):
         """Test `ddoc()` of `delete_doc()` in `database.py`.
 
-        Test 1: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 2: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 3: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 4: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 5: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 6: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 7: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 8: Assert warning for `CDW` of `CreationDeletionWarning`.
-        Test 9: Assert not none for valid `ddoc()` object.
-        Test 10: Assert none for counterfeit `ddoc()` object.
+        Test 1 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 2 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 3 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 4 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 5 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 6 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 7 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 8 : Assert warning for `CDW` of `CreationDeletionWarning`.
+        Test 9 : Assert true for test_list_1[len(test_list_1) - 1] is
+                `r.ast.Delete`.
+        Test 10: Assert not none for valid `ddoc()` object.
         Test 11: Assert none for counterfeit `ddoc()` object.
-        Test 12: Assert none for counterfeit `ddoc()` object.
+        Test 12: Assert false for test_list_1[len(test_list_1) - 1] is not
+                `r.ast.Delete`.
         Test 13: Assert none for counterfeit `ddoc()` object.
         Test 14: Assert none for counterfeit `ddoc()` object.
         Test 15: Assert none for counterfeit `ddoc()` object.
         Test 16: Assert none for counterfeit `ddoc()` object.
         Test 17: Assert none for counterfeit `ddoc()` object.
         Test 18: Assert none for counterfeit `ddoc()` object.
+        Test 19: Assert none for counterfeit `ddoc()` object.
+        Test 20: Assert none for counterfeit `ddoc()` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_name = "{}_{}".format(function_name, "db")
@@ -284,8 +320,10 @@ class test(ut.TestCase):
             db_name,
             table_name,
             doc_1,
+            False,
             None,
-            None
+            None,
+            False
         ]
         test_list_2 = [
             db_name,
@@ -339,17 +377,37 @@ class test(ut.TestCase):
         crd(test_list_1[0])
         crt(test_list_1[1], test_list_1[0])
         crdoc(test_list_1[2], test_list_1[1], test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = ddoc(
-            test_list_1[2]["name"],
-            "name",
-            test_list_1[1],
-            test_list_1[0]
+        test_list_1[len(test_list_1) - 1] = isinstance(
+            ddoc(
+                test_list_1[2]["name"],
+                "name",
+                test_list_1[1],
+                test_list_1[0],
+                True
+            ),
+            r.ast.Delete
         )
         test_list_1[len(test_list_1) - 2] = ddoc(
             test_list_1[2]["name"],
             "name",
             test_list_1[1],
             test_list_1[0]
+        )
+        test_list_1[len(test_list_1) - 3] = ddoc(
+            test_list_1[2]["name"],
+            "name",
+            test_list_1[1],
+            test_list_1[0]
+        )
+        test_list_1[len(test_list_1) - 4] = isinstance(
+            ddoc(
+                test_list_1[2]["name"],
+                "name",
+                test_list_1[1],
+                test_list_1[0],
+                True
+            ),
+            r.ast.Delete
         )
         dd(test_list_1[0])
 
@@ -441,16 +499,18 @@ class test(ut.TestCase):
             )
         r.db_drop(test_list_9[0]).run(c())
 
-        self.assertIsNotNone(test_list_1[len(test_list_1) - 1]) # Test 9.
-        self.assertIsNone(test_list_1[len(test_list_1) - 2])    # Test 10.
-        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 11.
-        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 12.
-        self.assertIsNone(test_list_4[len(test_list_4) - 1])    # Test 13.
-        self.assertIsNone(test_list_5[len(test_list_5) - 1])    # Test 14.
-        self.assertIsNone(test_list_6[len(test_list_6) - 1])    # Test 15.
-        self.assertIsNone(test_list_7[len(test_list_7) - 1])    # Test 16.
-        self.assertIsNone(test_list_8[len(test_list_8) - 1])    # Test 17.
-        self.assertIsNone(test_list_9[len(test_list_9) - 1])    # Test 18.
+        self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 9.
+        self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 10.
+        self.assertIsNone(test_list_1[len(test_list_1) - 3])    # Test 11.
+        self.assertFalse(test_list_1[len(test_list_1) - 4])     # Test 12.
+        self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 13.
+        self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 14.
+        self.assertIsNone(test_list_4[len(test_list_4) - 1])    # Test 15.
+        self.assertIsNone(test_list_5[len(test_list_5) - 1])    # Test 16.
+        self.assertIsNone(test_list_6[len(test_list_6) - 1])    # Test 17.
+        self.assertIsNone(test_list_7[len(test_list_7) - 1])    # Test 18.
+        self.assertIsNone(test_list_8[len(test_list_8) - 1])    # Test 19.
+        self.assertIsNone(test_list_9[len(test_list_9) - 1])    # Test 20.
 
 if __name__ == "__main__":
     ut.main()

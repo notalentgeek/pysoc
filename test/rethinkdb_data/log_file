@@ -1,0 +1,1150 @@
+2017-02-21T21:18:13.760112620 0.036446s notice: Recursively removing directory /home/mikael/pysoc/test/rethinkdb_data/tmp
+2017-02-21T21:18:13.770304547 0.046637s notice: Initializing directory /home/mikael/pysoc/test/rethinkdb_data
+2017-02-21T21:18:13.770401026 0.046733s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/mikael/pysoc/test/rethinkdb_data' did not already exist or is empty.)
+2017-02-21T21:18:13.770595105 0.046927s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-02-21T21:18:13.773198508 0.049533s notice: Running on Linux 4.4.0-63-generic x86_64
+2017-02-21T21:18:13.773260912 0.049593s notice: Loading data from directory /home/mikael/pysoc/test/rethinkdb_data
+2017-02-21T21:18:13.822965316 0.099298s info: Automatically using cache size of 2499 MB
+2017-02-21T21:18:13.824012038 0.100344s notice: Listening for intracluster connections on port 29015
+2017-02-21T21:18:13.829134497 0.105467s notice: Listening for client driver connections on port 28015
+2017-02-21T21:18:13.829371692 0.105704s notice: Listening for administrative HTTP connections on port 8080
+2017-02-21T21:18:13.829373931 0.105706s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-21T21:18:13.829376660 0.105709s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-21T21:18:13.829378581 0.105711s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-02-21T21:18:13.829381369 0.105713s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-02-21T21:18:13.829383862 0.105716s notice: Server ready, "mikael_ThinkPad_X220_nna" 047dc89f-9d53-4789-9fed-5b9cf089a7ac
+2017-02-21T21:18:13.946343107 0.222675s info: Table 3d76ace4-52c2-45f7-9604-f81953c0caef: Starting a new Raft election for term 1.
+2017-02-21T21:18:13.948010193 0.224343s info: Table 3d76ace4-52c2-45f7-9604-f81953c0caef: Added replica on this server.
+2017-02-21T21:18:13.955753628 0.232086s info: Table 3d76ace4-52c2-45f7-9604-f81953c0caef: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:14.347629083 0.623962s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3d76ace4-52c2-45f7-9604-f81953c0caef
+2017-02-21T21:18:14.347639305 0.623971s info: Table 3d76ace4-52c2-45f7-9604-f81953c0caef: Deleted the table.
+2017-02-21T21:18:14.440222987 0.716556s info: Table 02d45465-8573-4cfb-9a60-9f2423b8c26f: Starting a new Raft election for term 1.
+2017-02-21T21:18:14.440450015 0.716783s info: Table 02d45465-8573-4cfb-9a60-9f2423b8c26f: Added replica on this server.
+2017-02-21T21:18:14.446567562 0.722900s info: Table 02d45465-8573-4cfb-9a60-9f2423b8c26f: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:14.734333892 1.010667s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/02d45465-8573-4cfb-9a60-9f2423b8c26f
+2017-02-21T21:18:14.734348102 1.010680s info: Table 02d45465-8573-4cfb-9a60-9f2423b8c26f: Deleted the table.
+2017-02-21T21:18:14.822083520 1.098416s info: Table 32dc4074-7fbf-43c8-b2e9-274e4d01e386: Starting a new Raft election for term 1.
+2017-02-21T21:18:14.822356521 1.098689s info: Table 32dc4074-7fbf-43c8-b2e9-274e4d01e386: Added replica on this server.
+2017-02-21T21:18:14.828407229 1.104740s info: Table 32dc4074-7fbf-43c8-b2e9-274e4d01e386: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:15.114046905 1.390380s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/32dc4074-7fbf-43c8-b2e9-274e4d01e386
+2017-02-21T21:18:15.114061298 1.390394s info: Table 32dc4074-7fbf-43c8-b2e9-274e4d01e386: Deleted the table.
+2017-02-21T21:18:15.211478135 1.487811s info: Table 11205514-c286-4023-9477-d910f73fd342: Starting a new Raft election for term 1.
+2017-02-21T21:18:15.211776165 1.488109s info: Table 11205514-c286-4023-9477-d910f73fd342: Added replica on this server.
+2017-02-21T21:18:15.217796587 1.494129s info: Table 11205514-c286-4023-9477-d910f73fd342: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:15.499661502 1.775994s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/11205514-c286-4023-9477-d910f73fd342
+2017-02-21T21:18:15.499672354 1.776004s info: Table 11205514-c286-4023-9477-d910f73fd342: Deleted the table.
+2017-02-21T21:18:15.595740548 1.872073s info: Table 0d6fa679-94b1-42a4-a3b1-dc2e6a0776f0: Starting a new Raft election for term 1.
+2017-02-21T21:18:15.595835803 1.872168s info: Table 0d6fa679-94b1-42a4-a3b1-dc2e6a0776f0: Added replica on this server.
+2017-02-21T21:18:15.603369242 1.879702s info: Table 0d6fa679-94b1-42a4-a3b1-dc2e6a0776f0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:16.118539250 2.394872s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0d6fa679-94b1-42a4-a3b1-dc2e6a0776f0
+2017-02-21T21:18:16.118555657 2.394888s info: Table 0d6fa679-94b1-42a4-a3b1-dc2e6a0776f0: Deleted the table.
+2017-02-21T21:18:16.235930708 2.512263s info: Table f6c422d5-017b-45cc-854b-206cc25c653d: Starting a new Raft election for term 1.
+2017-02-21T21:18:16.236166641 2.512499s info: Table f6c422d5-017b-45cc-854b-206cc25c653d: Added replica on this server.
+2017-02-21T21:18:16.241901928 2.518234s info: Table f6c422d5-017b-45cc-854b-206cc25c653d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:16.547197688 2.823530s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f6c422d5-017b-45cc-854b-206cc25c653d
+2017-02-21T21:18:16.547208757 2.823541s info: Table f6c422d5-017b-45cc-854b-206cc25c653d: Deleted the table.
+2017-02-21T21:18:16.634716370 2.911049s info: Table f4509d6e-5aa6-46c2-96e5-c4df2531c390: Starting a new Raft election for term 1.
+2017-02-21T21:18:16.634986652 2.911319s info: Table f4509d6e-5aa6-46c2-96e5-c4df2531c390: Added replica on this server.
+2017-02-21T21:18:16.640803866 2.917136s info: Table f4509d6e-5aa6-46c2-96e5-c4df2531c390: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:17.139602386 3.415935s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f4509d6e-5aa6-46c2-96e5-c4df2531c390
+2017-02-21T21:18:17.139619533 3.415952s info: Table f4509d6e-5aa6-46c2-96e5-c4df2531c390: Deleted the table.
+2017-02-21T21:18:17.240382721 3.516715s info: Table bcaba700-2fe5-4a41-93a8-8b606e729f9e: Starting a new Raft election for term 1.
+2017-02-21T21:18:17.240582907 3.516915s info: Table bcaba700-2fe5-4a41-93a8-8b606e729f9e: Added replica on this server.
+2017-02-21T21:18:17.246646658 3.522979s info: Table bcaba700-2fe5-4a41-93a8-8b606e729f9e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:17.513723838 3.790057s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/bcaba700-2fe5-4a41-93a8-8b606e729f9e
+2017-02-21T21:18:17.513740405 3.790073s info: Table bcaba700-2fe5-4a41-93a8-8b606e729f9e: Deleted the table.
+2017-02-21T21:18:44.527000525 30.803333s info: Table 59ee07d3-fec9-4681-abbe-aa7402e715dd: Starting a new Raft election for term 1.
+2017-02-21T21:18:44.527329274 30.803662s info: Table 59ee07d3-fec9-4681-abbe-aa7402e715dd: Added replica on this server.
+2017-02-21T21:18:44.533663158 30.809996s info: Table 59ee07d3-fec9-4681-abbe-aa7402e715dd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:44.914522114 31.190855s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/59ee07d3-fec9-4681-abbe-aa7402e715dd
+2017-02-21T21:18:44.914532569 31.190865s info: Table 59ee07d3-fec9-4681-abbe-aa7402e715dd: Deleted the table.
+2017-02-21T21:18:45.005224039 31.281556s info: Table fb79c03e-a395-4eb9-994f-ca4e5fbb4f00: Starting a new Raft election for term 1.
+2017-02-21T21:18:45.005448805 31.281781s info: Table fb79c03e-a395-4eb9-994f-ca4e5fbb4f00: Added replica on this server.
+2017-02-21T21:18:45.011171281 31.287503s info: Table fb79c03e-a395-4eb9-994f-ca4e5fbb4f00: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:45.316190517 31.592523s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/fb79c03e-a395-4eb9-994f-ca4e5fbb4f00
+2017-02-21T21:18:45.316204488 31.592537s info: Table fb79c03e-a395-4eb9-994f-ca4e5fbb4f00: Deleted the table.
+2017-02-21T21:18:45.395708847 31.672041s info: Table b49447b3-36ce-4ef1-b213-b06f64df0ba0: Starting a new Raft election for term 1.
+2017-02-21T21:18:45.396009895 31.672342s info: Table b49447b3-36ce-4ef1-b213-b06f64df0ba0: Added replica on this server.
+2017-02-21T21:18:45.403595668 31.679928s info: Table b49447b3-36ce-4ef1-b213-b06f64df0ba0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:45.913743106 32.190076s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b49447b3-36ce-4ef1-b213-b06f64df0ba0
+2017-02-21T21:18:45.913762352 32.190095s info: Table b49447b3-36ce-4ef1-b213-b06f64df0ba0: Deleted the table.
+2017-02-21T21:18:46.020389982 32.296723s info: Table 50b0dc3c-148a-486f-8b49-bca9aa18fef8: Starting a new Raft election for term 1.
+2017-02-21T21:18:46.020783571 32.297116s info: Table 50b0dc3c-148a-486f-8b49-bca9aa18fef8: Added replica on this server.
+2017-02-21T21:18:46.026686648 32.303019s info: Table 50b0dc3c-148a-486f-8b49-bca9aa18fef8: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:46.311462501 32.587795s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/50b0dc3c-148a-486f-8b49-bca9aa18fef8
+2017-02-21T21:18:46.311475025 32.587807s info: Table 50b0dc3c-148a-486f-8b49-bca9aa18fef8: Deleted the table.
+2017-02-21T21:18:46.412083037 32.688416s info: Table 58a3c65a-04e2-4deb-9b19-d7e56c17cecf: Starting a new Raft election for term 1.
+2017-02-21T21:18:46.412442752 32.688775s info: Table 58a3c65a-04e2-4deb-9b19-d7e56c17cecf: Added replica on this server.
+2017-02-21T21:18:46.418436265 32.694769s info: Table 58a3c65a-04e2-4deb-9b19-d7e56c17cecf: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:46.717017041 32.993350s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/58a3c65a-04e2-4deb-9b19-d7e56c17cecf
+2017-02-21T21:18:46.717064999 32.993398s info: Table 58a3c65a-04e2-4deb-9b19-d7e56c17cecf: Deleted the table.
+2017-02-21T21:18:46.834527699 33.110861s info: Table 5667b5e3-437b-4ba4-8588-aca3fd25841d: Starting a new Raft election for term 1.
+2017-02-21T21:18:46.834939222 33.111272s info: Table 5667b5e3-437b-4ba4-8588-aca3fd25841d: Added replica on this server.
+2017-02-21T21:18:46.840883314 33.117216s info: Table 5667b5e3-437b-4ba4-8588-aca3fd25841d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:47.116569779 33.392903s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5667b5e3-437b-4ba4-8588-aca3fd25841d
+2017-02-21T21:18:47.116590106 33.392922s info: Table 5667b5e3-437b-4ba4-8588-aca3fd25841d: Deleted the table.
+2017-02-21T21:18:47.210486509 33.486820s info: Table 769e6f8b-d9f0-4023-8085-5a90debed291: Starting a new Raft election for term 1.
+2017-02-21T21:18:47.210870458 33.487203s info: Table 769e6f8b-d9f0-4023-8085-5a90debed291: Added replica on this server.
+2017-02-21T21:18:47.216845327 33.493178s info: Table 769e6f8b-d9f0-4023-8085-5a90debed291: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:47.485502910 33.761836s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/769e6f8b-d9f0-4023-8085-5a90debed291
+2017-02-21T21:18:47.485518969 33.761851s info: Table 769e6f8b-d9f0-4023-8085-5a90debed291: Deleted the table.
+2017-02-21T21:18:47.584306891 33.860639s info: Table b7a1016b-5c7e-4457-a409-94dc25b108ff: Starting a new Raft election for term 1.
+2017-02-21T21:18:47.584522891 33.860855s info: Table b7a1016b-5c7e-4457-a409-94dc25b108ff: Added replica on this server.
+2017-02-21T21:18:47.592437843 33.868770s info: Table b7a1016b-5c7e-4457-a409-94dc25b108ff: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:18:48.088515110 34.364848s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b7a1016b-5c7e-4457-a409-94dc25b108ff
+2017-02-21T21:18:48.088533775 34.364866s info: Table b7a1016b-5c7e-4457-a409-94dc25b108ff: Deleted the table.
+2017-02-21T21:19:56.866692801 103.143025s info: Table 7fc4efc9-6efe-4cc5-9315-9f3beec30927: Starting a new Raft election for term 1.
+2017-02-21T21:19:56.866872626 103.143205s info: Table 7fc4efc9-6efe-4cc5-9315-9f3beec30927: Added replica on this server.
+2017-02-21T21:19:56.872532018 103.148864s info: Table 7fc4efc9-6efe-4cc5-9315-9f3beec30927: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:57.269186433 103.545519s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7fc4efc9-6efe-4cc5-9315-9f3beec30927
+2017-02-21T21:19:57.269196365 103.545528s info: Table 7fc4efc9-6efe-4cc5-9315-9f3beec30927: Deleted the table.
+2017-02-21T21:19:57.352897118 103.629230s info: Table 888f39ec-d9f7-4c66-97e6-c223c8ab995e: Starting a new Raft election for term 1.
+2017-02-21T21:19:57.353160366 103.629493s info: Table 888f39ec-d9f7-4c66-97e6-c223c8ab995e: Added replica on this server.
+2017-02-21T21:19:57.358801905 103.635134s info: Table 888f39ec-d9f7-4c66-97e6-c223c8ab995e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:57.648783772 103.925117s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/888f39ec-d9f7-4c66-97e6-c223c8ab995e
+2017-02-21T21:19:57.648798879 103.925131s info: Table 888f39ec-d9f7-4c66-97e6-c223c8ab995e: Deleted the table.
+2017-02-21T21:19:57.745141403 104.021474s info: Table 91b4e116-b778-4b66-a5ca-5d80af4e1158: Starting a new Raft election for term 1.
+2017-02-21T21:19:57.745391999 104.021725s info: Table 91b4e116-b778-4b66-a5ca-5d80af4e1158: Added replica on this server.
+2017-02-21T21:19:57.751359414 104.027692s info: Table 91b4e116-b778-4b66-a5ca-5d80af4e1158: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:58.264032071 104.540365s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/91b4e116-b778-4b66-a5ca-5d80af4e1158
+2017-02-21T21:19:58.264049203 104.540381s info: Table 91b4e116-b778-4b66-a5ca-5d80af4e1158: Deleted the table.
+2017-02-21T21:19:58.363643935 104.639977s info: Table be3ae07d-5da5-4be2-b7ed-09e102f5ec2d: Starting a new Raft election for term 1.
+2017-02-21T21:19:58.363941784 104.640274s info: Table be3ae07d-5da5-4be2-b7ed-09e102f5ec2d: Added replica on this server.
+2017-02-21T21:19:58.369933213 104.646266s info: Table be3ae07d-5da5-4be2-b7ed-09e102f5ec2d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:58.877806923 105.154139s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/be3ae07d-5da5-4be2-b7ed-09e102f5ec2d
+2017-02-21T21:19:58.877818486 105.154151s info: Table be3ae07d-5da5-4be2-b7ed-09e102f5ec2d: Deleted the table.
+2017-02-21T21:19:58.979698020 105.256031s info: Table 65022028-9719-4fb7-9e6a-9b54b78910e8: Starting a new Raft election for term 1.
+2017-02-21T21:19:58.979908104 105.256241s info: Table 65022028-9719-4fb7-9e6a-9b54b78910e8: Added replica on this server.
+2017-02-21T21:19:58.985487815 105.261820s info: Table 65022028-9719-4fb7-9e6a-9b54b78910e8: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:59.274720200 105.551053s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/65022028-9719-4fb7-9e6a-9b54b78910e8
+2017-02-21T21:19:59.274729840 105.551062s info: Table 65022028-9719-4fb7-9e6a-9b54b78910e8: Deleted the table.
+2017-02-21T21:19:59.374219173 105.650552s info: Table 766a6393-5add-4982-b47f-9f4e600c0f06: Added replica on this server.
+2017-02-21T21:19:59.374278541 105.650611s info: Table 766a6393-5add-4982-b47f-9f4e600c0f06: Starting a new Raft election for term 1.
+2017-02-21T21:19:59.380227046 105.656560s info: Table 766a6393-5add-4982-b47f-9f4e600c0f06: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:19:59.650136177 105.926469s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/766a6393-5add-4982-b47f-9f4e600c0f06
+2017-02-21T21:19:59.650148458 105.926481s info: Table 766a6393-5add-4982-b47f-9f4e600c0f06: Deleted the table.
+2017-02-21T21:19:59.736947417 106.013280s info: Table 70b31206-3a79-4ea8-9ed5-0bbdd110e306: Starting a new Raft election for term 1.
+2017-02-21T21:19:59.737233945 106.013566s info: Table 70b31206-3a79-4ea8-9ed5-0bbdd110e306: Added replica on this server.
+2017-02-21T21:19:59.744932956 106.021265s info: Table 70b31206-3a79-4ea8-9ed5-0bbdd110e306: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:00.016921831 106.293255s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/70b31206-3a79-4ea8-9ed5-0bbdd110e306
+2017-02-21T21:20:00.016943677 106.293276s info: Table 70b31206-3a79-4ea8-9ed5-0bbdd110e306: Deleted the table.
+2017-02-21T21:20:00.134247226 106.410580s info: Table f1c26261-b439-4a4e-bcf7-f43db6e5b3cc: Starting a new Raft election for term 1.
+2017-02-21T21:20:00.134502801 106.410835s info: Table f1c26261-b439-4a4e-bcf7-f43db6e5b3cc: Added replica on this server.
+2017-02-21T21:20:00.140445691 106.416778s info: Table f1c26261-b439-4a4e-bcf7-f43db6e5b3cc: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:00.410576216 106.686909s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f1c26261-b439-4a4e-bcf7-f43db6e5b3cc
+2017-02-21T21:20:00.410591335 106.686924s info: Table f1c26261-b439-4a4e-bcf7-f43db6e5b3cc: Deleted the table.
+2017-02-21T21:20:42.815269848 149.091602s info: Table 929258cd-d956-49fa-bfdb-98055f18790a: Starting a new Raft election for term 1.
+2017-02-21T21:20:42.815438530 149.091771s info: Table 929258cd-d956-49fa-bfdb-98055f18790a: Added replica on this server.
+2017-02-21T21:20:42.820974249 149.097306s info: Table 929258cd-d956-49fa-bfdb-98055f18790a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:43.390614211 149.666947s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/929258cd-d956-49fa-bfdb-98055f18790a
+2017-02-21T21:20:43.390621081 149.666953s info: Table 929258cd-d956-49fa-bfdb-98055f18790a: Deleted the table.
+2017-02-21T21:20:43.473606670 149.749939s info: Table 75d85118-c0a1-428f-9e26-a7fc3b72fc0d: Starting a new Raft election for term 1.
+2017-02-21T21:20:43.473847697 149.750180s info: Table 75d85118-c0a1-428f-9e26-a7fc3b72fc0d: Added replica on this server.
+2017-02-21T21:20:43.481599230 149.757932s info: Table 75d85118-c0a1-428f-9e26-a7fc3b72fc0d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:43.761127473 150.037460s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/75d85118-c0a1-428f-9e26-a7fc3b72fc0d
+2017-02-21T21:20:43.761138555 150.037471s info: Table 75d85118-c0a1-428f-9e26-a7fc3b72fc0d: Deleted the table.
+2017-02-21T21:20:43.852676347 150.129009s info: Table cce9f0c5-841b-4f56-9e7c-47ed921216da: Starting a new Raft election for term 1.
+2017-02-21T21:20:43.852792484 150.129125s info: Table cce9f0c5-841b-4f56-9e7c-47ed921216da: Added replica on this server.
+2017-02-21T21:20:43.858799486 150.135132s info: Table cce9f0c5-841b-4f56-9e7c-47ed921216da: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:44.139878453 150.416211s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/cce9f0c5-841b-4f56-9e7c-47ed921216da
+2017-02-21T21:20:44.139889573 150.416222s info: Table cce9f0c5-841b-4f56-9e7c-47ed921216da: Deleted the table.
+2017-02-21T21:20:44.228969470 150.505302s info: Table 49921148-d47d-4a53-b5fd-bdd44f2a1a22: Starting a new Raft election for term 1.
+2017-02-21T21:20:44.229120658 150.505453s info: Table 49921148-d47d-4a53-b5fd-bdd44f2a1a22: Added replica on this server.
+2017-02-21T21:20:44.234899665 150.511232s info: Table 49921148-d47d-4a53-b5fd-bdd44f2a1a22: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:44.746583939 151.022917s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/49921148-d47d-4a53-b5fd-bdd44f2a1a22
+2017-02-21T21:20:44.746600048 151.022932s info: Table 49921148-d47d-4a53-b5fd-bdd44f2a1a22: Deleted the table.
+2017-02-21T21:20:44.848013585 151.124346s info: Table 327cc40b-721d-4f59-a308-329882352a99: Starting a new Raft election for term 1.
+2017-02-21T21:20:44.848255545 151.124588s info: Table 327cc40b-721d-4f59-a308-329882352a99: Added replica on this server.
+2017-02-21T21:20:44.854238368 151.130571s info: Table 327cc40b-721d-4f59-a308-329882352a99: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:45.156810477 151.433143s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/327cc40b-721d-4f59-a308-329882352a99
+2017-02-21T21:20:45.156824499 151.433157s info: Table 327cc40b-721d-4f59-a308-329882352a99: Deleted the table.
+2017-02-21T21:20:45.265045383 151.541378s info: Table 1cba372c-4d02-419a-b3e9-d68fd7628ee0: Starting a new Raft election for term 1.
+2017-02-21T21:20:45.265250395 151.541583s info: Table 1cba372c-4d02-419a-b3e9-d68fd7628ee0: Added replica on this server.
+2017-02-21T21:20:45.272958951 151.549291s info: Table 1cba372c-4d02-419a-b3e9-d68fd7628ee0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:45.768531326 152.044864s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1cba372c-4d02-419a-b3e9-d68fd7628ee0
+2017-02-21T21:20:45.768552268 152.044885s info: Table 1cba372c-4d02-419a-b3e9-d68fd7628ee0: Deleted the table.
+2017-02-21T21:20:45.861469093 152.137802s info: Table 207d93f3-6609-43a3-b888-71f960f99b49: Starting a new Raft election for term 1.
+2017-02-21T21:20:45.861746555 152.138079s info: Table 207d93f3-6609-43a3-b888-71f960f99b49: Added replica on this server.
+2017-02-21T21:20:45.868095922 152.144429s info: Table 207d93f3-6609-43a3-b888-71f960f99b49: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:46.139308953 152.415642s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/207d93f3-6609-43a3-b888-71f960f99b49
+2017-02-21T21:20:46.139323035 152.415655s info: Table 207d93f3-6609-43a3-b888-71f960f99b49: Deleted the table.
+2017-02-21T21:20:46.229070618 152.505403s info: Table b5ddb52c-4705-4f8b-81c2-80e48a0f427d: Starting a new Raft election for term 1.
+2017-02-21T21:20:46.229327442 152.505660s info: Table b5ddb52c-4705-4f8b-81c2-80e48a0f427d: Added replica on this server.
+2017-02-21T21:20:46.235241690 152.511574s info: Table b5ddb52c-4705-4f8b-81c2-80e48a0f427d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:20:46.503170621 152.779503s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b5ddb52c-4705-4f8b-81c2-80e48a0f427d
+2017-02-21T21:20:46.503188990 152.779521s info: Table b5ddb52c-4705-4f8b-81c2-80e48a0f427d: Deleted the table.
+2017-02-21T21:22:02.316369601 228.592702s info: Table d60c9643-d648-4158-985a-f576725a9d48: Starting a new Raft election for term 1.
+2017-02-21T21:22:02.316503071 228.592835s info: Table d60c9643-d648-4158-985a-f576725a9d48: Added replica on this server.
+2017-02-21T21:22:02.322085377 228.598417s info: Table d60c9643-d648-4158-985a-f576725a9d48: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:02.938825943 229.215158s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d60c9643-d648-4158-985a-f576725a9d48
+2017-02-21T21:22:02.938836511 229.215169s info: Table d60c9643-d648-4158-985a-f576725a9d48: Deleted the table.
+2017-02-21T21:22:03.029938128 229.306271s info: Table c2b57b54-3538-4d57-8ee0-a8a05aa2d0cc: Starting a new Raft election for term 1.
+2017-02-21T21:22:03.030172655 229.306505s info: Table c2b57b54-3538-4d57-8ee0-a8a05aa2d0cc: Added replica on this server.
+2017-02-21T21:22:03.036190997 229.312523s info: Table c2b57b54-3538-4d57-8ee0-a8a05aa2d0cc: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:03.319069721 229.595402s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c2b57b54-3538-4d57-8ee0-a8a05aa2d0cc
+2017-02-21T21:22:03.319093015 229.595425s info: Table c2b57b54-3538-4d57-8ee0-a8a05aa2d0cc: Deleted the table.
+2017-02-21T21:22:03.405480767 229.681813s info: Table d9f90d40-17f3-4a43-8e38-10e8863e66c8: Starting a new Raft election for term 1.
+2017-02-21T21:22:03.405637931 229.681970s info: Table d9f90d40-17f3-4a43-8e38-10e8863e66c8: Added replica on this server.
+2017-02-21T21:22:03.411794427 229.688127s info: Table d9f90d40-17f3-4a43-8e38-10e8863e66c8: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:03.699041024 229.975374s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d9f90d40-17f3-4a43-8e38-10e8863e66c8
+2017-02-21T21:22:03.699058123 229.975390s info: Table d9f90d40-17f3-4a43-8e38-10e8863e66c8: Deleted the table.
+2017-02-21T21:22:03.798570795 230.074904s info: Table 99f38a65-7ff2-4968-a4c2-64e61594d37a: Starting a new Raft election for term 1.
+2017-02-21T21:22:03.798764495 230.075097s info: Table 99f38a65-7ff2-4968-a4c2-64e61594d37a: Added replica on this server.
+2017-02-21T21:22:03.807029739 230.083363s info: Table 99f38a65-7ff2-4968-a4c2-64e61594d37a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:04.311244269 230.587577s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/99f38a65-7ff2-4968-a4c2-64e61594d37a
+2017-02-21T21:22:04.311254758 230.587587s info: Table 99f38a65-7ff2-4968-a4c2-64e61594d37a: Deleted the table.
+2017-02-21T21:22:04.406644986 230.682978s info: Table e73448c1-6de5-4a73-8ed0-3c02fef181d3: Starting a new Raft election for term 1.
+2017-02-21T21:22:04.406950586 230.683283s info: Table e73448c1-6de5-4a73-8ed0-3c02fef181d3: Added replica on this server.
+2017-02-21T21:22:04.412654917 230.688987s info: Table e73448c1-6de5-4a73-8ed0-3c02fef181d3: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:04.713814606 230.990148s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e73448c1-6de5-4a73-8ed0-3c02fef181d3
+2017-02-21T21:22:04.713830759 230.990163s info: Table e73448c1-6de5-4a73-8ed0-3c02fef181d3: Deleted the table.
+2017-02-21T21:22:04.826637724 231.102971s info: Table 4fba302a-d612-4e6d-96e7-a4f0599257a4: Starting a new Raft election for term 1.
+2017-02-21T21:22:04.826905417 231.103238s info: Table 4fba302a-d612-4e6d-96e7-a4f0599257a4: Added replica on this server.
+2017-02-21T21:22:04.833048124 231.109380s info: Table 4fba302a-d612-4e6d-96e7-a4f0599257a4: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:05.105038414 231.381372s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4fba302a-d612-4e6d-96e7-a4f0599257a4
+2017-02-21T21:22:05.105058504 231.381391s info: Table 4fba302a-d612-4e6d-96e7-a4f0599257a4: Deleted the table.
+2017-02-21T21:22:05.199410271 231.475743s info: Table 36b3fa61-844e-4f49-8cbd-e137ac56ca34: Starting a new Raft election for term 1.
+2017-02-21T21:22:05.199609762 231.475942s info: Table 36b3fa61-844e-4f49-8cbd-e137ac56ca34: Added replica on this server.
+2017-02-21T21:22:05.207697076 231.484030s info: Table 36b3fa61-844e-4f49-8cbd-e137ac56ca34: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:05.703238280 231.979571s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/36b3fa61-844e-4f49-8cbd-e137ac56ca34
+2017-02-21T21:22:05.703254720 231.979587s info: Table 36b3fa61-844e-4f49-8cbd-e137ac56ca34: Deleted the table.
+2017-02-21T21:22:05.811847298 232.088180s info: Table 9387789f-12df-4d7e-93da-619e8d0fd468: Starting a new Raft election for term 1.
+2017-02-21T21:22:05.812203816 232.088536s info: Table 9387789f-12df-4d7e-93da-619e8d0fd468: Added replica on this server.
+2017-02-21T21:22:05.818417813 232.094750s info: Table 9387789f-12df-4d7e-93da-619e8d0fd468: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:22:06.090066032 232.366399s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9387789f-12df-4d7e-93da-619e8d0fd468
+2017-02-21T21:22:06.090081642 232.366414s info: Table 9387789f-12df-4d7e-93da-619e8d0fd468: Deleted the table.
+2017-02-21T21:23:05.251865246 291.528198s info: Table fe1e0b28-785a-4d23-83ba-514dc4efa16e: Starting a new Raft election for term 1.
+2017-02-21T21:23:05.252020689 291.528353s info: Table fe1e0b28-785a-4d23-83ba-514dc4efa16e: Added replica on this server.
+2017-02-21T21:23:05.257703219 291.534035s info: Table fe1e0b28-785a-4d23-83ba-514dc4efa16e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:05.870587182 292.146920s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/fe1e0b28-785a-4d23-83ba-514dc4efa16e
+2017-02-21T21:23:05.870598344 292.146931s info: Table fe1e0b28-785a-4d23-83ba-514dc4efa16e: Deleted the table.
+2017-02-21T21:23:05.956355521 292.232688s info: Table 7f32f818-e780-41f8-b658-3ccdbbe7cdf1: Starting a new Raft election for term 1.
+2017-02-21T21:23:05.956597199 292.232930s info: Table 7f32f818-e780-41f8-b658-3ccdbbe7cdf1: Added replica on this server.
+2017-02-21T21:23:05.962554608 292.238887s info: Table 7f32f818-e780-41f8-b658-3ccdbbe7cdf1: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:06.246526426 292.522859s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7f32f818-e780-41f8-b658-3ccdbbe7cdf1
+2017-02-21T21:23:06.246539832 292.522872s info: Table 7f32f818-e780-41f8-b658-3ccdbbe7cdf1: Deleted the table.
+2017-02-21T21:23:06.333063068 292.609396s info: Table 51bae3e6-dafe-41e8-a6b0-c30bbb39420f: Starting a new Raft election for term 1.
+2017-02-21T21:23:06.333439794 292.609773s info: Table 51bae3e6-dafe-41e8-a6b0-c30bbb39420f: Added replica on this server.
+2017-02-21T21:23:06.339630256 292.615963s info: Table 51bae3e6-dafe-41e8-a6b0-c30bbb39420f: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:06.626380282 292.902713s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/51bae3e6-dafe-41e8-a6b0-c30bbb39420f
+2017-02-21T21:23:06.626398011 292.902730s info: Table 51bae3e6-dafe-41e8-a6b0-c30bbb39420f: Deleted the table.
+2017-02-21T21:23:06.729608180 293.005941s info: Table 3ea30542-1f6d-452b-9b51-a20c75532b05: Starting a new Raft election for term 1.
+2017-02-21T21:23:06.730017999 293.006351s info: Table 3ea30542-1f6d-452b-9b51-a20c75532b05: Added replica on this server.
+2017-02-21T21:23:06.737903440 293.014236s info: Table 3ea30542-1f6d-452b-9b51-a20c75532b05: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:07.022000817 293.298334s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3ea30542-1f6d-452b-9b51-a20c75532b05
+2017-02-21T21:23:07.022017410 293.298350s info: Table 3ea30542-1f6d-452b-9b51-a20c75532b05: Deleted the table.
+2017-02-21T21:23:07.128945314 293.405278s info: Table 902461d8-2a72-42c0-be5b-dd1d4c597eeb: Starting a new Raft election for term 1.
+2017-02-21T21:23:07.129227070 293.405559s info: Table 902461d8-2a72-42c0-be5b-dd1d4c597eeb: Added replica on this server.
+2017-02-21T21:23:07.136079007 293.412411s info: Table 902461d8-2a72-42c0-be5b-dd1d4c597eeb: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:07.658527203 293.934860s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/902461d8-2a72-42c0-be5b-dd1d4c597eeb
+2017-02-21T21:23:07.658540529 293.934873s info: Table 902461d8-2a72-42c0-be5b-dd1d4c597eeb: Deleted the table.
+2017-02-21T21:23:07.779174321 294.055507s info: Table 37628408-f89a-454f-9fbb-a7be5f15e4a0: Starting a new Raft election for term 1.
+2017-02-21T21:23:07.779426965 294.055760s info: Table 37628408-f89a-454f-9fbb-a7be5f15e4a0: Added replica on this server.
+2017-02-21T21:23:07.787148585 294.063481s info: Table 37628408-f89a-454f-9fbb-a7be5f15e4a0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:08.278403276 294.554737s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/37628408-f89a-454f-9fbb-a7be5f15e4a0
+2017-02-21T21:23:08.278423968 294.554756s info: Table 37628408-f89a-454f-9fbb-a7be5f15e4a0: Deleted the table.
+2017-02-21T21:23:08.366827389 294.643160s info: Table bcad3286-9bb9-4b9d-bc52-ae5bb54759de: Starting a new Raft election for term 1.
+2017-02-21T21:23:08.366996686 294.643329s info: Table bcad3286-9bb9-4b9d-bc52-ae5bb54759de: Added replica on this server.
+2017-02-21T21:23:08.371046856 294.647379s info: Table bcad3286-9bb9-4b9d-bc52-ae5bb54759de: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:08.637116064 294.913449s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/bcad3286-9bb9-4b9d-bc52-ae5bb54759de
+2017-02-21T21:23:08.637129137 294.913461s info: Table bcad3286-9bb9-4b9d-bc52-ae5bb54759de: Deleted the table.
+2017-02-21T21:23:08.727822445 295.004155s info: Table fb00baa2-b207-4c90-9177-13526fc87749: Starting a new Raft election for term 1.
+2017-02-21T21:23:08.728043536 295.004376s info: Table fb00baa2-b207-4c90-9177-13526fc87749: Added replica on this server.
+2017-02-21T21:23:08.731751607 295.008084s info: Table fb00baa2-b207-4c90-9177-13526fc87749: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:23:09.001541577 295.277875s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/fb00baa2-b207-4c90-9177-13526fc87749
+2017-02-21T21:23:09.001562008 295.277895s info: Table fb00baa2-b207-4c90-9177-13526fc87749: Deleted the table.
+2017-02-21T21:25:45.773012555 452.049345s info: Table 488ecc39-97fd-4eab-acb7-85d562f5890e: Added replica on this server.
+2017-02-21T21:25:45.773049427 452.049382s info: Table 488ecc39-97fd-4eab-acb7-85d562f5890e: Starting a new Raft election for term 1.
+2017-02-21T21:25:45.776929771 452.053262s info: Table 488ecc39-97fd-4eab-acb7-85d562f5890e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:46.171488035 452.447820s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/488ecc39-97fd-4eab-acb7-85d562f5890e
+2017-02-21T21:25:46.171495409 452.447828s info: Table 488ecc39-97fd-4eab-acb7-85d562f5890e: Deleted the table.
+2017-02-21T21:25:46.247642233 452.523975s info: Table 1190ec84-7a7f-4140-9f77-0870bfdc3e75: Starting a new Raft election for term 1.
+2017-02-21T21:25:46.247814767 452.524147s info: Table 1190ec84-7a7f-4140-9f77-0870bfdc3e75: Added replica on this server.
+2017-02-21T21:25:46.251299635 452.527632s info: Table 1190ec84-7a7f-4140-9f77-0870bfdc3e75: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:46.531816164 452.808149s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1190ec84-7a7f-4140-9f77-0870bfdc3e75
+2017-02-21T21:25:46.531830728 452.808163s info: Table 1190ec84-7a7f-4140-9f77-0870bfdc3e75: Deleted the table.
+2017-02-21T21:25:46.615600723 452.891933s info: Table 2cd6cc22-5d60-4299-ad21-fc71b57364ae: Starting a new Raft election for term 1.
+2017-02-21T21:25:46.615872950 452.892205s info: Table 2cd6cc22-5d60-4299-ad21-fc71b57364ae: Added replica on this server.
+2017-02-21T21:25:46.619507224 452.895840s info: Table 2cd6cc22-5d60-4299-ad21-fc71b57364ae: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:46.899750357 453.176083s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2cd6cc22-5d60-4299-ad21-fc71b57364ae
+2017-02-21T21:25:46.899764466 453.176097s info: Table 2cd6cc22-5d60-4299-ad21-fc71b57364ae: Deleted the table.
+2017-02-21T21:25:46.988472425 453.264805s info: Table 84b7a48f-1ce3-489a-8b42-798b8dd00813: Starting a new Raft election for term 1.
+2017-02-21T21:25:46.988665828 453.264998s info: Table 84b7a48f-1ce3-489a-8b42-798b8dd00813: Added replica on this server.
+2017-02-21T21:25:46.992760503 453.269093s info: Table 84b7a48f-1ce3-489a-8b42-798b8dd00813: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:47.278828756 453.555162s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/84b7a48f-1ce3-489a-8b42-798b8dd00813
+2017-02-21T21:25:47.278847461 453.555180s info: Table 84b7a48f-1ce3-489a-8b42-798b8dd00813: Deleted the table.
+2017-02-21T21:25:47.378839940 453.655172s info: Table 2807f3fb-1ce9-4a71-9084-c948e973b1ea: Starting a new Raft election for term 1.
+2017-02-21T21:25:47.379086516 453.655419s info: Table 2807f3fb-1ce9-4a71-9084-c948e973b1ea: Added replica on this server.
+2017-02-21T21:25:47.382992405 453.659325s info: Table 2807f3fb-1ce9-4a71-9084-c948e973b1ea: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:47.680194913 453.956528s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2807f3fb-1ce9-4a71-9084-c948e973b1ea
+2017-02-21T21:25:47.680217072 453.956549s info: Table 2807f3fb-1ce9-4a71-9084-c948e973b1ea: Deleted the table.
+2017-02-21T21:25:47.789457346 454.065790s info: Table 0f486c26-922a-43c8-ae04-0b3a62106a7e: Starting a new Raft election for term 1.
+2017-02-21T21:25:47.789766617 454.066099s info: Table 0f486c26-922a-43c8-ae04-0b3a62106a7e: Added replica on this server.
+2017-02-21T21:25:47.793679624 454.070012s info: Table 0f486c26-922a-43c8-ae04-0b3a62106a7e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:48.060937240 454.337270s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0f486c26-922a-43c8-ae04-0b3a62106a7e
+2017-02-21T21:25:48.060951912 454.337284s info: Table 0f486c26-922a-43c8-ae04-0b3a62106a7e: Deleted the table.
+2017-02-21T21:25:48.148533768 454.424866s info: Table f8b4cda9-1c17-4211-b1cd-458f41a07345: Starting a new Raft election for term 1.
+2017-02-21T21:25:48.148843886 454.425176s info: Table f8b4cda9-1c17-4211-b1cd-458f41a07345: Added replica on this server.
+2017-02-21T21:25:48.152445119 454.428777s info: Table f8b4cda9-1c17-4211-b1cd-458f41a07345: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:48.420818022 454.697151s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f8b4cda9-1c17-4211-b1cd-458f41a07345
+2017-02-21T21:25:48.420833582 454.697166s info: Table f8b4cda9-1c17-4211-b1cd-458f41a07345: Deleted the table.
+2017-02-21T21:25:48.515796972 454.792130s info: Table 2aafd994-a5b1-43aa-8379-6213fdb9aac6: Starting a new Raft election for term 1.
+2017-02-21T21:25:48.516098596 454.792431s info: Table 2aafd994-a5b1-43aa-8379-6213fdb9aac6: Added replica on this server.
+2017-02-21T21:25:48.519902168 454.796235s info: Table 2aafd994-a5b1-43aa-8379-6213fdb9aac6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:25:48.787550113 455.063883s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2aafd994-a5b1-43aa-8379-6213fdb9aac6
+2017-02-21T21:25:48.787571688 455.063904s info: Table 2aafd994-a5b1-43aa-8379-6213fdb9aac6: Deleted the table.
+2017-02-21T21:31:23.249734638 789.526067s info: Table b1e6a74f-2608-4172-82b8-ae9c93486d27: Starting a new Raft election for term 1.
+2017-02-21T21:31:23.249929258 789.526261s info: Table b1e6a74f-2608-4172-82b8-ae9c93486d27: Added replica on this server.
+2017-02-21T21:31:23.253406426 789.529739s info: Table b1e6a74f-2608-4172-82b8-ae9c93486d27: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:23.639731380 789.916064s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b1e6a74f-2608-4172-82b8-ae9c93486d27
+2017-02-21T21:31:23.639741272 789.916073s info: Table b1e6a74f-2608-4172-82b8-ae9c93486d27: Deleted the table.
+2017-02-21T21:31:23.729680853 790.006013s info: Table a54705ed-a863-4357-b512-97a536b7410a: Starting a new Raft election for term 1.
+2017-02-21T21:31:23.729790209 790.006122s info: Table a54705ed-a863-4357-b512-97a536b7410a: Added replica on this server.
+2017-02-21T21:31:23.733671589 790.010004s info: Table a54705ed-a863-4357-b512-97a536b7410a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:24.015615403 790.291948s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a54705ed-a863-4357-b512-97a536b7410a
+2017-02-21T21:31:24.015630693 790.291963s info: Table a54705ed-a863-4357-b512-97a536b7410a: Deleted the table.
+2017-02-21T21:31:24.099676163 790.376009s info: Table 6d0a794e-dc64-4399-b2e4-daa939d2d200: Starting a new Raft election for term 1.
+2017-02-21T21:31:24.099957900 790.376290s info: Table 6d0a794e-dc64-4399-b2e4-daa939d2d200: Added replica on this server.
+2017-02-21T21:31:24.103804035 790.380136s info: Table 6d0a794e-dc64-4399-b2e4-daa939d2d200: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:24.391686331 790.668019s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6d0a794e-dc64-4399-b2e4-daa939d2d200
+2017-02-21T21:31:24.391703684 790.668036s info: Table 6d0a794e-dc64-4399-b2e4-daa939d2d200: Deleted the table.
+2017-02-21T21:31:24.481967868 790.758301s info: Table 7ed3be7c-db03-4f79-8fcb-6d955ed04cbd: Starting a new Raft election for term 1.
+2017-02-21T21:31:24.482315333 790.758648s info: Table 7ed3be7c-db03-4f79-8fcb-6d955ed04cbd: Added replica on this server.
+2017-02-21T21:31:24.486364442 790.762697s info: Table 7ed3be7c-db03-4f79-8fcb-6d955ed04cbd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:24.771879334 791.048213s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7ed3be7c-db03-4f79-8fcb-6d955ed04cbd
+2017-02-21T21:31:24.771902236 791.048235s info: Table 7ed3be7c-db03-4f79-8fcb-6d955ed04cbd: Deleted the table.
+2017-02-21T21:31:24.869890024 791.146223s info: Table 4cf0b01a-55ec-4e40-b029-58540a4ae41a: Starting a new Raft election for term 1.
+2017-02-21T21:31:24.870299907 791.146633s info: Table 4cf0b01a-55ec-4e40-b029-58540a4ae41a: Added replica on this server.
+2017-02-21T21:31:24.874012390 791.150345s info: Table 4cf0b01a-55ec-4e40-b029-58540a4ae41a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:25.158633649 791.434967s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4cf0b01a-55ec-4e40-b029-58540a4ae41a
+2017-02-21T21:31:25.158647396 791.434980s info: Table 4cf0b01a-55ec-4e40-b029-58540a4ae41a: Deleted the table.
+2017-02-21T21:31:25.262223808 791.538556s info: Table 7c012399-db00-42e9-887f-909fe7cf6a99: Starting a new Raft election for term 1.
+2017-02-21T21:31:25.262416199 791.538748s info: Table 7c012399-db00-42e9-887f-909fe7cf6a99: Added replica on this server.
+2017-02-21T21:31:25.266105393 791.542438s info: Table 7c012399-db00-42e9-887f-909fe7cf6a99: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:25.536236460 791.812570s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7c012399-db00-42e9-887f-909fe7cf6a99
+2017-02-21T21:31:25.536266337 791.812599s info: Table 7c012399-db00-42e9-887f-909fe7cf6a99: Deleted the table.
+2017-02-21T21:31:25.620436878 791.896770s info: Table 2be02ba7-aa91-42ad-b6d5-043f05e452a6: Starting a new Raft election for term 1.
+2017-02-21T21:31:25.620755169 791.897088s info: Table 2be02ba7-aa91-42ad-b6d5-043f05e452a6: Added replica on this server.
+2017-02-21T21:31:25.624626289 791.900959s info: Table 2be02ba7-aa91-42ad-b6d5-043f05e452a6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:25.895616269 792.171949s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2be02ba7-aa91-42ad-b6d5-043f05e452a6
+2017-02-21T21:31:25.895633320 792.171966s info: Table 2be02ba7-aa91-42ad-b6d5-043f05e452a6: Deleted the table.
+2017-02-21T21:31:25.993992893 792.270325s info: Table f0565971-2bc5-4e2d-ab49-c9403ce0b5f7: Starting a new Raft election for term 1.
+2017-02-21T21:31:25.994174731 792.270507s info: Table f0565971-2bc5-4e2d-ab49-c9403ce0b5f7: Added replica on this server.
+2017-02-21T21:31:25.998419718 792.274752s info: Table f0565971-2bc5-4e2d-ab49-c9403ce0b5f7: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T21:31:26.266543466 792.542877s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f0565971-2bc5-4e2d-ab49-c9403ce0b5f7
+2017-02-21T21:31:26.266563576 792.542896s info: Table f0565971-2bc5-4e2d-ab49-c9403ce0b5f7: Deleted the table.
+2017-02-21T22:36:52.562701376 4718.839034s info: Table 058f767f-932e-4061-96f3-808cfe6cb90c: Starting a new Raft election for term 1.
+2017-02-21T22:36:52.562994438 4718.839327s info: Table 058f767f-932e-4061-96f3-808cfe6cb90c: Added replica on this server.
+2017-02-21T22:36:52.566999859 4718.843332s info: Table 058f767f-932e-4061-96f3-808cfe6cb90c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:52.935453922 4719.211786s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/058f767f-932e-4061-96f3-808cfe6cb90c
+2017-02-21T22:36:52.935464117 4719.211796s info: Table 058f767f-932e-4061-96f3-808cfe6cb90c: Deleted the table.
+2017-02-21T22:36:53.016372880 4719.292705s info: Table ec44d506-8d76-4533-9ede-467ecbfb4c54: Starting a new Raft election for term 1.
+2017-02-21T22:36:53.016539968 4719.292872s info: Table ec44d506-8d76-4533-9ede-467ecbfb4c54: Added replica on this server.
+2017-02-21T22:36:53.020295845 4719.296628s info: Table ec44d506-8d76-4533-9ede-467ecbfb4c54: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:53.298094220 4719.574427s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/ec44d506-8d76-4533-9ede-467ecbfb4c54
+2017-02-21T22:36:53.298105792 4719.574438s info: Table ec44d506-8d76-4533-9ede-467ecbfb4c54: Deleted the table.
+2017-02-21T22:36:53.377778060 4719.654111s info: Table 4d4d7f29-e0af-4c13-9d34-93eb73f1bb41: Starting a new Raft election for term 1.
+2017-02-21T22:36:53.378014356 4719.654347s info: Table 4d4d7f29-e0af-4c13-9d34-93eb73f1bb41: Added replica on this server.
+2017-02-21T22:36:53.381746024 4719.658078s info: Table 4d4d7f29-e0af-4c13-9d34-93eb73f1bb41: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:53.897077002 4720.173410s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4d4d7f29-e0af-4c13-9d34-93eb73f1bb41
+2017-02-21T22:36:53.897091211 4720.173423s info: Table 4d4d7f29-e0af-4c13-9d34-93eb73f1bb41: Deleted the table.
+2017-02-21T22:36:54.005701535 4720.282034s info: Table 48f3fa9b-859d-42f8-b59c-4eafdba52926: Starting a new Raft election for term 1.
+2017-02-21T22:36:54.005982986 4720.282315s info: Table 48f3fa9b-859d-42f8-b59c-4eafdba52926: Added replica on this server.
+2017-02-21T22:36:54.012245068 4720.288578s info: Table 48f3fa9b-859d-42f8-b59c-4eafdba52926: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:54.521968584 4720.798301s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/48f3fa9b-859d-42f8-b59c-4eafdba52926
+2017-02-21T22:36:54.521983370 4720.798316s info: Table 48f3fa9b-859d-42f8-b59c-4eafdba52926: Deleted the table.
+2017-02-21T22:36:54.618628951 4720.894962s info: Table b8ba9848-4562-4035-af50-f07c8776dd61: Starting a new Raft election for term 1.
+2017-02-21T22:36:54.619007830 4720.895341s info: Table b8ba9848-4562-4035-af50-f07c8776dd61: Added replica on this server.
+2017-02-21T22:36:54.624946636 4720.901279s info: Table b8ba9848-4562-4035-af50-f07c8776dd61: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:54.935331383 4721.211664s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b8ba9848-4562-4035-af50-f07c8776dd61
+2017-02-21T22:36:54.935343864 4721.211676s info: Table b8ba9848-4562-4035-af50-f07c8776dd61: Deleted the table.
+2017-02-21T22:36:55.074224205 4721.350557s info: Table b9f42d5f-8cb8-40c8-89ff-6dc42bcefcef: Starting a new Raft election for term 1.
+2017-02-21T22:36:55.074433590 4721.350766s info: Table b9f42d5f-8cb8-40c8-89ff-6dc42bcefcef: Added replica on this server.
+2017-02-21T22:36:55.080155227 4721.356488s info: Table b9f42d5f-8cb8-40c8-89ff-6dc42bcefcef: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:55.351688295 4721.628021s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b9f42d5f-8cb8-40c8-89ff-6dc42bcefcef
+2017-02-21T22:36:55.351709203 4721.628042s info: Table b9f42d5f-8cb8-40c8-89ff-6dc42bcefcef: Deleted the table.
+2017-02-21T22:36:55.439728746 4721.716061s info: Table 3fcc4186-9b6f-4b3b-8f16-2c61156e92e2: Starting a new Raft election for term 1.
+2017-02-21T22:36:55.439921103 4721.716254s info: Table 3fcc4186-9b6f-4b3b-8f16-2c61156e92e2: Added replica on this server.
+2017-02-21T22:36:55.446174142 4721.722507s info: Table 3fcc4186-9b6f-4b3b-8f16-2c61156e92e2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:55.943732184 4722.220065s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3fcc4186-9b6f-4b3b-8f16-2c61156e92e2
+2017-02-21T22:36:55.943749785 4722.220082s info: Table 3fcc4186-9b6f-4b3b-8f16-2c61156e92e2: Deleted the table.
+2017-02-21T22:36:56.054179648 4722.330512s info: Table 2c51d6ea-104f-42ab-b1ce-42500ba92731: Starting a new Raft election for term 1.
+2017-02-21T22:36:56.054355982 4722.330688s info: Table 2c51d6ea-104f-42ab-b1ce-42500ba92731: Added replica on this server.
+2017-02-21T22:36:56.059950001 4722.336282s info: Table 2c51d6ea-104f-42ab-b1ce-42500ba92731: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:36:56.331371870 4722.607705s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2c51d6ea-104f-42ab-b1ce-42500ba92731
+2017-02-21T22:36:56.331389491 4722.607722s info: Table 2c51d6ea-104f-42ab-b1ce-42500ba92731: Deleted the table.
+2017-02-21T22:37:27.063334895 4753.339667s info: Table b3d54ae9-6b04-4ff8-93e2-3ddf6d07b2e6: Starting a new Raft election for term 1.
+2017-02-21T22:37:27.063439012 4753.339771s info: Table b3d54ae9-6b04-4ff8-93e2-3ddf6d07b2e6: Added replica on this server.
+2017-02-21T22:37:27.069259597 4753.345592s info: Table b3d54ae9-6b04-4ff8-93e2-3ddf6d07b2e6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:27.684273019 4753.960606s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b3d54ae9-6b04-4ff8-93e2-3ddf6d07b2e6
+2017-02-21T22:37:27.684285105 4753.960617s info: Table b3d54ae9-6b04-4ff8-93e2-3ddf6d07b2e6: Deleted the table.
+2017-02-21T22:37:27.775413514 4754.051747s info: Table 172e25fd-8055-44d5-ba14-cd6abdd954ef: Starting a new Raft election for term 1.
+2017-02-21T22:37:27.775600298 4754.051933s info: Table 172e25fd-8055-44d5-ba14-cd6abdd954ef: Added replica on this server.
+2017-02-21T22:37:27.781986483 4754.058319s info: Table 172e25fd-8055-44d5-ba14-cd6abdd954ef: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:28.053178671 4754.329511s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/172e25fd-8055-44d5-ba14-cd6abdd954ef
+2017-02-21T22:37:28.053186910 4754.329519s info: Table 172e25fd-8055-44d5-ba14-cd6abdd954ef: Deleted the table.
+2017-02-21T22:37:28.127813576 4754.404146s info: Table 7a30de37-bca9-405a-9098-837098f758c6: Starting a new Raft election for term 1.
+2017-02-21T22:37:28.128230815 4754.404563s info: Table 7a30de37-bca9-405a-9098-837098f758c6: Added replica on this server.
+2017-02-21T22:37:28.133487869 4754.409820s info: Table 7a30de37-bca9-405a-9098-837098f758c6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:28.415746461 4754.692079s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7a30de37-bca9-405a-9098-837098f758c6
+2017-02-21T22:37:28.415757795 4754.692090s info: Table 7a30de37-bca9-405a-9098-837098f758c6: Deleted the table.
+2017-02-21T22:37:28.508773342 4754.785106s info: Table 9d4663be-fe75-46fd-a309-89f7810b954b: Starting a new Raft election for term 1.
+2017-02-21T22:37:28.509098734 4754.785431s info: Table 9d4663be-fe75-46fd-a309-89f7810b954b: Added replica on this server.
+2017-02-21T22:37:28.516260469 4754.792593s info: Table 9d4663be-fe75-46fd-a309-89f7810b954b: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:29.028654300 4755.304987s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9d4663be-fe75-46fd-a309-89f7810b954b
+2017-02-21T22:37:29.028668537 4755.305001s info: Table 9d4663be-fe75-46fd-a309-89f7810b954b: Deleted the table.
+2017-02-21T22:37:29.132463636 4755.408796s info: Table dd83cc9d-5742-4071-9b85-e51db6292b9f: Starting a new Raft election for term 1.
+2017-02-21T22:37:29.132738841 4755.409071s info: Table dd83cc9d-5742-4071-9b85-e51db6292b9f: Added replica on this server.
+2017-02-21T22:37:29.138758454 4755.415091s info: Table dd83cc9d-5742-4071-9b85-e51db6292b9f: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:29.453498276 4755.729831s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/dd83cc9d-5742-4071-9b85-e51db6292b9f
+2017-02-21T22:37:29.453508771 4755.729841s info: Table dd83cc9d-5742-4071-9b85-e51db6292b9f: Deleted the table.
+2017-02-21T22:37:29.569481177 4755.845814s info: Table b6f774be-221f-4caf-b741-d76213467d29: Starting a new Raft election for term 1.
+2017-02-21T22:37:29.569713745 4755.846046s info: Table b6f774be-221f-4caf-b741-d76213467d29: Added replica on this server.
+2017-02-21T22:37:29.575629148 4755.851962s info: Table b6f774be-221f-4caf-b741-d76213467d29: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:29.844317154 4756.120650s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b6f774be-221f-4caf-b741-d76213467d29
+2017-02-21T22:37:29.844332555 4756.120665s info: Table b6f774be-221f-4caf-b741-d76213467d29: Deleted the table.
+2017-02-21T22:37:29.925347225 4756.201680s info: Table 8b1c10db-f799-468d-9f44-ae7d9c4ab462: Starting a new Raft election for term 1.
+2017-02-21T22:37:29.925591670 4756.201924s info: Table 8b1c10db-f799-468d-9f44-ae7d9c4ab462: Added replica on this server.
+2017-02-21T22:37:29.933594117 4756.209927s info: Table 8b1c10db-f799-468d-9f44-ae7d9c4ab462: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:30.196730121 4756.473063s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8b1c10db-f799-468d-9f44-ae7d9c4ab462
+2017-02-21T22:37:30.196738705 4756.473071s info: Table 8b1c10db-f799-468d-9f44-ae7d9c4ab462: Deleted the table.
+2017-02-21T22:37:30.280034033 4756.556366s info: Table f1e214a1-a2c4-4fa9-a988-1f2dbcde7438: Starting a new Raft election for term 1.
+2017-02-21T22:37:30.280233669 4756.556566s info: Table f1e214a1-a2c4-4fa9-a988-1f2dbcde7438: Added replica on this server.
+2017-02-21T22:37:30.285910002 4756.562242s info: Table f1e214a1-a2c4-4fa9-a988-1f2dbcde7438: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:37:30.560490589 4756.836823s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f1e214a1-a2c4-4fa9-a988-1f2dbcde7438
+2017-02-21T22:37:30.560503097 4756.836835s info: Table f1e214a1-a2c4-4fa9-a988-1f2dbcde7438: Deleted the table.
+2017-02-21T22:38:41.814304025 4828.090636s info: Table b57fd1bb-2aa1-4e27-9f11-1563549c378f: Starting a new Raft election for term 1.
+2017-02-21T22:38:41.814391294 4828.090723s info: Table b57fd1bb-2aa1-4e27-9f11-1563549c378f: Added replica on this server.
+2017-02-21T22:38:41.820025296 4828.096357s info: Table b57fd1bb-2aa1-4e27-9f11-1563549c378f: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:42.170327585 4828.446660s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b57fd1bb-2aa1-4e27-9f11-1563549c378f
+2017-02-21T22:38:42.170336788 4828.446669s info: Table b57fd1bb-2aa1-4e27-9f11-1563549c378f: Deleted the table.
+2017-02-21T22:38:42.250023938 4828.526356s info: Table 48402283-8254-428c-b7c2-cbe032175a84: Starting a new Raft election for term 1.
+2017-02-21T22:38:42.250194636 4828.526527s info: Table 48402283-8254-428c-b7c2-cbe032175a84: Added replica on this server.
+2017-02-21T22:38:42.255779455 4828.532112s info: Table 48402283-8254-428c-b7c2-cbe032175a84: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:42.535752953 4828.812085s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/48402283-8254-428c-b7c2-cbe032175a84
+2017-02-21T22:38:42.535762222 4828.812094s info: Table 48402283-8254-428c-b7c2-cbe032175a84: Deleted the table.
+2017-02-21T22:38:42.620966537 4828.897299s info: Table beefff70-8245-4ae6-a39b-876f12eb23ed: Starting a new Raft election for term 1.
+2017-02-21T22:38:42.621277266 4828.897610s info: Table beefff70-8245-4ae6-a39b-876f12eb23ed: Added replica on this server.
+2017-02-21T22:38:42.626950313 4828.903283s info: Table beefff70-8245-4ae6-a39b-876f12eb23ed: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:42.907554494 4829.183887s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/beefff70-8245-4ae6-a39b-876f12eb23ed
+2017-02-21T22:38:42.907563904 4829.183896s info: Table beefff70-8245-4ae6-a39b-876f12eb23ed: Deleted the table.
+2017-02-21T22:38:43.001665842 4829.277998s info: Table 99541a2b-8a0a-4b60-8e0f-98adc1c5e997: Starting a new Raft election for term 1.
+2017-02-21T22:38:43.001797620 4829.278130s info: Table 99541a2b-8a0a-4b60-8e0f-98adc1c5e997: Added replica on this server.
+2017-02-21T22:38:43.007615379 4829.283948s info: Table 99541a2b-8a0a-4b60-8e0f-98adc1c5e997: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:43.289625718 4829.565958s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/99541a2b-8a0a-4b60-8e0f-98adc1c5e997
+2017-02-21T22:38:43.289639036 4829.565971s info: Table 99541a2b-8a0a-4b60-8e0f-98adc1c5e997: Deleted the table.
+2017-02-21T22:38:43.388821198 4829.665154s info: Table a7b1b902-199a-45a8-ba75-c2ee93f23db7: Starting a new Raft election for term 1.
+2017-02-21T22:38:43.389102218 4829.665435s info: Table a7b1b902-199a-45a8-ba75-c2ee93f23db7: Added replica on this server.
+2017-02-21T22:38:43.395062357 4829.671395s info: Table a7b1b902-199a-45a8-ba75-c2ee93f23db7: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:43.739404866 4830.015738s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a7b1b902-199a-45a8-ba75-c2ee93f23db7
+2017-02-21T22:38:43.739422089 4830.015754s info: Table a7b1b902-199a-45a8-ba75-c2ee93f23db7: Deleted the table.
+2017-02-21T22:38:43.854229064 4830.130562s info: Table afb8c43f-0ccf-479b-8b19-fecdddf8f529: Starting a new Raft election for term 1.
+2017-02-21T22:38:43.854378713 4830.130711s info: Table afb8c43f-0ccf-479b-8b19-fecdddf8f529: Added replica on this server.
+2017-02-21T22:38:43.860336482 4830.136669s info: Table afb8c43f-0ccf-479b-8b19-fecdddf8f529: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:44.133634103 4830.409967s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/afb8c43f-0ccf-479b-8b19-fecdddf8f529
+2017-02-21T22:38:44.133648783 4830.409981s info: Table afb8c43f-0ccf-479b-8b19-fecdddf8f529: Deleted the table.
+2017-02-21T22:38:44.219517475 4830.495850s info: Table c1ab575f-e6d4-4ebe-a849-3d9b8b3e25e0: Starting a new Raft election for term 1.
+2017-02-21T22:38:44.219779373 4830.496112s info: Table c1ab575f-e6d4-4ebe-a849-3d9b8b3e25e0: Added replica on this server.
+2017-02-21T22:38:44.225535851 4830.501868s info: Table c1ab575f-e6d4-4ebe-a849-3d9b8b3e25e0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:44.720507746 4830.996840s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c1ab575f-e6d4-4ebe-a849-3d9b8b3e25e0
+2017-02-21T22:38:44.720517975 4830.996850s info: Table c1ab575f-e6d4-4ebe-a849-3d9b8b3e25e0: Deleted the table.
+2017-02-21T22:38:44.819488173 4831.095821s info: Table c44e7fa9-08ac-4825-9aed-1d825f51e262: Starting a new Raft election for term 1.
+2017-02-21T22:38:44.819811031 4831.096144s info: Table c44e7fa9-08ac-4825-9aed-1d825f51e262: Added replica on this server.
+2017-02-21T22:38:44.825706942 4831.102039s info: Table c44e7fa9-08ac-4825-9aed-1d825f51e262: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:38:45.094039650 4831.370372s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c44e7fa9-08ac-4825-9aed-1d825f51e262
+2017-02-21T22:38:45.094049378 4831.370381s info: Table c44e7fa9-08ac-4825-9aed-1d825f51e262: Deleted the table.
+2017-02-21T22:42:35.658565688 5061.934898s info: Table 757b5ffc-f080-4d38-bf86-a3664f6e0236: Starting a new Raft election for term 1.
+2017-02-21T22:42:35.658674007 5061.935006s info: Table 757b5ffc-f080-4d38-bf86-a3664f6e0236: Added replica on this server.
+2017-02-21T22:42:35.664281063 5061.940613s info: Table 757b5ffc-f080-4d38-bf86-a3664f6e0236: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:36.033248511 5062.309581s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/757b5ffc-f080-4d38-bf86-a3664f6e0236
+2017-02-21T22:42:36.033256659 5062.309589s info: Table 757b5ffc-f080-4d38-bf86-a3664f6e0236: Deleted the table.
+2017-02-21T22:42:36.113350040 5062.389683s info: Table 1b373eeb-6378-426b-8dcb-f32ea8a9da0e: Starting a new Raft election for term 1.
+2017-02-21T22:42:36.113592907 5062.389925s info: Table 1b373eeb-6378-426b-8dcb-f32ea8a9da0e: Added replica on this server.
+2017-02-21T22:42:36.117482938 5062.393815s info: Table 1b373eeb-6378-426b-8dcb-f32ea8a9da0e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:36.400893477 5062.677227s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1b373eeb-6378-426b-8dcb-f32ea8a9da0e
+2017-02-21T22:42:36.400911427 5062.677244s info: Table 1b373eeb-6378-426b-8dcb-f32ea8a9da0e: Deleted the table.
+2017-02-21T22:42:36.481435418 5062.757768s info: Table 6dbb38f5-4f06-4f80-9e27-f68e80d3aeaa: Starting a new Raft election for term 1.
+2017-02-21T22:42:36.481576724 5062.757909s info: Table 6dbb38f5-4f06-4f80-9e27-f68e80d3aeaa: Added replica on this server.
+2017-02-21T22:42:36.485617092 5062.761949s info: Table 6dbb38f5-4f06-4f80-9e27-f68e80d3aeaa: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:36.769754047 5063.046087s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6dbb38f5-4f06-4f80-9e27-f68e80d3aeaa
+2017-02-21T22:42:36.769770845 5063.046103s info: Table 6dbb38f5-4f06-4f80-9e27-f68e80d3aeaa: Deleted the table.
+2017-02-21T22:42:36.860130981 5063.136463s info: Table 6b570f13-d3de-41a5-8a42-fa6ada0c4b38: Starting a new Raft election for term 1.
+2017-02-21T22:42:36.860382325 5063.136715s info: Table 6b570f13-d3de-41a5-8a42-fa6ada0c4b38: Added replica on this server.
+2017-02-21T22:42:36.864036309 5063.140369s info: Table 6b570f13-d3de-41a5-8a42-fa6ada0c4b38: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:37.150382060 5063.426715s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6b570f13-d3de-41a5-8a42-fa6ada0c4b38
+2017-02-21T22:42:37.150397807 5063.426730s info: Table 6b570f13-d3de-41a5-8a42-fa6ada0c4b38: Deleted the table.
+2017-02-21T22:42:37.259470015 5063.535803s info: Table e4c4e0e6-ce04-4b72-b7e8-2b8ab304e4b9: Starting a new Raft election for term 1.
+2017-02-21T22:42:37.259717503 5063.536050s info: Table e4c4e0e6-ce04-4b72-b7e8-2b8ab304e4b9: Added replica on this server.
+2017-02-21T22:42:37.265630110 5063.541962s info: Table e4c4e0e6-ce04-4b72-b7e8-2b8ab304e4b9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:37.571849911 5063.848183s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e4c4e0e6-ce04-4b72-b7e8-2b8ab304e4b9
+2017-02-21T22:42:37.571862604 5063.848195s info: Table e4c4e0e6-ce04-4b72-b7e8-2b8ab304e4b9: Deleted the table.
+2017-02-21T22:42:37.677283422 5063.953616s info: Table 8a858c3d-1598-4c4f-81be-b4c4bafe3bb0: Starting a new Raft election for term 1.
+2017-02-21T22:42:37.677708405 5063.954041s info: Table 8a858c3d-1598-4c4f-81be-b4c4bafe3bb0: Added replica on this server.
+2017-02-21T22:42:37.681402124 5063.957734s info: Table 8a858c3d-1598-4c4f-81be-b4c4bafe3bb0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:37.951759756 5064.228093s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8a858c3d-1598-4c4f-81be-b4c4bafe3bb0
+2017-02-21T22:42:37.951774497 5064.228107s info: Table 8a858c3d-1598-4c4f-81be-b4c4bafe3bb0: Deleted the table.
+2017-02-21T22:42:38.029611884 5064.305944s info: Table 19f93ab9-da59-4e6f-b5a3-33989fdcaab0: Starting a new Raft election for term 1.
+2017-02-21T22:42:38.029770615 5064.306103s info: Table 19f93ab9-da59-4e6f-b5a3-33989fdcaab0: Added replica on this server.
+2017-02-21T22:42:38.033453536 5064.309786s info: Table 19f93ab9-da59-4e6f-b5a3-33989fdcaab0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:38.300052852 5064.576385s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/19f93ab9-da59-4e6f-b5a3-33989fdcaab0
+2017-02-21T22:42:38.300062231 5064.576394s info: Table 19f93ab9-da59-4e6f-b5a3-33989fdcaab0: Deleted the table.
+2017-02-21T22:42:38.385111083 5064.661444s info: Table 82973467-72cf-4c34-88ef-122701bf3a43: Starting a new Raft election for term 1.
+2017-02-21T22:42:38.385346961 5064.661679s info: Table 82973467-72cf-4c34-88ef-122701bf3a43: Added replica on this server.
+2017-02-21T22:42:38.389139832 5064.665472s info: Table 82973467-72cf-4c34-88ef-122701bf3a43: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:42:38.660143530 5064.936477s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/82973467-72cf-4c34-88ef-122701bf3a43
+2017-02-21T22:42:38.660161280 5064.936494s info: Table 82973467-72cf-4c34-88ef-122701bf3a43: Deleted the table.
+2017-02-21T22:43:10.013108319 5096.289441s info: Table 80884f26-1bac-4097-8539-5e9206d79062: Starting a new Raft election for term 1.
+2017-02-21T22:43:10.013268397 5096.289601s info: Table 80884f26-1bac-4097-8539-5e9206d79062: Added replica on this server.
+2017-02-21T22:43:10.016954925 5096.293287s info: Table 80884f26-1bac-4097-8539-5e9206d79062: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:10.404360732 5096.680694s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/80884f26-1bac-4097-8539-5e9206d79062
+2017-02-21T22:43:10.404373529 5096.680706s info: Table 80884f26-1bac-4097-8539-5e9206d79062: Deleted the table.
+2017-02-21T22:43:10.490410960 5096.766744s info: Table 1e54d287-91cc-4cda-803f-6f3516232032: Starting a new Raft election for term 1.
+2017-02-21T22:43:10.490786068 5096.767119s info: Table 1e54d287-91cc-4cda-803f-6f3516232032: Added replica on this server.
+2017-02-21T22:43:10.494677650 5096.771010s info: Table 1e54d287-91cc-4cda-803f-6f3516232032: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:10.767279614 5097.043612s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1e54d287-91cc-4cda-803f-6f3516232032
+2017-02-21T22:43:10.767288607 5097.043621s info: Table 1e54d287-91cc-4cda-803f-6f3516232032: Deleted the table.
+2017-02-21T22:43:10.843920747 5097.120253s info: Table fdaeae43-6d04-41a3-ab7d-94cd538bd26a: Starting a new Raft election for term 1.
+2017-02-21T22:43:10.844109780 5097.120442s info: Table fdaeae43-6d04-41a3-ab7d-94cd538bd26a: Added replica on this server.
+2017-02-21T22:43:10.847699664 5097.124032s info: Table fdaeae43-6d04-41a3-ab7d-94cd538bd26a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:11.134633637 5097.410966s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/fdaeae43-6d04-41a3-ab7d-94cd538bd26a
+2017-02-21T22:43:11.134649368 5097.410982s info: Table fdaeae43-6d04-41a3-ab7d-94cd538bd26a: Deleted the table.
+2017-02-21T22:43:11.218920655 5097.495253s info: Table e309df27-9208-4271-8c67-f152281c8f2b: Starting a new Raft election for term 1.
+2017-02-21T22:43:11.219268517 5097.495601s info: Table e309df27-9208-4271-8c67-f152281c8f2b: Added replica on this server.
+2017-02-21T22:43:11.223015783 5097.499348s info: Table e309df27-9208-4271-8c67-f152281c8f2b: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:11.504472595 5097.780805s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e309df27-9208-4271-8c67-f152281c8f2b
+2017-02-21T22:43:11.504486661 5097.780819s info: Table e309df27-9208-4271-8c67-f152281c8f2b: Deleted the table.
+2017-02-21T22:43:11.600931784 5097.877264s info: Table 5aeaa7b1-b8ce-4122-8aaf-79b5e80d2ca1: Starting a new Raft election for term 1.
+2017-02-21T22:43:11.601169425 5097.877502s info: Table 5aeaa7b1-b8ce-4122-8aaf-79b5e80d2ca1: Added replica on this server.
+2017-02-21T22:43:11.605014919 5097.881347s info: Table 5aeaa7b1-b8ce-4122-8aaf-79b5e80d2ca1: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:11.920701174 5098.197034s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5aeaa7b1-b8ce-4122-8aaf-79b5e80d2ca1
+2017-02-21T22:43:11.920715099 5098.197047s info: Table 5aeaa7b1-b8ce-4122-8aaf-79b5e80d2ca1: Deleted the table.
+2017-02-21T22:43:12.046871683 5098.323204s info: Table f8550399-427e-46bb-b625-4f90220d9bbb: Starting a new Raft election for term 1.
+2017-02-21T22:43:12.046972851 5098.323305s info: Table f8550399-427e-46bb-b625-4f90220d9bbb: Added replica on this server.
+2017-02-21T22:43:12.050571034 5098.326903s info: Table f8550399-427e-46bb-b625-4f90220d9bbb: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:12.313112230 5098.589445s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f8550399-427e-46bb-b625-4f90220d9bbb
+2017-02-21T22:43:12.313120773 5098.589453s info: Table f8550399-427e-46bb-b625-4f90220d9bbb: Deleted the table.
+2017-02-21T22:43:12.391632895 5098.667966s info: Table ea43c605-149a-4686-9d38-4c8ddfc7c5ed: Starting a new Raft election for term 1.
+2017-02-21T22:43:12.391888608 5098.668221s info: Table ea43c605-149a-4686-9d38-4c8ddfc7c5ed: Added replica on this server.
+2017-02-21T22:43:12.395610971 5098.671943s info: Table ea43c605-149a-4686-9d38-4c8ddfc7c5ed: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:12.656862234 5098.933195s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/ea43c605-149a-4686-9d38-4c8ddfc7c5ed
+2017-02-21T22:43:12.656870607 5098.933203s info: Table ea43c605-149a-4686-9d38-4c8ddfc7c5ed: Deleted the table.
+2017-02-21T22:43:12.738655214 5099.014988s info: Table 3b4d4d57-35df-40f5-815a-d71ec4bf5e29: Starting a new Raft election for term 1.
+2017-02-21T22:43:12.738790516 5099.015123s info: Table 3b4d4d57-35df-40f5-815a-d71ec4bf5e29: Added replica on this server.
+2017-02-21T22:43:12.742697486 5099.019030s info: Table 3b4d4d57-35df-40f5-815a-d71ec4bf5e29: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:43:13.003462922 5099.279795s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3b4d4d57-35df-40f5-815a-d71ec4bf5e29
+2017-02-21T22:43:13.003473813 5099.279806s info: Table 3b4d4d57-35df-40f5-815a-d71ec4bf5e29: Deleted the table.
+2017-02-21T22:47:34.185010448 5360.461343s info: Table c0746b85-0a0e-406b-86c7-06d216524976: Starting a new Raft election for term 1.
+2017-02-21T22:47:34.185106848 5360.461439s info: Table c0746b85-0a0e-406b-86c7-06d216524976: Added replica on this server.
+2017-02-21T22:47:34.188605972 5360.464938s info: Table c0746b85-0a0e-406b-86c7-06d216524976: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:34.606152757 5360.882485s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c0746b85-0a0e-406b-86c7-06d216524976
+2017-02-21T22:47:34.606163400 5360.882495s info: Table c0746b85-0a0e-406b-86c7-06d216524976: Deleted the table.
+2017-02-21T22:47:34.685456461 5360.961789s info: Table c36eb8fa-ecdb-4d42-92fb-134f6810b105: Starting a new Raft election for term 1.
+2017-02-21T22:47:34.685580370 5360.961913s info: Table c36eb8fa-ecdb-4d42-92fb-134f6810b105: Added replica on this server.
+2017-02-21T22:47:34.689399695 5360.965732s info: Table c36eb8fa-ecdb-4d42-92fb-134f6810b105: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:34.979674971 5361.256007s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c36eb8fa-ecdb-4d42-92fb-134f6810b105
+2017-02-21T22:47:34.979686757 5361.256019s info: Table c36eb8fa-ecdb-4d42-92fb-134f6810b105: Deleted the table.
+2017-02-21T22:47:35.067653251 5361.343986s info: Table 6c6d9353-9405-4639-99ba-9014f250e5fd: Starting a new Raft election for term 1.
+2017-02-21T22:47:35.067992035 5361.344324s info: Table 6c6d9353-9405-4639-99ba-9014f250e5fd: Added replica on this server.
+2017-02-21T22:47:35.071439824 5361.347772s info: Table 6c6d9353-9405-4639-99ba-9014f250e5fd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:35.354374375 5361.630707s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6c6d9353-9405-4639-99ba-9014f250e5fd
+2017-02-21T22:47:35.354391800 5361.630724s info: Table 6c6d9353-9405-4639-99ba-9014f250e5fd: Deleted the table.
+2017-02-21T22:47:35.447748495 5361.724081s info: Table e1572362-ab03-40fd-9260-17cbcaf767bf: Starting a new Raft election for term 1.
+2017-02-21T22:47:35.447999697 5361.724332s info: Table e1572362-ab03-40fd-9260-17cbcaf767bf: Added replica on this server.
+2017-02-21T22:47:35.451574148 5361.727906s info: Table e1572362-ab03-40fd-9260-17cbcaf767bf: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:35.730454007 5362.006787s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e1572362-ab03-40fd-9260-17cbcaf767bf
+2017-02-21T22:47:35.730467161 5362.006799s info: Table e1572362-ab03-40fd-9260-17cbcaf767bf: Deleted the table.
+2017-02-21T22:47:35.833463557 5362.109796s info: Table 44874b30-2c15-49a8-ad09-b9a3d44bc79a: Starting a new Raft election for term 1.
+2017-02-21T22:47:35.833687326 5362.110020s info: Table 44874b30-2c15-49a8-ad09-b9a3d44bc79a: Added replica on this server.
+2017-02-21T22:47:35.837658202 5362.113991s info: Table 44874b30-2c15-49a8-ad09-b9a3d44bc79a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:36.132431153 5362.408764s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/44874b30-2c15-49a8-ad09-b9a3d44bc79a
+2017-02-21T22:47:36.132440975 5362.408773s info: Table 44874b30-2c15-49a8-ad09-b9a3d44bc79a: Deleted the table.
+2017-02-21T22:47:36.257011355 5362.533344s info: Table c0c5acc0-0cc0-449c-a940-e4cf4db82325: Starting a new Raft election for term 1.
+2017-02-21T22:47:36.257205215 5362.533538s info: Table c0c5acc0-0cc0-449c-a940-e4cf4db82325: Added replica on this server.
+2017-02-21T22:47:36.262883465 5362.539216s info: Table c0c5acc0-0cc0-449c-a940-e4cf4db82325: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:36.759768562 5363.036101s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c0c5acc0-0cc0-449c-a940-e4cf4db82325
+2017-02-21T22:47:36.759783316 5363.036116s info: Table c0c5acc0-0cc0-449c-a940-e4cf4db82325: Deleted the table.
+2017-02-21T22:47:36.847505593 5363.123839s info: Table dd7ed0f0-665d-4e85-9ea9-7d04d8d7f97d: Starting a new Raft election for term 1.
+2017-02-21T22:47:36.847699012 5363.124032s info: Table dd7ed0f0-665d-4e85-9ea9-7d04d8d7f97d: Added replica on this server.
+2017-02-21T22:47:36.854010301 5363.130343s info: Table dd7ed0f0-665d-4e85-9ea9-7d04d8d7f97d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:37.125667663 5363.402001s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/dd7ed0f0-665d-4e85-9ea9-7d04d8d7f97d
+2017-02-21T22:47:37.125688109 5363.402020s info: Table dd7ed0f0-665d-4e85-9ea9-7d04d8d7f97d: Deleted the table.
+2017-02-21T22:47:37.221039664 5363.497372s info: Table 5c31a646-56a1-44b8-a503-e3d69b1f605d: Starting a new Raft election for term 1.
+2017-02-21T22:47:37.221249535 5363.497582s info: Table 5c31a646-56a1-44b8-a503-e3d69b1f605d: Added replica on this server.
+2017-02-21T22:47:37.226789503 5363.503122s info: Table 5c31a646-56a1-44b8-a503-e3d69b1f605d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:47:37.497796717 5363.774130s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5c31a646-56a1-44b8-a503-e3d69b1f605d
+2017-02-21T22:47:37.497814944 5363.774147s info: Table 5c31a646-56a1-44b8-a503-e3d69b1f605d: Deleted the table.
+2017-02-21T22:48:20.981979571 5407.258312s info: Table ebcfa1b4-6a09-44e1-8343-a0744954baeb: Starting a new Raft election for term 1.
+2017-02-21T22:48:20.982307058 5407.258639s info: Table ebcfa1b4-6a09-44e1-8343-a0744954baeb: Added replica on this server.
+2017-02-21T22:48:20.988332782 5407.264665s info: Table ebcfa1b4-6a09-44e1-8343-a0744954baeb: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:21.379858749 5407.656191s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/ebcfa1b4-6a09-44e1-8343-a0744954baeb
+2017-02-21T22:48:21.379868272 5407.656200s info: Table ebcfa1b4-6a09-44e1-8343-a0744954baeb: Deleted the table.
+2017-02-21T22:48:21.474546682 5407.750879s info: Table c294917a-b80b-4c2a-803d-1f9adc41d499: Starting a new Raft election for term 1.
+2017-02-21T22:48:21.474765109 5407.751097s info: Table c294917a-b80b-4c2a-803d-1f9adc41d499: Added replica on this server.
+2017-02-21T22:48:21.482317381 5407.758650s info: Table c294917a-b80b-4c2a-803d-1f9adc41d499: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:21.766664240 5408.042997s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c294917a-b80b-4c2a-803d-1f9adc41d499
+2017-02-21T22:48:21.766686729 5408.043019s info: Table c294917a-b80b-4c2a-803d-1f9adc41d499: Deleted the table.
+2017-02-21T22:48:21.857412214 5408.133745s info: Table ed7e2403-b75a-4784-9e37-b261a847706c: Starting a new Raft election for term 1.
+2017-02-21T22:48:21.857649126 5408.133982s info: Table ed7e2403-b75a-4784-9e37-b261a847706c: Added replica on this server.
+2017-02-21T22:48:21.865717462 5408.142050s info: Table ed7e2403-b75a-4784-9e37-b261a847706c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:22.374074013 5408.650407s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/ed7e2403-b75a-4784-9e37-b261a847706c
+2017-02-21T22:48:22.374088348 5408.650421s info: Table ed7e2403-b75a-4784-9e37-b261a847706c: Deleted the table.
+2017-02-21T22:48:22.476763487 5408.753096s info: Table 3da78bda-6d35-41f2-97ba-9a7250cf4b2d: Starting a new Raft election for term 1.
+2017-02-21T22:48:22.477009804 5408.753342s info: Table 3da78bda-6d35-41f2-97ba-9a7250cf4b2d: Added replica on this server.
+2017-02-21T22:48:22.482889195 5408.759222s info: Table 3da78bda-6d35-41f2-97ba-9a7250cf4b2d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:22.778003065 5409.054336s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3da78bda-6d35-41f2-97ba-9a7250cf4b2d
+2017-02-21T22:48:22.778014079 5409.054346s info: Table 3da78bda-6d35-41f2-97ba-9a7250cf4b2d: Deleted the table.
+2017-02-21T22:48:22.868225018 5409.144558s info: Table 9ef96b25-d5ef-4e52-909f-2613d9592248: Starting a new Raft election for term 1.
+2017-02-21T22:48:22.868375260 5409.144708s info: Table 9ef96b25-d5ef-4e52-909f-2613d9592248: Added replica on this server.
+2017-02-21T22:48:22.874399680 5409.150732s info: Table 9ef96b25-d5ef-4e52-909f-2613d9592248: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:23.172975500 5409.449308s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9ef96b25-d5ef-4e52-909f-2613d9592248
+2017-02-21T22:48:23.172987159 5409.449319s info: Table 9ef96b25-d5ef-4e52-909f-2613d9592248: Deleted the table.
+2017-02-21T22:48:23.279198912 5409.555532s info: Table ca77a008-a3e2-4b7d-804a-1b0f25aebba0: Added replica on this server.
+2017-02-21T22:48:23.279251960 5409.555584s info: Table ca77a008-a3e2-4b7d-804a-1b0f25aebba0: Starting a new Raft election for term 1.
+2017-02-21T22:48:23.285124134 5409.561456s info: Table ca77a008-a3e2-4b7d-804a-1b0f25aebba0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:23.557181952 5409.833515s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/ca77a008-a3e2-4b7d-804a-1b0f25aebba0
+2017-02-21T22:48:23.557196349 5409.833529s info: Table ca77a008-a3e2-4b7d-804a-1b0f25aebba0: Deleted the table.
+2017-02-21T22:48:23.651276579 5409.927609s info: Table 8f13de3e-1241-49dd-93fc-b4047aa55d51: Added replica on this server.
+2017-02-21T22:48:23.651321149 5409.927653s info: Table 8f13de3e-1241-49dd-93fc-b4047aa55d51: Starting a new Raft election for term 1.
+2017-02-21T22:48:23.657382337 5409.933715s info: Table 8f13de3e-1241-49dd-93fc-b4047aa55d51: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:24.151956331 5410.428289s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8f13de3e-1241-49dd-93fc-b4047aa55d51
+2017-02-21T22:48:24.151968203 5410.428300s info: Table 8f13de3e-1241-49dd-93fc-b4047aa55d51: Deleted the table.
+2017-02-21T22:48:24.245098568 5410.521431s info: Table f35c4551-c163-4518-94cd-bb32d952c0bd: Starting a new Raft election for term 1.
+2017-02-21T22:48:24.245322438 5410.521655s info: Table f35c4551-c163-4518-94cd-bb32d952c0bd: Added replica on this server.
+2017-02-21T22:48:24.251147789 5410.527480s info: Table f35c4551-c163-4518-94cd-bb32d952c0bd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:48:24.518681337 5410.795014s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/f35c4551-c163-4518-94cd-bb32d952c0bd
+2017-02-21T22:48:24.518695753 5410.795028s info: Table f35c4551-c163-4518-94cd-bb32d952c0bd: Deleted the table.
+2017-02-21T22:49:55.498238597 5501.774571s info: Table 491a0e07-1915-47fc-993f-ec862f68bbd3: Added replica on this server.
+2017-02-21T22:49:55.498285939 5501.774618s info: Table 491a0e07-1915-47fc-993f-ec862f68bbd3: Starting a new Raft election for term 1.
+2017-02-21T22:49:55.506723078 5501.783055s info: Table 491a0e07-1915-47fc-993f-ec862f68bbd3: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:55.936874816 5502.213207s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/491a0e07-1915-47fc-993f-ec862f68bbd3
+2017-02-21T22:49:55.936884216 5502.213216s info: Table 491a0e07-1915-47fc-993f-ec862f68bbd3: Deleted the table.
+2017-02-21T22:49:56.023569455 5502.299902s info: Table c379f3b5-bc80-4e79-bdfd-678aa733dbb0: Starting a new Raft election for term 1.
+2017-02-21T22:49:56.023736297 5502.300068s info: Table c379f3b5-bc80-4e79-bdfd-678aa733dbb0: Added replica on this server.
+2017-02-21T22:49:56.029559470 5502.305892s info: Table c379f3b5-bc80-4e79-bdfd-678aa733dbb0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:56.306150146 5502.582482s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c379f3b5-bc80-4e79-bdfd-678aa733dbb0
+2017-02-21T22:49:56.306156842 5502.582489s info: Table c379f3b5-bc80-4e79-bdfd-678aa733dbb0: Deleted the table.
+2017-02-21T22:49:56.393629710 5502.669962s info: Table 654ae6f9-f5e2-476e-ad31-94eebb377550: Starting a new Raft election for term 1.
+2017-02-21T22:49:56.393837804 5502.670170s info: Table 654ae6f9-f5e2-476e-ad31-94eebb377550: Added replica on this server.
+2017-02-21T22:49:56.399743370 5502.676076s info: Table 654ae6f9-f5e2-476e-ad31-94eebb377550: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:56.684091423 5502.960424s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/654ae6f9-f5e2-476e-ad31-94eebb377550
+2017-02-21T22:49:56.684104919 5502.960437s info: Table 654ae6f9-f5e2-476e-ad31-94eebb377550: Deleted the table.
+2017-02-21T22:49:56.783202828 5503.059535s info: Table 8ba73634-55cf-43d8-bb85-3d9ab25c009d: Starting a new Raft election for term 1.
+2017-02-21T22:49:56.783378125 5503.059711s info: Table 8ba73634-55cf-43d8-bb85-3d9ab25c009d: Added replica on this server.
+2017-02-21T22:49:56.789813769 5503.066146s info: Table 8ba73634-55cf-43d8-bb85-3d9ab25c009d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:57.067043109 5503.343376s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8ba73634-55cf-43d8-bb85-3d9ab25c009d
+2017-02-21T22:49:57.067052288 5503.343384s info: Table 8ba73634-55cf-43d8-bb85-3d9ab25c009d: Deleted the table.
+2017-02-21T22:49:57.164722533 5503.441055s info: Table 1242d39e-1a6b-40c9-8093-52209e768a64: Starting a new Raft election for term 1.
+2017-02-21T22:49:57.164948297 5503.441281s info: Table 1242d39e-1a6b-40c9-8093-52209e768a64: Added replica on this server.
+2017-02-21T22:49:57.170849515 5503.447182s info: Table 1242d39e-1a6b-40c9-8093-52209e768a64: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:57.476344850 5503.752678s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1242d39e-1a6b-40c9-8093-52209e768a64
+2017-02-21T22:49:57.476359363 5503.752692s info: Table 1242d39e-1a6b-40c9-8093-52209e768a64: Deleted the table.
+2017-02-21T22:49:57.631232221 5503.907565s info: Table 69839a0c-79e7-463a-9d5f-05db7f8a77b5: Starting a new Raft election for term 1.
+2017-02-21T22:49:57.631461711 5503.907794s info: Table 69839a0c-79e7-463a-9d5f-05db7f8a77b5: Added replica on this server.
+2017-02-21T22:49:57.637038280 5503.913371s info: Table 69839a0c-79e7-463a-9d5f-05db7f8a77b5: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:57.904407492 5504.180740s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/69839a0c-79e7-463a-9d5f-05db7f8a77b5
+2017-02-21T22:49:57.904420846 5504.180753s info: Table 69839a0c-79e7-463a-9d5f-05db7f8a77b5: Deleted the table.
+2017-02-21T22:49:57.995422909 5504.271755s info: Table 687539b8-09b5-4f57-8679-0bcb9beb5d99: Starting a new Raft election for term 1.
+2017-02-21T22:49:57.995682477 5504.272015s info: Table 687539b8-09b5-4f57-8679-0bcb9beb5d99: Added replica on this server.
+2017-02-21T22:49:58.002246868 5504.278579s info: Table 687539b8-09b5-4f57-8679-0bcb9beb5d99: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:58.270787282 5504.547120s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/687539b8-09b5-4f57-8679-0bcb9beb5d99
+2017-02-21T22:49:58.270801269 5504.547133s info: Table 687539b8-09b5-4f57-8679-0bcb9beb5d99: Deleted the table.
+2017-02-21T22:49:58.369086380 5504.645419s info: Table 83e737ae-1d73-41e3-b3d5-30aaa0126220: Starting a new Raft election for term 1.
+2017-02-21T22:49:58.369332075 5504.645664s info: Table 83e737ae-1d73-41e3-b3d5-30aaa0126220: Added replica on this server.
+2017-02-21T22:49:58.375185628 5504.651518s info: Table 83e737ae-1d73-41e3-b3d5-30aaa0126220: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:49:58.648650828 5504.924984s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/83e737ae-1d73-41e3-b3d5-30aaa0126220
+2017-02-21T22:49:58.648668358 5504.925001s info: Table 83e737ae-1d73-41e3-b3d5-30aaa0126220: Deleted the table.
+2017-02-21T22:53:23.125824016 5709.402156s info: Table 6384aba7-bdfb-4f1c-a746-3c339017ce80: Starting a new Raft election for term 1.
+2017-02-21T22:53:23.125970199 5709.402302s info: Table 6384aba7-bdfb-4f1c-a746-3c339017ce80: Added replica on this server.
+2017-02-21T22:53:23.131581082 5709.407913s info: Table 6384aba7-bdfb-4f1c-a746-3c339017ce80: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:23.563355313 5709.839688s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6384aba7-bdfb-4f1c-a746-3c339017ce80
+2017-02-21T22:53:23.563363351 5709.839695s info: Table 6384aba7-bdfb-4f1c-a746-3c339017ce80: Deleted the table.
+2017-02-21T22:53:23.653699813 5709.930032s info: Table 717f3bbc-17d6-47e1-9635-80df6d52bee0: Starting a new Raft election for term 1.
+2017-02-21T22:53:23.653835704 5709.930168s info: Table 717f3bbc-17d6-47e1-9635-80df6d52bee0: Added replica on this server.
+2017-02-21T22:53:23.659667642 5709.936000s info: Table 717f3bbc-17d6-47e1-9635-80df6d52bee0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:24.162154874 5710.438488s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/717f3bbc-17d6-47e1-9635-80df6d52bee0
+2017-02-21T22:53:24.162168782 5710.438501s info: Table 717f3bbc-17d6-47e1-9635-80df6d52bee0: Deleted the table.
+2017-02-21T22:53:24.254046653 5710.530379s info: Table e99db9b7-724e-4069-bdbd-6edab5557e2c: Starting a new Raft election for term 1.
+2017-02-21T22:53:24.254126828 5710.530459s info: Table e99db9b7-724e-4069-bdbd-6edab5557e2c: Added replica on this server.
+2017-02-21T22:53:24.257836320 5710.534169s info: Table e99db9b7-724e-4069-bdbd-6edab5557e2c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:24.540229245 5710.816562s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e99db9b7-724e-4069-bdbd-6edab5557e2c
+2017-02-21T22:53:24.540244701 5710.816577s info: Table e99db9b7-724e-4069-bdbd-6edab5557e2c: Deleted the table.
+2017-02-21T22:53:24.634573680 5710.910906s info: Table 5db92dbb-2250-45a7-9a55-8f5f88e140b9: Added replica on this server.
+2017-02-21T22:53:24.634623012 5710.910955s info: Table 5db92dbb-2250-45a7-9a55-8f5f88e140b9: Starting a new Raft election for term 1.
+2017-02-21T22:53:24.638704354 5710.915037s info: Table 5db92dbb-2250-45a7-9a55-8f5f88e140b9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:24.916607228 5711.192940s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5db92dbb-2250-45a7-9a55-8f5f88e140b9
+2017-02-21T22:53:24.916617299 5711.192949s info: Table 5db92dbb-2250-45a7-9a55-8f5f88e140b9: Deleted the table.
+2017-02-21T22:53:25.007976707 5711.284309s info: Table 736b1e26-01c5-4dc2-9593-7a4579cefbf5: Starting a new Raft election for term 1.
+2017-02-21T22:53:25.008150044 5711.284482s info: Table 736b1e26-01c5-4dc2-9593-7a4579cefbf5: Added replica on this server.
+2017-02-21T22:53:25.011653605 5711.287986s info: Table 736b1e26-01c5-4dc2-9593-7a4579cefbf5: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:25.311601214 5711.587934s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/736b1e26-01c5-4dc2-9593-7a4579cefbf5
+2017-02-21T22:53:25.311615962 5711.587948s info: Table 736b1e26-01c5-4dc2-9593-7a4579cefbf5: Deleted the table.
+2017-02-21T22:53:25.432580974 5711.708913s info: Table 76a193e5-e5c0-44eb-81d2-b9dbd412a518: Starting a new Raft election for term 1.
+2017-02-21T22:53:25.432799289 5711.709132s info: Table 76a193e5-e5c0-44eb-81d2-b9dbd412a518: Added replica on this server.
+2017-02-21T22:53:25.436619624 5711.712952s info: Table 76a193e5-e5c0-44eb-81d2-b9dbd412a518: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:25.704075293 5711.980408s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/76a193e5-e5c0-44eb-81d2-b9dbd412a518
+2017-02-21T22:53:25.704240206 5711.980573s info: Table 76a193e5-e5c0-44eb-81d2-b9dbd412a518: Deleted the table.
+2017-02-21T22:53:25.784252240 5712.060585s info: Table d925fcb8-e32b-4978-b32a-176fcc7b7185: Starting a new Raft election for term 1.
+2017-02-21T22:53:25.784409872 5712.060742s info: Table d925fcb8-e32b-4978-b32a-176fcc7b7185: Added replica on this server.
+2017-02-21T22:53:25.788514205 5712.064847s info: Table d925fcb8-e32b-4978-b32a-176fcc7b7185: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:26.053125345 5712.329458s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d925fcb8-e32b-4978-b32a-176fcc7b7185
+2017-02-21T22:53:26.053137203 5712.329469s info: Table d925fcb8-e32b-4978-b32a-176fcc7b7185: Deleted the table.
+2017-02-21T22:53:26.138136441 5712.414469s info: Table 790ef96c-6ca4-4170-a919-3577335d4773: Added replica on this server.
+2017-02-21T22:53:26.138191060 5712.414523s info: Table 790ef96c-6ca4-4170-a919-3577335d4773: Starting a new Raft election for term 1.
+2017-02-21T22:53:26.142183085 5712.418515s info: Table 790ef96c-6ca4-4170-a919-3577335d4773: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:53:26.411400303 5712.687734s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/790ef96c-6ca4-4170-a919-3577335d4773
+2017-02-21T22:53:26.411418594 5712.687751s info: Table 790ef96c-6ca4-4170-a919-3577335d4773: Deleted the table.
+2017-02-21T22:54:13.326863458 5759.603196s info: Table 21e3dabd-d3c7-41df-8d80-773c4115b197: Starting a new Raft election for term 1.
+2017-02-21T22:54:13.326938649 5759.603271s info: Table 21e3dabd-d3c7-41df-8d80-773c4115b197: Added replica on this server.
+2017-02-21T22:54:13.330376756 5759.606709s info: Table 21e3dabd-d3c7-41df-8d80-773c4115b197: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:13.731630269 5760.007963s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/21e3dabd-d3c7-41df-8d80-773c4115b197
+2017-02-21T22:54:13.731638981 5760.007971s info: Table 21e3dabd-d3c7-41df-8d80-773c4115b197: Deleted the table.
+2017-02-21T22:54:13.811255967 5760.087588s info: Table 3e9083bb-4ae4-405c-b320-8e0b5bb22f1d: Starting a new Raft election for term 1.
+2017-02-21T22:54:13.811433652 5760.087766s info: Table 3e9083bb-4ae4-405c-b320-8e0b5bb22f1d: Added replica on this server.
+2017-02-21T22:54:13.815061923 5760.091394s info: Table 3e9083bb-4ae4-405c-b320-8e0b5bb22f1d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:14.091824574 5760.368157s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3e9083bb-4ae4-405c-b320-8e0b5bb22f1d
+2017-02-21T22:54:14.091833005 5760.368165s info: Table 3e9083bb-4ae4-405c-b320-8e0b5bb22f1d: Deleted the table.
+2017-02-21T22:54:14.171325291 5760.447658s info: Table 53fd5d68-1dee-4087-a5c9-0df1017df438: Starting a new Raft election for term 1.
+2017-02-21T22:54:14.171485164 5760.447817s info: Table 53fd5d68-1dee-4087-a5c9-0df1017df438: Added replica on this server.
+2017-02-21T22:54:14.175248016 5760.451580s info: Table 53fd5d68-1dee-4087-a5c9-0df1017df438: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:14.458901733 5760.735235s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/53fd5d68-1dee-4087-a5c9-0df1017df438
+2017-02-21T22:54:14.458915845 5760.735248s info: Table 53fd5d68-1dee-4087-a5c9-0df1017df438: Deleted the table.
+2017-02-21T22:54:14.548016854 5760.824349s info: Table e207d9c1-0900-43b1-bfe5-3d569618c4fd: Starting a new Raft election for term 1.
+2017-02-21T22:54:14.548255479 5760.824588s info: Table e207d9c1-0900-43b1-bfe5-3d569618c4fd: Added replica on this server.
+2017-02-21T22:54:14.552063757 5760.828396s info: Table e207d9c1-0900-43b1-bfe5-3d569618c4fd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:14.847800259 5761.124133s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e207d9c1-0900-43b1-bfe5-3d569618c4fd
+2017-02-21T22:54:14.847810392 5761.124143s info: Table e207d9c1-0900-43b1-bfe5-3d569618c4fd: Deleted the table.
+2017-02-21T22:54:14.937348649 5761.213681s info: Table 72fb776f-69a2-4d81-b2fb-206908637649: Starting a new Raft election for term 1.
+2017-02-21T22:54:14.937550938 5761.213883s info: Table 72fb776f-69a2-4d81-b2fb-206908637649: Added replica on this server.
+2017-02-21T22:54:14.941342775 5761.217675s info: Table 72fb776f-69a2-4d81-b2fb-206908637649: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:15.226061787 5761.502394s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/72fb776f-69a2-4d81-b2fb-206908637649
+2017-02-21T22:54:15.226071495 5761.502404s info: Table 72fb776f-69a2-4d81-b2fb-206908637649: Deleted the table.
+2017-02-21T22:54:15.333413775 5761.609746s info: Table 5ea171c5-0899-4af1-b7c7-eeeb57d9abc3: Starting a new Raft election for term 1.
+2017-02-21T22:54:15.333554153 5761.609886s info: Table 5ea171c5-0899-4af1-b7c7-eeeb57d9abc3: Added replica on this server.
+2017-02-21T22:54:15.337102530 5761.613435s info: Table 5ea171c5-0899-4af1-b7c7-eeeb57d9abc3: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:15.606748116 5761.883081s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5ea171c5-0899-4af1-b7c7-eeeb57d9abc3
+2017-02-21T22:54:15.606769400 5761.883102s info: Table 5ea171c5-0899-4af1-b7c7-eeeb57d9abc3: Deleted the table.
+2017-02-21T22:54:15.692727767 5761.969060s info: Table 666e0295-9bdb-4a18-ad35-9359c9ec21da: Starting a new Raft election for term 1.
+2017-02-21T22:54:15.692856359 5761.969189s info: Table 666e0295-9bdb-4a18-ad35-9359c9ec21da: Added replica on this server.
+2017-02-21T22:54:15.696510969 5761.972843s info: Table 666e0295-9bdb-4a18-ad35-9359c9ec21da: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:15.974517425 5762.250850s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/666e0295-9bdb-4a18-ad35-9359c9ec21da
+2017-02-21T22:54:15.974533626 5762.250866s info: Table 666e0295-9bdb-4a18-ad35-9359c9ec21da: Deleted the table.
+2017-02-21T22:54:16.076467232 5762.352800s info: Table 12ab0bd7-f10a-4ec7-ba94-9f9cb5a8cc16: Starting a new Raft election for term 1.
+2017-02-21T22:54:16.076635689 5762.352968s info: Table 12ab0bd7-f10a-4ec7-ba94-9f9cb5a8cc16: Added replica on this server.
+2017-02-21T22:54:16.080091694 5762.356424s info: Table 12ab0bd7-f10a-4ec7-ba94-9f9cb5a8cc16: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:16.349507201 5762.625840s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/12ab0bd7-f10a-4ec7-ba94-9f9cb5a8cc16
+2017-02-21T22:54:16.349529012 5762.625861s info: Table 12ab0bd7-f10a-4ec7-ba94-9f9cb5a8cc16: Deleted the table.
+2017-02-21T22:54:36.153234991 5782.429567s info: Table 06e71fb4-9a57-4811-aae8-f88eeaf3df26: Starting a new Raft election for term 1.
+2017-02-21T22:54:36.153378509 5782.429711s info: Table 06e71fb4-9a57-4811-aae8-f88eeaf3df26: Added replica on this server.
+2017-02-21T22:54:36.156947457 5782.433280s info: Table 06e71fb4-9a57-4811-aae8-f88eeaf3df26: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:36.603043843 5782.879377s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/06e71fb4-9a57-4811-aae8-f88eeaf3df26
+2017-02-21T22:54:36.603053223 5782.879385s info: Table 06e71fb4-9a57-4811-aae8-f88eeaf3df26: Deleted the table.
+2017-02-21T22:54:36.681344762 5782.957677s info: Table 856c3e5f-005a-4e34-9ba2-9a02e5aff856: Starting a new Raft election for term 1.
+2017-02-21T22:54:36.681507256 5782.957840s info: Table 856c3e5f-005a-4e34-9ba2-9a02e5aff856: Added replica on this server.
+2017-02-21T22:54:36.685352111 5782.961684s info: Table 856c3e5f-005a-4e34-9ba2-9a02e5aff856: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:36.970649844 5783.246983s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/856c3e5f-005a-4e34-9ba2-9a02e5aff856
+2017-02-21T22:54:36.970669606 5783.247002s info: Table 856c3e5f-005a-4e34-9ba2-9a02e5aff856: Deleted the table.
+2017-02-21T22:54:37.064535009 5783.340867s info: Table 4cb17251-fc5c-4992-8829-3c98ec1adf45: Starting a new Raft election for term 1.
+2017-02-21T22:54:37.064684131 5783.341016s info: Table 4cb17251-fc5c-4992-8829-3c98ec1adf45: Added replica on this server.
+2017-02-21T22:54:37.068422789 5783.344755s info: Table 4cb17251-fc5c-4992-8829-3c98ec1adf45: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:37.353220986 5783.629554s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4cb17251-fc5c-4992-8829-3c98ec1adf45
+2017-02-21T22:54:37.353237712 5783.629570s info: Table 4cb17251-fc5c-4992-8829-3c98ec1adf45: Deleted the table.
+2017-02-21T22:54:37.450013269 5783.726346s info: Table b4225e38-c2d1-4dd1-8465-cc8e185341aa: Starting a new Raft election for term 1.
+2017-02-21T22:54:37.450308087 5783.726640s info: Table b4225e38-c2d1-4dd1-8465-cc8e185341aa: Added replica on this server.
+2017-02-21T22:54:37.454042509 5783.730375s info: Table b4225e38-c2d1-4dd1-8465-cc8e185341aa: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:37.733040819 5784.009373s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/b4225e38-c2d1-4dd1-8465-cc8e185341aa
+2017-02-21T22:54:37.733051493 5784.009384s info: Table b4225e38-c2d1-4dd1-8465-cc8e185341aa: Deleted the table.
+2017-02-21T22:54:37.830575126 5784.106908s info: Table 5f51f5a5-abde-4dd4-82a3-aee27869ecfe: Added replica on this server.
+2017-02-21T22:54:37.830616675 5784.106949s info: Table 5f51f5a5-abde-4dd4-82a3-aee27869ecfe: Starting a new Raft election for term 1.
+2017-02-21T22:54:37.834619781 5784.110952s info: Table 5f51f5a5-abde-4dd4-82a3-aee27869ecfe: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:54:38.132752471 5784.409085s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5f51f5a5-abde-4dd4-82a3-aee27869ecfe
+2017-02-21T22:54:38.132761716 5784.409094s info: Table 5f51f5a5-abde-4dd4-82a3-aee27869ecfe: Deleted the table.
+2017-02-21T22:55:13.850041655 5820.126374s info: Table c5c0eaea-a859-45c9-bf9b-978b202800e6: Starting a new Raft election for term 1.
+2017-02-21T22:55:13.850188529 5820.126521s info: Table c5c0eaea-a859-45c9-bf9b-978b202800e6: Added replica on this server.
+2017-02-21T22:55:13.855660517 5820.131993s info: Table c5c0eaea-a859-45c9-bf9b-978b202800e6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:14.253835626 5820.530168s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c5c0eaea-a859-45c9-bf9b-978b202800e6
+2017-02-21T22:55:14.253854947 5820.530187s info: Table c5c0eaea-a859-45c9-bf9b-978b202800e6: Deleted the table.
+2017-02-21T22:55:14.344359395 5820.620692s info: Table a9d18a45-236b-4512-9be3-8c7991adb7f9: Starting a new Raft election for term 1.
+2017-02-21T22:55:14.344587832 5820.620920s info: Table a9d18a45-236b-4512-9be3-8c7991adb7f9: Added replica on this server.
+2017-02-21T22:55:14.350396206 5820.626729s info: Table a9d18a45-236b-4512-9be3-8c7991adb7f9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:14.640884876 5820.917218s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a9d18a45-236b-4512-9be3-8c7991adb7f9
+2017-02-21T22:55:14.640902179 5820.917234s info: Table a9d18a45-236b-4512-9be3-8c7991adb7f9: Deleted the table.
+2017-02-21T22:55:14.743032700 5821.019365s info: Table c3308821-208e-4800-b07f-68e9a61c857c: Starting a new Raft election for term 1.
+2017-02-21T22:55:14.743318968 5821.019652s info: Table c3308821-208e-4800-b07f-68e9a61c857c: Added replica on this server.
+2017-02-21T22:55:14.748923599 5821.025256s info: Table c3308821-208e-4800-b07f-68e9a61c857c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:15.028502429 5821.304836s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c3308821-208e-4800-b07f-68e9a61c857c
+2017-02-21T22:55:15.028521384 5821.304853s info: Table c3308821-208e-4800-b07f-68e9a61c857c: Deleted the table.
+2017-02-21T22:55:15.117500289 5821.393833s info: Table a0640048-9320-48dd-a321-f243413d4c7c: Starting a new Raft election for term 1.
+2017-02-21T22:55:15.117736695 5821.394069s info: Table a0640048-9320-48dd-a321-f243413d4c7c: Added replica on this server.
+2017-02-21T22:55:15.124534171 5821.400867s info: Table a0640048-9320-48dd-a321-f243413d4c7c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:15.421036461 5821.697369s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a0640048-9320-48dd-a321-f243413d4c7c
+2017-02-21T22:55:15.421050576 5821.697383s info: Table a0640048-9320-48dd-a321-f243413d4c7c: Deleted the table.
+2017-02-21T22:55:15.522795115 5821.799127s info: Table 625c7236-4a10-4221-8996-fa8738d42647: Starting a new Raft election for term 1.
+2017-02-21T22:55:15.523045610 5821.799378s info: Table 625c7236-4a10-4221-8996-fa8738d42647: Added replica on this server.
+2017-02-21T22:55:15.530262776 5821.806595s info: Table 625c7236-4a10-4221-8996-fa8738d42647: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:16.043022511 5822.319355s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/625c7236-4a10-4221-8996-fa8738d42647
+2017-02-21T22:55:16.043032746 5822.319365s info: Table 625c7236-4a10-4221-8996-fa8738d42647: Deleted the table.
+2017-02-21T22:55:16.173299410 5822.449632s info: Table 5e95a66c-ace4-4a39-8c8e-d415a57c52e1: Starting a new Raft election for term 1.
+2017-02-21T22:55:16.173547460 5822.449880s info: Table 5e95a66c-ace4-4a39-8c8e-d415a57c52e1: Added replica on this server.
+2017-02-21T22:55:16.179568699 5822.455901s info: Table 5e95a66c-ace4-4a39-8c8e-d415a57c52e1: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:16.679537558 5822.955870s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5e95a66c-ace4-4a39-8c8e-d415a57c52e1
+2017-02-21T22:55:16.679682316 5822.956015s info: Table 5e95a66c-ace4-4a39-8c8e-d415a57c52e1: Deleted the table.
+2017-02-21T22:55:16.760716737 5823.037049s info: Table 323e21eb-7d33-4a88-b28c-fa52de2f288d: Starting a new Raft election for term 1.
+2017-02-21T22:55:16.760877193 5823.037210s info: Table 323e21eb-7d33-4a88-b28c-fa52de2f288d: Added replica on this server.
+2017-02-21T22:55:16.766768208 5823.043101s info: Table 323e21eb-7d33-4a88-b28c-fa52de2f288d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:17.032442938 5823.308775s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/323e21eb-7d33-4a88-b28c-fa52de2f288d
+2017-02-21T22:55:17.032453689 5823.308786s info: Table 323e21eb-7d33-4a88-b28c-fa52de2f288d: Deleted the table.
+2017-02-21T22:55:17.129507492 5823.405840s info: Table 80915350-bad6-40a1-9df3-d8a894c65b50: Starting a new Raft election for term 1.
+2017-02-21T22:55:17.129732471 5823.406065s info: Table 80915350-bad6-40a1-9df3-d8a894c65b50: Added replica on this server.
+2017-02-21T22:55:17.135781901 5823.412114s info: Table 80915350-bad6-40a1-9df3-d8a894c65b50: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:17.633207341 5823.909540s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/80915350-bad6-40a1-9df3-d8a894c65b50
+2017-02-21T22:55:17.633226413 5823.909559s info: Table 80915350-bad6-40a1-9df3-d8a894c65b50: Deleted the table.
+2017-02-21T22:55:47.227984075 5853.504316s info: Table 593b2a9d-e981-4bae-99c6-a821062b89a4: Starting a new Raft election for term 1.
+2017-02-21T22:55:47.228080707 5853.504413s info: Table 593b2a9d-e981-4bae-99c6-a821062b89a4: Added replica on this server.
+2017-02-21T22:55:47.236802682 5853.513135s info: Table 593b2a9d-e981-4bae-99c6-a821062b89a4: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:47.878553540 5854.154886s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/593b2a9d-e981-4bae-99c6-a821062b89a4
+2017-02-21T22:55:47.878561724 5854.154894s info: Table 593b2a9d-e981-4bae-99c6-a821062b89a4: Deleted the table.
+2017-02-21T22:55:47.976117411 5854.252450s info: Table 1d9dce45-935b-495b-87da-439974e04ba4: Starting a new Raft election for term 1.
+2017-02-21T22:55:47.976379819 5854.252712s info: Table 1d9dce45-935b-495b-87da-439974e04ba4: Added replica on this server.
+2017-02-21T22:55:47.982462462 5854.258795s info: Table 1d9dce45-935b-495b-87da-439974e04ba4: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:48.267590495 5854.543923s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1d9dce45-935b-495b-87da-439974e04ba4
+2017-02-21T22:55:48.267603391 5854.543936s info: Table 1d9dce45-935b-495b-87da-439974e04ba4: Deleted the table.
+2017-02-21T22:55:48.357094831 5854.633427s info: Table 36d6619c-2c4a-4e8a-a913-2ee6acb9bddd: Starting a new Raft election for term 1.
+2017-02-21T22:55:48.357247599 5854.633580s info: Table 36d6619c-2c4a-4e8a-a913-2ee6acb9bddd: Added replica on this server.
+2017-02-21T22:55:48.363241024 5854.639573s info: Table 36d6619c-2c4a-4e8a-a913-2ee6acb9bddd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:48.648882335 5854.925215s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/36d6619c-2c4a-4e8a-a913-2ee6acb9bddd
+2017-02-21T22:55:48.648899206 5854.925231s info: Table 36d6619c-2c4a-4e8a-a913-2ee6acb9bddd: Deleted the table.
+2017-02-21T22:55:48.752438198 5855.028771s info: Table 39264c71-6dbf-4cc2-937d-78660b801b0c: Starting a new Raft election for term 1.
+2017-02-21T22:55:48.752632011 5855.028964s info: Table 39264c71-6dbf-4cc2-937d-78660b801b0c: Added replica on this server.
+2017-02-21T22:55:48.758235313 5855.034567s info: Table 39264c71-6dbf-4cc2-937d-78660b801b0c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:49.273165127 5855.549498s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/39264c71-6dbf-4cc2-937d-78660b801b0c
+2017-02-21T22:55:49.273183117 5855.549516s info: Table 39264c71-6dbf-4cc2-937d-78660b801b0c: Deleted the table.
+2017-02-21T22:55:49.378734248 5855.655067s info: Table 6419d905-95ea-40ff-b808-b860e8302b72: Starting a new Raft election for term 1.
+2017-02-21T22:55:49.378959207 5855.655292s info: Table 6419d905-95ea-40ff-b808-b860e8302b72: Added replica on this server.
+2017-02-21T22:55:49.384605680 5855.660938s info: Table 6419d905-95ea-40ff-b808-b860e8302b72: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:49.686417714 5855.962751s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6419d905-95ea-40ff-b808-b860e8302b72
+2017-02-21T22:55:49.686432104 5855.962764s info: Table 6419d905-95ea-40ff-b808-b860e8302b72: Deleted the table.
+2017-02-21T22:55:49.842475282 5856.118808s info: Table 82eb52ca-d661-4168-b620-d303edc38926: Starting a new Raft election for term 1.
+2017-02-21T22:55:49.842596141 5856.118928s info: Table 82eb52ca-d661-4168-b620-d303edc38926: Added replica on this server.
+2017-02-21T22:55:49.848425195 5856.124758s info: Table 82eb52ca-d661-4168-b620-d303edc38926: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:50.120819849 5856.397153s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/82eb52ca-d661-4168-b620-d303edc38926
+2017-02-21T22:55:50.120836624 5856.397169s info: Table 82eb52ca-d661-4168-b620-d303edc38926: Deleted the table.
+2017-02-21T22:55:50.217035153 5856.493368s info: Table c56bb8b8-22b3-4ba6-83a5-83f7e3c32674: Starting a new Raft election for term 1.
+2017-02-21T22:55:50.217242557 5856.493575s info: Table c56bb8b8-22b3-4ba6-83a5-83f7e3c32674: Added replica on this server.
+2017-02-21T22:55:50.223001265 5856.499333s info: Table c56bb8b8-22b3-4ba6-83a5-83f7e3c32674: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:50.492181486 5856.768514s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/c56bb8b8-22b3-4ba6-83a5-83f7e3c32674
+2017-02-21T22:55:50.492198053 5856.768531s info: Table c56bb8b8-22b3-4ba6-83a5-83f7e3c32674: Deleted the table.
+2017-02-21T22:55:50.586831661 5856.863164s info: Table 439abee5-bd41-4a1c-9ffd-734654c8cda2: Starting a new Raft election for term 1.
+2017-02-21T22:55:50.586991776 5856.863324s info: Table 439abee5-bd41-4a1c-9ffd-734654c8cda2: Added replica on this server.
+2017-02-21T22:55:50.595109943 5856.871442s info: Table 439abee5-bd41-4a1c-9ffd-734654c8cda2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:55:50.867190015 5857.143523s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/439abee5-bd41-4a1c-9ffd-734654c8cda2
+2017-02-21T22:55:50.867210632 5857.143543s info: Table 439abee5-bd41-4a1c-9ffd-734654c8cda2: Deleted the table.
+2017-02-21T22:56:06.154724484 5872.431057s info: Table d65510d9-8d01-4f67-aaf8-4b19aa0ab2d9: Starting a new Raft election for term 1.
+2017-02-21T22:56:06.154886384 5872.431219s info: Table d65510d9-8d01-4f67-aaf8-4b19aa0ab2d9: Added replica on this server.
+2017-02-21T22:56:06.160458508 5872.436791s info: Table d65510d9-8d01-4f67-aaf8-4b19aa0ab2d9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:06.594161506 5872.870494s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d65510d9-8d01-4f67-aaf8-4b19aa0ab2d9
+2017-02-21T22:56:06.594170016 5872.870502s info: Table d65510d9-8d01-4f67-aaf8-4b19aa0ab2d9: Deleted the table.
+2017-02-21T22:56:06.684935403 5872.961268s info: Table d3a123ee-150d-458a-9d92-6e20fd62c0a1: Starting a new Raft election for term 1.
+2017-02-21T22:56:06.685150542 5872.961483s info: Table d3a123ee-150d-458a-9d92-6e20fd62c0a1: Added replica on this server.
+2017-02-21T22:56:06.690964491 5872.967297s info: Table d3a123ee-150d-458a-9d92-6e20fd62c0a1: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:06.978387496 5873.254720s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d3a123ee-150d-458a-9d92-6e20fd62c0a1
+2017-02-21T22:56:06.978398780 5873.254731s info: Table d3a123ee-150d-458a-9d92-6e20fd62c0a1: Deleted the table.
+2017-02-21T22:56:07.063306846 5873.339639s info: Table 21912963-093f-4d05-aadc-8dda5939ebb2: Starting a new Raft election for term 1.
+2017-02-21T22:56:07.063477970 5873.339810s info: Table 21912963-093f-4d05-aadc-8dda5939ebb2: Added replica on this server.
+2017-02-21T22:56:07.070919533 5873.347252s info: Table 21912963-093f-4d05-aadc-8dda5939ebb2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:07.581765896 5873.858099s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/21912963-093f-4d05-aadc-8dda5939ebb2
+2017-02-21T22:56:07.581781469 5873.858114s info: Table 21912963-093f-4d05-aadc-8dda5939ebb2: Deleted the table.
+2017-02-21T22:56:07.678775780 5873.955108s info: Table 83c65aae-22a7-44b1-af74-6bc30d191a43: Starting a new Raft election for term 1.
+2017-02-21T22:56:07.678982737 5873.955315s info: Table 83c65aae-22a7-44b1-af74-6bc30d191a43: Added replica on this server.
+2017-02-21T22:56:07.685012335 5873.961345s info: Table 83c65aae-22a7-44b1-af74-6bc30d191a43: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:07.981002544 5874.257335s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/83c65aae-22a7-44b1-af74-6bc30d191a43
+2017-02-21T22:56:07.981101395 5874.257434s info: Table 83c65aae-22a7-44b1-af74-6bc30d191a43: Deleted the table.
+2017-02-21T22:56:08.079498881 5874.355831s info: Table 41e9d8cc-6c64-4cb4-96fe-b6605fe0caec: Starting a new Raft election for term 1.
+2017-02-21T22:56:08.079677111 5874.356009s info: Table 41e9d8cc-6c64-4cb4-96fe-b6605fe0caec: Added replica on this server.
+2017-02-21T22:56:08.085706604 5874.362039s info: Table 41e9d8cc-6c64-4cb4-96fe-b6605fe0caec: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:08.611813691 5874.888146s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/41e9d8cc-6c64-4cb4-96fe-b6605fe0caec
+2017-02-21T22:56:08.611828532 5874.888161s info: Table 41e9d8cc-6c64-4cb4-96fe-b6605fe0caec: Deleted the table.
+2017-02-21T22:56:08.756686760 5875.033019s info: Table 7acc57d8-550d-4125-b059-f099080ec25d: Starting a new Raft election for term 1.
+2017-02-21T22:56:08.756903548 5875.033236s info: Table 7acc57d8-550d-4125-b059-f099080ec25d: Added replica on this server.
+2017-02-21T22:56:08.760680249 5875.037013s info: Table 7acc57d8-550d-4125-b059-f099080ec25d: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:09.021576672 5875.297909s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7acc57d8-550d-4125-b059-f099080ec25d
+2017-02-21T22:56:09.021584350 5875.297916s info: Table 7acc57d8-550d-4125-b059-f099080ec25d: Deleted the table.
+2017-02-21T22:56:09.098078101 5875.374411s info: Table 6b654b78-7c7f-4ec3-9dbd-5c33599bed94: Starting a new Raft election for term 1.
+2017-02-21T22:56:09.098452813 5875.374786s info: Table 6b654b78-7c7f-4ec3-9dbd-5c33599bed94: Added replica on this server.
+2017-02-21T22:56:09.102089711 5875.378422s info: Table 6b654b78-7c7f-4ec3-9dbd-5c33599bed94: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:09.368390840 5875.644724s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6b654b78-7c7f-4ec3-9dbd-5c33599bed94
+2017-02-21T22:56:09.368404592 5875.644737s info: Table 6b654b78-7c7f-4ec3-9dbd-5c33599bed94: Deleted the table.
+2017-02-21T22:56:09.456945665 5875.733278s info: Table 643e8a61-9618-4e39-a17d-cf2c16c96e70: Starting a new Raft election for term 1.
+2017-02-21T22:56:09.457158131 5875.733490s info: Table 643e8a61-9618-4e39-a17d-cf2c16c96e70: Added replica on this server.
+2017-02-21T22:56:09.461005491 5875.737338s info: Table 643e8a61-9618-4e39-a17d-cf2c16c96e70: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T22:56:09.730126443 5876.006460s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/643e8a61-9618-4e39-a17d-cf2c16c96e70
+2017-02-21T22:56:09.730147882 5876.006480s info: Table 643e8a61-9618-4e39-a17d-cf2c16c96e70: Deleted the table.
+2017-02-21T23:13:05.599244423 6891.875577s info: Table 886fbf8d-c930-4d43-bec6-3a7bf0230bfe: Starting a new Raft election for term 1.
+2017-02-21T23:13:05.599331832 6891.875664s info: Table 886fbf8d-c930-4d43-bec6-3a7bf0230bfe: Added replica on this server.
+2017-02-21T23:13:05.602860682 6891.879193s info: Table 886fbf8d-c930-4d43-bec6-3a7bf0230bfe: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:06.077891119 6892.354223s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/886fbf8d-c930-4d43-bec6-3a7bf0230bfe
+2017-02-21T23:13:06.077898804 6892.354231s info: Table 886fbf8d-c930-4d43-bec6-3a7bf0230bfe: Deleted the table.
+2017-02-21T23:13:06.162500325 6892.438833s info: Table e62f6e0a-7924-445c-86c5-471b806becfd: Starting a new Raft election for term 1.
+2017-02-21T23:13:06.162640302 6892.438972s info: Table e62f6e0a-7924-445c-86c5-471b806becfd: Added replica on this server.
+2017-02-21T23:13:06.166266983 6892.442599s info: Table e62f6e0a-7924-445c-86c5-471b806becfd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:06.430967155 6892.707300s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e62f6e0a-7924-445c-86c5-471b806becfd
+2017-02-21T23:13:06.430980094 6892.707312s info: Table e62f6e0a-7924-445c-86c5-471b806becfd: Deleted the table.
+2017-02-21T23:13:06.523790222 6892.800123s info: Table 69d9a152-a52b-4850-b30d-76a7c9c07886: Starting a new Raft election for term 1.
+2017-02-21T23:13:06.524032568 6892.800365s info: Table 69d9a152-a52b-4850-b30d-76a7c9c07886: Added replica on this server.
+2017-02-21T23:13:06.527865960 6892.804198s info: Table 69d9a152-a52b-4850-b30d-76a7c9c07886: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:06.815876700 6893.092209s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/69d9a152-a52b-4850-b30d-76a7c9c07886
+2017-02-21T23:13:06.815885728 6893.092218s info: Table 69d9a152-a52b-4850-b30d-76a7c9c07886: Deleted the table.
+2017-02-21T23:13:50.767392428 6937.043725s info: Table 552d0b17-cb35-4081-8d53-61b7dee9ff69: Starting a new Raft election for term 1.
+2017-02-21T23:13:50.767543651 6937.043876s info: Table 552d0b17-cb35-4081-8d53-61b7dee9ff69: Added replica on this server.
+2017-02-21T23:13:50.771341249 6937.047674s info: Table 552d0b17-cb35-4081-8d53-61b7dee9ff69: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:51.236069193 6937.512402s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/552d0b17-cb35-4081-8d53-61b7dee9ff69
+2017-02-21T23:13:51.236077624 6937.512410s info: Table 552d0b17-cb35-4081-8d53-61b7dee9ff69: Deleted the table.
+2017-02-21T23:13:51.324465973 6937.600798s info: Table e30f524a-e6dd-453c-8133-30ae15dc2b3e: Starting a new Raft election for term 1.
+2017-02-21T23:13:51.324633450 6937.600966s info: Table e30f524a-e6dd-453c-8133-30ae15dc2b3e: Added replica on this server.
+2017-02-21T23:13:51.328353962 6937.604686s info: Table e30f524a-e6dd-453c-8133-30ae15dc2b3e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:51.597387377 6937.873721s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e30f524a-e6dd-453c-8133-30ae15dc2b3e
+2017-02-21T23:13:51.597407572 6937.873740s info: Table e30f524a-e6dd-453c-8133-30ae15dc2b3e: Deleted the table.
+2017-02-21T23:13:51.696524010 6937.972857s info: Table caf986e2-a25f-4ca4-af76-a0bbab4fe5d9: Starting a new Raft election for term 1.
+2017-02-21T23:13:51.696778924 6937.973111s info: Table caf986e2-a25f-4ca4-af76-a0bbab4fe5d9: Added replica on this server.
+2017-02-21T23:13:51.700427252 6937.976760s info: Table caf986e2-a25f-4ca4-af76-a0bbab4fe5d9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:13:51.990870428 6938.267204s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/caf986e2-a25f-4ca4-af76-a0bbab4fe5d9
+2017-02-21T23:13:51.990885129 6938.267217s info: Table caf986e2-a25f-4ca4-af76-a0bbab4fe5d9: Deleted the table.
+2017-02-21T23:14:29.849762069 6976.126094s info: Table 5306e523-08d2-4724-824a-df49b5b81916: Starting a new Raft election for term 1.
+2017-02-21T23:14:29.849897546 6976.126230s info: Table 5306e523-08d2-4724-824a-df49b5b81916: Added replica on this server.
+2017-02-21T23:14:29.857643829 6976.133976s info: Table 5306e523-08d2-4724-824a-df49b5b81916: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:14:30.326473208 6976.602806s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5306e523-08d2-4724-824a-df49b5b81916
+2017-02-21T23:14:30.326482129 6976.602814s info: Table 5306e523-08d2-4724-824a-df49b5b81916: Deleted the table.
+2017-02-21T23:14:30.415968468 6976.692301s info: Table cdfd330b-aa97-4f7a-b86a-d29bd8506002: Starting a new Raft election for term 1.
+2017-02-21T23:14:30.416178863 6976.692511s info: Table cdfd330b-aa97-4f7a-b86a-d29bd8506002: Added replica on this server.
+2017-02-21T23:14:30.419712881 6976.696045s info: Table cdfd330b-aa97-4f7a-b86a-d29bd8506002: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:14:30.683755794 6976.960088s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/cdfd330b-aa97-4f7a-b86a-d29bd8506002
+2017-02-21T23:14:30.683766634 6976.960099s info: Table cdfd330b-aa97-4f7a-b86a-d29bd8506002: Deleted the table.
+2017-02-21T23:14:30.773198266 6977.049531s info: Table 8cc3dabc-9dab-4f12-bc41-9b026398a807: Starting a new Raft election for term 1.
+2017-02-21T23:14:30.773444460 6977.049777s info: Table 8cc3dabc-9dab-4f12-bc41-9b026398a807: Added replica on this server.
+2017-02-21T23:14:30.779367914 6977.055700s info: Table 8cc3dabc-9dab-4f12-bc41-9b026398a807: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:14:31.068284435 6977.344617s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8cc3dabc-9dab-4f12-bc41-9b026398a807
+2017-02-21T23:14:31.068298654 6977.344631s info: Table 8cc3dabc-9dab-4f12-bc41-9b026398a807: Deleted the table.
+2017-02-21T23:15:38.278838140 7044.555171s info: Table 0f458c7d-ef32-4fd1-9edc-11ecf06a8400: Starting a new Raft election for term 1.
+2017-02-21T23:15:38.279091252 7044.555424s info: Table 0f458c7d-ef32-4fd1-9edc-11ecf06a8400: Added replica on this server.
+2017-02-21T23:15:38.282677145 7044.559009s info: Table 0f458c7d-ef32-4fd1-9edc-11ecf06a8400: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:15:38.744211174 7045.020544s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0f458c7d-ef32-4fd1-9edc-11ecf06a8400
+2017-02-21T23:15:38.744219860 7045.020552s info: Table 0f458c7d-ef32-4fd1-9edc-11ecf06a8400: Deleted the table.
+2017-02-21T23:15:38.827481574 7045.103814s info: Table 9dd8a758-a7da-4ea4-9a63-6b274bf514b0: Starting a new Raft election for term 1.
+2017-02-21T23:15:38.827866459 7045.104199s info: Table 9dd8a758-a7da-4ea4-9a63-6b274bf514b0: Added replica on this server.
+2017-02-21T23:15:38.831948535 7045.108281s info: Table 9dd8a758-a7da-4ea4-9a63-6b274bf514b0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:15:39.099925093 7045.376258s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9dd8a758-a7da-4ea4-9a63-6b274bf514b0
+2017-02-21T23:15:39.099946838 7045.376279s info: Table 9dd8a758-a7da-4ea4-9a63-6b274bf514b0: Deleted the table.
+2017-02-21T23:15:39.218366384 7045.494699s info: Table 9f9ff568-5ce5-468e-ad7c-64f08af6a66c: Starting a new Raft election for term 1.
+2017-02-21T23:15:39.218568799 7045.494901s info: Table 9f9ff568-5ce5-468e-ad7c-64f08af6a66c: Added replica on this server.
+2017-02-21T23:15:39.222298543 7045.498631s info: Table 9f9ff568-5ce5-468e-ad7c-64f08af6a66c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:15:39.512151461 7045.788484s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9f9ff568-5ce5-468e-ad7c-64f08af6a66c
+2017-02-21T23:15:39.512165964 7045.788498s info: Table 9f9ff568-5ce5-468e-ad7c-64f08af6a66c: Deleted the table.
+2017-02-21T23:18:18.655745434 7204.932078s info: Table e03baad3-a8eb-4df0-ba14-372d20ea5c3c: Starting a new Raft election for term 1.
+2017-02-21T23:18:18.655867792 7204.932200s info: Table e03baad3-a8eb-4df0-ba14-372d20ea5c3c: Added replica on this server.
+2017-02-21T23:18:18.661847953 7204.938180s info: Table e03baad3-a8eb-4df0-ba14-372d20ea5c3c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:19.285097074 7205.561429s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e03baad3-a8eb-4df0-ba14-372d20ea5c3c
+2017-02-21T23:18:19.285104848 7205.561437s info: Table e03baad3-a8eb-4df0-ba14-372d20ea5c3c: Deleted the table.
+2017-02-21T23:18:19.369961819 7205.646294s info: Table 67c44dc8-1b01-4c56-afa6-b7c0e6e15f53: Starting a new Raft election for term 1.
+2017-02-21T23:18:19.370062859 7205.646395s info: Table 67c44dc8-1b01-4c56-afa6-b7c0e6e15f53: Added replica on this server.
+2017-02-21T23:18:19.377880585 7205.654213s info: Table 67c44dc8-1b01-4c56-afa6-b7c0e6e15f53: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:19.873780655 7206.150114s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/67c44dc8-1b01-4c56-afa6-b7c0e6e15f53
+2017-02-21T23:18:19.873800230 7206.150132s info: Table 67c44dc8-1b01-4c56-afa6-b7c0e6e15f53: Deleted the table.
+2017-02-21T23:18:19.980353233 7206.256686s info: Table 9bcef751-791a-45e6-aeb0-09971c1366a7: Starting a new Raft election for term 1.
+2017-02-21T23:18:19.980632691 7206.256965s info: Table 9bcef751-791a-45e6-aeb0-09971c1366a7: Added replica on this server.
+2017-02-21T23:18:19.986452356 7206.262785s info: Table 9bcef751-791a-45e6-aeb0-09971c1366a7: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:20.277455586 7206.553788s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9bcef751-791a-45e6-aeb0-09971c1366a7
+2017-02-21T23:18:20.277467880 7206.553800s info: Table 9bcef751-791a-45e6-aeb0-09971c1366a7: Deleted the table.
+2017-02-21T23:18:45.009388790 7231.285721s info: Table 9505d97b-44d8-4c75-902f-eafe1b64db73: Starting a new Raft election for term 1.
+2017-02-21T23:18:45.009569299 7231.285901s info: Table 9505d97b-44d8-4c75-902f-eafe1b64db73: Added replica on this server.
+2017-02-21T23:18:45.015425345 7231.291758s info: Table 9505d97b-44d8-4c75-902f-eafe1b64db73: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:45.431683080 7231.708015s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/9505d97b-44d8-4c75-902f-eafe1b64db73
+2017-02-21T23:18:45.431689851 7231.708022s info: Table 9505d97b-44d8-4c75-902f-eafe1b64db73: Deleted the table.
+2017-02-21T23:18:45.517816844 7231.794149s info: Table bce56d84-d063-4eae-82d5-742a26ded82c: Starting a new Raft election for term 1.
+2017-02-21T23:18:45.517944063 7231.794277s info: Table bce56d84-d063-4eae-82d5-742a26ded82c: Added replica on this server.
+2017-02-21T23:18:45.525605516 7231.801938s info: Table bce56d84-d063-4eae-82d5-742a26ded82c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:46.020632891 7232.296966s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/bce56d84-d063-4eae-82d5-742a26ded82c
+2017-02-21T23:18:46.020651792 7232.296984s info: Table bce56d84-d063-4eae-82d5-742a26ded82c: Deleted the table.
+2017-02-21T23:18:46.138404097 7232.414737s info: Table 5cffc1bf-2c46-43f2-9234-915c29a80368: Added replica on this server.
+2017-02-21T23:18:46.138469790 7232.414802s info: Table 5cffc1bf-2c46-43f2-9234-915c29a80368: Starting a new Raft election for term 1.
+2017-02-21T23:18:46.146702869 7232.423035s info: Table 5cffc1bf-2c46-43f2-9234-915c29a80368: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:18:46.663319694 7232.939653s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5cffc1bf-2c46-43f2-9234-915c29a80368
+2017-02-21T23:18:46.663334209 7232.939666s info: Table 5cffc1bf-2c46-43f2-9234-915c29a80368: Deleted the table.
+2017-02-21T23:19:30.796898692 7277.073231s info: Table e294958f-1b28-4098-9c6a-cacd5c658134: Starting a new Raft election for term 1.
+2017-02-21T23:19:30.797077683 7277.073410s info: Table e294958f-1b28-4098-9c6a-cacd5c658134: Added replica on this server.
+2017-02-21T23:19:30.802745227 7277.079077s info: Table e294958f-1b28-4098-9c6a-cacd5c658134: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:31.252428114 7277.528760s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/e294958f-1b28-4098-9c6a-cacd5c658134
+2017-02-21T23:19:31.252434863 7277.528767s info: Table e294958f-1b28-4098-9c6a-cacd5c658134: Deleted the table.
+2017-02-21T23:19:31.341737005 7277.618069s info: Table d28eae33-956d-4660-bb05-d9ed2c77f3bd: Starting a new Raft election for term 1.
+2017-02-21T23:19:31.341880164 7277.618212s info: Table d28eae33-956d-4660-bb05-d9ed2c77f3bd: Added replica on this server.
+2017-02-21T23:19:31.347963426 7277.624296s info: Table d28eae33-956d-4660-bb05-d9ed2c77f3bd: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:31.614093578 7277.890426s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/d28eae33-956d-4660-bb05-d9ed2c77f3bd
+2017-02-21T23:19:31.614102561 7277.890435s info: Table d28eae33-956d-4660-bb05-d9ed2c77f3bd: Deleted the table.
+2017-02-21T23:19:31.703965584 7277.980298s info: Table 4e206dce-51cb-46af-a46f-f03e6275815c: Starting a new Raft election for term 1.
+2017-02-21T23:19:31.704140651 7277.980473s info: Table 4e206dce-51cb-46af-a46f-f03e6275815c: Added replica on this server.
+2017-02-21T23:19:31.709888109 7277.986220s info: Table 4e206dce-51cb-46af-a46f-f03e6275815c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:32.001115000 7278.277448s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4e206dce-51cb-46af-a46f-f03e6275815c
+2017-02-21T23:19:32.001129076 7278.277461s info: Table 4e206dce-51cb-46af-a46f-f03e6275815c: Deleted the table.
+2017-02-21T23:19:57.566273542 7303.842606s info: Table 5d668928-288f-42e5-9e34-e221d77ea25e: Starting a new Raft election for term 1.
+2017-02-21T23:19:57.566387643 7303.842720s info: Table 5d668928-288f-42e5-9e34-e221d77ea25e: Added replica on this server.
+2017-02-21T23:19:57.572626616 7303.848959s info: Table 5d668928-288f-42e5-9e34-e221d77ea25e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:58.041519100 7304.317852s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/5d668928-288f-42e5-9e34-e221d77ea25e
+2017-02-21T23:19:58.041529432 7304.317862s info: Table 5d668928-288f-42e5-9e34-e221d77ea25e: Deleted the table.
+2017-02-21T23:19:58.126532362 7304.402865s info: Table a27eb935-9cc1-48f6-9b42-d71fe503aea2: Starting a new Raft election for term 1.
+2017-02-21T23:19:58.126720444 7304.403053s info: Table a27eb935-9cc1-48f6-9b42-d71fe503aea2: Added replica on this server.
+2017-02-21T23:19:58.134730436 7304.411063s info: Table a27eb935-9cc1-48f6-9b42-d71fe503aea2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:58.633421479 7304.909755s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a27eb935-9cc1-48f6-9b42-d71fe503aea2
+2017-02-21T23:19:58.633442914 7304.909775s info: Table a27eb935-9cc1-48f6-9b42-d71fe503aea2: Deleted the table.
+2017-02-21T23:19:58.744980604 7305.021313s info: Table 528c6acf-8cdd-4f2b-bbc6-925bc68bc791: Starting a new Raft election for term 1.
+2017-02-21T23:19:58.745216158 7305.021549s info: Table 528c6acf-8cdd-4f2b-bbc6-925bc68bc791: Added replica on this server.
+2017-02-21T23:19:58.752965946 7305.029298s info: Table 528c6acf-8cdd-4f2b-bbc6-925bc68bc791: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:19:59.037572092 7305.313905s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/528c6acf-8cdd-4f2b-bbc6-925bc68bc791
+2017-02-21T23:19:59.037586258 7305.313918s info: Table 528c6acf-8cdd-4f2b-bbc6-925bc68bc791: Deleted the table.
+2017-02-21T23:20:43.948468606 7350.224801s info: Table a8d5835e-ef46-459e-99d4-df3bd88360e9: Starting a new Raft election for term 1.
+2017-02-21T23:20:43.948641839 7350.224974s info: Table a8d5835e-ef46-459e-99d4-df3bd88360e9: Added replica on this server.
+2017-02-21T23:20:43.954373038 7350.230705s info: Table a8d5835e-ef46-459e-99d4-df3bd88360e9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:20:44.434122293 7350.710455s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a8d5835e-ef46-459e-99d4-df3bd88360e9
+2017-02-21T23:20:44.434128726 7350.710461s info: Table a8d5835e-ef46-459e-99d4-df3bd88360e9: Deleted the table.
+2017-02-21T23:20:44.520914676 7350.797247s info: Table 57a3517b-10c2-4f7e-9dd1-eba6f2d1b696: Starting a new Raft election for term 1.
+2017-02-21T23:20:44.521155204 7350.797487s info: Table 57a3517b-10c2-4f7e-9dd1-eba6f2d1b696: Added replica on this server.
+2017-02-21T23:20:44.526911212 7350.803243s info: Table 57a3517b-10c2-4f7e-9dd1-eba6f2d1b696: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:20:44.794508060 7351.070841s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/57a3517b-10c2-4f7e-9dd1-eba6f2d1b696
+2017-02-21T23:20:44.794518186 7351.070850s info: Table 57a3517b-10c2-4f7e-9dd1-eba6f2d1b696: Deleted the table.
+2017-02-21T23:20:44.902341833 7351.178674s info: Table 01348c85-6be4-4a23-a634-ce1fdc97e045: Added replica on this server.
+2017-02-21T23:20:44.902375404 7351.178707s info: Table 01348c85-6be4-4a23-a634-ce1fdc97e045: Starting a new Raft election for term 1.
+2017-02-21T23:20:44.908460521 7351.184793s info: Table 01348c85-6be4-4a23-a634-ce1fdc97e045: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:20:45.420033651 7351.696366s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/01348c85-6be4-4a23-a634-ce1fdc97e045
+2017-02-21T23:20:45.420048516 7351.696381s info: Table 01348c85-6be4-4a23-a634-ce1fdc97e045: Deleted the table.
+2017-02-21T23:26:16.635920518 7682.912253s info: Table 3472becb-b63f-41d4-9b8f-8a4ab66983f7: Starting a new Raft election for term 1.
+2017-02-21T23:26:16.636127163 7682.912459s info: Table 3472becb-b63f-41d4-9b8f-8a4ab66983f7: Added replica on this server.
+2017-02-21T23:26:16.639732492 7682.916065s info: Table 3472becb-b63f-41d4-9b8f-8a4ab66983f7: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:26:17.106237453 7683.382570s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3472becb-b63f-41d4-9b8f-8a4ab66983f7
+2017-02-21T23:26:17.106245397 7683.382577s info: Table 3472becb-b63f-41d4-9b8f-8a4ab66983f7: Deleted the table.
+2017-02-21T23:26:17.192661466 7683.468994s info: Table 8a2a7653-eef7-4996-a2d6-ec92b7183772: Starting a new Raft election for term 1.
+2017-02-21T23:26:17.192863202 7683.469195s info: Table 8a2a7653-eef7-4996-a2d6-ec92b7183772: Added replica on this server.
+2017-02-21T23:26:17.198397190 7683.474729s info: Table 8a2a7653-eef7-4996-a2d6-ec92b7183772: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:26:17.462213962 7683.738547s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8a2a7653-eef7-4996-a2d6-ec92b7183772
+2017-02-21T23:26:17.462229209 7683.738561s info: Table 8a2a7653-eef7-4996-a2d6-ec92b7183772: Deleted the table.
+2017-02-21T23:26:17.557840625 7683.834173s info: Table 7a1b9cca-1fd3-4d64-9339-312ee289e922: Starting a new Raft election for term 1.
+2017-02-21T23:26:17.558074840 7683.834407s info: Table 7a1b9cca-1fd3-4d64-9339-312ee289e922: Added replica on this server.
+2017-02-21T23:26:17.561654022 7683.837986s info: Table 7a1b9cca-1fd3-4d64-9339-312ee289e922: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:26:17.856601099 7684.132934s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7a1b9cca-1fd3-4d64-9339-312ee289e922
+2017-02-21T23:26:17.856617849 7684.132950s info: Table 7a1b9cca-1fd3-4d64-9339-312ee289e922: Deleted the table.
+2017-02-21T23:27:53.367492620 7779.643825s info: Table 7ea84a8d-349a-407c-8c57-a1b87714a30c: Starting a new Raft election for term 1.
+2017-02-21T23:27:53.367613041 7779.643945s info: Table 7ea84a8d-349a-407c-8c57-a1b87714a30c: Added replica on this server.
+2017-02-21T23:27:53.371354891 7779.647687s info: Table 7ea84a8d-349a-407c-8c57-a1b87714a30c: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:27:53.813801171 7780.090134s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7ea84a8d-349a-407c-8c57-a1b87714a30c
+2017-02-21T23:27:53.813809726 7780.090142s info: Table 7ea84a8d-349a-407c-8c57-a1b87714a30c: Deleted the table.
+2017-02-21T23:27:53.895026065 7780.171358s info: Table dcdc3cce-cd23-4c66-bee1-598dd51277a6: Starting a new Raft election for term 1.
+2017-02-21T23:27:53.895242803 7780.171575s info: Table dcdc3cce-cd23-4c66-bee1-598dd51277a6: Added replica on this server.
+2017-02-21T23:27:53.898861727 7780.175194s info: Table dcdc3cce-cd23-4c66-bee1-598dd51277a6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:27:54.161795359 7780.438128s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/dcdc3cce-cd23-4c66-bee1-598dd51277a6
+2017-02-21T23:27:54.161803167 7780.438135s info: Table dcdc3cce-cd23-4c66-bee1-598dd51277a6: Deleted the table.
+2017-02-21T23:27:54.254784746 7780.531117s info: Table 0f6c3ad1-19cd-48dc-bb0f-3de9b05877e6: Starting a new Raft election for term 1.
+2017-02-21T23:27:54.254950640 7780.531283s info: Table 0f6c3ad1-19cd-48dc-bb0f-3de9b05877e6: Added replica on this server.
+2017-02-21T23:27:54.258740213 7780.535073s info: Table 0f6c3ad1-19cd-48dc-bb0f-3de9b05877e6: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:27:54.535332816 7780.811665s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0f6c3ad1-19cd-48dc-bb0f-3de9b05877e6
+2017-02-21T23:27:54.535340114 7780.811672s info: Table 0f6c3ad1-19cd-48dc-bb0f-3de9b05877e6: Deleted the table.
+2017-02-21T23:32:14.488625150 8040.764958s info: Table 0e5bcd30-d144-49ed-a0cf-2f3f8490773a: Starting a new Raft election for term 1.
+2017-02-21T23:32:14.488796649 8040.765129s info: Table 0e5bcd30-d144-49ed-a0cf-2f3f8490773a: Added replica on this server.
+2017-02-21T23:32:14.492591230 8040.768923s info: Table 0e5bcd30-d144-49ed-a0cf-2f3f8490773a: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:14.965143306 8041.241476s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0e5bcd30-d144-49ed-a0cf-2f3f8490773a
+2017-02-21T23:32:14.965152876 8041.241485s info: Table 0e5bcd30-d144-49ed-a0cf-2f3f8490773a: Deleted the table.
+2017-02-21T23:32:15.046906078 8041.323239s info: Table 10aa077a-b7c3-4150-bdd5-b38b67be94d5: Starting a new Raft election for term 1.
+2017-02-21T23:32:15.047157688 8041.323490s info: Table 10aa077a-b7c3-4150-bdd5-b38b67be94d5: Added replica on this server.
+2017-02-21T23:32:15.050800492 8041.327133s info: Table 10aa077a-b7c3-4150-bdd5-b38b67be94d5: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:15.318520198 8041.594853s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/10aa077a-b7c3-4150-bdd5-b38b67be94d5
+2017-02-21T23:32:15.318538056 8041.594870s info: Table 10aa077a-b7c3-4150-bdd5-b38b67be94d5: Deleted the table.
+2017-02-21T23:32:15.435715949 8041.712049s info: Table af2464bc-17fe-41bd-b575-9f8b36b269ac: Starting a new Raft election for term 1.
+2017-02-21T23:32:15.435993357 8041.712326s info: Table af2464bc-17fe-41bd-b575-9f8b36b269ac: Added replica on this server.
+2017-02-21T23:32:15.439789189 8041.716122s info: Table af2464bc-17fe-41bd-b575-9f8b36b269ac: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:15.740398982 8042.016731s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/af2464bc-17fe-41bd-b575-9f8b36b269ac
+2017-02-21T23:32:15.740408252 8042.016740s info: Table af2464bc-17fe-41bd-b575-9f8b36b269ac: Deleted the table.
+2017-02-21T23:32:39.854704094 8066.131036s info: Table 10644d02-26fb-4d6e-b2a6-fac516a47db9: Starting a new Raft election for term 1.
+2017-02-21T23:32:39.854839981 8066.131172s info: Table 10644d02-26fb-4d6e-b2a6-fac516a47db9: Added replica on this server.
+2017-02-21T23:32:39.858662085 8066.134994s info: Table 10644d02-26fb-4d6e-b2a6-fac516a47db9: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:40.332397156 8066.608729s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/10644d02-26fb-4d6e-b2a6-fac516a47db9
+2017-02-21T23:32:40.332405084 8066.608737s info: Table 10644d02-26fb-4d6e-b2a6-fac516a47db9: Deleted the table.
+2017-02-21T23:32:40.414749152 8066.691081s info: Table fbac857c-0a3f-4b36-afab-1b0e155d5809: Starting a new Raft election for term 1.
+2017-02-21T23:32:40.414878770 8066.691211s info: Table fbac857c-0a3f-4b36-afab-1b0e155d5809: Added replica on this server.
+2017-02-21T23:32:40.418653611 8066.694986s info: Table fbac857c-0a3f-4b36-afab-1b0e155d5809: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:40.688750524 8066.965084s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/fbac857c-0a3f-4b36-afab-1b0e155d5809
+2017-02-21T23:32:40.688770849 8066.965103s info: Table fbac857c-0a3f-4b36-afab-1b0e155d5809: Deleted the table.
+2017-02-21T23:32:40.809792279 8067.086125s info: Table a258ee9b-56ae-43fb-a124-2c10e3ac53c2: Starting a new Raft election for term 1.
+2017-02-21T23:32:40.809910297 8067.086243s info: Table a258ee9b-56ae-43fb-a124-2c10e3ac53c2: Added replica on this server.
+2017-02-21T23:32:40.813740716 8067.090073s info: Table a258ee9b-56ae-43fb-a124-2c10e3ac53c2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:32:41.108249302 8067.384582s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/a258ee9b-56ae-43fb-a124-2c10e3ac53c2
+2017-02-21T23:32:41.108262909 8067.384595s info: Table a258ee9b-56ae-43fb-a124-2c10e3ac53c2: Deleted the table.
+2017-02-21T23:36:26.237887962 8292.514220s info: Table bbda1e8c-b89b-44d5-a342-95fbea622b7e: Starting a new Raft election for term 1.
+2017-02-21T23:36:26.238013030 8292.514345s info: Table bbda1e8c-b89b-44d5-a342-95fbea622b7e: Added replica on this server.
+2017-02-21T23:36:26.243729398 8292.520062s info: Table bbda1e8c-b89b-44d5-a342-95fbea622b7e: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:36:26.642702480 8292.919035s info: Table 6208d241-9bd1-4e5f-a8db-0ea2af404389: Starting a new Raft election for term 1.
+2017-02-21T23:36:26.642879042 8292.919211s info: Table 6208d241-9bd1-4e5f-a8db-0ea2af404389: Added replica on this server.
+2017-02-21T23:36:26.650962669 8292.927295s info: Table 6208d241-9bd1-4e5f-a8db-0ea2af404389: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:36:26.955620271 8293.231953s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6208d241-9bd1-4e5f-a8db-0ea2af404389
+2017-02-21T23:36:26.955635389 8293.231968s info: Table 6208d241-9bd1-4e5f-a8db-0ea2af404389: Deleted the table.
+2017-02-21T23:37:05.919826225 8332.196159s info: Table 4a433276-0d15-450f-8e33-30dbb602a052: Starting a new Raft election for term 1.
+2017-02-21T23:37:05.920007637 8332.196340s info: Table 4a433276-0d15-450f-8e33-30dbb602a052: Added replica on this server.
+2017-02-21T23:37:05.927433863 8332.203766s info: Table 4a433276-0d15-450f-8e33-30dbb602a052: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:37:06.236288496 8332.512621s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4a433276-0d15-450f-8e33-30dbb602a052
+2017-02-21T23:37:06.236301870 8332.512634s info: Table 4a433276-0d15-450f-8e33-30dbb602a052: Deleted the table.
+2017-02-21T23:37:36.163791676 8362.440124s info: Table 3fd16d71-1448-41aa-a9a1-eae4efd3e535: Starting a new Raft election for term 1.
+2017-02-21T23:37:36.163947267 8362.440280s info: Table 3fd16d71-1448-41aa-a9a1-eae4efd3e535: Added replica on this server.
+2017-02-21T23:37:36.169555233 8362.445887s info: Table 3fd16d71-1448-41aa-a9a1-eae4efd3e535: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:37:36.706987452 8362.983321s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/3fd16d71-1448-41aa-a9a1-eae4efd3e535
+2017-02-21T23:37:36.707004307 8362.983337s info: Table 3fd16d71-1448-41aa-a9a1-eae4efd3e535: Deleted the table.
+2017-02-21T23:38:05.669556927 8391.945889s info: Table da626e89-4ea5-414c-ab14-b1373acc2aa5: Starting a new Raft election for term 1.
+2017-02-21T23:38:05.669746740 8391.946079s info: Table da626e89-4ea5-414c-ab14-b1373acc2aa5: Added replica on this server.
+2017-02-21T23:38:05.675302333 8391.951635s info: Table da626e89-4ea5-414c-ab14-b1373acc2aa5: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-21T23:38:05.980292779 8392.256625s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/da626e89-4ea5-414c-ab14-b1373acc2aa5
+2017-02-21T23:38:05.980302888 8392.256635s info: Table da626e89-4ea5-414c-ab14-b1373acc2aa5: Deleted the table.
+2017-02-22T00:05:32.311546477 10038.587879s info: Table 8cdc79c1-e3e5-47c9-9a68-c68e854660a8: Starting a new Raft election for term 1.
+2017-02-22T00:05:32.311751925 10038.588084s info: Table 8cdc79c1-e3e5-47c9-9a68-c68e854660a8: Added replica on this server.
+2017-02-22T00:05:32.317613750 10038.593946s info: Table 8cdc79c1-e3e5-47c9-9a68-c68e854660a8: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:05:32.629985816 10038.906319s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/8cdc79c1-e3e5-47c9-9a68-c68e854660a8
+2017-02-22T00:05:32.629993758 10038.906326s info: Table 8cdc79c1-e3e5-47c9-9a68-c68e854660a8: Deleted the table.
+2017-02-22T00:06:27.295791357 10093.572124s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/bbda1e8c-b89b-44d5-a342-95fbea622b7e
+2017-02-22T00:06:27.295853258 10093.572185s info: Table bbda1e8c-b89b-44d5-a342-95fbea622b7e: Deleted the table.
+2017-02-22T00:06:33.787638470 10100.063971s info: Table 6fa38ef8-3d53-4755-863f-008f499c96ae: Starting a new Raft election for term 1.
+2017-02-22T00:06:33.787782213 10100.064115s info: Table 6fa38ef8-3d53-4755-863f-008f499c96ae: Added replica on this server.
+2017-02-22T00:06:33.793447182 10100.069779s info: Table 6fa38ef8-3d53-4755-863f-008f499c96ae: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:06:34.268836537 10100.545169s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/6fa38ef8-3d53-4755-863f-008f499c96ae
+2017-02-22T00:06:34.268844074 10100.545176s info: Table 6fa38ef8-3d53-4755-863f-008f499c96ae: Deleted the table.
+2017-02-22T00:06:34.361860980 10100.638193s info: Table 21caddc5-e5be-45fb-85ff-3a0912e77a36: Starting a new Raft election for term 1.
+2017-02-22T00:06:34.362012693 10100.638345s info: Table 21caddc5-e5be-45fb-85ff-3a0912e77a36: Added replica on this server.
+2017-02-22T00:06:34.367819464 10100.644152s info: Table 21caddc5-e5be-45fb-85ff-3a0912e77a36: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:06:34.637674799 10100.914008s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/21caddc5-e5be-45fb-85ff-3a0912e77a36
+2017-02-22T00:06:34.637696164 10100.914028s info: Table 21caddc5-e5be-45fb-85ff-3a0912e77a36: Deleted the table.
+2017-02-22T00:06:34.765874689 10101.042207s info: Table 40c85f7b-6e25-4c13-83ea-49b8cde40c4b: Starting a new Raft election for term 1.
+2017-02-22T00:06:34.766098560 10101.042431s info: Table 40c85f7b-6e25-4c13-83ea-49b8cde40c4b: Added replica on this server.
+2017-02-22T00:06:34.772090679 10101.048423s info: Table 40c85f7b-6e25-4c13-83ea-49b8cde40c4b: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:06:35.085422890 10101.361755s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/40c85f7b-6e25-4c13-83ea-49b8cde40c4b
+2017-02-22T00:06:35.085433523 10101.361766s info: Table 40c85f7b-6e25-4c13-83ea-49b8cde40c4b: Deleted the table.
+2017-02-22T00:08:20.447591914 10206.723924s info: Table 7cda36ab-33d3-4fb9-90c9-b44130187325: Starting a new Raft election for term 1.
+2017-02-22T00:08:20.447698598 10206.724031s info: Table 7cda36ab-33d3-4fb9-90c9-b44130187325: Added replica on this server.
+2017-02-22T00:08:20.455459705 10206.731792s info: Table 7cda36ab-33d3-4fb9-90c9-b44130187325: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:08:20.881661579 10207.157994s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/7cda36ab-33d3-4fb9-90c9-b44130187325
+2017-02-22T00:08:20.881668648 10207.158001s info: Table 7cda36ab-33d3-4fb9-90c9-b44130187325: Deleted the table.
+2017-02-22T00:08:20.973547457 10207.249880s info: Table 84be7ba5-6e82-408a-88af-909f95091ba0: Starting a new Raft election for term 1.
+2017-02-22T00:08:20.973759305 10207.250092s info: Table 84be7ba5-6e82-408a-88af-909f95091ba0: Added replica on this server.
+2017-02-22T00:08:20.979328446 10207.255661s info: Table 84be7ba5-6e82-408a-88af-909f95091ba0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:08:21.241844292 10207.518177s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/84be7ba5-6e82-408a-88af-909f95091ba0
+2017-02-22T00:08:21.241852848 10207.518185s info: Table 84be7ba5-6e82-408a-88af-909f95091ba0: Deleted the table.
+2017-02-22T00:08:21.339593113 10207.615925s info: Table 1d3898b8-c912-4150-9712-7610e5169be2: Starting a new Raft election for term 1.
+2017-02-22T00:08:21.339720892 10207.616053s info: Table 1d3898b8-c912-4150-9712-7610e5169be2: Added replica on this server.
+2017-02-22T00:08:21.343801557 10207.620134s info: Table 1d3898b8-c912-4150-9712-7610e5169be2: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:08:21.655515450 10207.931848s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/1d3898b8-c912-4150-9712-7610e5169be2
+2017-02-22T00:08:21.655530443 10207.931863s info: Table 1d3898b8-c912-4150-9712-7610e5169be2: Deleted the table.
+2017-02-22T00:10:07.861834743 10314.138167s info: Table 0484e79f-c907-4d6b-ab85-ad97581ff5fe: Starting a new Raft election for term 1.
+2017-02-22T00:10:07.862055293 10314.138388s info: Table 0484e79f-c907-4d6b-ab85-ad97581ff5fe: Added replica on this server.
+2017-02-22T00:10:07.865815798 10314.142148s info: Table 0484e79f-c907-4d6b-ab85-ad97581ff5fe: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:10:08.286383812 10314.562716s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/0484e79f-c907-4d6b-ab85-ad97581ff5fe
+2017-02-22T00:10:08.286391125 10314.562723s info: Table 0484e79f-c907-4d6b-ab85-ad97581ff5fe: Deleted the table.
+2017-02-22T00:10:08.370470105 10314.646802s info: Table 2536327a-c226-413c-88fa-5dafeb6577bc: Starting a new Raft election for term 1.
+2017-02-22T00:10:08.370638850 10314.646971s info: Table 2536327a-c226-413c-88fa-5dafeb6577bc: Added replica on this server.
+2017-02-22T00:10:08.374296546 10314.650629s info: Table 2536327a-c226-413c-88fa-5dafeb6577bc: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:10:08.643460672 10314.919794s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/2536327a-c226-413c-88fa-5dafeb6577bc
+2017-02-22T00:10:08.643476473 10314.919809s info: Table 2536327a-c226-413c-88fa-5dafeb6577bc: Deleted the table.
+2017-02-22T00:10:08.760707492 10315.037040s info: Table 4b033f4c-b6ca-4aea-bb14-2faf3af442a0: Starting a new Raft election for term 1.
+2017-02-22T00:10:08.760901516 10315.037234s info: Table 4b033f4c-b6ca-4aea-bb14-2faf3af442a0: Added replica on this server.
+2017-02-22T00:10:08.764632213 10315.040965s info: Table 4b033f4c-b6ca-4aea-bb14-2faf3af442a0: This server is Raft leader for term 1. Latest log index is 0.
+2017-02-22T00:10:09.069568114 10315.345901s notice: Removing file /home/mikael/pysoc/test/rethinkdb_data/4b033f4c-b6ca-4aea-bb14-2faf3af442a0
+2017-02-22T00:10:09.069581685 10315.345914s info: Table 4b033f4c-b6ca-4aea-bb14-2faf3af442a0: Deleted the table.
