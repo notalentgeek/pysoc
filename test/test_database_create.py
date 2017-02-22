@@ -1,4 +1,4 @@
-from database          import conn                    as c
+from database          import conn
 from database          import create_db               as crd
 from database          import create_doc              as crdoc
 from database          import create_table            as crt
@@ -11,6 +11,8 @@ import unittest  as ut
 class test(ut.TestCase):
     ILLEGAL_BY_RDB          = "!LLEGAL"
     ILLEGAL_BY_THIS_PROGRAM = "1LLEGAL"
+
+    c = conn()
 
     """From `database.py`."""
 
@@ -45,29 +47,31 @@ class test(ut.TestCase):
 
         test_list_1[len(test_list_1) - 1] = isinstance(
             crd(
+                self.c,
                 test_list_1[0],
                 True
             ),
             r.ast.DbCreate
         )
-        test_list_1[len(test_list_1) - 2] = crd(test_list_1[0])
-        test_list_1[len(test_list_1) - 3] = crd(test_list_1[0])
+        test_list_1[len(test_list_1) - 2] = crd(self.c, test_list_1[0])
+        test_list_1[len(test_list_1) - 3] = crd(self.c, test_list_1[0])
         test_list_1[len(test_list_1) - 4] = isinstance(
             crd(
+                self.c,
                 test_list_1[0],
                 True
             ),
             r.ast.DbCreate
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
         """Test 1."""
         with self.assertWarns(CDW):
-            test_list_2[len(test_list_2) - 1] = crd(test_list_2[0])
+            test_list_2[len(test_list_2) - 1] = crd(self.c, test_list_2[0])
 
         """Test 2."""
         with self.assertWarns(CDW):
-            test_list_3[len(test_list_3) - 1] = crd(test_list_3[0])
+            test_list_3[len(test_list_3) - 1] = crd(self.c, test_list_3[0])
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 3.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 4.
@@ -173,48 +177,61 @@ class test(ut.TestCase):
             None
         ]
 
-        crd(test_list_1[0])
+        crd(self.c, test_list_1[0])
         test_list_1[len(test_list_1) - 1] = isinstance(
             crt(
+                self.c,
                 test_list_1[1],
                 test_list_1[0],
                 True
             ),
             r.ast.TableCreate
         )
-        test_list_1[len(test_list_1) - 2] = crt(test_list_1[1], test_list_1[0])
-        test_list_1[len(test_list_1) - 3] = crt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 2] = crt(
+            self.c,
+            test_list_1[1],
+            test_list_1[0]
+        )
+        test_list_1[len(test_list_1) - 3] = crt(
+            self.c,
+            test_list_1[1],
+            test_list_1[0]
+        )
         test_list_1[len(test_list_1) - 4] = isinstance(
             crt(
+                self.c,
                 test_list_1[1],
                 test_list_1[0],
                 True
             ),
             r.ast.TableCreate
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
-        crd(test_list_2[0])
+        crd(self.c, test_list_2[0])
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_2[len(test_list_2) - 1] = crt(
+                self.c,
                 test_list_2[1],
                 test_list_2[0]
             )
-        dd(test_list_2[0])
+        dd(self.c, test_list_2[0])
 
-        crd(test_list_3[0])
+        crd(self.c, test_list_3[0])
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_3[len(test_list_3) - 1] = crt(
+                self.c,
                 test_list_3[1],
                 test_list_3[0]
             )
-        dd(test_list_3[0])
+        dd(self.c, test_list_3[0])
 
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_4[len(test_list_4) - 1] = crt(
+                self.c,
                 test_list_4[1],
                 test_list_4[0]
             )
@@ -222,6 +239,7 @@ class test(ut.TestCase):
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = crt(
+                self.c,
                 test_list_5[1],
                 test_list_5[0]
             )
@@ -229,36 +247,40 @@ class test(ut.TestCase):
         """Test 5."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = crt(
+                self.c,
                 test_list_6[1],
                 test_list_6[0]
             )
 
-        r.db_create(test_list_7[0]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
         """Test 6."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = crt(
+                self.c,
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
         """Test 7."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = crt(
+                self.c,
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
-        r.db_create(test_list_9[0]).run(c())
+        r.db_create(test_list_9[0]).run(self.c)
         """Test 8."""
         with self.assertWarns(CDW):
             test_list_9[len(test_list_9) - 1] = crt(
+                self.c,
                 test_list_9[1],
                 test_list_9[0]
             )
-        r.db_drop(test_list_9[0]).run(c())
+        r.db_drop(test_list_9[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 9.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 10.
@@ -276,7 +298,7 @@ class test(ut.TestCase):
 
 
     def test_create_doc(self):
-        """Test `crdoc()` of `create_doc()` in `database.py`.
+        """Test `crdoc` of `create_doc` in `database.py`.
 
         Test 1 : Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 2 : Assert warning for `CDW` of `CreationDeletionWarning`.
@@ -284,17 +306,17 @@ class test(ut.TestCase):
         Test 4 : Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 5 : Assert true for `test_list_1[len(test_list_1) - 1]` is
                  `r.ast.Insert`.
-        Test 6 : Assert not none for valid `crt()` object.
-        Test 7 : Assert none for counterfeit `crt()` object.
+        Test 6 : Assert not none for valid `crdoc()` object.
+        Test 7 : Assert none for counterfeit `crdoc()` object.
         Test 8 : Assert true for `test_list_1[len(test_list_1) - 4]` is not
                  `r.ast.Insert`.
-        Test 9 : Assert not none for valid `crt()` object.
-        Test 10: Assert none for counterfeit `crt()` object.
-        Test 11: Assert not none for valid `crt()` object.
-        Test 12: Assert none for counterfeit `crt()` object.
-        Test 13: Assert none for counterfeit `crt()` object.
-        Test 14: Assert none for counterfeit `crt()` object.
-        Test 15: Assert none for counterfeit `crt()` object.
+        Test 9 : Assert not none for valid `crdoc()` object.
+        Test 10: Assert none for counterfeit `crdoc()` object.
+        Test 11: Assert not none for valid `crdoc()` object.
+        Test 12: Assert none for counterfeit `crdoc()` object.
+        Test 13: Assert none for counterfeit `crdoc()` object.
+        Test 14: Assert none for counterfeit `crdoc()` object.
+        Test 15: Assert none for counterfeit `crdoc()` object.
 
         DONE: Create assert warning for invalid database and table.
         """
@@ -378,10 +400,11 @@ class test(ut.TestCase):
             None
         ]
 
-        crd(test_list_1[0])
-        crt(test_list_1[1], test_list_1[0])
+        crd(self.c, test_list_1[0])
+        crt(self.c, test_list_1[1], test_list_1[0])
         test_list_1[len(test_list_1) - 1] = isinstance(
             crdoc(
+                self.c,
                 test_list_1[2],
                 test_list_1[1],
                 test_list_1[0],
@@ -390,11 +413,13 @@ class test(ut.TestCase):
             r.ast.Insert
         )
         test_list_1[len(test_list_1) - 2] = crdoc(
+            self.c,
             test_list_1[2],
             test_list_1[1],
             test_list_1[0]
         )
         test_list_1[len(test_list_1) - 3] = crdoc(
+            self.c,
             test_list_1[2],
             test_list_1[1],
             test_list_1[0],
@@ -402,6 +427,7 @@ class test(ut.TestCase):
         )
         test_list_1[len(test_list_1) - 4] = isinstance(
             crdoc(
+                self.c,
                 test_list_1[2],
                 test_list_1[1],
                 test_list_1[0],
@@ -411,29 +437,33 @@ class test(ut.TestCase):
             r.ast.Insert
         )
         test_list_2[len(test_list_2) - 1] = crdoc(
+            self.c,
             test_list_2[2],
             test_list_2[1],
             test_list_2[0],
             test_list_2[3]
         )
-        crt(test_list_3[1], test_list_3[0])
+        crt(self.c, test_list_3[1], test_list_3[0])
         test_list_3[len(test_list_3) - 1] = crdoc(
+            self.c,
             test_list_3[2],
             test_list_3[1],
             test_list_3[0],
             test_list_3[3]
         )
         test_list_4[len(test_list_4) - 1] = crdoc(
+            self.c,
             test_list_4[2],
             test_list_4[1],
             test_list_4[0],
             test_list_4[3]
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = crdoc(
+                self.c,
                 test_list_5[2],
                 test_list_5[1],
                 test_list_5[0]
@@ -442,31 +472,34 @@ class test(ut.TestCase):
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = crdoc(
+                self.c,
                 test_list_6[2],
                 test_list_6[1],
                 test_list_6[0]
             )
 
-        r.db_create(test_list_7[0]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = crdoc(
+                self.c,
                 test_list_7[2],
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
-        r.db(test_list_8[0]).table_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
+        r.db(test_list_8[0]).table_create(test_list_8[0]).run(self.c)
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = crdoc(
+                self.c,
                 test_list_8[2],
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 5.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 6.

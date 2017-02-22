@@ -1,4 +1,4 @@
-from database          import conn                    as c
+from database          import conn
 from database          import create_db               as crd
 from database          import create_doc              as crdoc
 from database          import create_table            as crt
@@ -13,6 +13,8 @@ import unittest  as ut
 class test(ut.TestCase):
     ILLEGAL_BY_RDB          = "!LLEGAL"
     ILLEGAL_BY_THIS_PROGRAM = "1LLEGAL"
+
+    c = conn()
 
     """From `database.py`."""
 
@@ -45,24 +47,38 @@ class test(ut.TestCase):
         test_list_2 = [db_name_illegal_by_rdb, None]
         test_list_3 = [db_name_illegal_by_this_program, None]
 
-        crd(test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = isinstance(dd(test_list_1[0], True), r.ast.DbDrop)
-        test_list_1[len(test_list_1) - 2] = dd(test_list_1[0])
-        test_list_1[len(test_list_1) - 3] = dd(test_list_1[0])
-        test_list_1[len(test_list_1) - 4] = isinstance(dd(test_list_1[0], True), r.ast.DbDrop)
+        crd(self.c, test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = isinstance(
+            dd(
+                self.c,
+                test_list_1[0],
+                True
+            ),
+            r.ast.DbDrop
+        )
+        test_list_1[len(test_list_1) - 2] = dd(self.c, test_list_1[0])
+        test_list_1[len(test_list_1) - 3] = dd(self.c, test_list_1[0])
+        test_list_1[len(test_list_1) - 4] = isinstance(
+            dd(
+                self.c,
+                test_list_1[0],
+                True
+            ),
+            r.ast.DbDrop
+        )
 
         """Test 1."""
         with self.assertWarns(CDW):
-            test_list_2[len(test_list_2) - 1] = dd(test_list_2[0])
+            test_list_2[len(test_list_2) - 1] = dd(self.c, test_list_2[0])
 
         """Test 2."""
         with self.assertWarns(CDW):
-            test_list_3[len(test_list_3) - 1] = dd(test_list_3[0])
+            test_list_3[len(test_list_3) - 1] = dd(self.c, test_list_3[0])
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 3.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 4.
         self.assertIsNone(test_list_1[len(test_list_1) - 3])    # Test 5.
-        self.assertFalse(test_list_1[len(test_list_1) - 4])      # Test 6.
+        self.assertFalse(test_list_1[len(test_list_1) - 4])     # Test 6.
         self.assertIsNone(test_list_2[len(test_list_2) - 1])    # Test 7.
         self.assertIsNone(test_list_3[len(test_list_3) - 1])    # Test 8.
 
@@ -81,18 +97,18 @@ class test(ut.TestCase):
         Test 8 : Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 9 : Assert true for test_list_1[len(test_list_1) - 1] is
                 `r.ast.TableDrop`.
-        Test 10: Assert not none for valid `dd()` object.
-        Test 11: Assert none for counterfeit `dd()` object.
+        Test 10: Assert not none for valid `dt()` object.
+        Test 11: Assert none for counterfeit `dt()` object.
         Test 12: Assert false for test_list_1[len(test_list_1) - 1] is not
                 `r.ast.TableDrop`.
-        Test 13: Assert none for counterfeit `dd()` object.
-        Test 14: Assert none for counterfeit `dd()` object.
-        Test 15: Assert none for counterfeit `dd()` object.
-        Test 16: Assert none for counterfeit `dd()` object.
-        Test 17: Assert none for counterfeit `dd()` object.
-        Test 18: Assert none for counterfeit `dd()` object.
-        Test 19: Assert none for counterfeit `dd()` object.
-        Test 20: Assert none for counterfeit `dd()` object.
+        Test 13: Assert none for counterfeit `dt()` object.
+        Test 14: Assert none for counterfeit `dt()` object.
+        Test 15: Assert none for counterfeit `dt()` object.
+        Test 16: Assert none for counterfeit `dt()` object.
+        Test 17: Assert none for counterfeit `dt()` object.
+        Test 18: Assert none for counterfeit `dt()` object.
+        Test 19: Assert none for counterfeit `dt()` object.
+        Test 20: Assert none for counterfeit `dt()` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_name = "{}_{}".format(function_name, "db")
@@ -163,50 +179,63 @@ class test(ut.TestCase):
             None
         ]
 
-        crd(test_list_1[0])
-        crt(test_list_1[1], test_list_1[0])
+        crd(self.c, test_list_1[0])
+        crt(self.c, test_list_1[1], test_list_1[0])
         test_list_1[len(test_list_1) - 1] = isinstance(
             dt(
+                self.c,
                 test_list_1[1],
                 test_list_1[0],
                 True
             ),
             r.ast.TableDrop
         )
-        test_list_1[len(test_list_1) - 2] = dt(test_list_1[1], test_list_1[0])
-        test_list_1[len(test_list_1) - 3] = dt(test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 2] = dt(
+            self.c,
+            test_list_1[1],
+            test_list_1[0]
+        )
+        test_list_1[len(test_list_1) - 3] = dt(
+            self.c,
+            test_list_1[1],
+            test_list_1[0]
+        )
         test_list_1[len(test_list_1) - 4] = isinstance(
             dt(
+                self.c,
                 test_list_1[1],
                 test_list_1[0],
                 True
             ),
             r.ast.TableDrop
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
-        r.db_create(test_list_2[0]).run(c())
+        r.db_create(test_list_2[0]).run(self.c)
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_2[len(test_list_2) - 1] = dt(
+                self.c,
                 test_list_2[1],
                 test_list_2[0]
             )
-        r.db_drop(test_list_2[0]).run(c())
+        r.db_drop(test_list_2[0]).run(self.c)
 
-        r.db_create(test_list_3[0]).run(c())
-        r.db(test_list_3[0]).table_create(test_list_3[1]).run(c())
+        r.db_create(test_list_3[0]).run(self.c)
+        r.db(test_list_3[0]).table_create(test_list_3[1]).run(self.c)
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_3[len(test_list_3) - 1] = dt(
+                self.c,
                 test_list_3[1],
                 test_list_3[0]
             )
-        r.db_drop(test_list_3[0]).run(c())
+        r.db_drop(test_list_3[0]).run(self.c)
 
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_4[len(test_list_4) - 1] = dt(
+                self.c,
                 test_list_4[1],
                 test_list_4[0]
             )
@@ -214,6 +243,7 @@ class test(ut.TestCase):
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = dt(
+                self.c,
                 test_list_5[1],
                 test_list_5[0]
             )
@@ -221,38 +251,42 @@ class test(ut.TestCase):
         """Test 5."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = dt(
+                self.c,
                 test_list_6[1],
                 test_list_6[0]
             )
 
-        r.db_create(test_list_7[0]).run(c())
-        r.db(test_list_7[0]).table_create(test_list_7[1]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
+        r.db(test_list_7[0]).table_create(test_list_7[1]).run(self.c)
         """Test 6."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = dt(
+                self.c,
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
         """Test 7."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = dt(
+                self.c,
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
-        r.db_create(test_list_9[0]).run(c())
-        r.db(test_list_9[0]).table_create(test_list_9[1]).run(c())
+        r.db_create(test_list_9[0]).run(self.c)
+        r.db(test_list_9[0]).table_create(test_list_9[1]).run(self.c)
         """Test 8."""
         with self.assertWarns(CDW):
             test_list_9[len(test_list_9) - 1] = dt(
+                self.c,
                 test_list_9[1],
                 test_list_9[0]
             )
-        r.db_drop(test_list_9[0]).run(c())
+        r.db_drop(test_list_9[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 9.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 10.
@@ -270,7 +304,7 @@ class test(ut.TestCase):
 
 
     def test_del_doc(self):
-        """Test `ddoc()` of `delete_doc()` in `database.py`.
+        """Test `ddoself.c` of `delete_doself.c` in `database.py`.
 
         Test 1 : Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 2 : Assert warning for `CDW` of `CreationDeletionWarning`.
@@ -282,18 +316,18 @@ class test(ut.TestCase):
         Test 8 : Assert warning for `CDW` of `CreationDeletionWarning`.
         Test 9 : Assert true for test_list_1[len(test_list_1) - 1] is
                 `r.ast.Delete`.
-        Test 10: Assert not none for valid `ddoc()` object.
-        Test 11: Assert none for counterfeit `ddoc()` object.
+        Test 10: Assert not none for valid `ddoself.c` object.
+        Test 11: Assert none for counterfeit `ddoself.c` object.
         Test 12: Assert false for test_list_1[len(test_list_1) - 1] is not
                 `r.ast.Delete`.
-        Test 13: Assert none for counterfeit `ddoc()` object.
-        Test 14: Assert none for counterfeit `ddoc()` object.
-        Test 15: Assert none for counterfeit `ddoc()` object.
-        Test 16: Assert none for counterfeit `ddoc()` object.
-        Test 17: Assert none for counterfeit `ddoc()` object.
-        Test 18: Assert none for counterfeit `ddoc()` object.
-        Test 19: Assert none for counterfeit `ddoc()` object.
-        Test 20: Assert none for counterfeit `ddoc()` object.
+        Test 13: Assert none for counterfeit `ddoself.c` object.
+        Test 14: Assert none for counterfeit `ddoself.c` object.
+        Test 15: Assert none for counterfeit `ddoself.c` object.
+        Test 16: Assert none for counterfeit `ddoself.c` object.
+        Test 17: Assert none for counterfeit `ddoself.c` object.
+        Test 18: Assert none for counterfeit `ddoself.c` object.
+        Test 19: Assert none for counterfeit `ddoself.c` object.
+        Test 20: Assert none for counterfeit `ddoself.c` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_name = "{}_{}".format(function_name, "db")
@@ -374,11 +408,12 @@ class test(ut.TestCase):
             None
         ]
 
-        crd(test_list_1[0])
-        crt(test_list_1[1], test_list_1[0])
-        crdoc(test_list_1[2], test_list_1[1], test_list_1[0])
+        crd(self.c, test_list_1[0])
+        crt(self.c, test_list_1[1], test_list_1[0])
+        crdoc(self.c, test_list_1[2], test_list_1[1], test_list_1[0])
         test_list_1[len(test_list_1) - 1] = isinstance(
             ddoc(
+                self.c, 
                 test_list_1[2]["name"],
                 "name",
                 test_list_1[1],
@@ -388,12 +423,14 @@ class test(ut.TestCase):
             r.ast.Delete
         )
         test_list_1[len(test_list_1) - 2] = ddoc(
+            self.c,
             test_list_1[2]["name"],
             "name",
             test_list_1[1],
             test_list_1[0]
         )
         test_list_1[len(test_list_1) - 3] = ddoc(
+            self.c,
             test_list_1[2]["name"],
             "name",
             test_list_1[1],
@@ -401,6 +438,7 @@ class test(ut.TestCase):
         )
         test_list_1[len(test_list_1) - 4] = isinstance(
             ddoc(
+                self.c,
                 test_list_1[2]["name"],
                 "name",
                 test_list_1[1],
@@ -409,35 +447,38 @@ class test(ut.TestCase):
             ),
             r.ast.Delete
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
-        r.db_create(test_list_2[0]).run(c())
+        r.db_create(test_list_2[0]).run(self.c)
         """Test 1."""
         with self.assertWarns(CDW):
             test_list_2[len(test_list_2) - 1] = ddoc(
+                self.c,
                 test_list_2[2]["name"],
                 "name",
                 test_list_2[1],
                 test_list_2[0]
             )
-        r.db_drop(test_list_2[0]).run(c())
+        r.db_drop(test_list_2[0]).run(self.c)
 
-        r.db_create(test_list_3[0]).run(c())
-        r.db(test_list_3[0]).table_create(test_list_3[1]).run(c())
-        r.db(test_list_3[0]).table(test_list_3[1]).insert(test_list_3[2]).run(c())
+        r.db_create(test_list_3[0]).run(self.c)
+        r.db(test_list_3[0]).table_create(test_list_3[1]).run(self.c)
+        r.db(test_list_3[0]).table(test_list_3[1]).insert(test_list_3[2]).run(self.c)
         """Test 2."""
         with self.assertWarns(CDW):
             test_list_3[len(test_list_3) - 1] = ddoc(
+                self.c,
                 test_list_3[2]["name"],
                 "name",
                 test_list_3[1],
                 test_list_3[0]
             )
-        r.db_drop(test_list_3[0]).run(c())
+        r.db_drop(test_list_3[0]).run(self.c)
 
         """Test 3."""
         with self.assertWarns(CDW):
             test_list_4[len(test_list_4) - 1] = ddoc(
+                self.c,
                 test_list_4[2]["name"],
                 "name",
                 test_list_4[1],
@@ -447,6 +488,7 @@ class test(ut.TestCase):
         """Test 4."""
         with self.assertWarns(CDW):
             test_list_5[len(test_list_5) - 1] = ddoc(
+                self.c,
                 test_list_5[2]["name"],
                 "name",
                 test_list_5[1],
@@ -456,48 +498,52 @@ class test(ut.TestCase):
         """Test 5."""
         with self.assertWarns(CDW):
             test_list_6[len(test_list_6) - 1] = ddoc(
+                self.c,
                 test_list_6[2]["name"],
                 "name",
                 test_list_6[1],
                 test_list_6[0]
             )
 
-        r.db_create(test_list_7[0]).run(c())
-        r.db(test_list_7[0]).table_create(test_list_7[1]).run(c())
-        r.db(test_list_7[0]).table(test_list_7[1]).insert(test_list_7[2]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
+        r.db(test_list_7[0]).table_create(test_list_7[1]).run(self.c)
+        r.db(test_list_7[0]).table(test_list_7[1]).insert(test_list_7[2]).run(self.c)
         """Test 6."""
         with self.assertWarns(CDW):
             test_list_7[len(test_list_7) - 1] = ddoc(
+                self.c,
                 test_list_7[2]["name"],
                 "name",
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
         """Test 7."""
         with self.assertWarns(CDW):
             test_list_8[len(test_list_8) - 1] = ddoc(
+                self.c,
                 test_list_8[2]["name"],
                 "name",
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
-        r.db_create(test_list_9[0]).run(c())
-        r.db(test_list_9[0]).table_create(test_list_9[1]).run(c())
-        r.db(test_list_9[0]).table(test_list_9[1]).insert(test_list_9[2]).run(c())
+        r.db_create(test_list_9[0]).run(self.c)
+        r.db(test_list_9[0]).table_create(test_list_9[1]).run(self.c)
+        r.db(test_list_9[0]).table(test_list_9[1]).insert(test_list_9[2]).run(self.c)
         """Test 8."""
         with self.assertWarns(CDW):
             test_list_9[len(test_list_9) - 1] = ddoc(
+                self.c,
                 test_list_9[2]["name"],
                 "name",
                 test_list_9[1],
                 test_list_9[0]
             )
-        r.db_drop(test_list_9[0]).run(c())
+        r.db_drop(test_list_9[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])      # Test 9.
         self.assertIsNotNone(test_list_1[len(test_list_1) - 2]) # Test 10.

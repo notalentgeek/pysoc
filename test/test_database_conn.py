@@ -1,4 +1,4 @@
-from database          import conn                    as c
+from database          import conn
 from exception_warning import ConventionWarning       as CW
 import sys
 import unittest  as ut
@@ -10,13 +10,13 @@ class test(ut.TestCase):
     """From `database.py`."""
 
     def test_conn(self):
-        """Test `c()` of `conn()` in `database.py`.
+        """Test `conn()` in `database.py`.
 
         Test 1: Assert warning for `CW` of `ConventionWarning`.
         Test 2: Assert warning for `CW` of `ConventionWarning`.
-        Test 3: Assert not none for valid `c()` object.
-        Test 4: Assert none for counterfeit `c()` object.
-        Test 5: Assert none for counterfeit `c()` object.
+        Test 3: Assert not none for valid `conn()` object.
+        Test 4: Assert none for counterfeit `conn()` object.
+        Test 5: Assert none for counterfeit `conn()` object.
         """
         function_name = sys._getframe().f_code.co_name
         db_host = "{}_{}".format(function_name, "host")
@@ -33,15 +33,15 @@ class test(ut.TestCase):
         test_list_2 = [db_host_illegal_by_rdb, None]
         test_list_3 = [db_host_illegal_by_this_program, None]
 
-        test_list_1 = c()
+        test_list_1 = conn()
 
         """Test 1."""
         with self.assertWarns(CW):
-                test_list_2[len(test_list_2) - 1] = c(db_host_illegal_by_rdb)
+                test_list_2[len(test_list_2) - 1] = conn(db_host_illegal_by_rdb)
 
         """Test 2."""
         with self.assertWarns(CW):
-                test_list_3[len(test_list_3) - 1] = c(
+                test_list_3[len(test_list_3) - 1] = conn(
                     db_host_illegal_by_this_program
                 )
 

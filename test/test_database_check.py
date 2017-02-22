@@ -1,7 +1,7 @@
 from database          import check_db          as cd
 from database          import check_doc         as cdoc
 from database          import check_table       as ct
-from database          import conn              as c
+from database          import conn
 from database          import create_db         as crd
 from database          import create_doc        as crdoc
 from database          import create_table      as crt
@@ -14,6 +14,8 @@ import unittest  as ut
 class test(ut.TestCase):
     ILLEGAL_BY_RDB          = "!LLEGAL"
     ILLEGAL_BY_THIS_PROGRAM = "1LLEGAL"
+
+    c = conn()
 
     """From `database.py`."""
 
@@ -40,17 +42,17 @@ class test(ut.TestCase):
         test_list_2 = [db_name_illegal_by_rdb, False]
         test_list_3 = [db_name_illegal_by_this_program, False]
 
-        crd(test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = cd(test_list_1[0])
-        dd(test_list_1[0])
+        crd(self.c, test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = cd(self.c, test_list_1[0])
+        dd(self.c, test_list_1[0])
 
-        test_list_2[len(test_list_2) - 1] = cd(test_list_2[0])
+        test_list_2[len(test_list_2) - 1] = cd(self.c, test_list_2[0])
 
-        r.db_create(test_list_3[0]).run(c())
+        r.db_create(test_list_3[0]).run(self.c)
         """Test 1."""
         with self.assertWarns(CW):
-            test_list_3[len(test_list_3) - 1] = cd(test_list_3[0])
-        r.db_drop(test_list_3[0]).run(c())
+            test_list_3[len(test_list_3) - 1] = cd(self.c, test_list_3[0])
+        r.db_drop(test_list_3[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])  # Test 2.
         self.assertFalse(test_list_2[len(test_list_2) - 1]) # Test 3.
@@ -141,66 +143,81 @@ class test(ut.TestCase):
             False
         ]
 
-        crd(test_list_1[0])
-        crt(test_list_1[1], test_list_1[0])
-        test_list_1[len(test_list_1) - 1] = ct(test_list_1[1], test_list_1[0])
-        dd(test_list_1[0])
+        crd(self.c, test_list_1[0])
+        crt(self.c, test_list_1[1], test_list_1[0])
+        test_list_1[len(test_list_1) - 1] = ct(
+            self.c,
+            test_list_1[1],
+            test_list_1[0]
+        )
+        dd(self.c, test_list_1[0])
 
-        test_list_2[len(test_list_2) - 1] = ct(test_list_2[1], test_list_2[0])
+        test_list_2[len(test_list_2) - 1] = ct(
+            self.c,
+            test_list_2[1],
+            test_list_2[0]
+        )
 
-        r.db_create(test_list_3[0]).run(c())
-        r.db(test_list_3[0]).table_create(test_list_3[1]).run(c())
+        r.db_create(test_list_3[0]).run(self.c)
+        r.db(test_list_3[0]).table_create(test_list_3[1]).run(self.c)
         """Test 1."""
         with self.assertWarns(CW):
             test_list_3[len(test_list_3) - 1] = ct(
+                self.c,
                 test_list_3[1],
                 test_list_3[0]
             )
-        r.db_drop(test_list_3[0]).run(c())
+        r.db_drop(test_list_3[0]).run(self.c)
 
         test_list_4[len(test_list_4) - 1] = ct(
+            self.c,
             test_list_4[1],
             test_list_4[0]
         )
 
         test_list_5[len(test_list_5) - 1] = ct(
+            self.c,
             test_list_5[1],
             test_list_5[0]
         )
 
         test_list_6[len(test_list_6) - 1] = ct(
+            self.c,
             test_list_6[1],
             test_list_6[0]
         )
 
-        r.db_create(test_list_7[0]).run(c())
-        r.db(test_list_7[0]).table_create(test_list_7[1]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
+        r.db(test_list_7[0]).table_create(test_list_7[1]).run(self.c)
         """Test 2."""
         with self.assertWarns(CW):
             test_list_7[len(test_list_7) - 1] = ct(
+                self.c,
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
         """Test 3."""
         with self.assertWarns(CW):
             test_list_8[len(test_list_8) - 1] = ct(
+                self.c,
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
-        r.db_create(test_list_9[0]).run(c())
-        r.db(test_list_9[0]).table_create(test_list_9[1]).run(c())
+        r.db_create(test_list_9[0]).run(self.c)
+        r.db(test_list_9[0]).table_create(test_list_9[1]).run(self.c)
         """Test 4."""
         with self.assertWarns(CW):
             test_list_9[len(test_list_9) - 1] = ct(
+                self.c,
                 test_list_9[1],
                 test_list_9[0]
             )
-        r.db_drop(test_list_9[0]).run(c())
+        r.db_drop(test_list_9[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])  # Test 5.
         self.assertFalse(test_list_2[len(test_list_2) - 1]) # Test 6.
@@ -215,7 +232,7 @@ class test(ut.TestCase):
 
 
     def test_check_doc(self):
-        """Test `cd()` of `check_doc()` in `database.py`.
+        """Test `cd()` of `check_doself.c` in `database.py`.
 
         Test 1 : Assert warning for `CW` of `ConventionWarning`.
         Test 2 : Assert warning for `CW` of `ConventionWarning`.
@@ -307,41 +324,45 @@ class test(ut.TestCase):
             False
         ]
 
-        crd(test_list_1[0])
-        crt(test_list_1[1], test_list_1[0])
-        crdoc(test_list_1[2], test_list_1[1], test_list_1[0])
+        crd(self.c, test_list_1[0])
+        crt(self.c, test_list_1[1], test_list_1[0])
+        crdoc(self.c, test_list_1[2], test_list_1[1], test_list_1[0])
         test_list_1[len(test_list_1) - 1] = cdoc(
+            self.c,
             test_list_1[2]["name"],
             "name",
             test_list_1[1],
             test_list_1[0]
         )
-        dd(test_list_1[0])
+        dd(self.c, test_list_1[0])
 
-        r.db_create(test_list_2[0]).run(c())
+        r.db_create(test_list_2[0]).run(self.c)
         test_list_2[len(test_list_2) - 1] = cdoc(
+            self.c,
             test_list_2[2]["name"],
             "name",
             test_list_2[1],
             test_list_2[0]
         )
-        r.db_drop(test_list_2[0]).run(c())
+        r.db_drop(test_list_2[0]).run(self.c)
 
-        r.db_create(test_list_3[0]).run(c())
-        r.db(test_list_3[0]).table_create(test_list_3[1]).run(c())
+        r.db_create(test_list_3[0]).run(self.c)
+        r.db(test_list_3[0]).table_create(test_list_3[1]).run(self.c)
         r.db(test_list_3[0]).table(test_list_3[1]).insert(test_list_3[2])\
-            .run(c())
+            .run(self.c)
         """Test 1."""
         with self.assertWarns(CW):
             test_list_3[len(test_list_3) - 1] = cdoc(
+                self.c,
                 test_list_3[2]["name"],
                 "name",
                 test_list_3[1],
                 test_list_3[0]
             )
-        r.db_drop(test_list_3[0]).run(c())
+        r.db_drop(test_list_3[0]).run(self.c)
 
         test_list_4[len(test_list_4) - 1] = cdoc(
+            self.c,
             test_list_4[2]["name"],
             "name",
             test_list_4[1],
@@ -349,6 +370,7 @@ class test(ut.TestCase):
         )
 
         test_list_5[len(test_list_5) - 1] = cdoc(
+            self.c,
             test_list_5[2]["name"],
             "name",
             test_list_5[1],
@@ -356,50 +378,54 @@ class test(ut.TestCase):
         )
 
         test_list_6[len(test_list_6) - 1] = cdoc(
+            self.c,
             test_list_6[2]["name"],
             "name",
             test_list_6[1],
             test_list_6[0]
         )
 
-        r.db_create(test_list_7[0]).run(c())
-        r.db(test_list_7[0]).table_create(test_list_7[1]).run(c())
+        r.db_create(test_list_7[0]).run(self.c)
+        r.db(test_list_7[0]).table_create(test_list_7[1]).run(self.c)
         r.db(test_list_7[0]).table(test_list_7[1]).insert(test_list_7[2])\
-            .run(c())
+            .run(self.c)
         """Test 2."""
         with self.assertWarns(CW):
             test_list_7[len(test_list_7) - 1] = cdoc(
+                self.c,
                 test_list_7[2]["name"], 
                 "name",
                 test_list_7[1],
                 test_list_7[0]
             )
-        r.db_drop(test_list_7[0]).run(c())
+        r.db_drop(test_list_7[0]).run(self.c)
 
-        r.db_create(test_list_8[0]).run(c())
+        r.db_create(test_list_8[0]).run(self.c)
         """Test 3."""
         with self.assertWarns(CW):
             test_list_8[len(test_list_8) - 1] = cdoc(
+                self.c,
                 test_list_8[2]["name"],
                 "name",
                 test_list_8[1],
                 test_list_8[0]
             )
-        r.db_drop(test_list_8[0]).run(c())
+        r.db_drop(test_list_8[0]).run(self.c)
 
-        r.db_create(test_list_9[0]).run(c())
-        r.db(test_list_9[0]).table_create(test_list_9[1]).run(c())
+        r.db_create(test_list_9[0]).run(self.c)
+        r.db(test_list_9[0]).table_create(test_list_9[1]).run(self.c)
         r.db(test_list_9[0]).table(test_list_9[1]).insert(test_list_9[2])\
-            .run(c())
+            .run(self.c)
         """Test 4."""
         with self.assertWarns(CW):
             test_list_9[len(test_list_9) - 1] = cdoc(
+                self.c,
                 test_list_9[2]["name"],
                 "name",
                 test_list_9[1],
                 test_list_9[0]
             )
-        r.db_drop(test_list_9[0]).run(c())
+        r.db_drop(test_list_9[0]).run(self.c)
 
         self.assertTrue(test_list_1[len(test_list_1) - 1])  # Test 5.
         self.assertFalse(test_list_2[len(test_list_2) - 1]) # Test 6.

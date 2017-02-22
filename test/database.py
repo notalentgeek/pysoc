@@ -88,7 +88,7 @@ def conn(_db_host:str=rtm_cfg_db_host):
     while True:
         try:
             return r.connect(host=_db_host, timeout=5)
-        except r.errors.ReqlDriverError as e:
+        except r.errors.ReqlDriverError:
             if not p:
                 print("\n{}{}\n{}".format(
                     "there is no database connection and/or there is no ",
@@ -99,225 +99,426 @@ def conn(_db_host:str=rtm_cfg_db_host):
 
 
 
-def check_db(_db_name:str=rtm_cfg_db_name):
-    if r.db_list().contains(_db_name).run(conn()):
-        if not cdn(_db_name):
-            cw_db_mod(_db_name)
-        return True
+def check_db(
+    _conn    :r.net.DefaultConnection,
+    _db_name :str=rtm_cfg_db_name
+):
+    p = False
+    while True:
+        try:
+            if r.db_list().contains(_db_name).run(_conn):
+                if not cdn(_db_name):
+                    cw_db_mod(_db_name)
+                return True
+            break
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
     return False
 
 
 
-def check_table(_table_name:str, _db_name:str=rtm_cfg_db_name):
-    if check_db(_db_name):
-        if r.db(_db_name).table_list().contains(_table_name).run(conn()):
-            if not ctn(_table_name):
-                cw_table_mod(_table_name)
-            return True
+def check_table(
+    _conn       :r.net.DefaultConnection,
+    _table_name :str,
+    _db_name    :str=rtm_cfg_db_name
+):
+    p = False
+    while True:
+        try:
+            if check_db(_conn, _db_name):
+                if r.db(_db_name).table_list().contains(_table_name).run(_conn):
+                    if not ctn(_table_name):
+                        cw_table_mod(_table_name)
+                    return True
+            break
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
     return False
 
 
 
-def check_doc(_value:str, _column:str, _table_name:str,
-    _db_name:str=rtm_cfg_db_name):
-    if check_db(_db_name):
-        if check_table(_table_name, _db_name):
-            return bool(
-                get_first_doc_value(
-                    _value,
-                    _column,
-                    _column,
-                    _table_name,
-                    _db_name
+def check_doc(
+    _conn       :r.net.DefaultConnection,
+    _value      :str,
+    _column     :str,
+    _table_name :str,
+    _db_name    :str=rtm_cfg_db_name
+):
+    p = False
+    while True:
+        try:
+            if check_db(_conn, _db_name):
+                if check_table(_conn, _table_name, _db_name):
+                    return bool(
+                        get_first_doc_value(
+                            _conn,
+                            _value,
+                            _column,
+                            _column,
+                            _table_name,
+                            _db_name
+                        )
+                    )
+            break
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
+
+    return False
+
+
+
+def create_db(
+    _conn    :r.net.DefaultConnection,
+    _db_name :str=rtm_cfg_db_name,
+    _expr    :bool=False
+):
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    True
                 )
-            )
-
-    return False
-
-
-
-def create_db(_db_name:str=rtm_cfg_db_name, _expr:bool=False):
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            True
-        )
-        return None
-
-    if check_db(_db_name):
-        return None
-
-    if _expr:
-        return r.db_create(_db_name)
-    else:
-        return r.db_create(_db_name).run(conn())
-
-
-
-def create_table(_table_name:str, _db_name:str=rtm_cfg_db_name,
-    _expr:bool=False):
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            True
-        )
-        return None
-    if not ctn(_table_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name,
-            False,
-            True
-        )
-        return None
-
-    if check_db(_db_name) and check_table(_table_name, _db_name):
-        return None
-
-    if _expr:
-        return r.db(_db_name).table_create(_table_name)
-    else:
-        return r.db(_db_name).table_create(_table_name).run(conn())
-
-
-
-def create_doc(_dict:dict, _table_name:str,
-    _db_name:str=rtm_cfg_db_name, _unique_column:list=[], _expr:bool=False):
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            True
-        )
-        return None
-    if not ctn(_table_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name,
-            False,
-            True
-        )
-        return None
-
-    """Make sure the document's value is unique based on `_unique_column`."""
-    if check_db(_db_name) and check_table(_table_name, _db_name):
-        for i in _unique_column:
-            if check_doc(_dict[i], i, _table_name, _db_name):
                 return None
 
-    if _expr:
-        return r.db(_db_name).table(_table_name).insert(_dict)
-    else:
-        return r.db(_db_name).table(_table_name).insert(_dict).run(conn())
+            if check_db(_conn, _db_name):
+                return None
+
+            if _expr:
+                return r.db_create(_db_name)
+            else:
+                return r.db_create(_db_name).run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
 
 
-def del_db(_db_name:str=rtm_cfg_db_name, _expr:bool=False):
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            False
-        )
-        return None
+def create_table(
+    _conn       :r.net.DefaultConnection,
+    _table_name :str,
+    _db_name    :str=rtm_cfg_db_name,
+    _expr       :bool=False
+):
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    True
+                )
+                return None
+            if not ctn(_table_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _table_name,
+                    False,
+                    True
+                )
+                return None
 
-    if not check_db(_db_name):
-        return None
+            if check_db(_conn, _db_name) and\
+               check_table(_conn, _table_name, _db_name):
+                return None
 
-    if _expr:
-        return r.db_drop(_db_name)
-    else:
-        return r.db_drop(_db_name).run(conn())
+            if _expr:
+                return r.db(_db_name).table_create(_table_name)
+            else:
+                return r.db(_db_name).table_create(_table_name).run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
 
-
-
-def del_table(_table_name:str, _db_name:str=rtm_cfg_db_name, _expr:bool=False):
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            False
-        )
-        return None
-    if not ctn(_table_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name,
-            False,
-            False
-        )
-        return None
-
-    if not check_db(_db_name):
-        return None
-
-    if not check_table(_table_name, _db_name):
-        return None
-
-    if _expr:
-        return r.db(_db_name).table_drop(_table_name)
-    else:
-        return r.db(_db_name).table_drop(_table_name).run(conn())
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
 
 
-def del_doc(_value:str, _column_value:str, _table_name:str,
-    _db_name:str=rtm_cfg_db_name, _expr:bool=False):
+def create_doc(
+    _conn          :r.net.DefaultConnection,
+    _dict          :dict,
+    _table_name    :str,
+    _db_name       :str=rtm_cfg_db_name,
+    _unique_column :list=[],
+    _expr          :bool=False
+):
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    True
+                )
+                return None
+            if not ctn(_table_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _table_name,
+                    False,
+                    True
+                )
+                return None
+
+            """Make sure the document's value is unique based on `_unique_column`."""
+            if check_db(_conn, _db_name) and\
+               check_table(_conn, _table_name, _db_name):
+                for i in _unique_column:
+                    if check_doc(_conn, _dict[i], i, _table_name, _db_name):
+                        return None
+
+            if _expr:
+                return r.db(_db_name).table(_table_name).insert(_dict)
+            else:
+                return r.db(_db_name).table(_table_name).insert(_dict).run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
+
+
+
+def del_db(
+    _conn    :r.net.DefaultConnection,
+    _db_name :str=rtm_cfg_db_name,
+    _expr    :bool=False
+):
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    False
+                )
+                return None
+
+            if not check_db(_conn, _db_name):
+                return None
+
+            if _expr:
+                return r.db_drop(_db_name)
+            else:
+                return r.db_drop(_db_name).run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
+
+
+
+def del_table(
+    _conn       :r.net.DefaultConnection,
+    _table_name :str,
+    _db_name    :str=rtm_cfg_db_name,
+    _expr       :bool=False
+):
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    False
+                )
+                return None
+            if not ctn(_table_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _table_name,
+                    False,
+                    False
+                )
+                return None
+
+            if not check_db(_conn, _db_name):
+                return None
+
+            if not check_table(_conn, _table_name, _db_name):
+                return None
+
+            if _expr:
+                return r.db(_db_name).table_drop(_table_name)
+            else:
+                return r.db(_db_name).table_drop(_table_name).run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
+
+
+
+def del_doc(
+    _conn         :r.net.DefaultConnection,
+    _value        :str,
+    _column_value :str,
+    _table_name   :str,
+    _db_name      :str=rtm_cfg_db_name,
+    _expr         :bool=False
+):
     """ Delete document based on column and its value. If there are more then
     one document has the same value on its column then multiple documents will
     be deleted.
     """
+    p = False
+    while True:
+        try:
+            if not cdn(_db_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _db_name,
+                    True,
+                    False
+                )
+                return None
+            if not ctn(_table_name):
+                cdw_prevent_creation_or_deletion_if_string_check_fail(
+                    _table_name,
+                    False,
+                    False
+                )
+                return None
 
-    if not cdn(_db_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _db_name,
-            True,
-            False
-        )
-        return None
-    if not ctn(_table_name):
-        cdw_prevent_creation_or_deletion_if_string_check_fail(
-            _table_name,
-            False,
-            False
-        )
-        return None
+            if not check_db(_conn, _db_name):
+                return None
 
-    if not check_db(_db_name):
-        return None
+            if not check_table(_conn, _table_name, _db_name):
+                return None
 
-    if not check_table(_table_name, _db_name):
-        return None
+            if not check_doc(_conn, _value, _column_value, _table_name, _db_name):
+                return None
 
-    if not check_doc(_value, _column_value, _table_name, _db_name):
-        return None
+            if _expr:
+                return r.db(_db_name).table(_table_name)\
+                    .filter({ _column_value:_value }).delete()
+            else:
+                return r.db(_db_name).table(_table_name)\
+                    .filter({ _column_value:_value }).delete().run(_conn)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
 
-    if _expr:
-        return r.db(_db_name).table(_table_name)\
-            .filter({ _column_value:_value }).delete()
-    else:
-        return r.db(_db_name).table(_table_name)\
-            .filter({ _column_value:_value }).delete().run(conn())
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
 
 
-def get_first_doc(_value:str, _column_value:str, _column_target:str,
-    _table_name:str, _db_name:str=rtm_cfg_db_name):
-    l = r.db(_db_name).table(_table_name).filter(
-            { _column_value: _value }).run(conn())
+def get_first_doc(
+    _conn          :r.net.DefaultConnection,
+    _value         :str,
+    _column_value  :str,
+    _column_target :str,
+    _table_name    :str,
+    _db_name       :str=rtm_cfg_db_name
+):
+    p = False
+    while True:
+        try:
+            l = r.db(_db_name).table(_table_name).filter(
+                    { _column_value: _value }).run(_conn)
 
-    return t1d(l, _column_target)
+            return t1d(l, _column_target)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
 
 
 
-def get_first_doc_value(_value:str, _column_value:str, _column_target:str,
-    _table_name:str, _db_name:str=rtm_cfg_db_name):
-    """If this function returns a list (instead of just single document)
-    value returned is alphabetically sorted (for example, this returns
-    `"Alpha"`, when there are `["Alpha", "Beta"]`).
-    """
-    l = r.db(_db_name).table(_table_name).filter(
-            { _column_value: _value }).run(conn())
+def get_first_doc_value(
+    _conn          :r.net.DefaultConnection,
+    _value         :str,
+    _column_value  :str,
+    _column_target :str,
+    _table_name    :str,
+    _db_name       :str=rtm_cfg_db_name
+):
+    p = False
+    while True:
+        try:
+            """If this function returns a list (instead of just single document)
+            value returned is alphabetically sorted (for example, this returns
+            `"Alpha"`, when there are `["Alpha", "Beta"]`).
+            """
+            l = r.db(_db_name).table(_table_name).filter(
+                    { _column_value: _value }).run(_conn)
 
-    return t1v(l, _column_target)
+            return t1v(l, _column_target)
+        except r.errors.ReqlDriverError:
+            _conn.reconnect()
+
+            if not p:
+                print("\n{}{}\n{}".format(
+                    "there is no database connection and/or there is no ",
+                    "internet connection",
+                    "re - trying database connection"
+                ))
+            p = True
