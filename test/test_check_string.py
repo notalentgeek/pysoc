@@ -33,7 +33,6 @@ class test(ut.TestCase):
 
 
     def test_check_db_host(self):
-        true = [
             "0.0.0.0", "127.0.0.1", "255.255.255.255", "http://localhost",
             "http://localhost/", "https://localhost", "https://localhost/",
             "localhost"
@@ -78,10 +77,8 @@ class test(ut.TestCase):
 
     def test_check_table_name(self):
         true = [
-
             "table", "table_alpha", "table_1", "tableAlpha", "tableAlpha_1",
             "table_alpha_1"
-
         ]
 
         false = [
@@ -95,4 +92,7 @@ class test(ut.TestCase):
         for i in false:
             self.assertFalse(ctn(i))
 
-if __name__ == "__main__": ut.main()
+            true = [
+
+if __name__ == "__main__":
+    ut.main()
