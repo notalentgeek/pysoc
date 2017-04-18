@@ -688,9 +688,6 @@
         for (var i = 0; i < client_simulation_array.length; i ++) {
           for (var j = 0; j < client_simulation_array[i].latest_presence_client_simulation_circle_array.length; j ++) {
             if (client_simulation_array[i].online) {
-
-              console.log(client_simulation_array[i].latest_presence_client_simulation_circle_array);
-
               var c_x_1 = Number(client_simulation_array[i].client_circle.circle.attr("cx"));
               var c_y_1 = Number(client_simulation_array[i].client_circle.circle.attr("cy"));
               var c_x_2 = Number(client_simulation_array[i].latest_presence_client_simulation_circle_array[j].circle.attr("cx"));
