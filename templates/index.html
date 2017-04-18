@@ -308,7 +308,7 @@
             this.online_chance = 1.0;
           }
           else {
-            this.online_chance -= 0.05;
+            this.online_chance -= 0.005;
           }
         }
         else {
@@ -317,7 +317,7 @@
             this.online_chance = 0;
           }
           else {
-            this.online_chance += 0.05;
+            this.online_chance += 0.005;
           }
         }
       };
@@ -345,14 +345,16 @@
 
         for (var i = 0; i < client_simulation_array.length; i ++) {
           if (
-            (!client_simulation_array[i].client_circle) &&
+            (client_simulation_array[i].client_circle !== null) &&
             (client_simulation_array[i].name != this.name) &&
-            (client_simulation_array[i].online)
+            (client_simulation_array[i].online) &&
+            (Math.random() < 0.8)
           ) {
             this.latest_presence_client_simulation_circle_array.push(client_simulation_array[i].client_circle);
             this.latest_presence_client_simulation_name_array.push(client_simulation_array[i].name);
           }
         }
+
       };
       client_simulation.prototype.simulate_detection_volume = function () {
         // Number.
@@ -657,6 +659,7 @@
           dt = dt_previous;
         }
 
+        // Animation and simulation.
         for(var i = 0; i < client_simulation_array.length; i ++){
           client_simulation_array[i].simulate_online();
         }
@@ -674,9 +677,63 @@
             client_simulation_array[i].simulate_detection_pitch();
             client_simulation_array[i].simulate_detection_presence();
             client_simulation_array[i].simulate_detection_volume();
+
           }
         }
         rotate_all_for_client_circle_simulation();
+
+        // For connecting lines between nodes.
+        d3.selectAll(".simulate_presence_line").remove();
+        d3.selectAll(".simulate_presence_circle").remove();
+        for (var i = 0; i < client_simulation_array.length; i ++) {
+          for (var j = 0; j < client_simulation_array[i].latest_presence_client_simulation_circle_array.length; j ++) {
+            if (client_simulation_array[i].online) {
+
+              console.log(client_simulation_array[i].latest_presence_client_simulation_circle_array);
+
+              var c_x_1 = Number(client_simulation_array[i].client_circle.circle.attr("cx"));
+              var c_y_1 = Number(client_simulation_array[i].client_circle.circle.attr("cy"));
+              var c_x_2 = Number(client_simulation_array[i].latest_presence_client_simulation_circle_array[j].circle.attr("cx"));
+              var c_y_2 = Number(client_simulation_array[i].latest_presence_client_simulation_circle_array[j].circle.attr("cy"));
+              var r_1 = client_simulation_array[i].client_circle.circle.attr("r");
+              var r_2 = client_simulation_array[i].latest_presence_client_simulation_circle_array[j].radius;
+
+              var radian = Math.atan2(c_y_2 - c_y_1, c_x_2 - c_x_1);
+
+              var x_1 = c_x_1 + (r_1 * Math.cos(radian));
+              var y_1 = c_y_1 + (r_1 * Math.sin(radian));
+              var x_2 = c_x_2 - (r_2 * Math.cos(radian));
+              var y_2 = c_y_2 - (r_2 * Math.sin(radian));
+
+              graph_demo_svg.append("line")
+                .attr("class", "simulate_presence_line")
+                .attr("x1", x_1)
+                .attr("y1", y_1)
+                .attr("x2", x_2)
+                .attr("y2", y_2)
+                .attr(
+                    "transform",
+                    "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                )
+                .style("opacity", 0.5)
+                .style("stroke", client_simulation_array[i].client_circle_color)
+                .style("stroke-width", 5);
+
+              graph_demo_svg.append("circle")
+                .attr("class", "simulate_presence_circle")
+                .attr("cx", x_2)
+                .attr("cy", y_2)
+                .attr("r", 5)
+                .attr(
+                    "transform",
+                    "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                )
+                .style("fill", client_simulation_array[i].client_circle_color)
+                .style("stroke", "no-stroke");
+            }
+          }
+        }
+
       }, 1000);
 
       /* For some reasons `x_resize()` functions need to be triggered twice.
@@ -743,6 +800,12 @@
 
       $(window)
         .resize(function () { // When browser change size.
+          pitch_resize();
+          volume_resize();
+          graph_demo_resize();
+          d3.selectAll(".simulate_presence_line").remove();
+          d3.selectAll(".simulate_presence_circle").remove();
+
           qr_code_adjust();
           if ($("#graph_demo").hasClass("active")) { resize_graph_demo = true; }
           if ($("#mic").hasClass("active")) { resize_pitch_and_volume_graph = true; }
