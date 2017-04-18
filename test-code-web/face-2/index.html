@@ -1,0 +1,37 @@
+<html>
+  <body>
+    <div style="position:relative;">
+      <video id="video" height="256" width="256" style="position:absolute;z-index:0;" autoplay loop muted preload></video>
+      <canvas id="track" height="256" width="256" style="position:absolute;z-index:0;"></canvas>
+    </div>
+    <script src="tracking-min.js"></script>
+    <script src="face-min.js"></script>
+    <script>
+      var video = document.getElementById("video");
+      var track = document.getElementById("track");
+      var context = track.getContext("2d");
+
+      var face_detection = new tracking.ObjectTracker("face");
+      face_detection.setInitialScale(4);
+      face_detection.setStepSize(2);
+      face_detection.setEdgesDensity(0.1);
+
+      tracking.track("#video", face_detection, { camera:true });
+
+      face_detection.on("track", function (e) {
+        context.clearRect(0, 0, track.width, track.height);
+
+        console.log(e.data.length);
+
+        e.data.forEach(function (r) {
+          context.fillStyle = "#fff";
+          context.fillText("x: " + r.x + "px", r.x + r.width + 5, r.y + 11);
+          context.fillText("y: " + r.y + "px", r.x + r.width + 5, r.y + 22);
+          context.font = "11px Helvetica";
+          context.strokeRect(r.x, r.y, r.width, r.height);
+          context.strokeStyle = "#A64CEB";
+        });
+      });
+    </script>
+  </body>
+</html>

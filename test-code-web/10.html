@@ -1,0 +1,184 @@
+    <div style="display:flex;flex-direction:row;height:100%;width:100%;">
+      <div style="flex:1;margin-bottom:5px;margin-left:0px;margin-right:2.5px;margin-top:5px;">qr code</div>
+      <div style="flex:1;">
+        <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+          <div class="input-group" style="display:flex;flex-direction:row;margin-bottom:0px;margin-left:2.5px;margin-right:0px;margin-top:5px;width:100%;">
+            <input class="form-control" id="client_name" style="flex:4;" type="text">
+            <div style="flex:1;">
+              <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                <button class="btn btn-success" style="flex:1;" type="button">activate</button>
+                <button class="btn btn-primary" style="flex:1;" type="button">generate</button>
+                <button class="btn btn-danger" style="flex:1;" type="button">deactivate</button>
+              </span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:5px;margin-left:2.5px;margin-right:0px;margin-top:5px;">
+            <ul class="nav nav-tabs" style="display:flex;flex-direction:row;height:100%;width:100%;margin-bottom:5px;margin-left:2.5px;margin-right:0px;margin-top:5px;">
+              <li class="active" style="flex:2;"><a data-toggle="tab" href="#visualization" style="text-align:center;">visualization</a></li>
+              <li style="flex:2;"><a data-toggle="tab" href="#visualization_demo" style="text-align:center;">visualization demo</a></li>
+              <li style="flex:1;"><a data-toggle="tab" href="#cam" style="text-align:center;">cam</a></li>
+              <li style="flex:1;"><a data-toggle="tab" href="#voice" style="text-align:center;">voice</a></li>
+              <li style="flex:1;"><a data-toggle="tab" href="#api" style="text-align:center;">api</a></li>
+            </ul>
+          </div>
+          <div style="flex:1;margin-bottom:5px;margin-left:2.5px;margin-right:0px;margin-top:0px;">
+            <div class="tab-content" style="display:flex;flex-direction:column;height:100%;width:100%;">
+
+              <div class="active fade in tab-pane" id="visualization" style="flex:1;">
+                visualization
+              </div>
+
+              <div class="fade fade in tab-pane" id="visualization_demo" style="flex:1;">
+                visualization demo
+              </div>
+
+              <div class="fade fade in tab-pane" id="cam" style="flex:1;height:100%;width:100%;">
+                <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                  <div style="display:flex;flex-direction:row;width:100%;">
+                    <div style="flex:1;">face detected</div>
+                    <div style="flex:1;">presence</div>
+                  </div>
+                  <div style="flex:1;">
+                    cam
+                  </div>
+                </div>
+              </div>
+
+              <div class="fade fade in tab-pane" id="voice" style="flex:1;height:100%;width:100%;">
+                <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                  <div style="display:flex;flex-direction:row;width:100%;">
+                    <div style="flex:1;">pitch</div>
+                    <div style="flex:1;">volume</div>
+                  </div>
+                  <div style="flex:1;">
+                    voice
+                  </div>
+                </div>
+              </div>
+
+              <div class="fade fade in tab-pane" id="api" style="flex:1;height:100%;width:100%;">
+
+                <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+
+                  <div class="form-group" style="margin-bottom:5px;margin-left:0px;margin-right:0px;margin-top:0px;">
+                    <ul class="nav nav-tabs" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                      <li class="active" style="flex:1;"><a data-toggle="tab" href="#api_client_name" style="text-align:center;">api client name</a></li>
+                      <li style="flex:1;"><a data-toggle="tab" href="#api_face" style="text-align:center;">api cam</a></li>
+                      <li style="flex:1;"><a data-toggle="tab" href="#api_pitch" style="text-align:center;">api mic</a></li>
+                      <li style="flex:1;"><a data-toggle="tab" href="#api_presence" style="text-align:center;">api ir</a></li>
+                      <li style="flex:1;"><a data-toggle="tab" href="#api_volume" style="text-align:center;">api mic</a></li>
+                    </ul>
+                  </div>
+                  <div style="flex:1;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;">
+                    <div class="tab-content" style="display:flex;flex-direction:column;height:100%;width:100%;">
+
+                      <div class="active fade in tab-pane" id="api_client_name" style="flex:1;">
+                        api client name
+                      </div>
+
+                      <div class="fade fade in tab-pane" id="api_face" style="flex:1;">
+                        <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                          <div>
+                            <div style="display:flex;flex-direction:row;height:100%;width:100%;">
+                              <div style="flex:1;">
+                                <select class="selectpicker" data-width="100%" title="choose client name">
+                                  <option>client_test_1</option>
+                                  <option>client_test_2</option>
+                                  <option>client_test_3</option>
+                                </select>
+                              </div>
+                              <div style="flex:1;">
+                                <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                                  <button class="btn btn-primary" style="flex:1;" type="button">download .csv</button>
+                                  <button class="btn btn-success" style="flex:1;" type="button">download .json</button>
+                                  <button class="btn btn-info" style="flex:1;" type="button">download .txt</button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div style="flex:1;">api face</div>
+                        </div>
+                      </div>
+
+                      <div class="fade fade in tab-pane" id="api_pitch" style="flex:1;">
+                        <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                          <div>
+                            <div style="display:flex;flex-direction:row;height:100%;width:100%;">
+                              <div style="flex:1;">
+                                <select class="selectpicker" data-width="100%" title="choose client name">
+                                  <option>client_test_1</option>
+                                  <option>client_test_2</option>
+                                  <option>client_test_3</option>
+                                </select>
+                              </div>
+                              <div style="flex:1;">
+                                <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                                  <button class="btn btn-primary" style="flex:1;" type="button">download .csv</button>
+                                  <button class="btn btn-success" style="flex:1;" type="button">download .json</button>
+                                  <button class="btn btn-info" style="flex:1;" type="button">download .txt</button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div style="flex:1;">api pitch</div>
+                        </div>
+                      </div>
+
+                      <div class="fade fade in tab-pane" id="api_presence" style="flex:1;">
+                        <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                          <div>
+                            <div style="display:flex;flex-direction:row;height:100%;width:100%;">
+                              <div style="flex:1;">
+                                <select class="selectpicker" data-width="100%" title="choose client name">
+                                  <option>client_test_1</option>
+                                  <option>client_test_2</option>
+                                  <option>client_test_3</option>
+                                </select>
+                              </div>
+                              <div style="flex:1;">
+                                <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                                  <button class="btn btn-primary" style="flex:1;" type="button">download .csv</button>
+                                  <button class="btn btn-success" style="flex:1;" type="button">download .json</button>
+                                  <button class="btn btn-info" style="flex:1;" type="button">download .txt</button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div style="flex:1;">api presence</div>
+                        </div>
+                      </div>
+
+                      <div class="fade fade in tab-pane" id="api_volume" style="flex:1;">
+                        <div style="display:flex;flex-direction:column;height:100%;width:100%;">
+                          <div>
+                            <div style="display:flex;flex-direction:row;height:100%;width:100%;">
+                              <div style="flex:1;">
+                                <select class="selectpicker" data-width="100%" title="choose client name">
+                                  <option>client_test_1</option>
+                                  <option>client_test_2</option>
+                                  <option>client_test_3</option>
+                                </select>
+                              </div>
+                              <div style="flex:1;">
+                                <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                                  <button class="btn btn-primary" style="flex:1;" type="button">download .csv</button>
+                                  <button class="btn btn-success" style="flex:1;" type="button">download .json</button>
+                                  <button class="btn btn-info" style="flex:1;" type="button">download .txt</button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div style="flex:1;">api volume</div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

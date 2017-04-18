@@ -1,0 +1,83 @@
+    <script>
+      var qr_code = new QRCode(document.getElementById("qr_code"), {
+        height: 1000,
+        width: 1000
+      });
+
+      //console.log(qr_code);
+      //console.log(qr_code._htOption.height);
+      //console.log(qr_code._htOption.width);
+      //console.log(qr_code.height);
+      //qr_code._htOption.height = 256;
+      //qr_code._htOption.width = 256;
+      //qr_code._htOption.height = 100;
+      //qr_code._htOption.width = 100;
+      //console.log(qr_code._htOption.height);
+      //console.log(qr_code._htOption.width);
+
+      function qr_code_generate () {
+        var qr_value = document.getElementById("qr_value");
+
+        // If value in the `qr_code` is invalid.
+        if (!qr_value.value) {
+          alert("input qr value");
+          qr_value.focus();
+          return;
+        }
+
+        // If value in `qr_code` is valid.
+        qr_code.makeCode(qr_value.value);
+      }
+
+      function change_in_screen_size () {
+        // Get dimensions of web browser view port.
+        var height = $(window).height();
+        var width = $(window).width();
+
+        // Get dimensions of `#main`.
+        var height_main = document.getElementById("main").clientHeight;
+        var width_main = document.getElementById("main").clientWidth;
+
+        // Get dimensions of `#qr_value`.
+        var height_qr_value = document.getElementById("qr_value").clientHeight;
+        var width_qr_value = document.getElementById("qr_value").clientWidth;
+
+        // Proposed dimensions of `#qr_code`.
+        var height_qr_code = height_main - height_qr_value;
+        var width_qr_code = width_main - height_qr_value;
+
+        // Change `qr_code` dimensions based on the smallest view port dimension.
+        var qr_code_dimension = width_qr_code;
+        if (height_main < width_main) {
+          qr_code_dimension = height_qr_code;
+        }
+        qr_code._htOption.height = qr_code_dimension;
+        qr_code._htOption.width = qr_code_dimension;
+        document.getElementById("qr_code").setAttribute("style","height:" + qr_code._htOption.height + "px");
+        qr_code_generate();
+
+        //console.log("view port change");
+        //console.log(height);
+        //console.log(width);
+        //console.log(height + " " + qr_code._htOption.height);
+        //console.log(width + " " + qr_code._htOption.width);
+        //console.log(qr_code._htOption.height);
+        //console.log(qr_code._htOption.width);
+      }
+
+      qr_code_generate();
+
+      $("#qr_value").
+        on("blur", function () {
+          qr_code_generate();
+        }).
+        on("keydown", function (e) {
+          // If ENTER key is down.
+          if (e.keyCode == 13) {
+            qr_code_generate();
+          }
+        });
+
+      $(document).ready(change_in_screen_size); // When page loads.
+      $(window).resize(change_in_screen_size); // When browser change size.
+    </script>

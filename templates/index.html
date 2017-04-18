@@ -1,66 +1,629 @@
-<!doctype html>
-<html lang="en">
-<head>
-
-    <meta charset="utf-8">
-    <title>pysoc</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
-
-    <script src="{{ url_for('static', filename='bower_components/socket.io-client/dist/socket.io.js') }}"></script>
-    <script>
-
-    var socket = io.connect("http://" + document.domain + ":" + location.port);
-    var receivedData;
-    var receivedDataPrevious = receivedData;
-
-    socket.on("latestInputSend", function (_receivedData){ receivedData = _receivedData; });
-
-    </script>
-
-</head>
-<body>
-
-    <div>
-        <div>
-            <div>
-                <h1 class="text-center">pysoc</h1>
-                <div class="row">
-                    <div class="col-md-5 col-md-offset-1">
-                        <div class="row"><h4 class="text-center">real - time</h4></div>
-                        <div class="row" id="d3real"></div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row"><h4 class="text-center">client side simulation for proof of concept</h4></div>
-                        <div class="row" id="d3sim"></div>
-                    </div>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>web</title>
+    <link href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bower_components/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='glowing_button.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <div style="display:flex;flex-direction:row;height:100%;">
+      <div style="flex:1;margin-bottom:5px;margin-left:5px;margin-right:2.5px;margin-top:5px;width:50%;">
+        <div id="qr_code" style="align-items:center;display:flex;height:100%;justify-content:center;width:100%;"></div>
+      </div>
+      <div style="display:flex;flex:1;flex-direction:column;margin-bottom:5px;margin-left:2.5px;margin-right:5px;margin-top:5px;width:50%;"">
+        <div class="input-group" style="display:flex;flex-direction:row;margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
+          <div style="flex:1;">
+            <input class="form-control" id="qr_value" type="text" placeholder="this client name" value="client_test">
+          </div>
+          <div style="flex:1;">
+            <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+              <button class="btn btn-success" id="qr_activate" style="flex:1;" type="button">activate</button>
+              <button class="btn btn-primary" id="qr_generate" style="flex:1;" type="button">generate</button>
+              <button class="btn btn-danger" id="qr_deactivate" style="flex:1;" type="button">deactivate</button>
+            </span>
+          </div>
         </div>
+        <div class="form-group" style="margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:2.5px;">
+          <ul class="nav nav-tabs" style="display:flex;flex-direction:row;">
+            <li class="active" style="flex:1;"><a data-toggle="tab" href="#cam" id="cam_button" style="text-align:center;">cam</a></li>
+            <li style="flex:1;"><a data-toggle="tab" href="#mic" id="mic_button" style="text-align:center;">mic</a></li>
+            <li style="flex:1;"><a data-toggle="tab" href="#api" id="api_button" style="text-align:center;">api</a></li>
+            <li style="flex:2;"><a data-toggle="tab" href="#graph" id="graph_button" style="text-align:center;">graph</a></li>
+            <li style="flex:2;"><a data-toggle="tab" href="#graph_demo" id="graph_demo_button" style="text-align:center;">graph demo</a></li>
+          </ul>
+        </div>
+        <div class="tab-content" style="display:flex;flex:1;flex-direction:column;height:100%;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:2.5px;">
+          <div class="active fade in tab-pane" id="cam" style="flex:1;height:100%;">
+            <div style="display:flex;flex:1;flex-direction:column;height:100%;">
+              <div style="display:flex;flex-direction:row;margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
+                <div class="form-control" style="display:flex;flex-direction:row;flex:1;margin-bottom:0px;margin-left:0px;margin-right:2.5px;margin-top:0px;">
+                  <label style="flex:1;">face:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="face_detected_value" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex-direction:row;flex:1;margin-bottom:0px;margin-left:2.5px;margin-right:0px;margin-top:0px;overflow:hidden;">
+                  <label>presence:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="presence_value" style="text-align:center;"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="nice_background" id="video_container" style="align-items:center;display:flex;height:100%;justify-content:center;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:2.5px;overflow:hidden;">
+                <video height="240" id="video" width="240" style="object-fit:cover;"></video>
+              </div>
+            </div>
+          </div>
+          <div class="fade in tab-pane" id="mic" style="flex:1;">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div style="display:flex;flex-direction:row;margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
+                <div class="form-control" style="display:flex;flex-direction:row;flex:1;margin-bottom:0px;margin-left:0px;margin-right:2.5px;margin-top:0px;">
+                  <label style="flex:1;">pitch:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="pitch_value" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex-direction:row;flex:1;margin-bottom:0px;margin-left:2.5px;margin-right:0px;margin-top:0px;">
+                  <label style="flex:1;">volume:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="volume_value" style="text-align:center;">0</p>
+                  </div>
+                </div>
+              </div>
+              <div class="nice_background" style="display:flex;flex:1;flex-direction:column;position:relative;">
+                <div id="pitch_graph" style="flex:1;height:50%;width:100%;position:absolute;"></div>
+                <div id="volume_graph" style="flex:1;height:50%;width:100%;position:absolute;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="fade in tab-pane" id="api" style="flex:1;">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div class="form-group" style="margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
+                <ul class="nav nav-tabs" style="display:flex;flex-direction:row;">
+                  <li class="active" style="flex:1;"><a data-toggle="tab" href="#client" style="text-align:center;">client</a></li>
+                  <li style="flex:1;"><a data-toggle="tab" href="#face" style="text-align:center;">face</a></li>
+                  <li style="flex:1;"><a data-toggle="tab" href="#pitch" style="text-align:center;">pitch</a></li>
+                  <li style="flex:1;"><a data-toggle="tab" href="#presence" style="text-align:center;">presence</a></li>
+                  <li style="flex:1;"><a data-toggle="tab" href="#volume" style="text-align:center;">volume</a></li>
+                </ul>
+              </div>
+              <div class="tab-content" style="display:flex;flex:1;flex-direction:column;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:2.5px;">
+                <div class="active fade in tab-pane" id="client" style="flex:1;">
+                  <div style="display:flex;flex-direction:column;height:100%;">
+                    <span class="input-group-btn" style="display:flex;flex-direction:row;width:100%;">
+                      <button class="btn btn-primary" style="flex:1;" type="button">download .csv</button>
+                      <button class="btn btn-success" style="flex:1;" type="button">download .json</button>
+                      <button class="btn btn-info" style="flex:1;" type="button">download .txt</button>
+                    </span>
+                    <div style="flex:1;">api client name</div>
+                  </div>
+                </div>
+                <div class="fade in tab-pane" id="face" style="flex:1;">
+                  <div style="display:flex;flex-direction:column;height:100%;">
+                    <div class="input-group" style="display:flex;flex-direction:row;">
+                      <div style="flex:1;">
+                        <select class="selectpicker" data-width="100%" title="choose client name">
+                          <option>client_test_1</option>
+                          <option>client_test_2</option>
+                          <option>client_test_3</option>
+                        </select>
+                      </div>
+                      <div style="flex:1;">
+                          <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                            <button class="btn btn-primary" style="flex:1;" type="button">.csv</button>
+                            <button class="btn btn-success" style="flex:1;" type="button">.json</button>
+                            <button class="btn btn-info" style="flex:1;" type="button">.txt</button>
+                          </span>
+                      </div>
+                    </div>
+                    <div style="flex:1;">api face</div>
+                  </div>
+                </div>
+                <div class="fade in tab-pane" id="pitch" style="flex:1;">
+                  <div style="display:flex;flex-direction:column;height:100%;">
+                    <div class="input-group" style="display:flex;flex-direction:row;">
+                      <div style="flex:1;">
+                        <select class="selectpicker" data-width="100%" title="choose client name">
+                          <option>client_test_1</option>
+                          <option>client_test_2</option>
+                          <option>client_test_3</option>
+                        </select>
+                      </div>
+                      <div style="flex:1;">
+                        <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                          <button class="btn btn-primary" style="flex:1;" type="button">.csv</button>
+                          <button class="btn btn-success" style="flex:1;" type="button">.json</button>
+                          <button class="btn btn-info" style="flex:1;" type="button">.txt</button>
+                        </span>
+                      </div>
+                    </div>
+                    <div style="flex:1;">api pitch</div>
+                  </div>
+                </div>
+                <div class="fade in tab-pane" id="presence" style="flex:1;">
+                  <div style="display:flex;flex-direction:column;height:100%;">
+                    <div class="input-group" style="display:flex;flex-direction:row;">
+                      <div style="flex:1;">
+                        <select class="selectpicker" data-width="100%" title="choose client name">
+                          <option>client_test_1</option>
+                          <option>client_test_2</option>
+                          <option>client_test_3</option>
+                        </select>
+                      </div>
+                      <div style="flex:1;">
+                        <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                          <button class="btn btn-primary" style="flex:1;" type="button">.csv</button>
+                          <button class="btn btn-success" style="flex:1;" type="button">.json</button>
+                          <button class="btn btn-info" style="flex:1;" type="button">.txt</button>
+                        </span>
+                      </div>
+                    </div>
+                    <div style="flex:1;">api presence</div>
+                  </div>
+                </div>
+                <div class="fade in tab-pane" id="volume" style="flex:1;">
+                  <div style="display:flex;flex-direction:column;height:100%;">
+                    <div class="input-group" style="display:flex;flex-direction:row;">
+                      <div style="flex:1;">
+                        <select class="selectpicker" data-width="100%" title="choose client name">
+                          <option>client_test_1</option>
+                          <option>client_test_2</option>
+                          <option>client_test_3</option>
+                        </select>
+                      </div>
+                      <div style="flex:1;">
+                        <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                          <button class="btn btn-primary" style="flex:1;" type="button">.csv</button>
+                          <button class="btn btn-success" style="flex:1;" type="button">.json</button>
+                          <button class="btn btn-info" style="flex:1;" type="button">.txt</button>
+                        </span>
+                      </div>
+                    </div>
+                    <div style="flex:1;">api volume</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;">graph</div>
+          <div class="fade in nice_background tab-pane" id="graph_demo" style="flex:1;"></div>
+        </div>
+      </div>
     </div>
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='node_modules/element-resize-detector/dist/element-resize-detector.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='node_modules/element-resize-detector/dist/element-resize-detector.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='d3/d3.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='d3/d3.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='davidshimjs-qrcodejs-04f46c6/qrcode.js') }}" type="text/javascript"></script>
+    <!--<script src="{{ url_for('static', filename='davidshimjs-qrcodejs-04f46c6/qrcode.min.js') }}" type="text/javascript"></script>-->
+    <script src="{{ url_for('static', filename='tracking.js-master/build/tracking.js') }}"> type="text/javascript"</script>
+    <script src="{{ url_for('static', filename='tracking.js-master/build/data/face.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='color_manipulation.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='degree_radian.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='volume-meter/volume-meter.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='face_detection.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='instascan.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='pv_detection.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='qr_detection.js') }}" type="text/javascript"></script>
+    <script>
+      // Prototype D3JS graph demo.
+      var d3_dimension = { height:480,width:480 };
+      var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
+      var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
+      var d3_padding = d3_dimension_smallest/8;
+      var main_circle_radius = (d3_dimension_smallest/2) - d3_padding;
+      var client_circle_radius_biggest = main_circle_radius/6;
+      var client_circle_radius_smallest = main_circle_radius/12;
 
-    <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+      var graph_demo_svg = d3.select("#graph_demo").append("svg")
+        .attr("height", d3_dimension.height)
+        .attr("id", "graph_demo_svg")
+        .attr("width", d3_dimension.width);
 
-    <script src="{{ url_for('static', filename='main_variable.js') }}"></script>
+      var client_circle_degree_target_array = [];
+      var client_circle_simulation_array = [];
+      var client_simulation_array = [];
+      var client_simulation_name_array = [
+        "carl",
+        "chris",
+        "dennet",
+        "richard",
+        "neil",
+        "sam"
+      ];
 
-    <script src="{{ url_for('static', filename='collection-function/color_manipulation.js') }}"></script>
-    <script src="{{ url_for('static', filename='collection-function/degree_radian.js') }}"></script>
-    <script src="{{ url_for('static', filename='collection-function/ease.js') }}"></script>
-    <script src="{{ url_for('static', filename='collection-function/fix_string.js') }}"></script>
-    <script src="{{ url_for('static', filename='collection-function/focus.js') }}"></script>
+      var scale_linear_pitch = d3.scaleLinear()
+        .domain([0, 5000])
+        .range([0, 1]);
+      var scale_linear_volume = d3.scaleLinear()
+        .domain([0, 0.1])
+        .range([client_circle_radius_smallest, client_circle_radius_biggest]);
 
-    <script src="{{ url_for('static', filename='client/client.js') }}"></script>
-    <script src="{{ url_for('static', filename='client/client_debug.js') }}"></script>
-    <script src="{{ url_for('static', filename='client/client_realtime_input.js') }}"></script>
-    <script src="{{ url_for('static', filename='client/client_simulate.js') }}"></script>
-    <script src="{{ url_for('static', filename='client/client_simulate_input.js') }}"></script>
+      function client_simulation (_name) {
+        client_simulation_array.push(this);
+        this.name = _name;
 
-    <script src="{{ url_for('static', filename='client/client-circle/client_circle.js') }}"></script>
-    <script src="{{ url_for('static', filename='client/client-circle/client_circle_rotate.js') }}"></script>
+        this.client_circle = null;
+        this.client_circle_color = INTRGB(HashCode(this.name));
+        this.latest_amount_face = 0;
+        this.latest_amount_pitch = 0;
+        this.latest_amount_volume = 0;
+        this.latest_presence_client_simulation_circle_array = [];
+        this.latest_presence_client_simulation_name_array = [];
+        this.online = true;
+        this.online_chance = 1.0;
+      }
+      client_simulation.prototype.constructor = client_simulation;
+      client_simulation.prototype.simulate_online = function () {
+        var random = Math.random();
+        if (random < this.online_chance) {
+          if (!this.online) {
+            this.online = true;
+            this.online_chance = 1.0;
+          }
+          else {
+            this.online_chance -= 0.05;
+          }
+        }
+        else {
+          if (this.online) {
+            this.online = false;
+            this.online_chance = 0;
+          }
+          else {
+            this.online_chance += 0.05;
+          }
+        }
+      };
 
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+      function client_circle_simulation (_client, _degree) {
+        client_circle_simulation_array.push(this);
 
-</body>
+        this.client = _client;
+        this.client.client_circle = this;
+        this.circle = d3.select("#graph_demo_svg").append("circle")
+          .attr("class", "client_circle_simulation")
+          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("degree", _degree)
+          .attr("id", this.client.client_name)
+          .attr("r", client_circle_radius_biggest)
+          .attr(
+            "transform",
+            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+          )
+          .style("fill", this.client.client_circle_color)
+          .style("stroke", this.client.client_circle_color)
+          .style("stroke-width", 5);
+      }
+      client_circle_simulation.prototype.constructor = client_circle_simulation;
+      client_circle_simulation.prototype.rotate = function (_degree) {
+        this.circle
+          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("degree", _degree);
+      };
+
+      function determine_target_for_client_circle_simulation () {
+        client_circle_degree_target_array = [];
+        for (var i = 0; i < client_circle_simulation_array.length; i ++) {
+          var client_circle_degree_target = (i/client_circle_simulation_array.length)*360;
+          client_circle_degree_target_array.push(client_circle_degree_target);
+        }
+      }
+      function rotate_all_for_client_circle_simulation () {
+        determine_target_for_client_circle_simulation();
+        for (var i = 0; i < client_circle_simulation_array.length; i ++) {
+          client_circle_simulation_array[i].rotate(client_circle_degree_target_array[i]);
+        }
+      }
+
+      for(var i = 0; i < client_simulation_name_array.length; i ++){
+        var client_temp = new client_simulation(
+          client_simulation_name_array[i],
+          true
+        );
+        new client_circle_simulation(client_temp, 180);
+      }
+      rotate_all_for_client_circle_simulation();
+
+      var duration = 750;
+      var limit = 60;
+      var magic_number = 7.5; // Don't ever talk to me about this.
+                              // It just works!s
+      var now = new Date();
+
+      // Pitch graph.
+      var pitch_height = $("#cam").height()/2 - $("#cam").height()/magic_number;
+      var pitch_width = $("#cam").width();
+      var pitch_group = {
+        color:"orange",
+        data:d3.range(limit).map(function () {
+          return 0;
+        }),
+        value:0
+      };
+      var pitch_x = d3.scaleTime()
+        .domain([now - (limit - 2), now - duration])
+        .range([0, pitch_width]);
+      var pitch_y = d3.scaleLinear()
+        .domain([0, 5000])
+        .range([pitch_height, 0]);
+      var pitch_line = d3.line()
+        .curve(d3.curveBasis)
+        .x(function (d, i) {
+          return pitch_x(now - (limit - 1 - i)*duration);
+        })
+        .y(function (d) {
+          return pitch_y(d);
+        });
+      var pitch_svg = d3.select("#pitch_graph").append("svg")
+        .attr("class", "chart")
+        .attr("width", pitch_width)
+        .attr("height", pitch_height + 5);
+      var pitch_paths = pitch_svg.append("g")
+        .attr("transform", "translate(0, -5)");
+      pitch_group.path = pitch_paths.append("path")
+        .data([pitch_group.data])
+        .attr("class", "pitch_group")
+        .attr("stroke", pitch_group.color)
+        .attr("stroke-width", "5px");
+      function pitch_resize () {
+        if (set_to_resize_pitch_and_volume_graph) {
+          pitch_height = $("#pitch_graph").height() - $("#pitch_graph").height()/5;
+          pitch_width = $("#pitch_graph").width();
+        }
+        else {
+          pitch_height = $("#cam").height()/2 - $("#cam").height()/magic_number;
+          pitch_width = $("#cam").width();
+        }
+        pitch_x.range([0, pitch_width]);
+        pitch_y.range([pitch_height, 0]);
+        pitch_svg
+          .attr("width", pitch_width)
+          .attr("height", pitch_height + 5);
+      }
+      function pitch_tick () {
+        pitch_group.data.push(pitch_value);
+        pitch_group.path.attr("d", pitch_line);
+        pitch_x.domain([now - (limit - 2)*duration, now - duration]);
+        pitch_paths.attr("transform", null)
+          .transition()
+          .attr("transform", "translate(" + pitch_x(now - (limit - 1)*duration) + ")")
+          .duration(duration)
+          .ease(d3.easeLinear)
+          .on("end", pitch_tick);
+        pitch_group.data.shift();
+      }
+
+      // Volume graph.
+      // Since the codes are nearly the same and I only need to repeat 2, most of the time these are the same with pitch graph.
+      // These are just there because my deadline is nearby :(.
+      var volume_height = $("#cam").height()/2 - $("#cam").height()/magic_number;
+      var volume_width = $("#cam").width();
+      $("#volume_graph").css("top", (volume_height + $("#cam").height()/magic_number) + "px");
+      var volume_group = {
+        color:"green",
+        data:d3.range(limit).map(function () {
+          return 0;
+        }),
+        value:0
+      };
+      var volume_x = d3.scaleTime()
+        .domain([now - (limit - 2), now - duration])
+        .range([0, volume_width]);
+      var volume_y = d3.scaleLinear()
+        .domain([0, 0.1])
+        .range([volume_height, 0]);
+      var volume_line = d3.line()
+        .curve(d3.curveBasis)
+        .x(function (d, i) {
+          return volume_x(now - (limit - 1 - i)*duration);
+        })
+        .y(function (d) {
+          return volume_y(d);
+        });
+      var volume_svg = d3.select("#volume_graph").append("svg")
+        .attr("class", "chart")
+        .attr("width", volume_width)
+        .attr("height", volume_height + 5);
+      var volume_paths = volume_svg.append("g")
+        .attr("transform", "translate(0, -5)");
+      volume_group.path = volume_paths.append("path")
+        .data([volume_group.data])
+        .attr("class", "volume_group")
+        .style("stroke", volume_group.color)
+        .style("stroke-width", "5px");
+      function volume_resize () {
+        if (set_to_resize_pitch_and_volume_graph) {
+          volume_height = $("#volume_graph").height() - $("#volume_graph").height()/5;
+          volume_width = $("#volume_graph").width();
+          $("#volume_graph").css("top", (volume_height + $("#volume_graph").height()/5) + "px");
+        }
+        else {
+          volume_height = $("#cam").height()/2 - $("#cam").height()/magic_number;
+          volume_width = $("#cam").width();
+          $("#volume_graph").css("top", (volume_height + $("#cam").height()/magic_number) + "px");
+        }
+        volume_x.range([0, volume_width]);
+        volume_y.range([volume_height, 0]);
+        volume_svg
+          .attr("width", volume_width)
+          .attr("height", volume_height + 5);
+      }
+      function volume_tick () {
+        volume_group.data.push(volume_value);
+        volume_group.path.attr("d", volume_line);
+        volume_x.domain([now - (limit - 2)*duration, now - duration]);
+        volume_paths.attr("transform", null)
+          .transition()
+          .attr("transform", "translate(" + volume_x(now - (limit - 1)*duration) + ")")
+          .duration(duration)
+          .ease(d3.easeLinear)
+          .on("end", volume_tick);
+        volume_group.data.shift();
+      }
+
+      var client_name = "";
+      function qr_code_adjust () {
+        var qr_code_height = document.getElementById("qr_code").clientHeight;
+        var qr_code_width = document.getElementById("qr_code").clientWidth;
+        var qr_code_dimension = qr_code_height < qr_code_width ? qr_code_height : qr_code_width;
+        var qr_value = document.getElementById("qr_value");
+        // If value in `qr_value` is invalid.
+        if (!qr_value.value) {
+          qr_value.focus();
+          return;
+        }
+        // If value in `qr_value` is valid.
+        // Remove previous QR code.
+        $("#qr_code > canvas").remove();
+        $("#qr_code > img").remove();
+        // Set new QR code.
+        new QRCode(document.getElementById("qr_code"), {
+          colorLight:"#F8F8F8",
+          height:qr_code_dimension,
+          width:qr_code_dimension,
+          text:qr_value.value
+        });
+        client_name = qr_value.value;
+      }
+
+      window.onload = function() {
+        face_detection_onload();
+        pv_detection_onload(); // Setup for audio input from microphone.
+        qr_detection_onload();
+        pitch_tick();
+        volume_tick();
+      };
+
+      // Sometime `window.resize();` executed when the `<div>`'s dimension is not yet set.
+      // I make sure that if `window.resize();` it trigger a functions to wait 3 milliseconds before doing calculation based resized elements.
+      var resize = false;
+      var resize_counter = 0;
+      window.setInterval( function () {
+        if (resize) {
+          resize_counter += 1;
+        }
+        if (resize_counter >= 3){
+          pitch_resize();
+          volume_resize();
+          resize = false;
+          resize_counter = 0;
+        }
+      }, 1);
+
+      var active = false;
+      var dt = "";
+      var dt_previous = null;
+      window.setInterval( function () {
+        pitch_update = true; // Ask the `loop_pitch()` to set new `innerHTML` value to display current pitch.
+        volume_update = true; // Ask the `loop_volume()` to set new `innerHTML` value to display current volume.
+        loop_qr(); // Check if there is a detected QR code.
+
+        // Set date for every seconds passed.
+        now = new Date();
+        var date_formatted = {};
+        date_formatted["year"] = Number(now.getFullYear());
+        date_formatted["month"] = Number(now.getUTCMonth()) < 10 ? String("0" + now.getUTCMonth()) : Number(now.getUTCMonth());
+        date_formatted["day"] = Number(now.getUTCDate()) < 10 ? String("0" + now.getUTCDate()) : Number(now.getUTCDate());
+        date_formatted["hour"] = Number(now.getUTCHours()) < 10 ? String("0" + now.getUTCHours()) : Number(now.getUTCHours());
+        date_formatted["minute"] = Number(now.getUTCMinutes()) < 10 ? String("0" + now.getUTCMinutes()) : Number(now.getUTCMinutes());
+        date_formatted["second"] = Number(now.getUTCSeconds()) < 10 ? String("0" + now.getUTCSeconds()) : Number(now.getUTCSeconds());
+        dt = String(date_formatted["year"]) +
+          String(date_formatted["month"]) +
+          String(date_formatted["day"]) +
+          String(date_formatted["hour"]) +
+          String(date_formatted["minute"]) +
+          String(date_formatted["second"]);
+        if (active && dt != dt_previous) {
+          table_client = {};
+          table_face = {};
+          table_pitch = {};
+          table_presence = {};
+          table_volume = {};
+
+          table_client["last_dt"] = dt;
+          table_face["dt"] = dt;
+          table_pitch["dt"] = dt;
+          table_presence["dt"] = dt;
+          table_volume["dt"] = dt;
+
+          table_client["value"] = client_name;
+          table_face["value"] = face_value;
+          table_pitch["value"] = pitch_value;
+          table_presence["value"] = presence_value;
+          table_volume["value"] = volume_value;
+
+          dt = dt_previous;
+        }
+
+        for(var i = 0; i < client_simulation_array.length; i ++){
+          client_simulation_array[i].simulate_online();
+        }
+        for(var i = 0; i < client_simulation_array.length; i ++){
+          if (!client_simulation_array[i].online && client_simulation_array[i].client_circle !== null) {
+            client_simulation_array[i].client_circle.circle.remove();
+            client_circle_simulation_array.splice(client_circle_simulation_array.indexOf(client_simulation_array[i].client_circle), 1);
+            client_simulation_array[i].client_circle = null;
+          }
+          else if (client_simulation_array[i].online && client_simulation_array[i].client_circle === null) {
+            new client_circle_simulation(client_simulation_array[i], 180);
+          }
+        }
+        rotate_all_for_client_circle_simulation();
+      }, 1000);
+
+      var set_to_resize_pitch_and_volume_graph = false;
+      $("#cam_button").click(function () {
+        set_to_resize_pitch_and_volume_graph = true;
+      });
+
+      $("#qr_activate").click(function () {
+        $("#qr_activate").html("active");
+        $("#qr_activate").addClass("glowing");
+        qr_code_adjust();
+        active = true;
+      });
+
+      $("#qr_deactivate").click(function () {
+        $("#qr_activate").html("activate");
+        $("#qr_activate").removeClass("glowing");
+        active = false;
+      });
+
+      $("#qr_generate").click(function () {
+        qr_code_adjust();
+      });
+
+      $("#qr_value")
+        .keypress(function (e) {
+          if (e.keyCode == 13) { // If ENTER just pressed down.
+            qr_code_adjust();
+          }
+        })
+        .on("blur", function () {
+          qr_code_adjust();
+        });
+
+      $(document)
+        .ready(function () { // When page loads.
+          qr_code_adjust();
+        });
+
+      $(window)
+        .resize(function () { // When browser change size.
+          qr_code_adjust();
+          resize = true;
+        });
+    </script>
+  </body>
 </html>

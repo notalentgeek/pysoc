@@ -1,0 +1,151 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div id="graph_demo">
+    </div>
+    <script src="d3.js" type="text/javascript"></script>
+    <script src="color_manipulation.js" type="text/javascript"></script>
+    <script src="degree_radian.js" type="text/javascript"></script>
+    <script>
+      // Prototype D3JS graph demo.
+      var d3_dimension = { height:480,width:480 };
+      var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
+      var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
+      var d3_padding = d3_dimension_smallest/8;
+      var main_circle_radius = (d3_dimension_smallest/2) - d3_padding;
+      var client_circle_radius_biggest = main_circle_radius/6;
+      var client_circle_radius_smallest = main_circle_radius/12;
+
+      var graph_demo_svg = d3.select("#graph_demo").append("svg")
+        .attr("height", d3_dimension.height)
+        .attr("id", "graph_demo_svg")
+        .attr("width", d3_dimension.width);
+
+      var client_circle_degree_target_array = [];
+      var client_circle_simulation_array = [];
+      var client_simulation_array = [];
+      var client_simulation_name_array = [
+        "carl",
+        "chris",
+        "dennet",
+        "richard",
+        "neil",
+        "sam"
+      ];
+
+      var scale_linear_pitch = d3.scaleLinear()
+        .domain([0, 5000])
+        .range([0, 1]);
+      var scale_linear_volume = d3.scaleLinear()
+        .domain([0, 0.1])
+        .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+
+      function client_simulation (_name) {
+        client_simulation_array.push(this);
+        this.name = _name;
+
+        this.client_circle = null;
+        this.client_circle_color = INTRGB(HashCode(this.name));
+        this.latest_amount_face = 0;
+        this.latest_amount_pitch = 0;
+        this.latest_amount_volume = 0;
+        this.latest_presence_client_simulation_circle_array = [];
+        this.latest_presence_client_simulation_name_array = [];
+        this.online = true;
+        this.online_chance = 1.0;
+      }
+      client_simulation.prototype.constructor = client_simulation;
+      client_simulation.prototype.simulate_online = function () {
+        var random = Math.random();
+        if (random < this.online_chance) {
+          if (!this.online) {
+            this.online = true;
+            this.online_chance = 1.0;
+          }
+          else {
+            this.online_chance -= 0.05;
+          }
+        }
+        else {
+          if (this.online) {
+            this.online = false;
+            this.online_chance = 0;
+          }
+          else {
+            this.online_chance += 0.05;
+          }
+        }
+      };
+
+      function client_circle_simulation (_client, _degree) {
+        client_circle_simulation_array.push(this);
+
+        this.client = _client;
+        this.client.client_circle = this;
+        this.circle = d3.select("#graph_demo_svg").append("circle")
+          .attr("class", "client_circle_simulation")
+          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("degree", _degree)
+          .attr("id", this.client.client_name)
+          .attr("r", client_circle_radius_biggest)
+          .attr(
+            "transform",
+            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+          )
+          .style("fill", this.client.client_circle_color)
+          .style("stroke", this.client.client_circle_color)
+          .style("stroke-width", 5);
+      }
+      client_circle_simulation.prototype.constructor = client_circle_simulation;
+      client_circle_simulation.prototype.rotate = function (_degree) {
+        this.circle
+          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("degree", _degree);
+      };
+
+      function determine_target_for_client_circle_simulation () {
+        client_circle_degree_target_array = [];
+        for (var i = 0; i < client_circle_simulation_array.length; i ++) {
+          var client_circle_degree_target = (i/client_circle_simulation_array.length)*360;
+          client_circle_degree_target_array.push(client_circle_degree_target);
+        }
+      }
+      function rotate_all_for_client_circle_simulation () {
+        determine_target_for_client_circle_simulation();
+        for (var i = 0; i < client_circle_simulation_array.length; i ++) {
+          client_circle_simulation_array[i].rotate(client_circle_degree_target_array[i]);
+        }
+      }
+
+      for(var i = 0; i < client_simulation_name_array.length; i ++){
+        var client_temp = new client_simulation(
+          client_simulation_name_array[i],
+          true
+        );
+        new client_circle_simulation(client_temp, 180);
+      }
+      rotate_all_for_client_circle_simulation();
+
+      window.setInterval( function () {
+        for(var i = 0; i < client_simulation_array.length; i ++){
+          client_simulation_array[i].simulate_online();
+        }
+        for(var i = 0; i < client_simulation_array.length; i ++){
+          if (!client_simulation_array[i].online && client_simulation_array[i].client_circle !== null) {
+            console.log(client_simulation_array[i].client_circle);
+            client_simulation_array[i].client_circle.circle.remove();
+            client_circle_simulation_array.splice(client_circle_simulation_array.indexOf(client_simulation_array[i].client_circle), 1);
+            client_simulation_array[i].client_circle = null;
+          }
+          else if (client_simulation_array[i].online && client_simulation_array[i].client_circle === null) {
+            new client_circle_simulation(client_simulation_array[i], 180);
+          }
+        }
+        rotate_all_for_client_circle_simulation();
+      }, 1000);
+    </script>
+  </body>
+</html>
