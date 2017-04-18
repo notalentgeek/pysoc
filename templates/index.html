@@ -73,8 +73,8 @@
                 </div>
               </div>
               <div class="nice_background" style="display:flex;flex:1;flex-direction:column;position:relative;">
-                <div id="pitch_graph" style="flex:1;height:50%;width:100%;position:absolute;"></div>
-                <div id="volume_graph" style="flex:1;height:50%;width:100%;position:absolute;"></div>
+                <div id="pitch_graph" style="flex:1;height:50%;position:absolute;width:100%;"></div>
+                <div id="volume_graph" style="flex:1;height:50%;position:absolute;width:100%;"></div>
               </div>
             </div>
           </div>
@@ -188,7 +188,9 @@
             </div>
           </div>
           <div class="fade in nice_background tab-pane" id="graph" style="flex:1;">graph</div>
-          <div class="fade in nice_background tab-pane" id="graph_demo" style="flex:1;"></div>
+          <div class="fade in nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:row;position:relative;">
+            <div id="graph_demo_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -198,8 +200,6 @@
     <!--<script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}" type="text/javascript"></script>-->
     <script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.js') }}" type="text/javascript"></script>
     <!--<script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.min.js') }}" type="text/javascript"></script>-->
-    <script src="{{ url_for('static', filename='node_modules/element-resize-detector/dist/element-resize-detector.js') }}" type="text/javascript"></script>
-    <!--<script src="{{ url_for('static', filename='node_modules/element-resize-detector/dist/element-resize-detector.min.js') }}" type="text/javascript"></script>-->
     <script src="{{ url_for('static', filename='d3/d3.js') }}" type="text/javascript"></script>
     <!--<script src="{{ url_for('static', filename='d3/d3.min.js') }}" type="text/javascript"></script>-->
     <script src="{{ url_for('static', filename='davidshimjs-qrcodejs-04f46c6/qrcode.js') }}" type="text/javascript"></script>
@@ -215,7 +215,7 @@
     <script src="{{ url_for('static', filename='qr_detection.js') }}" type="text/javascript"></script>
     <script>
       // Prototype D3JS graph demo.
-      var d3_dimension = { height:480,width:480 };
+      var d3_dimension = { height:320,width:320 };
       var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
       var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
       var d3_padding = d3_dimension_smallest/8;
@@ -223,10 +223,55 @@
       var client_circle_radius_biggest = main_circle_radius/6;
       var client_circle_radius_smallest = main_circle_radius/12;
 
-      var graph_demo_svg = d3.select("#graph_demo").append("svg")
-        .attr("height", d3_dimension.height)
+      var scale_linear_pitch = d3.scaleLinear()
+        .domain([0, 5000])
+        .range([0, 1]);
+      var scale_linear_volume = d3.scaleLinear()
+        .domain([0, 0.1])
+        .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+
+      var graph_demo_svg = d3.select("#graph_demo_svg_container").append("svg")
+        .attr("height", "100%")
         .attr("id", "graph_demo_svg")
-        .attr("width", d3_dimension.width);
+        .attr("width", "100%");
+
+      function graph_demo_resize() {
+        main_circle_radius_prev = main_circle_radius;
+
+        d3_dimension = { height:$("#graph_demo").height(),width:$("#graph_demo").width() };
+        d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
+        d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
+        d3_padding = d3_dimension_smallest/8;
+        main_circle_radius = ((d3_dimension_smallest/2) - d3_padding <= 1) ? 1 : (d3_dimension_smallest/2) - d3_padding; // Prevent `NaN`.
+        client_circle_radius_biggest = main_circle_radius/6;
+        client_circle_radius_smallest = main_circle_radius/12;
+
+        scale_linear_pitch = d3.scaleLinear()
+          .domain([0, 5000])
+          .range([0, 1]);
+        scale_linear_volume = d3.scaleLinear()
+          .domain([0, 0.1])
+          .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+
+        graph_demo_svg
+          .attr("height", d3_dimension.height)
+          .attr("width", d3_dimension.width);
+
+        for (var i = 0; i < client_circle_simulation_array.length; i ++) {
+          var degree = Number(client_circle_simulation_array[i].circle.attr("degree"));
+          var radius_prev = Number(client_circle_simulation_array[i].circle.attr("r"));
+          var radius_proportion = ((main_circle_radius/main_circle_radius_prev) < 1) ? 1 : (main_circle_radius/main_circle_radius_prev);
+          client_circle_simulation_array[i].circle
+            .attr("cx", main_circle_radius * Math.cos(Math.Radian(degree)))
+            .attr("cy", main_circle_radius * Math.sin(Math.Radian(degree)))
+            .attr(
+              "transform",
+              "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+            )
+            .attr("r", radius_proportion*radius_prev);
+        }
+        rotate_all_for_client_circle_simulation();
+      }
 
       var client_circle_degree_target_array = [];
       var client_circle_simulation_array = [];
@@ -239,13 +284,6 @@
         "neil",
         "sam"
       ];
-
-      var scale_linear_pitch = d3.scaleLinear()
-        .domain([0, 5000])
-        .range([0, 1]);
-      var scale_linear_volume = d3.scaleLinear()
-        .domain([0, 0.1])
-        .range([client_circle_radius_smallest, client_circle_radius_biggest]);
 
       function client_simulation (_name) {
         client_simulation_array.push(this);
@@ -283,13 +321,53 @@
           }
         }
       };
+      client_simulation.prototype.simulate_detection_face = function () {
+        this.latest_amount_face = 0;
+        for (var i = 0; i < client_simulation_array.length; i ++) {
+          if(
+              (client_simulation_array[i].name != this.name) &&
+              (client_simulation_array[i].online)
+          ){
+            this.latest_amount_face ++;
+          }
+        }
+      };
+      client_simulation.prototype.simulate_detection_pitch = function () {
+        // Number.
+        this.latest_amount_pitch = (Math.random()*2500.0).toFixed(3);
+        // Animation.
+        var fill_temp = ShadeRGBColor("rgb(" + HexRGB(this.client_circle_color).r + ", " + HexRGB(this.client_circle_color).g + ", " + HexRGB(this.client_circle_color).b +")", scale_linear_pitch(this.latest_amount_pitch));
+        this.client_circle.circle.style("fill", fill_temp);
+      };
+      client_simulation.prototype.simulate_detection_presence = function () {
+        this.latest_presence_client_simulation_circle_array = [];
+        this.latest_presence_client_simulation_name_array = [];
+
+        for (var i = 0; i < client_simulation_array.length; i ++) {
+          if (
+            (!client_simulation_array[i].client_circle) &&
+            (client_simulation_array[i].name != this.name) &&
+            (client_simulation_array[i].online)
+          ) {
+            this.latest_presence_client_simulation_circle_array.push(client_simulation_array[i].client_circle);
+            this.latest_presence_client_simulation_name_array.push(client_simulation_array[i].name);
+          }
+        }
+      };
+      client_simulation.prototype.simulate_detection_volume = function () {
+        // Number.
+        this.latest_amount_volume = (Math.random()*0.1).toFixed(3);
+        // Animation.
+        this.client_circle.radius = scale_linear_volume(this.latest_amount_volume);
+        this.client_circle.circle.attr("r", this.client_circle.radius);
+      };
 
       function client_circle_simulation (_client, _degree) {
         client_circle_simulation_array.push(this);
 
         this.client = _client;
         this.client.client_circle = this;
-        this.circle = d3.select("#graph_demo_svg").append("circle")
+        this.circle = graph_demo_svg.append("circle")
           .attr("class", "client_circle_simulation")
           .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
           .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
@@ -335,10 +413,11 @@
       }
       rotate_all_for_client_circle_simulation();
 
+      var magic_number = 7.5; // Don't ever talk to me about this.
+                              // It just works!
+
       var duration = 750;
       var limit = 60;
-      var magic_number = 7.5; // Don't ever talk to me about this.
-                              // It just works!s
       var now = new Date();
 
       // Pitch graph.
@@ -507,24 +586,36 @@
 
       // Sometime `window.resize();` executed when the `<div>`'s dimension is not yet set.
       // I make sure that if `window.resize();` it trigger a functions to wait 3 milliseconds before doing calculation based resized elements.
-      var resize = false;
-      var resize_counter = 0;
-      window.setInterval( function () {
-        if (resize) {
-          resize_counter += 1;
+      var resize_graph_demo = false;
+      var resize_graph_demo_counter = 0;
+      var resize_pitch_and_volume_graph = false;
+      var resize_pitch_and_volume_graph_counter = 0;
+      window.setInterval(function () {
+        if (resize_graph_demo) {
+          resize_graph_demo_counter += 1;
         }
-        if (resize_counter >= 3){
+        if (resize_graph_demo_counter >= 3){
+          graph_demo_resize();
+          resize_graph_demo = false;
+          resize_graph_demo_counter = 0;
+        }
+
+        if (resize_pitch_and_volume_graph) {
+          resize_pitch_and_volume_graph_counter += 1;
+        }
+        if (resize_pitch_and_volume_graph_counter >= 3){
           pitch_resize();
           volume_resize();
-          resize = false;
-          resize_counter = 0;
+          resize_pitch_and_volume_graph = false;
+          resize_pitch_and_volume_graph_counter = 0;
         }
       }, 1);
 
       var active = false;
       var dt = "";
       var dt_previous = null;
-      window.setInterval( function () {
+      var set_to_resize_graph_demo = false;
+      window.setInterval(function () {
         pitch_update = true; // Ask the `loop_pitch()` to set new `innerHTML` value to display current pitch.
         volume_update = true; // Ask the `loop_volume()` to set new `innerHTML` value to display current volume.
         loop_qr(); // Check if there is a detected QR code.
@@ -575,16 +666,47 @@
             client_circle_simulation_array.splice(client_circle_simulation_array.indexOf(client_simulation_array[i].client_circle), 1);
             client_simulation_array[i].client_circle = null;
           }
-          else if (client_simulation_array[i].online && client_simulation_array[i].client_circle === null) {
-            new client_circle_simulation(client_simulation_array[i], 180);
+          else if (client_simulation_array[i].online) {
+            if (client_simulation_array[i].client_circle === null) {
+              new client_circle_simulation(client_simulation_array[i], 180);
+            }
+            client_simulation_array[i].simulate_detection_face();
+            client_simulation_array[i].simulate_detection_pitch();
+            client_simulation_array[i].simulate_detection_presence();
+            client_simulation_array[i].simulate_detection_volume();
           }
         }
         rotate_all_for_client_circle_simulation();
       }, 1000);
 
+      /* For some reasons `x_resize()` functions need to be triggered twice.
+      I put one in button click and the resize right 3 ticks after the first function
+      in `window.setInterval(function () {}, 1);`*/
+
       var set_to_resize_pitch_and_volume_graph = false;
       $("#cam_button").click(function () {
         set_to_resize_pitch_and_volume_graph = true;
+      });
+
+      $("#mic_button").click(function () {
+        pitch_resize();
+        volume_resize();
+        set_to_resize_pitch_and_volume_graph = true;
+        resize_pitch_and_volume_graph = true;
+      });
+
+      $("#api_button").click(function () {
+        set_to_resize_pitch_and_volume_graph = true;
+      });
+
+      $("#graph_button").click(function () {
+        set_to_resize_pitch_and_volume_graph = true;
+      });
+
+      $("#graph_demo_button").click(function () {
+        graph_demo_resize();
+        set_to_resize_pitch_and_volume_graph = true;
+        resize_graph_demo = true;
       });
 
       $("#qr_activate").click(function () {
@@ -622,7 +744,8 @@
       $(window)
         .resize(function () { // When browser change size.
           qr_code_adjust();
-          resize = true;
+          if ($("#graph_demo").hasClass("active")) { resize_graph_demo = true; }
+          if ($("#mic").hasClass("active")) { resize_pitch_and_volume_graph = true; }
         });
     </script>
   </body>

@@ -2,14 +2,15 @@
   <head>
   </head>
   <body>
-    <div id="graph_demo">
+    <div id="graph_demo" style="height:100%;width:100%">
     </div>
-    <script src="d3.js" type="text/javascript"></script>
     <script src="color_manipulation.js" type="text/javascript"></script>
+    <script src="d3.js" type="text/javascript"></script>
     <script src="degree_radian.js" type="text/javascript"></script>
+    <script src="jquery.js" type="text/javascript"></script>
     <script>
       // Prototype D3JS graph demo.
-      var d3_dimension = { height:480,width:480 };
+      var d3_dimension = { height:1080,width:1080 };
       var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
       var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
       var d3_padding = d3_dimension_smallest/8;
@@ -18,9 +19,9 @@
       var client_circle_radius_smallest = main_circle_radius/12;
 
       var graph_demo_svg = d3.select("#graph_demo").append("svg")
-        .attr("height", d3_dimension.height)
+        .attr("height", "100%")
         .attr("id", "graph_demo_svg")
-        .attr("width", d3_dimension.width);
+        .attr("width", "100%");
 
       var client_circle_degree_target_array = [];
       var client_circle_simulation_array = [];
@@ -81,18 +82,20 @@
       function client_circle_simulation (_client, _degree) {
         client_circle_simulation_array.push(this);
 
+        console.log($("#graph_demo_svg").height());
+
         this.client = _client;
         this.client.client_circle = this;
         this.circle = d3.select("#graph_demo_svg").append("circle")
           .attr("class", "client_circle_simulation")
-          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
-          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("cx", ($("#graph_demo_svg").height()/20)*Math.cos(Math.Radian(_degree)))
+          .attr("cy", ($("#graph_demo_svg").height()/20)*Math.sin(Math.Radian(_degree)))
           .attr("degree", _degree)
           .attr("id", this.client.client_name)
-          .attr("r", client_circle_radius_biggest)
+          .attr("r", $("#graph_demo_svg").height()/20)
           .attr(
             "transform",
-            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+            "translate(" + Number($("#graph_demo_svg").width()/2) + ", " + Number($("#graph_demo_svg").height()/2) + ")"
           )
           .style("fill", this.client.client_circle_color)
           .style("stroke", this.client.client_circle_color)
@@ -100,6 +103,7 @@
       }
       client_circle_simulation.prototype.constructor = client_circle_simulation;
       client_circle_simulation.prototype.rotate = function (_degree) {
+        main_circle_radius = $("#graph_demo_svg").height()/10;
         this.circle
           .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
           .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
