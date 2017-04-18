@@ -285,5 +285,6 @@ if __name__ == "__main__":
 
             emit("latestInputSend", clientNameDictList)
 
-    if   online: sIO.run(app, host="0.0.0.0")
+    context = ("/etc/ssl/certs/apache-selfsigned.crt", "/etc/ssl/private/apache-selfsigned.key")
+    if   online: sIO.run(app, host="0.0.0.0", ssl_context=context)
     else       : sIO.run(app)
