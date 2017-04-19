@@ -224,6 +224,8 @@
     <script src="{{ url_for('static', filename='qr_detection.js') }}" type="text/javascript"></script>
     <script>
       // Prototype D3JS graph demo.
+      // ATTENTION: Every D3 graphs need to have an accompanying function to be able to resize its size accordingly.
+      //            This function need to refer back to all position settings when the first time the graph initialized.
       var d3_dimension = { height:320,width:320 };
       var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
       var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
@@ -248,7 +250,30 @@
         .attr("id", "graph_demo_svg")
         .attr("width", "100%");
 
-      function graph_demo_resize() {
+      function graph_resize () {
+        main_circle_radius_prev = main_circle_radius;
+
+        d3_dimension = { height:$("#graph").height(),width:$("#graph").width() };
+        d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
+        d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
+        d3_padding = d3_dimension_smallest/8;
+        main_circle_radius = ((d3_dimension_smallest/2) - d3_padding <= 1) ? 1 : (d3_dimension_smallest/2) - d3_padding; // Prevent `NaN`.
+        client_circle_radius_biggest = main_circle_radius/6;
+        client_circle_radius_smallest = main_circle_radius/12;
+
+        scale_linear_pitch = d3.scaleLinear()
+          .domain([0, 5000])
+          .range([0, 1]);
+        scale_linear_volume = d3.scaleLinear()
+          .domain([0, 0.1])
+          .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+
+        graph_svg
+          .attr("height", d3_dimension.height)
+          .attr("width", d3_dimension.width);
+      }
+
+      function graph_demo_resize () {
         main_circle_radius_prev = main_circle_radius;
 
         d3_dimension = { height:$("#graph_demo").height(),width:$("#graph_demo").width() };
@@ -610,11 +635,22 @@
 
       // Sometime `window.resize();` executed when the `<div>`'s dimension is not yet set.
       // I make sure that if `window.resize();` it trigger a functions to wait 3 milliseconds before doing calculation based resized elements.
+      var resize_graph = false;
+      var resize_graph_counter = 0;
       var resize_graph_demo = false;
       var resize_graph_demo_counter = 0;
       var resize_pitch_and_volume_graph = false;
       var resize_pitch_and_volume_graph_counter = 0;
       window.setInterval(function () {
+        if (resize_graph) {
+          resize_graph_counter += 1;
+        }
+        if (resize_graph_counter >= 3){
+          graph_resize();
+          resize_graph = false;
+          resize_graph_counter = 0;
+        }
+
         if (resize_graph_demo) {
           resize_graph_demo_counter += 1;
         }
@@ -755,6 +791,7 @@
 
         socket.emit("latestInputRequest");
 
+        // Animation for the real - time graph.
         if (received_data !== null) {
           var exists_counter = 0; // How many client with valid circle parameter (pitch and volume).
           client_array = [];
@@ -830,7 +867,60 @@
           // Presence.
           for (var i = 0; i < client_array.length; i ++) {
             if (client_array[i].latest_presence_client_name_array.length > 0) {
-              console.log(client_array[i].latest_presence_client_name_array);
+              // Loop through the `client_array[i].latest_presence_client_name_array`.
+              for (var j = 0; j < client_array[i].latest_presence_client_name_array.length; j ++) {
+                for (var k = 0; k < client_array.length; k ++) {
+                  // Make sure that `client_array[k]` is not the same with `client_array[i]`.
+                  if (client_array[i] != client_array[k]) {
+                    // Make sure the target `client_array[k]` has a valid circle.
+                    if (
+                      (client_array[i].latest_presence_client_name_array[j] == client_array[k].name) &&
+                      (client_array[k].circle !== undefined)
+                    ) {
+                      // Make the presence line and circle here for the non simulation client.
+                      var c_x_1 = Number(client_array[i].circle.attr("cx"));
+                      var c_y_1 = Number(client_array[i].circle.attr("cy"));
+                      var c_x_2 = Number(client_array[k].circle.attr("cx"));
+                      var c_y_2 = Number(client_array[k].circle.attr("cy"));
+                      var r_1 = client_array[i].circle.attr("r");
+                      var r_2 = client_array[k].circle.attr("r");
+
+                      var radian = Math.atan2(c_y_2 - c_y_1, c_x_2 - c_x_1);
+
+                      var x_1 = c_x_1 + (r_1 * Math.cos(radian));
+                      var y_1 = c_y_1 + (r_1 * Math.sin(radian));
+                      var x_2 = c_x_2 - (r_2 * Math.cos(radian));
+                      var y_2 = c_y_2 - (r_2 * Math.sin(radian));
+
+                      graph_svg.append("line")
+                        .attr("class", "presence_line")
+                        .attr("x1", x_1)
+                        .attr("y1", y_1)
+                        .attr("x2", x_2)
+                        .attr("y2", y_2)
+                        .attr(
+                            "transform",
+                            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                        )
+                        .style("opacity", 0.5)
+                        .style("stroke", client_array[i].client_circle_color)
+                        .style("stroke-width", 5);
+
+                      graph_svg.append("circle")
+                        .attr("class", "presence_circle")
+                        .attr("cx", x_2)
+                        .attr("cy", y_2)
+                        .attr("r", 5)
+                        .attr(
+                            "transform",
+                            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                        )
+                        .style("fill", client_array[i].client_circle_color)
+                        .style("stroke", "no-stroke");
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -846,8 +936,6 @@
       });
 
       $("#mic_button").click(function () {
-        pitch_resize();
-        volume_resize();
         set_to_resize_pitch_and_volume_graph = true;
         resize_pitch_and_volume_graph = true;
       });
@@ -858,10 +946,10 @@
 
       $("#graph_button").click(function () {
         set_to_resize_pitch_and_volume_graph = true;
+        resize_graph = true;
       });
 
       $("#graph_demo_button").click(function () {
-        graph_demo_resize();
         set_to_resize_pitch_and_volume_graph = true;
         resize_graph_demo = true;
       });
@@ -900,15 +988,20 @@
 
       $(window)
         .resize(function () { // When browser change size.
+          graph_demo_resize();
+          graph_resize();
           pitch_resize();
           volume_resize();
-          graph_demo_resize();
-          d3.selectAll(".simulate_presence_line").remove();
+          d3.selectAll(".client_circle").remove();
+          d3.selectAll(".presence_circle").remove();
+          d3.selectAll(".presence_line").remove();
           d3.selectAll(".simulate_presence_circle").remove();
+          d3.selectAll(".simulate_presence_line").remove();
 
           qr_code_adjust();
           if ($("#graph_demo").hasClass("active")) { resize_graph_demo = true; }
           if ($("#mic").hasClass("active")) { resize_pitch_and_volume_graph = true; }
+          if ($("#graph").hasClass("active")) { resize_graph = true; }
         });
     </script>
   </body>
