@@ -192,7 +192,8 @@ def check_doc(
     return False
 
 
-
+# `_expr` stands for expression. It is used to return RethinkDB query instead
+# of object.
 def create_db(
     _conn    :r.net.DefaultConnection,
     _db_name :str=rtm_cfg_db_name,

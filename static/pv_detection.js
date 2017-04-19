@@ -93,7 +93,6 @@ function loop_pitch () {
     document.getElementById("pitch_value").innerHTML = pitch_value;
     pitch_update = false;
   }
-  console.log("pitch " + pitch_value);
   window.requestAnimationFrame(loop_pitch);
 }
 
@@ -103,7 +102,6 @@ function loop_volume () {
     document.getElementById("volume_value").innerHTML = volume_value;
     volume_update = false;
   }
-  console.log("volume " + volume_value);
   window.requestAnimationFrame(loop_volume);
 }
 
@@ -129,5 +127,4 @@ function pv_detection_onload () {
       "optional": []
     }
   }, got_stream, function () { alert("cannot get audio stream"); });
-  console.log("pv_detection_onload");
 }

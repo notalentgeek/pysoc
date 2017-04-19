@@ -6,6 +6,13 @@
     <link href="{{ url_for('static', filename='bower_components/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='glowing_button.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='bower_components/socket.io-client/dist/socket.io.js') }}"></script>
+    <script>
+      var socket = io.connect("http://" + document.domain + ":" + location.port);
+      var received_data = null;
+
+      socket.on("latestInputSend", function (_receivedData){ received_data = _receivedData; });
+    </script>
   </head>
   <body>
     <div style="display:flex;flex-direction:row;height:100%;">
@@ -187,7 +194,9 @@
               </div>
             </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;">graph</div>
+          <div class="fade in nice_background tab-pane" id="graph" style="diplay:flex;flex:1;flex-direction:row;position:relative;">
+            <div id="graph_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
+          </div>
           <div class="fade in nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:row;position:relative;">
             <div id="graph_demo_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
           </div>
@@ -230,6 +239,10 @@
         .domain([0, 0.1])
         .range([client_circle_radius_smallest, client_circle_radius_biggest]);
 
+      var graph_svg = d3.select("#graph_svg_container").append("svg")
+        .attr("height", "100%")
+        .attr("id", "graph_svg")
+        .attr("width", "100%");
       var graph_demo_svg = d3.select("#graph_demo_svg_container").append("svg")
         .attr("height", "100%")
         .attr("id", "graph_demo_svg")
@@ -273,6 +286,7 @@
         rotate_all_for_client_circle_simulation();
       }
 
+      var client_array = [];
       var client_circle_degree_target_array = [];
       var client_circle_simulation_array = [];
       var client_simulation_array = [];
@@ -285,6 +299,18 @@
         "sam"
       ];
 
+      function client (_name) {
+        client_array.push(this);
+        this.name = _name;
+
+        this.client_circle_color = INTRGB(HashCode(this.name));
+
+        this.latest_amount_face = 0;
+        this.latest_amount_pitch = 0;
+        this.latest_amount_volume = 0;
+        this.latest_presence_client_simulation_name_array = [];
+        this.circle = null;
+      }
       function client_simulation (_name) {
         client_simulation_array.push(this);
         this.name = _name;
@@ -650,11 +676,11 @@
           table_presence["dt"] = dt;
           table_volume["dt"] = dt;
 
-          table_client["value"] = client_name;
-          table_face["value"] = face_value;
-          table_pitch["value"] = pitch_value;
-          table_presence["value"] = presence_value;
-          table_volume["value"] = volume_value;
+          table_client["client_name"] = client_name;
+          table_face["face"] = face_value;
+          table_pitch["pitch"] = pitch_value;
+          table_presence["presence"] = presence_value;
+          table_volume["volume"] = volume_value;
 
           dt = dt_previous;
         }
@@ -683,8 +709,8 @@
         rotate_all_for_client_circle_simulation();
 
         // For connecting lines between nodes.
-        d3.selectAll(".simulate_presence_line").remove();
         d3.selectAll(".simulate_presence_circle").remove();
+        d3.selectAll(".simulate_presence_line").remove();
         for (var i = 0; i < client_simulation_array.length; i ++) {
           for (var j = 0; j < client_simulation_array[i].latest_presence_client_simulation_circle_array.length; j ++) {
             if (client_simulation_array[i].online) {
@@ -731,6 +757,71 @@
           }
         }
 
+        socket.emit("latestInputRequest");
+
+        if (received_data !== null) {
+          var exists_counter = 0; // How many client with valid circle parameter (pitch and volume).
+          client_array = [];
+          d3.selectAll(".client_circle").remove();
+          d3.selectAll(".presence_circle").remove();
+          d3.selectAll(".presence_line").remove();
+          // Presence.
+          for (var i = 0; i < client_array.length; i ++) {
+            client_array[j].circle = null;
+          }
+          for (var i = 0; i < received_data.length; i ++) {
+            if (
+              received_data[i]["pitch"] !== null && received_data[i]["pitch"] !== undefined &&
+              received_data[i]["volume"] !== null && received_data[i]["volume"] !== undefined
+            ) {
+              var client_temp = new client(received_data[i]["client_name"]);
+              exists_counter += 1;
+
+              target = [];
+              for (var j = 0; j < exists_counter; j ++) {
+                var target_temp = (j/exists_counter)*360;
+                target.push(target_temp);
+              }
+
+              client_temp.circle = graph_svg.append("circle")
+                .attr("class", "client_circle")
+                .attr("cx", main_circle_radius * Math.cos(Math.Radian(target[0])))
+                .attr("cy", main_circle_radius * Math.sin(Math.Radian(target[0])))
+                .attr("degree", target[0])
+                .attr("id", client_temp.name)
+                .attr("r", client_circle_radius_biggest)
+                .attr(
+                  "transform",
+                  "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                )
+                .style("fill", client_temp.client_circle_color)
+                .style("stroke", client_temp.client_circle_color)
+                .style("stroke-width", 5);
+
+              target.splice(0, 1);
+
+              // Adjust position of previous client circle.
+              for (var j = 0; j < client_array.length; j ++) {
+                if (client_array[j].circle !== null && client_array[j] !== client_temp) {
+                  client_array[j].circle
+                    .attr("cx", main_circle_radius * Math.cos(Math.Radian(target[0])))
+                    .attr("cy", main_circle_radius * Math.sin(Math.Radian(target[0])))
+                  target.splice(0, 1);
+                }
+              }
+
+              // Pitch.
+              var fill_temp = ShadeRGBColor("rgb(" + HexRGB(client_temp.client_circle_color).r + ", " + HexRGB(client_temp.client_circle_color).g + ", " + HexRGB(client_temp.client_circle_color).b +")", scale_linear_pitch(received_data[i]["pitch"]));
+              client_temp.circle.style("fill", fill_temp);
+              // Volume.
+              client_temp.circle.attr("r", scale_linear_volume(received_data[i]["volume"]));
+            }
+          }
+          // Presence.
+          for (var i = 0; i < client_array.length; i ++) {
+
+          }
+        }
       }, 1000);
 
       /* For some reasons `x_resize()` functions need to be triggered twice.

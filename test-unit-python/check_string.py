@@ -1,8 +1,4 @@
 """ String checking. """
-
-import sys
-sys.path.append("./python-ipy")
-
 from IPy import IP as ip
 
 def check_client_name(_string:str):
@@ -57,9 +53,9 @@ def check_db_host(_string:str, _fix:bool=True):
     Wrong   example "127. 0. 0.1".
     Wrong   example "127. 0.0.1".
     Wrong   example "2555.255.255.255".
-    Wrong   example "http://localhost/"  can be fixed into 
+    Wrong   example "http://localhost/"  can be fixed into
     "http://localhost"  with `_fix=True`.
-    Wrong   example "https://localhost/" can be fixed into 
+    Wrong   example "https://localhost/" can be fixed into
     "https://localhost" with `_fix=True`.
     """
 

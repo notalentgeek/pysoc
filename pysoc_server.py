@@ -3,7 +3,7 @@
 Usage:
     pysoc_server.py (--help|-h)
     pysoc_server.py (--version|-v)
-    pysoc_server.py [--nodb|-o|--dba=<dbav>|--dbp=<dbpv>|--dbn=<dbnv>|--tout=<toutv>]...
+    pysoc_server.py [--nodb|-o|--dba=<dbav>|--dbn=<dbnv>|--tout=<toutv>]...
 
 Options:
     --help -h           Refer to help manual.
@@ -14,27 +14,29 @@ Options:
     -o                  Make this web server to be online.
 
     --dba=<dbav>        Database address [default: 127.0.0.1].
-    --dbp=<dbpv>        Database port [default: 28015].
     --dbn=<dbnv>        Database name [default: pysoc_server].
     --tout=<toutv>      Connection timeout. Amount of this
                         application needs to wait for database
                         connection [default: 20].
 
 """
+import sys
+sys.path.append("./test-unit-python")
+
 from   docopt         import docopt          as doc
 from   flask          import Flask
 from   flask          import render_template
 from   flask_socketio import emit
 from   flask_socketio import SocketIO        as sio
 from   socket         import socket
+import database
 import rethinkdb      as     r
 
 # Function to get database API.
 def DatabaseAPI(
 
+    _c,
     _db,       # Database reference without the connection.
-    _dbA,      # Database address.
-    _dbP,      # Database port.
     _noDB,     # Running with or without database connection.
     _tableName # Table name.
 
@@ -45,12 +47,7 @@ def DatabaseAPI(
 
     if   _noDB: return "web server is running without connection to database server"
     else      :
-
-        #print("test2")
-        #print(_db.table(_tableName))
-        #print(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
-
-        return str(list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP))))
+        return str(list(_db.table(_tableName).run(_c)))
 
 # Make a function to connect to database and to set up connection.
 # So 1 function to return database information. The INFORMATION
@@ -62,6 +59,9 @@ def DatabaseAPI(
 #
 # Function to create connection object. Make sure this function
 # return connection object.
+#
+# PENDING - DONE: Can use the new function from `database.py`.
+# Obsolete method.
 def DatabaseConnection(
 
     _dbA,      # Database address. The default is "127.0.0.1" if the database server and the
@@ -84,39 +84,38 @@ def DatabaseConnection(
 
     )
 
-def DatabaseGetAllClientName(_db, _dbA, _dbP, _tableName):
+def DatabaseGetAllClientName(_c, _db, _tableName):
 
     #_db = _db.coerce_to("binary")
 
     #print(_db)
     #print(type(_db))
 
-    return list(_db.table(_tableName).run(DatabaseConnection(_dbA, _dbP)))
+    return list(_db.table(_tableName).run(_c))
 
-def DatabaseGetAllClientNameMod1(_db, _dbA, _dbP):
-
-    #_db = _db.coerce_to("binary")
-
-    #print(_db)
-    #print(type(_db))
-
-    return DatabaseGetAllClientName(_db, _dbA, _dbP, "client_name")
-
-def DatabaseGetAllTableName(_db, _dbA, _dbP):
+def DatabaseGetAllClientNameMod1(_c, _db):
 
     #_db = _db.coerce_to("binary")
 
     #print(_db)
     #print(type(_db))
 
-    return _db.table_list().run(DatabaseConnection(_dbA, _dbP))
+    return DatabaseGetAllClientName(_c, _db, "client_name")
+
+def DatabaseGetAllTableName(_c, _db):
+
+    #_db = _db.coerce_to("binary")
+
+    #print(_db)
+    #print(type(_db))
+
+    return _db.table_list().run(_c)
 
 # Function to assign column with latest input to dictionary.
 def DatabaseGetLatestInputColumnValueToDict(
 
+    _c,
     _colName,
-    _dBA,
-    _dbP,
     _dict,
     _latestInputStr,
     _table
@@ -124,23 +123,24 @@ def DatabaseGetLatestInputColumnValueToDict(
 ):
 
     # Make sure to have `latest_input` as primary index in RethinkDB.
-    tableConn = _table.get(_latestInputStr).run(DatabaseConnection(_dBA, _dbP))
+    tableConn = _table.filter({ "dt":_latestInputStr }).run(_c)
+    tableConnList = list(tableConn)
 
-    #print(_dBA)
-    #print(_dbP)
+    #print(_colName)
     #print(_latestInputStr)
     #print(_table)
     #print(tableConn)
+    #print(tableConnList)
 
-    if tableConn: _dict[_colName] = tableConn.get(_colName)
+    if len(tableConnList) > 0 and tableConnList[0].get(_colName) != None:
+        _dict[_colName] = tableConnList[0][_colName]
 
     #print(_dict)
 
 # Function to assign table with latest input to dictionary.
 def DatabaseGetLatestInputTableValueToDict(
 
-    _dbA,            # Database address.
-    _dbP,            # Database port.
+    _c,
     _dict,           # Dictionary we want to fill.
     _latestInputStr, # Latest input in string so that we can query faster with database.
     _tableName,      # Table name we are looking for column.
@@ -168,7 +168,7 @@ def DatabaseGetLatestInputTableValueToDict(
         #print(type(list(_colName)))
         #print("="*5)
 
-        for c in list(_colName):
+        for i in list(_colName):
 
             #print("="*5)
             #print(c)
@@ -178,11 +178,12 @@ def DatabaseGetLatestInputTableValueToDict(
             #print("="*5)
 
             DatabaseGetLatestInputColumnValueToDict(
-                c, _dbA, _dbP, _dict, _latestInputStr, table);
+                _c, i, _dict, _latestInputStr, table);
 
 def GetLatestInput(_clientNameList, _columnLatestInput):
 
     latestInputFlo = None
+    latestInputStr = None
     for c in _clientNameList:
 
         #print(c)
@@ -217,12 +218,14 @@ if __name__ == "__main__":
 
     dbA     = str(docArgs["--dba"][0])
     dbN     = str(docArgs["--dbn"][0])
-    dbP     = int(docArgs["--dbp"][0])
     tOut    = int(docArgs["--tout"][0])
 
     app     = Flask(__name__)
     sIO     = sio(app)
     db      = r.db(dbN)
+
+    if not noDB:
+        c = database.conn(dbA);
 
     #print(db)
     #print(type(db))
@@ -232,16 +235,20 @@ if __name__ == "__main__":
     def index(): return render_template("index.html")
 
     @app.route("/api/client")
-    def api_client(): return DatabaseAPI(db, dbA, dbP, noDB, "client_name")
+    def api_client():
+        return DatabaseAPI(c, db, dbA, noDB, "client_name")
 
     @app.route("/api/cam/<_clientName>")
-    def api_cam(_clientName): return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_cam")
+    def api_cam(_clientName):
+        return DatabaseAPI(c, db, dbA, noDB, _clientName + "_cam")
 
     @app.route("/api/ir/<_clientName>")
-    def api_ir(_clientName): return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_ir")
+    def api_ir(_clientName):
+        return DatabaseAPI(c, db, dbA, noDB, _clientName + "_ir")
 
     @app.route("/api/mic/<_clientName>")
-    def api_mic(_clientName):  return DatabaseAPI(db, dbA, dbP, noDB, _clientName + "_mic")
+    def api_mic(_clientName):
+        return DatabaseAPI(c, db, dbA, noDB, _clientName + "_mic")
 
     # Web socket routing.
     @sIO.on("latestInputRequest")
@@ -249,41 +256,43 @@ if __name__ == "__main__":
 
         if not noDB:
 
-            clientNameDictList = []                                          # All client information that will be sent to client.
-            clientNameList     = DatabaseGetAllClientNameMod1(db, dbA, dbP)  # All client name from `client_name` table in database.
-            latestInputFlo     = GetLatestInputMod1(clientNameList)[0]       # Latest input time in string as we received from database.
-            latestInputStr     = GetLatestInputMod1(clientNameList)[1]       # Latest input time in string as we received from database.
-            tableCam           = None                                        # Database table to hold camera data.
-            tableIR            = None                                        # Database table to hold infrared transceiver data.
-            tableMic           = None                                        # Database table to hold microphone data.
-            tableNameList      = DatabaseGetAllTableName(db, dbA, dbP)       # All tables in database.
+            # Check database if not exists then this method creates it.
+            database.create_db(c, "pysoc_server");
+            # Check table if not exists then this method creates it.
+            database.create_table(c, "client_name",
+                "pysoc_server");
 
-            for c in clientNameList:
+            clientDictList     = []
+            clientNameDictList = []                                             # All client information that will be sent to client.
+            clientNameList     = DatabaseGetAllClientNameMod1(c, db)            # All client name from `client_name` table in database.
+            latestInputFlo     = GetLatestInputMod1(clientNameList)[0]          # Latest input time in string as we received from database.
+            latestInputStr     = GetLatestInputMod1(clientNameList)[1]          # Latest input time in string as we received from database.
+            tableCam           = None                                           # Database table to hold camera data.
+            tableIR            = None                                           # Database table to hold infrared transceiver data.
+            tableMic           = None                                           # Database table to hold microphone data.
+            tableNameList      = DatabaseGetAllTableName(c, db)                 # All tables in database.
 
-                #print(c)
-                #print(clientNameList)
-                #print((latestInputFlo - 1.0) <= float(c.get("latest_input"))/1000.0 <= (latestInputFlo + 1.0))
-                #print(str(latestInputFlo - 1.0) + " " + str(float(c.get("latest_input"))/1000.0) + " " + str(latestInputFlo + 1.0))
+            for i in clientNameList:
 
-                if c.get("latest_input") == latestInputStr:
-
-                    clientName = c.get("client_name")
-                    clientNameDict = {}
-                    clientNameDict["client_name"] = clientName
+                if i.get("latest_input") == latestInputStr:
+                    clientName = i.get("client_name")
+                    #clientNameDict = {}
+                    #clientNameDict["client_name"] = clientName
 
                     def DatabaseGetLatestInputTableValueToDictMod1(_tableName, *_colName):
-                        DatabaseGetLatestInputTableValueToDict(dbA, dbP, clientNameDict,
-                            c.get("latest_input"), _tableName, tableNameList, *_colName)
-                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_cam", "faces")
-                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_ir" , "ir_code")
-                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_mic", "pitch", "volume")
+                        DatabaseGetLatestInputTableValueToDict(c, i,
+                            i.get("latest_input"), _tableName, tableNameList, *_colName)
+                    #DatabaseGetLatestInputTableValueToDictMod1(clientName + "_cam", "faces")
+                    #DatabaseGetLatestInputTableValueToDictMod1(clientName + "_ir" , "ir_code")
+                    #DatabaseGetLatestInputTableValueToDictMod1(clientName + "_mic", "pitch", "volume")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_face", "face")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_pitch", "pitch")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_presence" , "presence")
+                    DatabaseGetLatestInputTableValueToDictMod1(clientName + "_volume", "volume")
 
-                    clientNameDictList.append(clientNameDict)
+                    clientDictList.append(i)
 
-            #print(clientNameDictList)
-            #print(type(clientNameDictList))
-
-            emit("latestInputSend", clientNameDictList)
+            emit("latestInputSend", clientDictList)
 
     context = ("/etc/ssl/certs/apache-selfsigned.crt", "/etc/ssl/private/apache-selfsigned.key")
     if   online: sIO.run(app, host="0.0.0.0", ssl_context=context)
