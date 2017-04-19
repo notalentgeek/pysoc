@@ -223,7 +223,7 @@ class InsertDatabase(mt):
                             #self.db.table(tableName).run(ConnDB(self.config, True, False))
                             self.table = self.db.table(tableName)
                             # Insert the jsonCookedAgain into the database.
-                            # The fix to exponentially higher is to do try
+                            # The fix to exponentially higher process is to do try
                             # statement for the insert database instead of
                             # checking the connection.
                             r.expr(
