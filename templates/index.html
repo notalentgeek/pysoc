@@ -304,11 +304,7 @@
         this.name = _name;
 
         this.client_circle_color = INTRGB(HashCode(this.name));
-
-        this.latest_amount_face = 0;
-        this.latest_amount_pitch = 0;
-        this.latest_amount_volume = 0;
-        this.latest_presence_client_simulation_name_array = [];
+        this.latest_presence_client_name_array = [];
         this.circle = null;
       }
       function client_simulation (_name) {
@@ -765,11 +761,15 @@
           d3.selectAll(".client_circle").remove();
           d3.selectAll(".presence_circle").remove();
           d3.selectAll(".presence_line").remove();
-          // Presence.
           for (var i = 0; i < client_array.length; i ++) {
             client_array[j].circle = null;
           }
           for (var i = 0; i < received_data.length; i ++) {
+            // This is the display for each client circle in the graph.
+            // The only necessary variables are the pitch and volume.
+            // Without pitch and volume, there would no visualization (sadly).
+            // However, in these codes below I try put the data from presence
+            // detection as well, as long it is a valid (not undefined).
             if (
               received_data[i]["pitch"] !== null && received_data[i]["pitch"] !== undefined &&
               received_data[i]["volume"] !== null && received_data[i]["volume"] !== undefined
@@ -777,6 +777,15 @@
               var client_temp = new client(received_data[i]["client_name"]);
               exists_counter += 1;
 
+              if (received_data[i]["presence"] !== undefined) {
+                var split_presence = received_data[i]["presence"].split(",");
+                for (var j = 0; j < split_presence.length; j ++) {
+                  client_temp.latest_presence_client_name_array.push(split_presence[j]);
+                }
+              }
+
+              // Define target degree for this newly added client.
+              // And, also for the previously added client.
               target = [];
               for (var j = 0; j < exists_counter; j ++) {
                 var target_temp = (j/exists_counter)*360;
@@ -802,6 +811,7 @@
 
               // Adjust position of previous client circle.
               for (var j = 0; j < client_array.length; j ++) {
+                // Make sure not to adjust the newly added client.
                 if (client_array[j].circle !== null && client_array[j] !== client_temp) {
                   client_array[j].circle
                     .attr("cx", main_circle_radius * Math.cos(Math.Radian(target[0])))
@@ -819,7 +829,9 @@
           }
           // Presence.
           for (var i = 0; i < client_array.length; i ++) {
-
+            if (client_array[i].latest_presence_client_name_array.length > 0) {
+              console.log(client_array[i].latest_presence_client_name_array);
+            }
           }
         }
       }, 1000);
