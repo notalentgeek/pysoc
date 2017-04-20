@@ -22,7 +22,7 @@
       <div style="display:flex;flex:1;flex-direction:column;margin-bottom:5px;margin-left:2.5px;margin-right:5px;margin-top:5px;width:50%;"">
         <div class="input-group" style="display:flex;flex-direction:row;margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
           <div style="flex:1;">
-            <input class="form-control" id="qr_value" type="text" placeholder="this client name" value="client_test">
+            <input class="form-control" id="qr_value" type="text" placeholder="this client name">
           </div>
           <div style="flex:1;">
             <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
@@ -194,10 +194,15 @@
               </div>
             </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph" style="diplay:flex;flex:1;flex-direction:row;position:relative;">
-            <div id="graph_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
+          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div id="graph_svg_container_container" style="display:flex;flex:1;flex-direction:column;position:relative;">
+                <div id="graph_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
+              </div>
+              <div>asd</div>
+            </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:row;position:relative;">
+          <div class="fade in nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:column;position:relative;">
             <div id="graph_demo_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
           </div>
         </div>
@@ -226,6 +231,14 @@
       // Prototype D3JS graph demo.
       // ATTENTION: Every D3 graphs need to have an accompanying function to be able to resize its size accordingly.
       //            This function need to refer back to all position settings when the first time the graph initialized.
+      var d3_dimension_simulation = { height:320,width:320 };
+      var d3_dimension_smallest_simulation = (d3_dimension_simulation.height < d3_dimension_simulation.width) ? d3_dimension_simulation.height : d3_dimension_simulation.width
+      var d3_dimension_translate_simulation = { x:d3_dimension_simulation.width/2, y:d3_dimension_simulation.height/2 }
+      var d3_padding_simulation = d3_dimension_smallest_simulation/8;
+      var main_circle_radius_simulation = (d3_dimension_smallest_simulation/2) - d3_padding_simulation;
+      var client_circle_radius_biggest_simulation = main_circle_radius_simulation/6;
+      var client_circle_radius_smallest_simulation = main_circle_radius_simulation/12;
+
       var d3_dimension = { height:320,width:320 };
       var d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
       var d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
@@ -239,7 +252,7 @@
         .range([0, 1]);
       var scale_linear_volume = d3.scaleLinear()
         .domain([0, 0.1])
-        .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+        .range([client_circle_radius_smallest_simulation, client_circle_radius_biggest_simulation]);
 
       var graph_svg = d3.select("#graph_svg_container").append("svg")
         .attr("height", "100%")
@@ -251,9 +264,9 @@
         .attr("width", "100%");
 
       function graph_resize () {
-        main_circle_radius_prev = main_circle_radius;
+        main_circle_radius_prev = main_circle_radius_simulation;
 
-        d3_dimension = { height:$("#graph").height(),width:$("#graph").width() };
+        d3_dimension = { height:$("#graph_svg_container_container").height(),width:$("#graph_svg_container_container").width() };
         d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
         d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
         d3_padding = d3_dimension_smallest/8;
@@ -274,38 +287,39 @@
       }
 
       function graph_demo_resize () {
-        main_circle_radius_prev = main_circle_radius;
+        main_circle_radius_prev = main_circle_radius_simulation;
 
-        d3_dimension = { height:$("#graph_demo").height(),width:$("#graph_demo").width() };
-        d3_dimension_smallest = (d3_dimension.height < d3_dimension.width) ? d3_dimension.height : d3_dimension.width
-        d3_dimension_translate = { x:d3_dimension.width/2, y:d3_dimension.height/2 }
-        d3_padding = d3_dimension_smallest/8;
-        main_circle_radius = ((d3_dimension_smallest/2) - d3_padding <= 1) ? 1 : (d3_dimension_smallest/2) - d3_padding; // Prevent `NaN`.
-        client_circle_radius_biggest = main_circle_radius/6;
-        client_circle_radius_smallest = main_circle_radius/12;
+        d3_dimension_simulation = { height:$("#graph_demo").height(),width:$("#graph_demo").width() };
+        d3_dimension_smallest_simulation = (d3_dimension_simulation.height < d3_dimension_simulation.width) ? d3_dimension_simulation.height : d3_dimension_simulation.width
+        d3_dimension_translate_simulation = { x:d3_dimension_simulation.width/2, y:d3_dimension_simulation.height/2 }
+        d3_padding_simulation = d3_dimension_smallest_simulation/8;
+        main_circle_radius_simulation = ((d3_dimension_smallest_simulation/2) - d3_padding_simulation <= 1) ? 1 : (d3_dimension_smallest_simulation/2) - d3_padding_simulation; // Prevent `NaN`.
+        client_circle_radius_biggest_simulation = main_circle_radius_simulation/6;
+        client_circle_radius_smallest_simulation = main_circle_radius_simulation/12;
 
         scale_linear_pitch = d3.scaleLinear()
           .domain([0, 5000])
           .range([0, 1]);
         scale_linear_volume = d3.scaleLinear()
           .domain([0, 0.1])
-          .range([client_circle_radius_smallest, client_circle_radius_biggest]);
+          .range([client_circle_radius_smallest_simulation, client_circle_radius_biggest_simulation]);
 
         graph_demo_svg
-          .attr("height", d3_dimension.height)
-          .attr("width", d3_dimension.width);
+          .attr("height", d3_dimension_simulation.height)
+          .attr("width", d3_dimension_simulation.width);
 
         for (var i = 0; i < client_circle_simulation_array.length; i ++) {
           var degree = Number(client_circle_simulation_array[i].circle.attr("degree"));
           var radius_prev = Number(client_circle_simulation_array[i].circle.attr("r"));
-          var radius_proportion = ((main_circle_radius/main_circle_radius_prev) < 1) ? 1 : (main_circle_radius/main_circle_radius_prev);
+          var radius_proportion = ((main_circle_radius_simulation/main_circle_radius_prev) < 1) ? 1 : (main_circle_radius_simulation/main_circle_radius_prev);
           client_circle_simulation_array[i].circle
-            .attr("cx", main_circle_radius * Math.cos(Math.Radian(degree)))
-            .attr("cy", main_circle_radius * Math.sin(Math.Radian(degree)))
+            .attr("cx", main_circle_radius_simulation * Math.cos(Math.Radian(degree)))
+            .attr("cy", main_circle_radius_simulation * Math.sin(Math.Radian(degree)))
             .attr(
               "transform",
-              "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+              "translate(" + d3_dimension_translate_simulation.x + ", " + d3_dimension_translate_simulation.y + ")"
             )
+            .style("opacity", 1)
             .attr("r", radius_proportion*radius_prev);
         }
         rotate_all_for_client_circle_simulation();
@@ -418,14 +432,14 @@
         this.client.client_circle = this;
         this.circle = graph_demo_svg.append("circle")
           .attr("class", "client_circle_simulation")
-          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
-          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("cx", main_circle_radius_simulation * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius_simulation * Math.sin(Math.Radian(_degree)))
           .attr("degree", _degree)
           .attr("id", this.client.client_name)
-          .attr("r", client_circle_radius_biggest)
+          .attr("r", client_circle_radius_biggest_simulation)
           .attr(
             "transform",
-            "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+            "translate(" + d3_dimension_translate_simulation.x + ", " + d3_dimension_translate_simulation.y + ")"
           )
           .style("fill", this.client.client_circle_color)
           .style("stroke", this.client.client_circle_color)
@@ -434,8 +448,8 @@
       client_circle_simulation.prototype.constructor = client_circle_simulation;
       client_circle_simulation.prototype.rotate = function (_degree) {
         this.circle
-          .attr("cx", main_circle_radius * Math.cos(Math.Radian(_degree)))
-          .attr("cy", main_circle_radius * Math.sin(Math.Radian(_degree)))
+          .attr("cx", main_circle_radius_simulation * Math.cos(Math.Radian(_degree)))
+          .attr("cy", main_circle_radius_simulation * Math.sin(Math.Radian(_degree)))
           .attr("degree", _degree);
       };
 
@@ -643,19 +657,37 @@
       var resize_pitch_and_volume_graph_counter = 0;
       window.setInterval(function () {
         if (resize_graph) {
+          $(".client_circle").css("opacity", "0");
+          $(".presence_circle").css("opacity", "0");
+          $(".presence_line").css("opacity", "0");
+          $("head").append("<style class='run_time_style normal'>.client_circle {opacity:0}</style>");
+          $("head").append("<style class='run_time_style normal'>.presence_circle {opacity:0}</style>");
+          $("head").append("<style class='run_time_style normal'>.presence_line {opacity:0}</style>");
           resize_graph_counter += 1;
         }
         if (resize_graph_counter >= 3){
           graph_resize();
+          $(".client_circle").css("opacity", "1");
+          $(".presence_circle").css("opacity", "1");
+          $(".presence_line").css("opacity", "1");
+          $("style.run_time_style.normal").remove();
           resize_graph = false;
           resize_graph_counter = 0;
         }
 
         if (resize_graph_demo) {
+          $(".client_circle_simulation").css("opacity", "0");
+          $(".simulate_presence_circle").css("opacity", "0");
+          $(".simulate_presence_line").css("opacity", "0");
+          $("head").append("<style class='run_time_style simulation'>.client_circle_simulation {opacity:0;}</style>");
+          $("head").append("<style class='run_time_style simulation'>.simulate_presence_circle {opacity:0;}</style>");
+          $("head").append("<style class='run_time_style simulation'>.simulate_presence_line {opacity:0;}</style>");
           resize_graph_demo_counter += 1;
         }
         if (resize_graph_demo_counter >= 3){
           graph_demo_resize();
+          $(".client_circle_simulation").css("opacity", "1");
+          $("style.run_time_style.simulation").remove();
           resize_graph_demo = false;
           resize_graph_demo_counter = 0;
         }
@@ -768,9 +800,9 @@
                 .attr("y2", y_2)
                 .attr(
                     "transform",
-                    "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                    "translate(" + d3_dimension_translate_simulation.x + ", " + d3_dimension_translate_simulation.y + ")"
                 )
-                .style("opacity", 0.5)
+                .style("opacity", (resize_graph_demo ? 0 : 0.5))
                 .style("stroke", client_simulation_array[i].client_circle_color)
                 .style("stroke-width", 5);
 
@@ -781,8 +813,9 @@
                 .attr("r", 5)
                 .attr(
                     "transform",
-                    "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
+                    "translate(" + d3_dimension_translate_simulation.x + ", " + d3_dimension_translate_simulation.y + ")"
                 )
+                .style("opacity", (resize_graph_demo ? 0 : 1))
                 .style("fill", client_simulation_array[i].client_circle_color)
                 .style("stroke", "no-stroke");
             }
@@ -835,11 +868,11 @@
                 .attr("cy", main_circle_radius * Math.sin(Math.Radian(target[0])))
                 .attr("degree", target[0])
                 .attr("id", client_temp.name)
-                .attr("r", client_circle_radius_biggest)
                 .attr(
                   "transform",
                   "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
                 )
+                .style("opacity", (resize_graph ? 0 : 1))
                 .style("fill", client_temp.client_circle_color)
                 .style("stroke", client_temp.client_circle_color)
                 .style("stroke-width", 5);
@@ -902,6 +935,7 @@
                             "transform",
                             "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
                         )
+                        .style("opacity", (resize_graph ? 0 : 0.5))
                         .style("opacity", 0.5)
                         .style("stroke", client_array[i].client_circle_color)
                         .style("stroke-width", 5);
@@ -915,6 +949,7 @@
                             "transform",
                             "translate(" + d3_dimension_translate.x + ", " + d3_dimension_translate.y + ")"
                         )
+                        .style("opacity", (resize_graph ? 0 : 1))
                         .style("fill", client_array[i].client_circle_color)
                         .style("stroke", "no-stroke");
                     }
@@ -984,6 +1019,15 @@
       $(document)
         .ready(function () { // When page loads.
           qr_code_adjust();
+          var qr_value_from_url = String(window.location.href).split("?name=")[1];
+          qr_value_from_url = (qr_value_from_url === undefined) ? undefined : qr_value_from_url.split("?")[0];
+          if (qr_value_from_url !== undefined) {
+            $("#qr_value").val(qr_value_from_url);
+          }
+          else {
+            $("#qr_value").val("client_test");
+          }
+          $("#qr_value").blur();
         });
 
       $(window)
@@ -995,13 +1039,11 @@
           d3.selectAll(".client_circle").remove();
           d3.selectAll(".presence_circle").remove();
           d3.selectAll(".presence_line").remove();
-          d3.selectAll(".simulate_presence_circle").remove();
-          d3.selectAll(".simulate_presence_line").remove();
 
           qr_code_adjust();
+          if ($("#graph").hasClass("active")) { resize_graph = true; }
           if ($("#graph_demo").hasClass("active")) { resize_graph_demo = true; }
           if ($("#mic").hasClass("active")) { resize_pitch_and_volume_graph = true; }
-          if ($("#graph").hasClass("active")) { resize_graph = true; }
         });
     </script>
   </body>
