@@ -994,6 +994,8 @@
       });
 
       $("#mic_button").click(function () {
+        pitch_resize();
+        volume_resize();
         set_to_resize_pitch_and_volume_graph = true;
         resize_pitch_and_volume_graph = true;
       });
