@@ -12,5 +12,5 @@ body, html {
   width:100%;
 }
 div {
-  border:1px none red;
+  border:1px solid red;
 }

@@ -8,10 +8,11 @@
     <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
     <script src="{{ url_for('static', filename='bower_components/socket.io-client/dist/socket.io.js') }}"></script>
     <script>
-      var socket = io.connect("http://" + document.domain + ":" + location.port);
+      var mode_go_to = false;
       var received_data = null;
+      var socket = io.connect("http://" + document.domain + ":" + location.port);
 
-      socket.on("latestInputSend", function (_receivedData){ received_data = _receivedData; });
+      socket.on("inputSend", function (_receivedData){ received_data = _receivedData; });
     </script>
   </head>
   <body>
@@ -22,7 +23,7 @@
       <div style="display:flex;flex:1;flex-direction:column;margin-bottom:5px;margin-left:2.5px;margin-right:5px;margin-top:5px;width:50%;"">
         <div class="input-group" style="display:flex;flex-direction:row;margin-bottom:2.5px;margin-left:0px;margin-right:0px;margin-top:0px;">
           <div style="flex:1;">
-            <input class="form-control" id="qr_value" type="text" placeholder="this client name">
+            <input class="form-control" id="qr_value" placeholder="this client name" style="text-align:center;" type="text">
           </div>
           <div style="flex:1;">
             <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
@@ -199,7 +200,17 @@
               <div id="graph_svg_container_container" style="display:flex;flex:1;flex-direction:column;position:relative;">
                 <div id="graph_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
               </div>
-              <div>asd</div>
+              <div style="display:flex;flex-direction:row;">
+                <div style="flex:1;">
+                  <input class="form-control" id="dt_value" placeholder="yyyymmddhhmmss" style="text-align:center;" type="text">
+                </div>
+                <div style="flex:1;">
+                  <span class="input-group-btn" style="display:flex;flex-direction:row;height:100%;width:100%;">
+                    <button class="btn btn-primary" id="dt_go_to" style="flex:1;" type="button">go to</button>
+                    <button class="btn btn-primary" id="dt_recent" style="flex:1;" type="button">recent</button>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="fade in nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:column;position:relative;">
@@ -822,7 +833,12 @@
           }
         }
 
-        socket.emit("latestInputRequest");
+        if (!mode_go_to) {
+          socket.emit("latestInputRequest");
+        }
+        else {
+          socket.emit("goToInputRequest", {"dt":$("#dt_value").val()})
+        }
 
         // Animation for the real - time graph.
         if (received_data !== null) {
@@ -961,10 +977,17 @@
         }
       }, 1000);
 
+      $("#dt_go_to").click(function () {
+        mode_go_to = true;
+      });
+
+      $("#dt_recent").click(function () {
+        mode_go_to = false;
+      });
+
       /* For some reasons `x_resize()` functions need to be triggered twice.
       I put one in button click and the resize right 3 ticks after the first function
       in `window.setInterval(function () {}, 1);`*/
-
       var set_to_resize_pitch_and_volume_graph = false;
       $("#cam_button").click(function () {
         set_to_resize_pitch_and_volume_graph = true;
@@ -1019,15 +1042,24 @@
       $(document)
         .ready(function () { // When page loads.
           qr_code_adjust();
-          var qr_value_from_url = String(window.location.href).split("?name=")[1];
-          qr_value_from_url = (qr_value_from_url === undefined) ? undefined : qr_value_from_url.split("?")[0];
-          if (qr_value_from_url !== undefined) {
-            $("#qr_value").val(qr_value_from_url);
+
+          var name_value = String(window.location.href).split("?name=")[1];
+          name_value = (name_value === undefined) ? undefined : name_value.split("?")[0];
+          if (name_value !== undefined) {
+            $("#qr_value").val(name_value);
           }
           else {
             $("#qr_value").val("client_test");
           }
           $("#qr_value").blur();
+
+          var dt_value = String(window.location.href).split("?dt=")[1];
+          dt_value = (dt_value === undefined) ? undefined : dt_value.split("?")[0];
+          if (dt_value !== undefined) {
+            $("#dt_value").val(dt_value);
+            $("#dt_go_to").click();
+          }
+          $("#dt_value").blur();
         });
 
       $(window)

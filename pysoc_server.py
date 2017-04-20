@@ -251,6 +251,38 @@ if __name__ == "__main__":
         return DatabaseAPI(c, db, dbA, noDB, _clientName + "_mic")
 
     # Web socket routing.
+    @sIO.on("goToInputRequest")
+    def GoToInputRequest(_data):
+        requestedDT = _data["dt"]
+        if not noDB:
+
+            # Check database if not exists then this method creates it.
+            database.create_db(c, "pysoc_server");
+            # Check table if not exists then this method creates it.
+            database.create_table(c, "client_name",
+                "pysoc_server");
+
+            clientDictList     = []                                    # All client information that will be sent to client.
+            clientNameList     = DatabaseGetAllClientNameMod1(c, db)            # All client name from `client_name` table in database.
+            tableNameList      = DatabaseGetAllTableName(c, db)                 # All tables in database.
+
+            for i in clientNameList:
+
+                clientName = i.get("client_name")
+                face_temp = (database.get_first_doc_value(c, str(requestedDT), "dt", "face", "{}_face".format(clientName), dbN));
+                pitch_temp = (database.get_first_doc_value(c, str(requestedDT), "dt", "pitch", "{}_pitch".format(clientName), dbN));
+                presence_temp = (database.get_first_doc_value(c, str(requestedDT), "dt", "presence", "{}_presence".format(clientName), dbN));
+                volume_temp = (database.get_first_doc_value(c, str(requestedDT), "dt", "volume", "{}_volume".format(clientName), dbN));
+
+                if type(face_temp) is not list: i["face"] = face_temp
+                if type(pitch_temp) is not list: i["pitch"] = pitch_temp
+                if type(presence_temp) is not list: i["presence"] = presence_temp
+                if type(volume_temp) is not list: i["volume"] = volume_temp
+
+                clientDictList.append(i)
+
+            emit("inputSend", clientDictList)
+
     @sIO.on("latestInputRequest")
     def LatestInputRequest():
 
@@ -263,13 +295,9 @@ if __name__ == "__main__":
                 "pysoc_server");
 
             clientDictList     = []
-            clientNameDictList = []                                             # All client information that will be sent to client.
             clientNameList     = DatabaseGetAllClientNameMod1(c, db)            # All client name from `client_name` table in database.
             latestInputFlo     = GetLatestInputMod1(clientNameList)[0]          # Latest input time in string as we received from database.
             latestInputStr     = GetLatestInputMod1(clientNameList)[1]          # Latest input time in string as we received from database.
-            tableCam           = None                                           # Database table to hold camera data.
-            tableIR            = None                                           # Database table to hold infrared transceiver data.
-            tableMic           = None                                           # Database table to hold microphone data.
             tableNameList      = DatabaseGetAllTableName(c, db)                 # All tables in database.
 
             for i in clientNameList:
@@ -292,7 +320,7 @@ if __name__ == "__main__":
 
                     clientDictList.append(i)
 
-            emit("latestInputSend", clientDictList)
+            emit("inputSend", clientDictList)
 
     context = ("/etc/ssl/certs/apache-selfsigned.crt", "/etc/ssl/private/apache-selfsigned.key")
     if   online: sIO.run(app, host="0.0.0.0", ssl_context=context)
