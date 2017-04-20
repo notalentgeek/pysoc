@@ -296,8 +296,8 @@ if __name__ == "__main__":
 
             clientDictList     = []
             clientNameList     = DatabaseGetAllClientNameMod1(c, db)            # All client name from `client_name` table in database.
-            latestInputFlo     = GetLatestInputMod1(clientNameList)[0]          # Latest input time in string as we received from database.
-            latestInputStr     = GetLatestInputMod1(clientNameList)[1]          # Latest input time in string as we received from database.
+            latestInput        = GetLatestInputMod1(clientNameList)
+            latestInputStr     = latestInput[1]                                 # Latest input time in string as we received from database.
             tableNameList      = DatabaseGetAllTableName(c, db)                 # All tables in database.
 
             for i in clientNameList:
@@ -320,6 +320,7 @@ if __name__ == "__main__":
 
                     clientDictList.append(i)
 
+            print(latestInputStr)
             emit("inputSend", clientDictList)
 
     context = ("/etc/ssl/certs/apache-selfsigned.crt", "/etc/ssl/private/apache-selfsigned.key")

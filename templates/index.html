@@ -1047,9 +1047,11 @@
           name_value = (name_value === undefined) ? undefined : name_value.split("?")[0];
           if (name_value !== undefined) {
             $("#qr_value").val(name_value);
+            $("#qr_generate").click();
           }
           else {
             $("#qr_value").val("client_test");
+            $("#qr_generate").click();
           }
           $("#qr_value").blur();
 
