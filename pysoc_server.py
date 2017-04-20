@@ -320,7 +320,6 @@ if __name__ == "__main__":
 
                     clientDictList.append(i)
 
-            print(latestInputStr)
             emit("inputSend", clientDictList)
 
     context = ("/etc/ssl/certs/apache-selfsigned.crt", "/etc/ssl/private/apache-selfsigned.key")
