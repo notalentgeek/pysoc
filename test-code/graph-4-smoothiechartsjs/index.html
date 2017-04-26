@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <style>
+      body,html {
+         height:100%;
+         margin:0;
+         padding:0;
+         width:100%;
+      }
+      div {
+        border:2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" style="height:100%;width:100%;">
+      <div class="row" style="display:flex;flex-direction:row;">
+        <div class="col-md-6" style="flex:1;height:100%;">qr code</div>
+        <div class="col-md-6" style="display:flex;flex:1;flex-direction:column;height:100%;">
+          <div>menu</div>
+          <div style="display:flex;flex:1;flex-direction:column;">
+            <div style="display:flex;flex:1;flex-direction:row;">
+              <canvas id="pitch_graph" style="flex:1;"></canvas>
+            </div>
+            <div id="volume_graph" style="flex:1;">volume</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="smoothie.js" type="text/javascript"></script>
+    <script>
+      var random = new TimeSeries();
+
+      function pitch_graph_init () {
+        var chart = new SmoothieChart();
+        chart.addTimeSeries(random, {
+          fillStyle:"rgba(0, 255, 0, 0.2)",
+          lineWidth:4,
+          strokeStyle:"rgba(0, 255, 0, 1)"
+        });
+        chart.streamTo(document.getElementById("pitch_graph"), 500);
+      }
+
+      window.onload = function () {
+        pitch_graph_init();
+      };
+
+      window.setInterval(function () {
+        random.append(new Date().getTime(), Math.random()*10000);
+      }, 500);
+    </script>
+  </body>
+</html>

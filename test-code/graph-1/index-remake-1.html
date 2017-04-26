@@ -60,20 +60,23 @@
         }
       };
 
-      var x = d3.scaleTime()
+      var x_test = d3.scaleTime()
         .domain([now - (limit - 2), now - duration])
         .range([0, width]);
-      var y = d3.scaleLinear()
+      var y_test = d3.scaleLinear()
         .domain([0, 100])
         .range([height, 0]);
+
+      console.log(typeof x_test);
+      console.log(typeof y_test);
 
       var line = d3.line()
         .curve(d3.curveBasis)
         .x(function (d, i) {
-          return x(now - (limit - 1 - i)*duration);
+          return x_test(now - (limit - 1 - i)*duration);
         })
         .y(function (d) {
-          return y(d);
+          return y_test(d);
         });
 
       var svg = d3.select(".graph").append("svg")
@@ -84,22 +87,25 @@
       var axis = svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(x.axis = d3.axisBottom().scale(x));
+        .call(x_test.axis = d3.axisBottom().scale(x_test));
 
       var paths = svg.append("g")
 
       for (var name in groups) {
-        console.log(name)
         var group = groups[name];
+        console.log(group.data);
+        console.log([group.data]);
         group.path = paths.append("path")
           .data([group.data])
           .attr("class", name + " group")
           .style("stroke", group.color);
-        console.log(group);
       }
 
       function tick () {
         now = new Date();
+
+        //console.log(line);
+        //console.log(typeof line);
 
         for (var name in groups) {
           var group = groups[name];
@@ -107,19 +113,19 @@
           group.path.attr("d", line);
         }
 
-        x.domain([now - (limit - 2)*duration, now - duration])
+        x_test.domain([now - (limit - 2)*duration, now - duration])
 
         axis.transition()
           .duration(duration)
           .ease(d3.easeLinear)
-          .call(x.axis);
+          .call(x_test.axis);
 
         paths.attr("transform", null)
             .transition()
-            .attr("transform", "translate(" + x(now - (limit - 1)*duration) + ")")
+            .attr("transform", "translate(" + x_test(now - (limit - 1)*duration) + ")")
             .duration(duration)
             .ease(d3.easeLinear)
-            .on("end", tick)
+            .on("end", tick);
 
         //Remove oldest data point from each groups.
         for (var name in groups) {
