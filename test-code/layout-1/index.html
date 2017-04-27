@@ -10,6 +10,7 @@
       }
       @media screen and (orientation: landscape){
         .main {
+          height:100%;
           width:50%;
         }
         .pv_graph {
@@ -32,6 +33,7 @@
       @media screen and (orientation: portrait){
         .main {
           height:50%;
+          width:100%;
         }
         .pv_graph {
           height:100%;
@@ -72,7 +74,7 @@
     </style>
   </head>
   <body>
-    <div id="main_container" style="display:flex;height:100%;">
+    <div id="main_container" style="display:flex;height:100%;width:100%;">
       <div class="main" id="qr_code" style="align-items:center;display:flex;flex:1;justify-content:center;"></div>
       <div class="main" style="display:flex;flex:1;flex-direction:column;">
         <div class="form-group" style="display:flex;flex-direction:row;margin:0;">
@@ -113,15 +115,19 @@
                   </div>
                 </div>
               </div>
-              <div class="nice_background" id="video_container_container" style="flex:1;height:100%;">
-                <div style="display:table;height:100%;width:100%;">
-                  <div style="display:table-cell;height:100%;text-align:center;vertical-align:middle;">
+              <div class="nice_background" id="video_container_container" style="display:flex;flex:1;flex-direction:row;">
+                <div style="flex:1;"></div>
+                <div style="display:flex;flex-direction:column;">
+                  <div style="flex:1;"></div>
+                  <div>
                     <div id="video_container" style="height:240px;margin:auto;position:relative;width:320px;">
                       <video class="item" height="240" id="video" style="bottom:0;height:240px;left:0;margin:auto;position:absolute;right:0;top:0;width:320px;" width="320"></video>
                       <canvas class="item" height="240" id="video_track_face" style="bottom:0;height:240px;left:0;margin:auto;position:absolute;right:0;top:0;width:320px;" width="320"></canvas>
                     </div>
                   </div>
+                  <div style="flex:1;"></div>
                 </div>
+                <div style="flex:1;"></div>
               </div>
             </div>
           </div>
@@ -295,14 +301,27 @@
     <script src="gui_control/qr_code_gui_control.js" type="text/javascript"></script>
 
     <script>
-      var resize_start_video     = false;
-      var resize_video           = 0;
+      var mode_go_to                              = false;                              // Variable to determine if the graph is taken from previous or recent data.
+      var resize_start_video                      = false;                              // Flag to start the timer to resize video stream from web cam.
+      var resize_video                            = 0;                                  // Timer until video is resized. This is necessary to wait until all `<div>`s get into fit size.
+      var video_container_shortest_dimension      = null;                               // The current shortest dimension from the video container.
+      var video_container_shortest_dimension_prev = video_container_shortest_dimension; // Make sure the only resize the video only if it has its size changed.
 
       div_container_pitch_graph  = "#pitch_graph";
       div_container_volume_graph = "#volume_graph";
       layout_delay_in_second     = 1; // Delay in second to wait until all `<div>`s are properly adjusted.
       resize_pv_graph            = 0;
       resize_start_pv_graph      = false;
+
+      function dt_insert_from_url () {
+          var dt_value = String(window.location.href).split("?dt=")[1];
+          dt_value = (dt_value === undefined) ? undefined : dt_value.split("?")[0];
+          if (dt_value !== undefined) {
+            $("#dt_value").val(dt_value);
+            $("#dt_go_to").click();
+          }
+          $("#qr_value").blur();
+      }
 
       function pv_graph_init (_function, _has_inited, _init_time_in_second, _wait, _wait_start) {
         if (!_has_inited && _wait_start) {
@@ -317,31 +336,43 @@
       }
 
       function video_resize () {
-        var video_container_shortest_dimension = $("#video_container_container").height() <= $("#video_container_container").width() ? $("#video_container_container").height() : $("#video_container_container").width(); // Check the shortest dimension.
-            video_container_shortest_dimension = video_container_shortest_dimension > 320 ? 320 : video_container_shortest_dimension; // Make sure it is not larger than 320 pixels. After 320 pixels the memory usage will be soared up high.
+        video_container_shortest_dimension = $("#video_container_container").height() <= $("#video_container_container").width() ? $("#video_container_container").height() : $("#video_container_container").width(); // Check the shortest dimension.
+        video_container_shortest_dimension = video_container_shortest_dimension > 320 ? 320 : video_container_shortest_dimension; // Make sure it is not larger than 320 pixels. After 320 pixels the memory usage will be soared up high.
 
-        $("#video")           .attr("height", video_container_shortest_dimension*(3/4));
-        $("#video")           .attr("width" , video_container_shortest_dimension);
-        $("#video")           .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-        $("#video")           .css("width"  , video_container_shortest_dimension + "px");
-        $("#video_container") .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-        $("#video_container") .css("width"  , video_container_shortest_dimension + "px");
-        $("#video_track_face").attr("height", video_container_shortest_dimension*(3/4));
-        $("#video_track_face").attr("width" , video_container_shortest_dimension);
-        $("#video_track_face").css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-        $("#video_track_face").css("width"  , video_container_shortest_dimension + "px");
+        if (video_container_shortest_dimension != video_container_shortest_dimension_prev) {
+          $("#video")           .attr("height", video_container_shortest_dimension*(3/4));
+          $("#video")           .attr("width" , video_container_shortest_dimension);
+          $("#video")           .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+          $("#video")           .css("width"  , video_container_shortest_dimension + "px");
+          $("#video_container") .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+          $("#video_container") .css("width"  , video_container_shortest_dimension + "px");
+          $("#video_track_face").attr("height", video_container_shortest_dimension*(3/4));
+          $("#video_track_face").attr("width" , video_container_shortest_dimension);
+          $("#video_track_face").css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+          $("#video_track_face").css("width"  , video_container_shortest_dimension + "px");
 
-        // Re - adjust tracking.
-        face_detection           = new tracking.ObjectTracker("face");
-        video                    = document.getElementById("video");
-        face_value               = 0;
-        video_track_face         = document.getElementById("video_track_face");
-        video_track_face_context = video_track_face.getContext("2d");
-        face_detection_onload();
+          // Re - adjust tracking.
+          face_detection           = new tracking.ObjectTracker("face");
+          video                    = document.getElementById("video");
+          face_value               = 0;
+          video_track_face         = document.getElementById("video_track_face");
+          video_track_face_context = video_track_face.getContext("2d");
+          face_detection_onload();
+
+          video_container_shortest_dimension_prev = video_container_shortest_dimension;
+        }
       }
 
       $("#cam_tab").click(function () {
         resize_start_video      = true;
+      });
+
+      $("#dt_go_to").click(function () {
+        mode_go_to = true;
+      });
+
+      $("#dt_recent").click(function () {
+        mode_go_to = false;
       });
 
       $("#mic_tab").click(function () {
@@ -351,20 +382,22 @@
       });
 
       $(document).ready(function () {
-        video_resize();
-
         qr_code_generate();
+
         qr_code_insert_from_url();
+        dt_insert_from_url();
 
         face_detection_onload();
         presence_detection_onload();
         pv_detection_onload();
+
+        video_resize();
       });
 
       $(window).resize(function () {
-        video_resize();
-
         qr_code_generate();
+
+        video_resize();
 
         if (has_inited_pitch_graph && has_inited_volume_graph) {
           pitch_graph_resize();
@@ -383,6 +416,16 @@
         // Set the primitives back because the damn JavaScript cannot refer to reference on primitive type data!
         has_inited_pitch_graph = pitch_init[0]; wait_pitch_graph = pitch_init[1]; wait_start_pitch_graph = pitch_init[2];
         has_inited_volume_graph = volume_init[0]; wait_volume_graph = volume_init[1]; wait_start_volume_graph = volume_init[2];
+
+        // Resize `<video>` and all components of face tracking but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
+        if (resize_start_video) {
+          resize_video ++;
+          if (resize_video > layout_delay_in_second) {
+            // Optimization can be done here. For example make codes to check if there is a change in size in all video containers.
+            // If there is change then resize the video.
+            video_resize();
+          }
+        }
 
         // Resize graph but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
         if (resize_start_pv_graph) {
@@ -409,16 +452,6 @@
             }
             resize_pv_graph = 0;
             resize_start_pv_graph = false;
-          }
-        }
-
-        // Resize `<video>` and all components of face tracking but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
-        if (resize_start_video) {
-          resize_video ++;
-          if (resize_video > layout_delay_in_second) {
-            // Optimization can be done here. For example make codes to check if there is a change in size in all video containers.
-            // If there is change then resize the video.
-            video_resize();
           }
         }
       }, 1000);
