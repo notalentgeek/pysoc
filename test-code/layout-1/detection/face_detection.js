@@ -1,10 +1,10 @@
-var face_value = 0;
-function face_detection_onload () {
-  var face_detection = new tracking.ObjectTracker("face");
-  var video = document.getElementById("video");
-  var video_track_face = document.getElementById("video_track_face");
-  var video_track_face_context = video_track_face.getContext("2d");
+var face_detection           = new tracking.ObjectTracker("face");
+var video                    = document.getElementById("video");
+var face_value               = 0;
+var video_track_face         = document.getElementById("video_track_face");
+var video_track_face_context = video_track_face.getContext("2d");
 
+function face_detection_onload () {
   face_detection.setInitialScale(4);
   face_detection.setStepSize(2);
   face_detection.setEdgesDensity(0.1);

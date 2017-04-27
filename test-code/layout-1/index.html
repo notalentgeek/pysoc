@@ -59,6 +59,7 @@
       body,html {
         height:100%;
         margin:0;
+        overflow:hidden;
         padding:0;
         width:100%;
       }
@@ -88,7 +89,7 @@
         </div>
         <div>
           <ul class="nav nav-tabs" style="display:flex;flex-direction:row;">
-            <li class="active" style="flex:1;"><a data-toggle="tab" href="#cam" style="text-align:center;">cam</a></li>
+            <li class="active" style="flex:1;"><a data-toggle="tab" href="#cam" id="cam_tab" style="text-align:center;">cam</a></li>
             <li style="flex:1;"><a data-toggle="tab" href="#mic" id="mic_tab" style="text-align:center;">mic</a></li>
             <li style="flex:1;"><a data-toggle="tab" href="#api" style="text-align:center;">api</a></li>
             <li style="flex:2;"><a data-toggle="tab" href="#graph" style="text-align:center;">graph</a></li>
@@ -112,10 +113,10 @@
                   </div>
                 </div>
               </div>
-              <div class="nice_background" style="flex:1;height:100%;">
+              <div class="nice_background" id="video_container_container" style="flex:1;height:100%;">
                 <div style="display:table;height:100%;width:100%;">
                   <div style="display:table-cell;height:100%;text-align:center;vertical-align:middle;">
-                    <div style="height:240px;margin:auto;position:relative;width:320px;">
+                    <div id="video_container" style="height:240px;margin:auto;position:relative;width:320px;">
                       <video class="item" height="240" id="video" style="bottom:0;height:240px;left:0;margin:auto;position:absolute;right:0;top:0;width:320px;" width="320"></video>
                       <canvas class="item" height="240" id="video_track_face" style="bottom:0;height:240px;left:0;margin:auto;position:absolute;right:0;top:0;width:320px;" width="320"></canvas>
                     </div>
@@ -251,7 +252,22 @@
               </div>
             </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;height:100%;">graph</div>
+          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;height:100%;">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div style="flex:1;">graph</div>
+              <div class="form-group" style="display:flex;flex-direction:row;margin:0;">
+                <div style="flex:1;">
+                  <input class="form-control" id="dt_value" placeholder="yyyymmddhhmmss" style="text-align:center;" type="text">
+                </div>
+                <div style="flex:1;">
+                  <span class="input-group-btn" style="display:flex;flex-direction:row;width:100%;">
+                    <button class="btn btn-primary" id="dt_go_to" style="flex:1;" type="button">go to</button>
+                    <button class="btn btn-primary" id="dt_recent" style="flex:1;" type="button">recent</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="fade in nice_background tab-pane" id="graph_demo" style="flex:1;height:100%;">graph demo</div>
         </div>
       </div>
@@ -279,6 +295,9 @@
     <script src="gui_control/qr_code_gui_control.js" type="text/javascript"></script>
 
     <script>
+      var resize_start_video     = false;
+      var resize_video           = 0;
+
       div_container_pitch_graph  = "#pitch_graph";
       div_container_volume_graph = "#volume_graph";
       layout_delay_in_second     = 1; // Delay in second to wait until all `<div>`s are properly adjusted.
@@ -297,6 +316,34 @@
         return [_has_inited, _wait, _wait_start];
       }
 
+      function video_resize () {
+        var video_container_shortest_dimension = $("#video_container_container").height() <= $("#video_container_container").width() ? $("#video_container_container").height() : $("#video_container_container").width(); // Check the shortest dimension.
+            video_container_shortest_dimension = video_container_shortest_dimension > 320 ? 320 : video_container_shortest_dimension; // Make sure it is not larger than 320 pixels. After 320 pixels the memory usage will be soared up high.
+
+        $("#video")           .attr("height", video_container_shortest_dimension*(3/4));
+        $("#video")           .attr("width" , video_container_shortest_dimension);
+        $("#video")           .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+        $("#video")           .css("width"  , video_container_shortest_dimension + "px");
+        $("#video_container") .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+        $("#video_container") .css("width"  , video_container_shortest_dimension + "px");
+        $("#video_track_face").attr("height", video_container_shortest_dimension*(3/4));
+        $("#video_track_face").attr("width" , video_container_shortest_dimension);
+        $("#video_track_face").css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
+        $("#video_track_face").css("width"  , video_container_shortest_dimension + "px");
+
+        // Re - adjust tracking.
+        face_detection           = new tracking.ObjectTracker("face");
+        video                    = document.getElementById("video");
+        face_value               = 0;
+        video_track_face         = document.getElementById("video_track_face");
+        video_track_face_context = video_track_face.getContext("2d");
+        face_detection_onload();
+      }
+
+      $("#cam_tab").click(function () {
+        resize_start_video      = true;
+      });
+
       $("#mic_tab").click(function () {
         wait_start_pitch_graph  = true;
         wait_start_volume_graph = true;
@@ -304,6 +351,8 @@
       });
 
       $(document).ready(function () {
+        video_resize();
+
         qr_code_generate();
         qr_code_insert_from_url();
 
@@ -313,10 +362,14 @@
       });
 
       $(window).resize(function () {
+        video_resize();
+
         qr_code_generate();
 
-        pitch_graph_resize();
-        volume_graph_resize();
+        if (has_inited_pitch_graph && has_inited_volume_graph) {
+          pitch_graph_resize();
+          volume_graph_resize();
+        }
       });
 
       window.setInterval(function () {
@@ -330,7 +383,8 @@
         // Set the primitives back because the damn JavaScript cannot refer to reference on primitive type data!
         has_inited_pitch_graph = pitch_init[0]; wait_pitch_graph = pitch_init[1]; wait_start_pitch_graph = pitch_init[2];
         has_inited_volume_graph = volume_init[0]; wait_volume_graph = volume_init[1]; wait_start_volume_graph = volume_init[2];
-        // Check for resize.
+
+        // Resize graph but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
         if (resize_start_pv_graph) {
           resize_pv_graph ++;
           if (resize_pv_graph > layout_delay_in_second) {
@@ -355,6 +409,16 @@
             }
             resize_pv_graph = 0;
             resize_start_pv_graph = false;
+          }
+        }
+
+        // Resize `<video>` and all components of face tracking but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
+        if (resize_start_video) {
+          resize_video ++;
+          if (resize_video > layout_delay_in_second) {
+            // Optimization can be done here. For example make codes to check if there is a change in size in all video containers.
+            // If there is change then resize the video.
+            video_resize();
           }
         }
       }, 1000);
