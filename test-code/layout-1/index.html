@@ -99,7 +99,7 @@
           </ul>
         </div>
         <div class="tab-content" style="display:flex;flex:1;flex-direction:column;height:100%;">
-          <div class="active fade in tab-pane" id="cam" style="flex:1;height:100%;">
+          <div class="active tab-pane" id="cam" style="flex:1;height:100%;">
             <div style="display:flex;flex-direction:column;height:100%;">
               <div style="display:flex;flex-direction:row;">
                 <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
@@ -131,7 +131,7 @@
               </div>
             </div>
           </div>
-          <div class="fade in tab-pane" id="mic" style="flex:1;height:100%;">
+          <div class="tab-pane" id="mic" style="flex:1;height:100%;">
             <div style="display:flex;flex-direction:column;height:100%;">
               <div style="display:flex;flex-direction:row;">
                 <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
@@ -155,7 +155,7 @@
               </div>
             </div>
           </div>
-          <div class="fade in tab-pane" id="api" style="flex:1;height:100%;">
+          <div class="tab-pane" id="api" style="flex:1;height:100%;">
             <div style="display:flex;flex-direction:column;height:100%;">
               <div>
                 <ul class="nav nav-tabs" style="display:flex;flex-direction:row;">
@@ -168,7 +168,7 @@
               </div>
               <div style="flex:1;">
                 <div class="tab-content" style="display:flex;flex:1;flex-direction:column;height:100%;">
-                  <div class="active fade in tab-pane" id="client" style="flex:1;height:100%;">
+                  <div class="active tab-pane" id="client" style="flex:1;height:100%;">
                     <div style="display:flex;flex-direction:column;height:100%;">
                       <span class="input-group-btn" style="display:flex;flex-direction:row;width:100%;">
                         <button class="btn btn-primary" style="flex:1;" type="button">download.csv</button>
@@ -178,7 +178,7 @@
                       <div style="flex:1;">table client name</div>
                     </div>
                   </div>
-                  <div class="fade in tab-pane" id="face" style="flex:1;height:100%;">
+                  <div class="tab-pane" id="face" style="flex:1;height:100%;">
                     <div style="display:flex;flex-direction:column;height:100%;">
                       <div style="display:flex;flex-direction:row;">
                         <div style="flex:1;">
@@ -197,7 +197,7 @@
                       <div style="flex:1;">table face</div>
                     </div>
                   </div>
-                  <div class="fade in tab-pane" id="pitch" style="flex:1;height:100%;">
+                  <div class="tab-pane" id="pitch" style="flex:1;height:100%;">
                     <div style="display:flex;flex-direction:column;height:100%;">
                       <div style="display:flex;flex-direction:row;">
                         <div style="flex:1;">
@@ -216,7 +216,7 @@
                       <div style="flex:1;">table pitch</div>
                     </div>
                   </div>
-                  <div class="fade in tab-pane" id="presence" style="flex:1;height:100%;">
+                  <div class="tab-pane" id="presence" style="flex:1;height:100%;">
                     <div style="display:flex;flex-direction:column;height:100%;">
                       <div style="display:flex;flex-direction:row;">
                         <div style="flex:1;">
@@ -235,7 +235,7 @@
                       <div style="flex:1;">table presence</div>
                     </div>
                   </div>
-                  <div class="fade in tab-pane" id="volume" style="flex:1;height:100%;">
+                  <div class="tab-pane" id="volume" style="flex:1;height:100%;">
                     <div style="display:flex;flex-direction:column;height:100%;">
                       <div style="display:flex;flex-direction:row;">
                         <div style="flex:1;">
@@ -258,7 +258,7 @@
               </div>
             </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph" style="flex:1;height:100%;">
+          <div class="nice_background tab-pane" id="graph" style="flex:1;height:100%;">
             <div style="display:flex;flex-direction:column;height:100%;">
               <div style="flex:1;">graph</div>
               <div class="form-group" style="display:flex;flex-direction:row;margin:0;">
@@ -274,7 +274,9 @@
               </div>
             </div>
           </div>
-          <div class="fade in nice_background tab-pane" id="graph_demo" style="flex:1;height:100%;">graph demo</div>
+          <div class="nice_background tab-pane" id="graph_demo" style="diplay:flex;flex:1;flex-direction:column;position:relative;">
+            <div id="graph_demo_svg_container" style="flex:1;height:100%;position:absolute;width:100%;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -293,6 +295,12 @@
     <script src="detection/presence_detection.js" type="text/javascript"></script>
     <script src="detection/pv_detection.js" type="text/javascript"></script>
 
+    <script src="graphic/color_manipulation.js" type="text/javascript"></script>
+    <script src="graphic/degree_radian.js" type="text/javascript"></script>
+
+    <script src="graphic/client_graph.js" type="text/javascript"></script>
+    <script src="graphic/client_simulation_graph.js" type="text/javascript"></script>
+
     <script src="graphic/pitch_graph.js" type="text/javascript"></script>
     <script src="graphic/volume_graph.js" type="text/javascript"></script>
 
@@ -306,10 +314,11 @@
       var resize_video                            = 0;                                  // Timer until video is resized. This is necessary to wait until all `<div>`s get into fit size.
       var video_container_shortest_dimension      = null;                               // The current shortest dimension from the video container.
       var video_container_shortest_dimension_prev = video_container_shortest_dimension; // Make sure the only resize the video only if it has its size changed.
+      var window_focus                            = true;
 
       div_container_pitch_graph  = "#pitch_graph";
       div_container_volume_graph = "#volume_graph";
-      layout_delay_in_second     = 1; // Delay in second to wait until all `<div>`s are properly adjusted.
+      layout_delay_in_second     = 2; // Delay in second to wait until all `<div>`s are properly adjusted.
       resize_pv_graph            = 0;
       resize_start_pv_graph      = false;
 
@@ -337,26 +346,24 @@
 
       function video_resize () {
         video_container_shortest_dimension = $("#video_container_container").height() <= $("#video_container_container").width() ? $("#video_container_container").height() : $("#video_container_container").width(); // Check the shortest dimension.
-        video_container_shortest_dimension = video_container_shortest_dimension > 320 ? 320 : video_container_shortest_dimension; // Make sure it is not larger than 320 pixels. After 320 pixels the memory usage will be soared up high.
+        video_container_shortest_dimension = video_container_shortest_dimension > 320 ? 320 : video_container_shortest_dimension; // Make sure it is not larger  than 320 pixels. After 320 pixels the memory usage will be soared up high.
 
-        if (video_container_shortest_dimension != video_container_shortest_dimension_prev) {
-          $("#video")           .attr("height", video_container_shortest_dimension*(3/4));
-          $("#video")           .attr("width" , video_container_shortest_dimension);
+        if (
+          video_container_shortest_dimension != video_container_shortest_dimension_prev &&
+          video_container_shortest_dimension >= 10
+        ) {
+          $("#video")           .attr("height",        video_container_shortest_dimension*(3/4));
+          $("#video")           .attr("width" ,        video_container_shortest_dimension);
           $("#video")           .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-          $("#video")           .css("width"  , video_container_shortest_dimension + "px");
+          $("#video")           .css("width"  ,        video_container_shortest_dimension + "px");
           $("#video_container") .css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-          $("#video_container") .css("width"  , video_container_shortest_dimension + "px");
-          $("#video_track_face").attr("height", video_container_shortest_dimension*(3/4));
-          $("#video_track_face").attr("width" , video_container_shortest_dimension);
+          $("#video_container") .css("width"  ,        video_container_shortest_dimension + "px");
+          $("#video_track_face").attr("height",        video_container_shortest_dimension*(3/4));
+          $("#video_track_face").attr("width" ,        video_container_shortest_dimension);
           $("#video_track_face").css("height" , Number(video_container_shortest_dimension*(3/4)) + "px");
-          $("#video_track_face").css("width"  , video_container_shortest_dimension + "px");
+          $("#video_track_face").css("width"  ,        video_container_shortest_dimension + "px");
 
           // Re - adjust tracking.
-          face_detection           = new tracking.ObjectTracker("face");
-          video                    = document.getElementById("video");
-          face_value               = 0;
-          video_track_face         = document.getElementById("video_track_face");
-          video_track_face_context = video_track_face.getContext("2d");
           face_detection_onload();
 
           video_container_shortest_dimension_prev = video_container_shortest_dimension;
@@ -364,7 +371,7 @@
       }
 
       $("#cam_tab").click(function () {
-        resize_start_video      = true;
+        resize_start_video = true;
       });
 
       $("#dt_go_to").click(function () {
@@ -382,6 +389,8 @@
       });
 
       $(document).ready(function () {
+        simulation_client_init();
+
         qr_code_generate();
 
         qr_code_insert_from_url();
@@ -394,16 +403,19 @@
         video_resize();
       });
 
-      $(window).resize(function () {
-        qr_code_generate();
+      $(window)
+        .blur (function () { window_focus = false; })
+        .focus(function () { window_focus = true ; })
+        .resize(function () {
+          qr_code_generate();
 
-        video_resize();
+          video_resize();
 
-        if (has_inited_pitch_graph && has_inited_volume_graph) {
-          pitch_graph_resize();
-          volume_graph_resize();
-        }
-      });
+          if (has_inited_pitch_graph && has_inited_volume_graph) {
+            pitch_graph_resize();
+            volume_graph_resize();
+          }
+        });
 
       window.setInterval(function () {
         pitch_update  = true; // Basically loop for pitch  detection.
@@ -417,15 +429,23 @@
         has_inited_pitch_graph = pitch_init[0]; wait_pitch_graph = pitch_init[1]; wait_start_pitch_graph = pitch_init[2];
         has_inited_volume_graph = volume_init[0]; wait_volume_graph = volume_init[1]; wait_start_volume_graph = volume_init[2];
 
+        // Only do simulation when the `#graph_demo` is active
+        if ($("#graph_demo").hasClass("active") && window_focus) { simulation_client_all(); }
+
         // Resize `<video>` and all components of face tracking but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
+        // CAUTION: Code maybe not optimized here! It needs to efficiently checks if `resize_start_video == true` and check if there is height or width of 0.
         if (resize_start_video) {
           resize_video ++;
           if (resize_video > layout_delay_in_second) {
             // Optimization can be done here. For example make codes to check if there is a change in size in all video containers.
             // If there is change then resize the video.
             video_resize();
+            resize_start_video = false;
           }
         }
+        // Make a safe pre - caution if the video has any dimensions of 0 then keep resizing it.
+        if (video_container_shortest_dimension <= 10) { video_resize(); }
+
 
         // Resize graph but wait `layout_delay_in_second` seconds to let the `<div>` grows first.
         if (resize_start_pv_graph) {
