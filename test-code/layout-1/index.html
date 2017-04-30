@@ -260,6 +260,46 @@
           </div>
           <div class="tab-pane" id="graph" style="flex:1;height:100%;">
             <div style="display:flex;flex-direction:column;height:100%;">
+              <div style="display:flex;flex-direction:row;">
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">name:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="name_value_graph" style="text-align:center;">...</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">color:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="color_value_graph" style="text-align:center;">...</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">face:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="face_value_graph" style="text-align:center;">0</p>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:row;">
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">pitch:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="pitch_value_graph" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">volume:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="volume_value_graph" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:2;flex-direction:row;">
+                  <label style="flex:1;">presence:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="presence_value_graph" style="text-align:center;">...</p>
+                  </div>
+                </div>
+              </div>
               <div class="nice_background" style="display:flex;flex:1;flex-direction:row;">
                 <div id="graph_svg_container" style="flex:1;"></div>
               </div>
@@ -276,77 +316,77 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane" id="graph_demo" style="display:flex;flex:1;flex-direction:column;height:100%;position:relative;">
-            <div style="display:flex;flex-direction:row;">
-              <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
-                <label style="flex:1;">name:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">...</p>
+          <div class="tab-pane" id="graph_demo" style="flex:1;height:100%;">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div style="display:flex;flex-direction:row;">
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">name:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="name_value_graph_demo" style="text-align:center;">...</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">color:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="color_value_graph_demo" style="text-align:center;">...</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">face:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="face_value_graph_demo" style="text-align:center;">0</p>
+                  </div>
                 </div>
               </div>
-              <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
-                <label style="flex:1;">color:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">...</p>
+              <div style="display:flex;flex-direction:row;">
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">pitch:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="pitch_value_graph_demo" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
+                  <label style="flex:1;">volume:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="volume_value_graph_demo" style="text-align:center;">0</p>
+                  </div>
+                </div>
+                <div class="form-control" style="display:flex;flex:2;flex-direction:row;">
+                  <label style="flex:1;">presence:</label>
+                  <div style="flex:1;overflow:hidden;">
+                    <p id="presence_value_graph_demo" style="text-align:center;">...</p>
+                  </div>
                 </div>
               </div>
-              <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
-                <label style="flex:1;">face:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">0</p>
-                </div>
+              <div class="nice_background" style="display:flex;flex:1;flex-direction:row;">
+                <div id="graph_demo_svg_container" style="flex:1;"></div>
               </div>
-            </div>
-            <div style="display:flex;flex-direction:row;">
-              <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
-                <label style="flex:1;">pitch:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">0</p>
-                </div>
-              </div>
-              <div class="form-control" style="display:flex;flex:1;flex-direction:row;">
-                <label style="flex:1;">volume:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">0</p>
-                </div>
-              </div>
-              <div class="form-control" style="display:flex;flex:2;flex-direction:row;">
-                <label style="flex:1;">presence:</label>
-                <div style="flex:1;overflow:hidden;">
-                  <p id="volume_value" style="text-align:center;">...</p>
-                </div>
-              </div>
-            </div>
-            <div class="nice_background" style="display:flex;flex:1;flex-direction:row;">
-              <div id="graph_demo_svg_container" style="flex:1;"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js" type="text/javascript"></script>
+    <script src="bower_components/jquery/dist/jquery.js"                        type="text/javascript"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"               type="text/javascript"></script>
     <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js" type="text/javascript"></script>
-    <script src="bower_components/d3/d3.js" type="text/javascript"></script>
-    <script src="bower_components/dat-gui/build/dat.gui.js" type="text/javascript"></script>
-    <script src="bower_components/tracking/build/tracking.js" type="text/javascript"></script>
-    <script src="bower_components/tracking/build/data/face.js" type="text/javascript"></script>
-
-    <script src="looseless_lib/color_manipulation.js" type="text/javascript"></script>
-    <script src="looseless_lib/degree_radian.js"      type="text/javascript"></script>
-    <script src="looseless_lib/instascan.min.js"      type="text/javascript"></script>
-    <script src="looseless_lib/qrcode.js"             type="text/javascript"></script>
-    <script src="looseless_lib/volume-meter.js"       type="text/javascript"></script>
-    <script src="detection/detection_face.js"         type="text/javascript"></script>
-    <script src="detection/detection_presence.js"     type="text/javascript"></script>
-    <script src="detection/detection_pv.js"           type="text/javascript"></script>
-    <script src="graphic/graph_client.js"             type="text/javascript"></script>
-    <script src="graphic/graph_client_demo.js"        type="text/javascript"></script>
-    <script src="graphic/graph_pitch.js"              type="text/javascript"></script>
-    <script src="graphic/graph_volume.js"             type="text/javascript"></script>
-    <script src="graphic/graphic_qr_code.js"          type="text/javascript"></script>
-
-    <script src="gui_control/qr_code_gui_control.js" type="text/javascript"></script>
+    <script src="bower_components/d3/d3.js"                                     type="text/javascript"></script>
+    <script src="bower_components/dat-gui/build/dat.gui.js"                     type="text/javascript"></script>
+    <script src="bower_components/tracking/build/tracking.js"                   type="text/javascript"></script>
+    <script src="bower_components/tracking/build/data/face.js"                  type="text/javascript"></script>
+    <script src="looseless_lib/color_manipulation.js"                           type="text/javascript"></script>
+    <script src="looseless_lib/degree_radian.js"                                type="text/javascript"></script>
+    <script src="looseless_lib/instascan.min.js"                                type="text/javascript"></script>
+    <script src="looseless_lib/qrcode.js"                                       type="text/javascript"></script>
+    <script src="looseless_lib/volume-meter.js"                                 type="text/javascript"></script>
+    <script src="detection/detection_face.js"                                   type="text/javascript"></script>
+    <script src="detection/detection_presence.js"                               type="text/javascript"></script>
+    <script src="detection/detection_pv.js"                                     type="text/javascript"></script>
+    <script src="graphic/graph_client.js"                                       type="text/javascript"></script>
+    <script src="graphic/graph_client_demo.js"                                  type="text/javascript"></script>
+    <script src="graphic/graph_pitch.js"                                        type="text/javascript"></script>
+    <script src="graphic/graph_volume.js"                                       type="text/javascript"></script>
+    <script src="graphic/graphic_qr_code.js"                                    type="text/javascript"></script>
+    <script src="gui_control/gui_control_qr_code.js"                            type="text/javascript"></script>
 
     <script>
       var mode_go_to                              = false;                              // Variable to determine if the graph is taken from previous or recent data.
