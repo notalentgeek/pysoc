@@ -1,7 +1,7 @@
 var client_name = "";
 var client_name_default = "client_test";
 var client_recording = false;
-function qr_code_generate () {
+function init_qr_code () {
   var qr_code_height = document.getElementById("qr_code").clientHeight;
   var qr_code_width = document.getElementById("qr_code").clientWidth;
   var qr_code_dimension = qr_code_height < qr_code_width ? qr_code_height : qr_code_width;
@@ -27,7 +27,7 @@ function qr_code_generate () {
 
   client_name = qr_value.value;
 }
-function qr_code_insert_from_url () {
+function insert_from_url_qr_code () {
     var name_value = String(window.location.href).split("?name=")[1];
     name_value = (name_value === undefined) ? undefined : name_value.split("?")[0];
     if (name_value !== undefined) {

@@ -15,7 +15,7 @@
       //console.log(qr_code._htOption.height);
       //console.log(qr_code._htOption.width);
 
-      function qr_code_generate () {
+      function init_qr_code () {
         var qr_value = document.getElementById("qr_value");
 
         // If value in the `qr_code` is invalid.
@@ -54,7 +54,7 @@
         qr_code._htOption.height = qr_code_dimension;
         qr_code._htOption.width = qr_code_dimension;
         document.getElementById("qr_code").setAttribute("style","height:" + qr_code._htOption.height + "px");
-        qr_code_generate();
+        init_qr_code();
 
         //console.log("view port change");
         //console.log(height);
@@ -65,16 +65,16 @@
         //console.log(qr_code._htOption.width);
       }
 
-      qr_code_generate();
+      init_qr_code();
 
       $("#qr_value").
         on("blur", function () {
-          qr_code_generate();
+          init_qr_code();
         }).
         on("keydown", function (e) {
           // If ENTER key is down.
           if (e.keyCode == 13) {
-            qr_code_generate();
+            init_qr_code();
           }
         });
 
