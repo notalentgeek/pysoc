@@ -86,28 +86,7 @@ function got_stream (_stream) {
   loop_volume();
 }
 
-function loop_pitch () {
-  analyzer.getFloatTimeDomainData(buff);
-  var ac = auto_correlation(buff, audio_context.sampleRate);
-
-  if (pitch_update) {
-    pitch_value = Number(ac) < 0 ? 0 : Number(ac.toFixed(3));
-    document.getElementById("pitch_value").innerHTML = pitch_value;
-    pitch_update = false;
-  }
-  window.requestAnimationFrame(loop_pitch);
-}
-
-function loop_volume () {
-  if (volume_update) {
-    volume_value = Number(volume_meter.volume.toFixed(3));
-    document.getElementById("volume_value").innerHTML = volume_value;
-    volume_update = false;
-  }
-  window.requestAnimationFrame(loop_volume);
-}
-
-function pv_detection_onload () {
+function init_detection_pv () {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   audio_context = new AudioContext();
   max_size = Math.max(4,Math.floor(audio_context.sampleRate/5000)); // Corresponds to a 5 kHz signal.
@@ -129,4 +108,25 @@ function pv_detection_onload () {
       "optional": []
     }
   }, got_stream, function () { alert("cannot get audio stream"); });
+}
+
+function loop_pitch () {
+  analyzer.getFloatTimeDomainData(buff);
+  var ac = auto_correlation(buff, audio_context.sampleRate);
+
+  if (pitch_update) {
+    pitch_value = Number(ac) < 0 ? 0 : Number(ac.toFixed(3));
+    document.getElementById("pitch_value").innerHTML = pitch_value;
+    pitch_update = false;
+  }
+  window.requestAnimationFrame(loop_pitch);
+}
+
+function loop_volume () {
+  if (volume_update) {
+    volume_value = Number(volume_meter.volume.toFixed(3));
+    document.getElementById("volume_value").innerHTML = volume_value;
+    volume_update = false;
+  }
+  window.requestAnimationFrame(loop_volume);
 }

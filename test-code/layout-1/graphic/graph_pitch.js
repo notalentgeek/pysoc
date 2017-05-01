@@ -1,109 +1,109 @@
-var axis_pitch_graph           = null;
-var bottom_padding_pitch_graph = null;
-var div_container_pitch_graph  = "";
-var duration_pitch_graph       = null;
-var has_inited_pitch_graph     = false;
-var height_pitch_graph         = null;
-var limit_pitch_graph          = null;
-var line_pitch_graph           = null;
-var now_pitch_graph            = null;
-var path_data_pitch_graph      = null;
-var path_pitch_graph           = null;
-var svg_pitch_graph            = null;
-var width_pitch_graph          = null;
-var x_pitch_graph              = null;
-var y_pitch_graph              = null;
-function pitch_graph_init () {
-  bottom_padding_pitch_graph = $(div_container_pitch_graph).height()/6;
-  duration_pitch_graph = 750;
-  height_pitch_graph = $(div_container_pitch_graph).height() - bottom_padding_pitch_graph;
-  limit_pitch_graph = 60;
-  width_pitch_graph = $(div_container_pitch_graph).width();
-  now_pitch_graph = new Date(Date.now() - duration_pitch_graph);
+var axis_graph_pitch           = null;
+var bottom_padding_graph_pitch = null;
+var div_container_graph_pitch  = "";
+var duration_graph_pitch       = null;
+var has_inited_graph_pitch     = false;
+var height_graph_pitch         = null;
+var limit_graph_pitch          = null;
+var line_graph_pitch           = null;
+var now_graph_pitch            = null;
+var path_data_graph_pitch      = null;
+var path_graph_pitch           = null;
+var svg_graph_pitch            = null;
+var width_graph_pitch          = null;
+var x_graph_pitch              = null;
+var y_graph_pitch              = null;
+function init_graph_pitch () {
+  bottom_padding_graph_pitch   = $(div_container_graph_pitch).height()/6;
+  duration_graph_pitch         = 750;
+  height_graph_pitch           = $(div_container_graph_pitch).height() - bottom_padding_graph_pitch;
+  limit_graph_pitch            = 60;
+  width_graph_pitch            = $(div_container_graph_pitch).width();
+  now_graph_pitch              = new Date(Date.now() - duration_graph_pitch);
 
-  path_data_pitch_graph = {
+  path_data_graph_pitch = {
     pitch:{
       color:"gold",
-      data:d3.range(limit_pitch_graph).map(function () {
+      data:d3.range(limit_graph_pitch).map(function () {
         return 0;
       }),
       value:0
     }
   };
 
-  x_pitch_graph = d3.scaleTime()
-    .domain([now_pitch_graph - (limit_pitch_graph - 2), now_pitch_graph - duration_pitch_graph])
-    .range([0, width_pitch_graph]);
-  y_pitch_graph = d3.scaleLinear()
+  x_graph_pitch = d3.scaleTime()
+    .domain([now_graph_pitch - (limit_graph_pitch - 2), now_graph_pitch - duration_graph_pitch])
+    .range([0, width_graph_pitch]);
+  y_graph_pitch = d3.scaleLinear()
     .domain([0, 5000])
-    .range([height_pitch_graph, 0]);
+    .range([height_graph_pitch, 0]);
 
-  line_pitch_graph = d3.line()
+  line_graph_pitch = d3.line()
     .curve(d3.curveBasis)
     .x(function (d, i) {
-      return x_pitch_graph(now_pitch_graph - (limit_pitch_graph - 1 - i)*duration_pitch_graph);
+      return x_graph_pitch(now_graph_pitch - (limit_graph_pitch - 1 - i)*duration_graph_pitch);
     })
     .y(function (d) {
-      return y_pitch_graph(d);
+      return y_graph_pitch(d);
     });
 
-  svg_pitch_graph = d3.select(div_container_pitch_graph).append("svg")
+  svg_graph_pitch = d3.select(div_container_graph_pitch).append("svg")
     .attr("class", "chart")
-    .attr("width", width_pitch_graph)
-    .attr("height", height_pitch_graph + bottom_padding_pitch_graph);
+    .attr("width", width_graph_pitch)
+    .attr("height", height_graph_pitch + bottom_padding_graph_pitch);
 
-  axis_pitch_graph = svg_pitch_graph.append("g")
+  axis_graph_pitch = svg_graph_pitch.append("g")
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + height_pitch_graph + ")")
-    .call(x_pitch_graph.axis = d3.axisBottom().scale(x_pitch_graph));
+    .attr("transform", "translate(0," + height_graph_pitch + ")")
+    .call(x_graph_pitch.axis = d3.axisBottom().scale(x_graph_pitch));
 
-  path_pitch_graph = svg_pitch_graph.append("g")
+  path_graph_pitch = svg_graph_pitch.append("g")
 
-  path_data_pitch_graph["pitch"].path = path_pitch_graph.append("path")
-    .data([path_data_pitch_graph["pitch"].data])
+  path_data_graph_pitch["pitch"].path = path_graph_pitch.append("path")
+    .data([path_data_graph_pitch["pitch"].data])
     .attr("class", "pitch path")
-    .style("stroke", path_data_pitch_graph["pitch"].color);
+    .style("stroke", path_data_graph_pitch["pitch"].color);
 
-  pitch_graph_loop();
+  loop_graph_pitch();
 }
-function pitch_graph_loop () {
-  now_pitch_graph = new Date();
+function loop_graph_pitch () {
+  now_graph_pitch = new Date();
 
-  path_data_pitch_graph["pitch"].data.push(pitch_value);
-  path_data_pitch_graph["pitch"].path.attr("d", line_pitch_graph);
+  path_data_graph_pitch["pitch"].data.push(pitch_value);
+  path_data_graph_pitch["pitch"].path.attr("d", line_graph_pitch);
 
-  x_pitch_graph.domain([
-    now_pitch_graph - (limit_pitch_graph - 2)*duration_pitch_graph,
-    now_pitch_graph - duration_pitch_graph
+  x_graph_pitch.domain([
+    now_graph_pitch - (limit_graph_pitch - 2)*duration_graph_pitch,
+    now_graph_pitch - duration_graph_pitch
   ]);
 
-  axis_pitch_graph
+  axis_graph_pitch
     .transition()
-    .duration(duration_pitch_graph)
+    .duration(duration_graph_pitch)
     .ease(d3.easeLinear)
-    .call(x_pitch_graph.axis);
+    .call(x_graph_pitch.axis);
 
-  path_pitch_graph.attr("transform", null)
+  path_graph_pitch.attr("transform", null)
     .transition()
-    .attr("transform", "translate(" + x_pitch_graph(now_pitch_graph - (limit_pitch_graph - 1)*duration_pitch_graph) + ")")
-    .duration(duration_pitch_graph)
+    .attr("transform", "translate(" + x_graph_pitch(now_graph_pitch - (limit_graph_pitch - 1)*duration_graph_pitch) + ")")
+    .duration(duration_graph_pitch)
     .ease(d3.easeLinear)
-    .on("end", pitch_graph_loop);
+    .on("end", loop_graph_pitch);
 
   //Remove oldest data point from each groups.
-  path_data_pitch_graph["pitch"].data.shift();
+  path_data_graph_pitch["pitch"].data.shift();
 }
 // Function to re - adjust the position and size of this graph.
-function pitch_graph_resize () {
-  bottom_padding_pitch_graph = $(div_container_pitch_graph).height()/6;
-  height_pitch_graph = $(div_container_pitch_graph).height() - bottom_padding_pitch_graph;
-  width_pitch_graph = $(div_container_pitch_graph).width();
-  x_pitch_graph.range([0, width_pitch_graph]);
-  y_pitch_graph.range([height_pitch_graph, 0]);
-  svg_pitch_graph
-    .attr("width", width_pitch_graph)
-    .attr("height", height_pitch_graph + bottom_padding_pitch_graph);
-  axis_pitch_graph
-    .attr("transform", "translate(0," + height_pitch_graph + ")");
-  path_pitch_graph.attr("transform", "translate(" + x_pitch_graph(now_pitch_graph - (limit_pitch_graph - 1)*duration_pitch_graph) + ")");
+function resize_graph_pitch () {
+  bottom_padding_graph_pitch = $(div_container_graph_pitch).height()/6;
+  height_graph_pitch = $(div_container_graph_pitch).height() - bottom_padding_graph_pitch;
+  width_graph_pitch = $(div_container_graph_pitch).width();
+  x_graph_pitch.range([0, width_graph_pitch]);
+  y_graph_pitch.range([height_graph_pitch, 0]);
+  svg_graph_pitch
+    .attr("width", width_graph_pitch)
+    .attr("height", height_graph_pitch + bottom_padding_graph_pitch);
+  axis_graph_pitch
+    .attr("transform", "translate(0," + height_graph_pitch + ")");
+  path_graph_pitch.attr("transform", "translate(" + x_graph_pitch(now_graph_pitch - (limit_graph_pitch - 1)*duration_graph_pitch) + ")");
 }

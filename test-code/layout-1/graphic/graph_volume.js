@@ -1,109 +1,109 @@
-var axis_volume_graph           = null;
-var bottom_padding_volume_graph = null;
-var div_container_volume_graph  = "";
-var duration_volume_graph       = null;
-var has_inited_volume_graph     = false;
-var height_volume_graph         = null;
-var limit_volume_graph          = null;
-var line_volume_graph           = null;
-var now_volume_graph            = null;
-var path_data_volume_graph      = null;
-var path_volume_graph           = null;
-var svg_volume_graph            = null;
-var width_volume_graph          = null;
-var x_volume_graph              = null;
-var y_volume_graph              = null;
-function volume_graph_init () {
-  bottom_padding_volume_graph = $(div_container_volume_graph).height()/6;
-  duration_volume_graph = 750;
-  height_volume_graph = $(div_container_volume_graph).height() - bottom_padding_volume_graph;
-  limit_volume_graph = 60;
-  width_volume_graph = $(div_container_volume_graph).width();
-  now_volume_graph = new Date(Date.now() - duration_volume_graph);
+var axis_graph_volume           = null;
+var bottom_padding_graph_volume = null;
+var div_container_graph_volume  = "";
+var duration_graph_volume       = null;
+var has_inited_graph_volume     = false;
+var height_graph_volume         = null;
+var limit_graph_volume          = null;
+var line_graph_volume           = null;
+var now_graph_volume            = null;
+var path_data_graph_volume      = null;
+var path_graph_volume           = null;
+var svg_graph_volume            = null;
+var width_graph_volume          = null;
+var x_graph_volume              = null;
+var y_graph_volume              = null;
+function init_graph_volume () {
+  bottom_padding_graph_volume   = $(div_container_graph_volume).height()/6;
+  duration_graph_volume         = 750;
+  height_graph_volume           = $(div_container_graph_volume).height() - bottom_padding_graph_volume;
+  limit_graph_volume            = 60;
+  width_graph_volume            = $(div_container_graph_volume).width();
+  now_graph_volume              = new Date(Date.now() - duration_graph_volume);
 
-  path_data_volume_graph = {
+  path_data_graph_volume = {
     volume:{
       color:"goldenrod",
-      data:d3.range(limit_volume_graph).map(function () {
+      data:d3.range(limit_graph_volume).map(function () {
         return 0;
       }),
       value:0
     }
   };
 
-  x_volume_graph = d3.scaleTime()
-    .domain([now_volume_graph - (limit_volume_graph - 2), now_volume_graph - duration_volume_graph])
-    .range([0, width_volume_graph]);
-  y_volume_graph = d3.scaleLinear()
+  x_graph_volume = d3.scaleTime()
+    .domain([now_graph_volume - (limit_graph_volume - 2), now_graph_volume - duration_graph_volume])
+    .range([0, width_graph_volume]);
+  y_graph_volume = d3.scaleLinear()
     .domain([0, 0.1])
-    .range([height_volume_graph, 0]);
+    .range([height_graph_volume, 0]);
 
-  line_volume_graph = d3.line()
+  line_graph_volume = d3.line()
     .curve(d3.curveBasis)
     .x(function (d, i) {
-      return x_volume_graph(now_volume_graph - (limit_volume_graph - 1 - i)*duration_volume_graph);
+      return x_graph_volume(now_graph_volume - (limit_graph_volume - 1 - i)*duration_graph_volume);
     })
     .y(function (d) {
-      return y_volume_graph(d);
+      return y_graph_volume(d);
     });
 
-  svg_volume_graph = d3.select(div_container_volume_graph).append("svg")
+  svg_graph_volume = d3.select(div_container_graph_volume).append("svg")
     .attr("class", "chart")
-    .attr("width", width_volume_graph)
-    .attr("height", height_volume_graph + bottom_padding_volume_graph);
+    .attr("width", width_graph_volume)
+    .attr("height", height_graph_volume + bottom_padding_graph_volume);
 
-  axis_volume_graph = svg_volume_graph.append("g")
+  axis_graph_volume = svg_graph_volume.append("g")
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + height_volume_graph + ")")
-    .call(x_volume_graph.axis = d3.axisBottom().scale(x_volume_graph));
+    .attr("transform", "translate(0," + height_graph_volume + ")")
+    .call(x_graph_volume.axis = d3.axisBottom().scale(x_graph_volume));
 
-  path_volume_graph = svg_volume_graph.append("g")
+  path_graph_volume = svg_graph_volume.append("g")
 
-  path_data_volume_graph["volume"].path = path_volume_graph.append("path")
-    .data([path_data_volume_graph["volume"].data])
+  path_data_graph_volume["volume"].path = path_graph_volume.append("path")
+    .data([path_data_graph_volume["volume"].data])
     .attr("class", "volume path")
-    .style("stroke", path_data_volume_graph["volume"].color);
+    .style("stroke", path_data_graph_volume["volume"].color);
 
-  volume_graph_loop();
+  loop_graph_volume();
 }
-function volume_graph_loop () {
-  now_volume_graph = new Date();
+function loop_graph_volume () {
+  now_graph_volume = new Date();
 
-  path_data_volume_graph["volume"].data.push(volume_value);
-  path_data_volume_graph["volume"].path.attr("d", line_volume_graph);
+  path_data_graph_volume["volume"].data.push(volume_value);
+  path_data_graph_volume["volume"].path.attr("d", line_graph_volume);
 
-  x_volume_graph.domain([
-    now_volume_graph - (limit_volume_graph - 2)*duration_volume_graph,
-    now_volume_graph - duration_volume_graph
+  x_graph_volume.domain([
+    now_graph_volume - (limit_graph_volume - 2)*duration_graph_volume,
+    now_graph_volume - duration_graph_volume
   ]);
 
-  axis_volume_graph
+  axis_graph_volume
     .transition()
-    .duration(duration_volume_graph)
+    .duration(duration_graph_volume)
     .ease(d3.easeLinear)
-    .call(x_volume_graph.axis);
+    .call(x_graph_volume.axis);
 
-  path_volume_graph.attr("transform", null)
+  path_graph_volume.attr("transform", null)
     .transition()
-    .attr("transform", "translate(" + x_volume_graph(now_volume_graph - (limit_volume_graph - 1)*duration_volume_graph) + ")")
-    .duration(duration_volume_graph)
+    .attr("transform", "translate(" + x_graph_volume(now_graph_volume - (limit_graph_volume - 1)*duration_graph_volume) + ")")
+    .duration(duration_graph_volume)
     .ease(d3.easeLinear)
-    .on("end", volume_graph_loop);
+    .on("end", loop_graph_volume);
 
   //Remove oldest data point from each groups.
-  path_data_volume_graph["volume"].data.shift();
+  path_data_graph_volume["volume"].data.shift();
 }
 // Function to re - adjust the position and size of this graph.
-function volume_graph_resize () {
-  bottom_padding_volume_graph = $(div_container_volume_graph).height()/6;
-  height_volume_graph = $(div_container_volume_graph).height() - bottom_padding_volume_graph;
-  width_volume_graph = $(div_container_volume_graph).width();
-  x_volume_graph.range([0, width_volume_graph]);
-  y_volume_graph.range([height_volume_graph, 0]);
-  svg_volume_graph
-    .attr("width", width_volume_graph)
-    .attr("height", height_volume_graph + bottom_padding_volume_graph);
-  axis_volume_graph
-    .attr("transform", "translate(0," + height_volume_graph + ")");
-  path_volume_graph.attr("transform", "translate(" + x_volume_graph(now_volume_graph - (limit_volume_graph - 1)*duration_volume_graph) + ")");
+function resize_graph_volume () {
+  bottom_padding_graph_volume = $(div_container_graph_volume).height()/6;
+  height_graph_volume = $(div_container_graph_volume).height() - bottom_padding_graph_volume;
+  width_graph_volume = $(div_container_graph_volume).width();
+  x_graph_volume.range([0, width_graph_volume]);
+  y_graph_volume.range([height_graph_volume, 0]);
+  svg_graph_volume
+    .attr("width", width_graph_volume)
+    .attr("height", height_graph_volume + bottom_padding_graph_volume);
+  axis_graph_volume
+    .attr("transform", "translate(0," + height_graph_volume + ")");
+  path_graph_volume.attr("transform", "translate(" + x_graph_volume(now_graph_volume - (limit_graph_volume - 1)*duration_graph_volume) + ")");
 }

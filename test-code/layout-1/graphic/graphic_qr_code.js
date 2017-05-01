@@ -1,6 +1,5 @@
-var client_name = "";
+var client_name         = "";
 var client_name_default = "client_test";
-var client_recording = false;
 function init_qr_code () {
   var qr_code_height = document.getElementById("qr_code").clientHeight;
   var qr_code_width = document.getElementById("qr_code").clientWidth;

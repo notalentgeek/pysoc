@@ -3,7 +3,7 @@ var qr_recorded_array = []; // Array of dictionary of recorded users.
 var qr_scanner = null; // QR scanner JavaScript object.
 var qr_still = 120; // In second.
 
-function presence_detection_onload () {
+function init_detection_presence () {
   qr_scanner = new Instascan.Scanner({
     backgroundScan:true,
     video:document.getElementById("video")
@@ -23,7 +23,7 @@ function presence_detection_onload () {
     });
 }
 
-function presence_detection_loop () {
+function loop_detection_presence () {
   var result = qr_scanner.scan();
 
   // Decrease `countdown` value.
